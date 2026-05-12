@@ -1,0 +1,57 @@
+# Shared infrastructure services for the between-lines monorepo.
+# Apps include this file via `include:` and add their own services.
+#
+# Volumes preserve external names from the legacy autoquery deploy
+# so existing Postgres data and Ollama model caches keep working.
+
+services:
+  db:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_USER: autoquery
+      POSTGRES_PASSWORD: autoquery
+      POSTGRES_DB: autoquery
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U autoquery -d autoquery"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:11434/api/tags || exit 1"]
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  postgres_data:
+    external: true
+    name: autoquery_implementation_postgres_data
+  redis_data:
+  ollama_models:
+    external: true
+    name: autoquery_implementation_ollama_models
+  backups:

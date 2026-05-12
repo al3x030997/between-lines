@@ -1,0 +1,29 @@
+Extract the list of literary agents on this page.
+Return JSON:
+
+{{
+  "agency_info": {{
+    "name": "Agency name",
+    "exclusive_query": true/false,
+    "response_time": "2 months or null",
+    "submission_url": "https://querymanager.com/... or null",
+    "country": "US or null"
+  }},
+  "agents": [
+    {{
+      "name": "Agent Full Name",
+      "section_hint": "first few words of their section"
+    }}
+  ]
+}}
+
+Rules:
+- Extract EVERY agent named on the page
+- "name" is REQUIRED for each agent — use their full name as written
+- "section_hint": Copy the first 5-10 words of text that starts their individual section (bio, wishlist, etc.)
+- Do NOT extract full profiles, genres, or wishlists — only names and section hints
+- For agency-wide policies (response time, exclusive queries, submission portal), put them in "agency_info"
+- For any field you cannot determine, use null
+
+Page text:
+{clean_text}

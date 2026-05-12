@@ -1,0 +1,130 @@
+WORKED EXAMPLE — Aashna Avachat through the L0 -> L1 -> L2 -> L3 Pipeline
+==========================================================================
+
+This is a worked example, not a spec. Authoritative specs:
+  - docs/features/05_llm_extraction.md      (L1 Chunker)
+  - docs/features/17_l2_interpretation.md   (L2 Interpretation)
+  - docs/features/16_l3_canonicalization.md (L3 design, canon rules)
+  - docs/IMPLEMENTATION_PLAN.md             (L0-L4 architecture overview)
+
+
+PURPOSE
+-------
+
+Show, on a single real profile, what each pipeline stage consumes and
+produces, and why the pipeline is split into four separate passes
+instead of one big LLM call.
+
+
+FILES IN THIS DIRECTORY
+-----------------------
+
+  aashna_avachat_L0.6_cleaned.txt   L0.6 cleaned input
+  aashna_avachat_L1.txt             L1 verbatim 8-step notes
+  aashna_avachat_L2.txt             L2 interpreted notes
+  aashna_avachat_L3.yaml            L3 canonicalized (design only)
+  aashna_avachat_pipeline_walkthrough.md   rich Markdown
+  aashna_avachat_pipeline_walkthrough.txt  this file
+
+
+STAGE 1 — L0.6 -> L1 (CHUNKER, VERBATIM ONLY)
+---------------------------------------------
+
+  Prompt           autoquery/extractor/prompts/l1_chunker_v1.txt
+  Prompt version   PROMPT_VERSION = "3.0"
+  Parser           autoquery/extractor/note_parser.py
+
+Rules:
+  - Verbatim only — every bullet is a substring of source.
+  - No interpretation — no strength tags, no audience enum, no
+    Wants/DNW split. That is L2.
+  - Deterministic 8-STEP layout: IDENTITY / GLOBAL CONDITIONS /
+    PREFERENCE SECTIONS / HARD NOS / SUBMISSION / COMPS /
+    CROSS-CUTTING / CONFIDENCE.
+  - Hard NOS: flat verbatim list (no Content/Format/Trope/Category).
+
+Quality gate: name present, >=1 genre excerpt, >=3 keyword excerpts.
+
+Output for Aashna: see aashna_avachat_L1.txt.
+
+
+STAGE 2 — L1 -> L2 (INTERPRETATION, NL->NL)
+-------------------------------------------
+
+  Prompt           autoquery/extractor/prompts/l2_interpretation_v1.txt
+  Prompt version   L2_PROMPT_VERSION = "1.0"
+  Parser           autoquery/extractor/interpretation_parser.py
+  Persistence      agents.profile_interpretation (JSONB)
+                   agents.profile_interpretation_raw (TEXT)
+                   agents.interpretation_prompt_version (VARCHAR)
+                   migration 006
+
+What L2 adds:
+  1. Strength tags: [REQUIRED], [STRONGLY_PREFERRED], [PREFERRED]
+  2. Audience normalization to closed enum:
+       picture_books, chapter_book, middle_grade,
+       young_adult, new_adult, adult, all_ages, crossover
+     Verbatim original kept as `Audience (verbatim):`.
+  3. Bucketing of preference-section excerpts:
+       Wants / Does Not Want / Conditions /
+       Tropes Wanted / Tropes Excluded / Compound
+  4. Hard NOS classification: Content / Format / Trope / Category
+  5. Compound boolean expressions on indented `->` lines.
+     Operators: AND, OR, NOT, WHERE, IN, exceptions:, SectionRef([...]).
+
+Why a separate pass:
+  - Not bundled with L1: different failure modes (hallucination vs.
+    misreading); L1 stays the durable verbatim record.
+  - Not bundled with L3: logic shape is canon-independent; L3 is
+    YAML-lookup-fast.
+
+Flat-column projection (genres_raw, audience, hard_nos_keywords,
+keywords, wishlist_raw) is sourced from L2 (not L1).
+
+Output for Aashna: see aashna_avachat_L2.txt.
+
+
+STAGE 3 — L2 -> L3 (CANON LOOKUP, AGAINST canon/ v0.1)
+------------------------------------------------------
+
+Status: designed in Feature 16 (16_l3_canonicalization.md), not yet
+implemented.
+
+What happens:
+  1. Atomic phrase lookup against canon/aliases.yaml. Miss ->
+     unmapped_terms_log.
+  2. Structural rewrite. The L2 expression-tree shape
+     (AND/OR/NOT/WHERE/exceptions/SectionRef) is preserved verbatim.
+
+Output for Aashna: see aashna_avachat_L3.yaml.
+
+
+WHY FOUR PASSES, NOT ONE
+------------------------
+
+  L1   LLM + regex     Sort sentences into buckets, verbatim
+  L2   LLM + regex     Tag strength, normalize audience, bucket
+                       Wants/DNW, make boolean shape explicit
+  L3   YAML lookup     Swap English heads for canon codes; log misses
+  L4   Embedding model Per-section embeddings for similarity matching
+
+L1 + L2 are the durable records.
+
+
+HOW TO FIND THESE FILES
+-----------------------
+
+  docs/examples/
+      aashna_avachat_L0.6_cleaned.txt
+      aashna_avachat_L1.txt
+      aashna_avachat_L2.txt
+      aashna_avachat_L3.yaml
+      aashna_avachat_pipeline_walkthrough.md
+      aashna_avachat_pipeline_walkthrough.txt
+
+Referenced specs:
+  docs/features/05_llm_extraction.md      L1 Chunker
+  docs/features/17_l2_interpretation.md   L2 Interpretation
+  docs/features/16_l3_canonicalization.md L3 design, canon rules
+  docs/IMPLEMENTATION_PLAN.md             L0-L4 architecture overview
+  canon/                                  authoritative vocabulary

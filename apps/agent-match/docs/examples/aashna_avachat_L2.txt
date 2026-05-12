@@ -1,0 +1,119 @@
+STEP 1: IDENTITY
+-----------------
+Name: Aashna Avachat
+Organization: Neighborhood Literary Agency
+Role: Literary Agent
+Pronouns: she/her
+Email: aashna@neighborhoodlit.com
+Submission portal: QueryTracker
+Availability: OPEN
+
+STEP 2: GLOBAL CONDITIONS
+--------------------------
+- [REQUIRED] I only represent authors/illustrators of color
+- [STRONGLY_PREFERRED] own-voices stories with protagonists of color are strongly prioritized
+- [PREFERRED] I love to see queer representation, religious diversity, and disability representation across my list
+
+STEP 3: PREFERENCE SECTIONS
+-----------------------------
+[Picture Books]
+  Audience: picture_books
+  Audience (verbatim): picture books
+  Genres: contemporary, family, SEL
+  Wants:
+    - Laugh-out-loud funny with clever illustration potential
+    - Themes: family, culture, SEL, nature/environment
+  Does Not Want:
+    - food-based books
+    - non-fiction picture books
+    - biographies
+  Conditions:
+    - [REQUIRED] Fiction only
+
+[Young Adult]
+  Audience: young_adult, new_adult
+  Audience (verbatim): YA and new adult
+  Genres: romance, mystery, thriller, dark academia, cozy fantasy
+  Wants:
+    - Romantic comedies where both leads are POC
+      → romcom WHERE both_leads=POC
+    - Plot-driven horror
+    - Dark academia with political critique of academia
+  Tropes Wanted:
+    - forced proximity
+    - enemies to lovers
+  Tropes Excluded:
+    - instalove
+  Compound:
+    - palace intrigue, not magical, not dystopian, royalty-based
+      → palace_intrigue WHERE (NOT magical) AND (NOT dystopian) AND royalty_based=true
+    - I'd Tell You I Love You by Ally Carter — spy/heist YA tone
+
+[Adult]
+  Audience: adult
+  Audience (verbatim): adult readers
+  Genres: literary fiction, mystery, horror
+  Wants:
+    - Funny contemporary fiction
+    - Domestic thrillers
+  Compound:
+    - mysteries that are not police-focused and not organized-crime-focused
+      → mystery WHERE NOT (police_focused OR organized_crime_focused)
+
+STEP 4: HARD NOS
+-----------------
+Content:
+  - sexual violence on the page
+  - child abuse
+  - war novels
+Format:
+  - poetry collections
+  - short story collections
+  - board books
+  - epistolary formats
+Trope:
+  - non-consensual romance
+  - teacher x student
+Category:
+  - children's non-fiction
+  - fantasy (except very light elements, as noted in preference sections)
+    → fantasy exceptions: { WHERE fantasy_elements=very_light AND SectionRef([Young Adult, Adult]) }
+
+STEP 5: SUBMISSION REQUIREMENTS
+---------------------------------
+[Picture Books]
+  - Submit via QueryTracker
+  - Send query letter plus full PB text in the writing sample field
+  - Include dummy/art samples if applicable
+
+[Young Adult]
+  - Submit via QueryTracker
+  - Send query letter, synopsis, first 10 pages
+
+[All Submissions]
+  - Unsolicited queries via email are deleted unread
+
+STEP 6: COMP TITLES & TASTE REFERENCES
+----------------------------------------
+A) HIGH-PRIORITY COMPS
+  - The Clique by Lisi Harrison — but with protagonists of color
+  - Yellowjackets — YA wilderness camp horror tone
+
+B) TASTE REFERENCES
+  - Pachinko by Min Jin Lee
+  - Severance by Ling Ma
+  - Yellowjackets
+  - Fleabag
+  - Mitski
+
+STEP 7: CROSS-CUTTING THEMES
+------------------------------
+- found family
+- queer joy
+- morally grey characters
+- humor that makes you laugh AND cry
+
+STEP 8: CONFIDENCE FLAGS
+--------------------------
+INFERRED — country (US, inferred from agency)
+MISSING — response time not stated

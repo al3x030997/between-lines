@@ -1,0 +1,18 @@
+[project]
+name = "between-lines"
+version = "0.1.0"
+description = "Between Lines monorepo — agent-match, agent-list, landing-page"
+requires-python = ">=3.11"
+
+[tool.uv.workspace]
+members = [
+    "apps/agent-match/backend",
+    "packages/canon/python",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["apps/agent-match/backend/tests"]

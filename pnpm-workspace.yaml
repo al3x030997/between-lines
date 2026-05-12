@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "apps/agent-match/frontend"
+  - "apps/agent-list/frontend"
+  - "packages/*"
+  - "packages/canon/ts"

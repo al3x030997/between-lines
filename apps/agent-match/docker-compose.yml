@@ -1,0 +1,101 @@
+# agent-match app services. Pulls shared db/redis/ollama from the monorepo
+# infra compose file via `include:` so a single `docker compose up` from
+# this directory boots the full stack.
+
+include:
+  - ../../infra/docker-compose.yml
+
+services:
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: uvicorn autoquery.api.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql://autoquery:autoquery@db:5432/autoquery
+      REDIS_URL: redis://redis:6379/0
+      OLLAMA_URL: http://ollama:11434
+      SECRET_KEY: ${SECRET_KEY:-change-me-in-production}
+      ALGORITHM: ${ALGORITHM:-HS256}
+      ACCESS_TOKEN_EXPIRE_MINUTES: ${ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      GENRE_SCORE_WEIGHT: ${GENRE_SCORE_WEIGHT:-0.35}
+      FTS_SCORE_WEIGHT: ${FTS_SCORE_WEIGHT:-0.25}
+      SEMANTIC_SCORE_WEIGHT: ${SEMANTIC_SCORE_WEIGHT:-0.25}
+      AUDIENCE_SCORE_WEIGHT: ${AUDIENCE_SCORE_WEIGHT:-0.15}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nomic-embed-text}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A autoquery.tasks.celery_app worker --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: postgresql://autoquery:autoquery@db:5432/autoquery
+      REDIS_URL: redis://redis:6379/0
+      OLLAMA_URL: http://ollama:11434
+      GENRE_SCORE_WEIGHT: ${GENRE_SCORE_WEIGHT:-0.35}
+      FTS_SCORE_WEIGHT: ${FTS_SCORE_WEIGHT:-0.25}
+      SEMANTIC_SCORE_WEIGHT: ${SEMANTIC_SCORE_WEIGHT:-0.25}
+      AUDIENCE_SCORE_WEIGHT: ${AUDIENCE_SCORE_WEIGHT:-0.15}
+      EMBEDDING_MODEL: ${EMBEDDING_MODEL:-nomic-embed-text}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ollama:
+        condition: service_started
+
+  beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A autoquery.tasks.celery_app beat --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      DATABASE_URL: postgresql://autoquery:autoquery@db:5432/autoquery
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://api:8000
+
+  review:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: streamlit run autoquery/review/app.py --server.port=8501 --server.address=0.0.0.0
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8501:8501"
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://autoquery:autoquery@db:5432/autoquery}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379/0}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy

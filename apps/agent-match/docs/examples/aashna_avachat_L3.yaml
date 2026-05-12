@@ -1,0 +1,251 @@
+# L3 — Canon-coded representation (DESIGN ONLY, not yet implemented)
+# Source:   Aashna Avachat — Neighborhood Literary Agency
+# Derived from: aashna_avachat_L2.txt
+# Canon version: v0.1 (canon/VERSION)
+#
+# Rules:
+#   - Every leaf head is either a canon code (Thema or LOCAL:*) or a hard-no tag.
+#   - Boolean structure carried over verbatim from L1.5.
+#   - Unresolvable heads and attribute keys flow into unmapped_terms_log at the
+#     bottom — this is the input for the v0 -> v1 canon review cycle.
+
+canon_version: v0.1
+
+identity:
+  name: "Aashna Avachat"
+  agency: "Neighborhood Literary Agency"
+  portal: QueryTracker
+  availability: OPEN         # enum
+  country: US                # inferred
+
+global_conditions:
+  - strength: REQUIRED
+    expr: "identity.author_or_illustrator.race = person_of_color"
+    # unmapped head: author_or_illustrator_of_color
+  - strength: STRONGLY_PREFERRED
+    expr: "own_voices AND protagonist.race = POC"
+    # unmapped heads: own_voices, protagonist_of_color
+  - strength: PREFERRED
+    expr: "ANY_OF(queer_rep, religious_diversity, disability_rep)"
+    # unmapped heads: all three (no identity-rep canon in v0)
+
+preference_sections:
+
+  - label: "Picture Books"
+    coords:
+      audience: [5AD]          # picture_book
+      subject:  [YBC]          # picture book
+    wants:
+      - Want(subject=YBC, attrs={tone: funny, illustration_potential: high})
+      - Want(subject=YBC, theme IN [family, culture, SEL, nature_environment])
+        # unmapped: SEL, nature_environment (no theme canon)
+    filters:
+      - HardNo(rhyming_pb)                       # canon hit
+      - Exclude(subject=YBC, attrs={subject_matter: food})
+        # unmapped head: food_based_pb
+      - Exclude(subject=YBC, nonfiction: true)
+      - Exclude(subject=YBC AND DNB)             # biography (picture-book)
+
+  - label: "Illustrators"
+    coords:
+      audience: [5AD, 5AH, "LOCAL:adult"]        # pb + chapter_book + adult
+      role: illustrator
+    # unmapped: "illustrator" as a role (no role canon in v0)
+
+  - label: "Graphic Novels"
+    coords:
+      audience: [5AK, 5AP, "LOCAL:adult"]
+      form: [XAB]                                # graphic novel
+    conditions:
+      - "author_illustrated = true"              # unmapped attribute
+    wants:
+      - Want(form=XAB AND subject=DNC)           # graphic memoir
+      - Want(form=XAB AND subject=FV)            # historical graphic novel
+
+  - label: "Middle Grade"
+    coords:
+      audience: [5AK]
+      subject:  [YF]
+    wants:
+      - Want(audience=5AK, attrs={setting: contemporary, hook_strength: high})
+      - Want(audience=5AK AND (queer_character OR disabled_character))
+        # unmapped: queer_character, disabled_character
+      - Want(audience=5AK, attrs={tone: spooky})  # unmapped attr
+    filters:
+      - HardNo(talking_animals)                   # "anthropomorphic" -> canon hit
+
+  - label: "Young Adult"
+    coords:
+      audience: [5AQ, 5AV]                        # YA + crossover NA
+    wants:
+      - Want(FRB, attrs={both_leads: POC})        # romcom
+      - Want(FF | FH)                             # mystery | thriller
+      - Want(FHD)                                 # spy thriller
+        # unmapped: heist_novel (no canon; closest is FH/FF)
+      - Want(attrs={palace_intrigue, royalty_based, magical: false, dystopian: false})
+        # unmapped heads: palace_intrigue, royalty_based
+      - Want((FNM | FNF), attrs={fantasy_elements: very_light})
+      - Want(FK, attrs={plot_driven: true})
+      - Want(FNF, attrs={modern_retelling_of_classic: true})
+        # unmapped attr: modern_retelling_of_classic
+      - Want(FV, attrs={era: pre_modern})
+        # unmapped: pre_modern era qualifier
+      - Want(FD, attrs={sff_elements: very_light})
+      - Want("LOCAL:dark_academia", attrs={political_critique_of_academia: true})
+        # unmapped attr
+      - Want(FMJ)                                 # cozy fantasy
+      - Want(attrs={creatures: witches, setting: light_fantasy})
+        # unmapped: witches (no creature canon)
+
+  - label: "Adult"
+    coords:
+      audience: ["LOCAL:adult"]
+    wants:
+      - Want(FRB, attrs={both_leads: POC})
+      - Want(FF, filters={NOT FFP, NOT organized_crime})
+        # FFP = police procedural -> canon hit for the negation
+        # unmapped: organized_crime_focused
+      - Want(FF, attrs={scale: epic})             # unmapped attr
+      - Want(FHX)                                 # domestic thriller
+      - Want(FBA AND FU)                          # funny literary-ish
+      - Want(FBA, attrs={register: literary_ish})
+      - Want(FK, attrs={plot_forward: true})
+      - Want(FMJ)                                 # cozy fantasy
+      - Want((FNM | FNF), attrs={fantasy_elements: very_light})
+
+  - label: "Non-Fiction"
+    coords:
+      audience: ["LOCAL:adult"]
+      subject:  [DN]                              # narrative nonfiction umbrella
+    wants:
+      - pop_culture_criticism                     # unmapped
+      - gender_feminist_criticism_journalism      # unmapped
+      - accessible_pop_science                    # unmapped
+      - Want(DNP, attrs={niche_deep_dive: true})
+      - Want(subject=cookbook, attrs={unique: true})
+        # unmapped: cookbook (no canon code in v0)
+    filters:
+      - Exclude(cookbook, attrs={standard_or_conventional: true})   # inferred
+
+hard_nos:
+  content:
+    - HardNo(sexual_assault)         # "on-page sexual violence"
+    - HardNo(csa)                    # "on-page child abuse"
+    - "oppressor_oppressed_romance"  # unmapped
+    - "war_novel"                    # unmapped (FJM exists as SUBJECT, no hard-no tag)
+
+  format:
+    # v0 hard_nos.yaml has no format-level hard-no tags.
+    # These become subject-code exclusions, not canonical hard-no tags:
+    - ExcludeSubject(DNC)            # memoir
+    - ExcludeSubject(DC)             # poetry
+    - ExcludeSubject(DNL)            # essays
+    - ExcludeSubject(FYB)            # short story collections
+    - ExcludeSubject(YBCB)           # board books
+    - ExcludeSubject(YFB)            # chapter books
+    - ExcludeSubject(FYD)            # epistolary
+    - "novels_in_verse"              # unmapped (no canon code)
+
+  trope:
+    - HardNo(vampires)
+    - HardNo(werewolves)
+    - "faeries"                      # unmapped (no tag in v0)
+    - "protagonist_is_law_enforcement"   # unmapped
+
+  category:
+    - ExcludeSubject(FL)             # sci-fi
+    - HardNoWithExceptions:
+        head: fantasy
+        excluded_subject: FM
+        exceptions: |
+          allow WHERE fantasy_elements = very_light
+          AND section IN (young_adult, adult)
+    - ExcludeSubject(FDB)            # dystopian
+    - ExcludeSubject(FP)             # erotica
+    - "childrens_nonfiction"         # unmapped
+
+submission:
+  portal: QueryTracker
+  picture_books:  { materials: "full PB text + dummy/art samples if applicable" }
+  graphic_novels: { materials: "first 10 pages of script + 10 sample artwork pages" }
+  illustrators:   { materials: "query + portfolio link + sample artwork" }
+  novelists:      { materials: "first 10 pages + synopsis" }
+  non_fiction:    { materials: "full proposal (pitch, platform/bio, comp titles, outline, sample pages)" }
+
+comps_high_priority:
+  - title: "The Clique"
+    author: "Lisi Harrison"
+    illustrates: "POC girls version"
+  - title: "I'd Tell You I Love You But Then I'd Have to Kill You"
+    author: "Ally Carter"
+    illustrates: "YA spy/heist"
+
+taste_references:
+  film_tv: ["Yellowjackets"]
+
+cross_cutting_themes:
+  # pass-through; all unmapped in v0 (no theme canon)
+  - queer_rep
+  - disability_rep
+  - religious_diversity
+  - protagonist_of_color
+  - "ocd_rep WHERE NOT sole_plot_driver"
+
+confidence_flags:
+  inferred:
+    - "country: USA (US agency, US comp titles)"
+    - "availability: OPEN (active MSWL page, no closed statement)"
+    - "standard cookbook exclusion (derived from 'unique cookbooks')"
+  nuanced:
+    - "fantasy hard-no has exceptions (very light fantasy acceptable in YA and Adult)"
+  explicit:
+    - "authors/illustrators of color requirement (stated twice, bolded)"
+    - "adult mysteries exclusion of police"
+
+unmapped_terms_log:
+  # This list is the input for the v0 -> v1 canon review cycle.
+  # Feature 16: promote to LOCAL:* or new hard-no tag after >=5-profile evidence.
+  global_conditions:
+    - author_or_illustrator_of_color
+    - own_voices
+    - protagonist_of_color
+    - queer_rep
+    - religious_diversity
+    - disability_rep
+  themes_and_attrs:
+    - SEL
+    - nature_environment
+    - food_based_pb
+    - author_illustrated
+    - illustrator             # role
+    - heist_novel
+    - palace_intrigue
+    - royalty_based
+    - modern_retelling_of_classic
+    - pre_modern              # era qualifier
+    - witches                 # creature
+    - fantasy_elements=very_light
+    - plot_driven
+    - plot_forward
+    - both_leads=POC
+    - literary_ish
+    - political_critique_of_academia
+    - niche_deep_dive
+    - unique (cookbook)
+    - standard_or_conventional (cookbook)
+  hard_no_candidates:
+    - faeries
+    - oppressor_oppressed_romance
+    - war_novel               # as hard-no tag, not subject
+    - novels_in_verse
+    - protagonist_is_law_enforcement
+    - childrens_nonfiction
+    - format-level tags (memoir, poetry, essays, short_story, board_book,
+      chapter_book, epistolary) — currently handled as subject exclusions
+  nonfiction_subcategories:
+    - pop_culture_criticism
+    - gender_feminist_criticism_journalism
+    - accessible_pop_science
+    - cookbook
+  cross_cutting_themes:
+    - all entries (no theme canon in v0)

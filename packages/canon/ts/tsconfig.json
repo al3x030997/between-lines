@@ -1,0 +1,8 @@
+{
+  "extends": "@between-lines/tsconfig/base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": ["src/**/*"]
+}
