@@ -168,38 +168,54 @@ const V6_CSS = `
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(14,14,12,0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(14,14,12,0.08);
   font-family: 'Bricolage Grotesque', sans-serif;
+}
+.v6-tweaks-menu {
+  position: relative;
 }
 .v6-tweaks-trigger {
   appearance: none;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(14,14,12,0.12);
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 6px 20px rgba(14,14,12,0.08);
+  border: 0;
+  background: transparent;
   color: #0e0e0c;
   font: inherit;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: border-color 180ms ease, box-shadow 180ms ease;
+  transition: background 180ms ease, color 180ms ease;
+  white-space: nowrap;
 }
 .v6-tweaks-trigger:hover,
 .v6-tweaks-trigger:focus-visible {
-  border-color: rgba(14,14,12,0.28);
+  background: rgba(14,14,12,0.06);
   outline: none;
 }
 .v6-tweaks-trigger.is-open {
-  border-color: rgba(14,14,12,0.32);
-  box-shadow: 0 10px 28px rgba(14,14,12,0.12);
+  background: #0e0e0c;
+  color: #ffffff;
 }
+.v6-tweaks-trigger-label {
+  opacity: 0.55;
+  font-weight: 500;
+}
+.v6-tweaks-trigger.is-open .v6-tweaks-trigger-label { opacity: 0.7; }
 .v6-tweaks-chevron {
   display: inline-block;
   font-size: 10px;
@@ -213,65 +229,56 @@ const V6_CSS = `
   top: calc(100% + 10px);
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
-  width: min(420px, calc(100vw - 32px));
+  min-width: 180px;
   background: #ffffff;
   border: 1px solid rgba(14,14,12,0.1);
-  border-radius: 18px;
+  border-radius: 14px;
   box-shadow: 0 18px 48px rgba(14,14,12,0.14);
-  padding: 18px;
+  padding: 6px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 2px;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 220ms ease, transform 260ms cubic-bezier(.22, 1, .36, 1);
+  transition: opacity 200ms ease, transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .v6-tweaks-panel.is-open {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
   pointer-events: auto;
 }
-.v6-tweaks-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.v6-tweaks-row-label {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #6b6b66;
-}
-.v6-tweaks-segments {
-  display: inline-flex;
-  background: rgba(14,14,12,0.04);
-  border-radius: 999px;
-  padding: 3px;
-  gap: 2px;
-}
-.v6-tweaks-segment {
+.v6-tweaks-option {
   appearance: none;
   border: 0;
   background: transparent;
-  padding: 6px 14px;
-  border-radius: 999px;
+  padding: 10px 14px;
+  border-radius: 8px;
   font: inherit;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #6b6b66;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #0e0e0c;
   cursor: pointer;
-  transition: background 180ms ease, color 180ms ease;
+  text-align: left;
+  transition: background 160ms ease, color 160ms ease;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
 }
-.v6-tweaks-segment:hover { color: #0e0e0c; }
-.v6-tweaks-segment.is-active {
-  background: #0e0e0c;
-  color: #ffffff;
+.v6-tweaks-option:hover { background: rgba(14,14,12,0.04); }
+.v6-tweaks-option.is-active {
+  color: #0e0e0c;
+  font-weight: 600;
 }
+.v6-tweaks-option-check {
+  opacity: 0;
+  color: #0e0e0c;
+  font-size: 12px;
+  transition: opacity 160ms ease;
+}
+.v6-tweaks-option.is-active .v6-tweaks-option-check { opacity: 1; }
 
 .v6-hero {
   position: relative;
@@ -687,7 +694,7 @@ export default function V6Page() {
   const [palette, setPalette] = useState<PaletteV6>('stranger');
   const [bgOn, setBgOn] = useState(false);
   const [highlightOn, setHighlightOn] = useState(true);
-  const [tweaksOpen, setTweaksOpen] = useState(false);
+  const [openTweak, setOpenTweak] = useState<'layout' | 'palette' | 'background' | 'highlight' | null>(null);
   const tweaksRef = useRef<HTMLDivElement>(null);
   const [signUp, setSignUp] = useState<{ open: boolean; variant: SignUpVariant; eyebrow?: string }>(
     { open: false, variant: 'signup' }
@@ -721,14 +728,14 @@ export default function V6Page() {
   }, []);
 
   useEffect(() => {
-    if (!tweaksOpen) return;
+    if (!openTweak) return;
     const handleClick = (e: MouseEvent) => {
       if (tweaksRef.current && !tweaksRef.current.contains(e.target as Node)) {
-        setTweaksOpen(false);
+        setOpenTweak(null);
       }
     };
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setTweaksOpen(false);
+      if (e.key === 'Escape') setOpenTweak(null);
     };
     document.addEventListener('mousedown', handleClick);
     document.addEventListener('keydown', handleKey);
@@ -736,7 +743,7 @@ export default function V6Page() {
       document.removeEventListener('mousedown', handleClick);
       document.removeEventListener('keydown', handleKey);
     };
-  }, [tweaksOpen]);
+  }, [openTweak]);
 
   const open = (region: Region) => {
     if (phase !== 'choose') return;
@@ -788,101 +795,152 @@ export default function V6Page() {
           <span className="v6-brand-dot">·</span>
           <span>lines</span>
         </a>
-        <div className="v6-tweaks" ref={tweaksRef}>
-          <button
-            type="button"
-            className={`v6-tweaks-trigger${tweaksOpen ? ' is-open' : ''}`}
-            onClick={() => setTweaksOpen((v) => !v)}
-            aria-expanded={tweaksOpen}
-            aria-haspopup="dialog"
-          >
-            Tweaks
-            <span className="v6-tweaks-chevron" aria-hidden>▾</span>
-          </button>
-          <div
-            className={`v6-tweaks-panel${tweaksOpen ? ' is-open' : ''}`}
-            role="dialog"
-            aria-label="Page tweaks"
-          >
-            <div className="v6-tweaks-row">
-              <span className="v6-tweaks-row-label">Layout</span>
-              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Layout">
-                {LAYOUT_CYCLE.map((l) => (
-                  <button
-                    key={l}
-                    type="button"
-                    role="radio"
-                    aria-checked={layout === l}
-                    className={`v6-tweaks-segment${layout === l ? ' is-active' : ''}`}
-                    onClick={() => setLayout(l)}
-                  >
-                    {LAYOUT_LABELS[l]}
-                  </button>
-                ))}
-              </div>
+        <div className="v6-tweaks" ref={tweaksRef} role="group" aria-label="Page tweaks">
+          <div className="v6-tweaks-menu">
+            <button
+              type="button"
+              className={`v6-tweaks-trigger${openTweak === 'layout' ? ' is-open' : ''}`}
+              onClick={() => setOpenTweak((c) => (c === 'layout' ? null : 'layout'))}
+              aria-haspopup="menu"
+              aria-expanded={openTweak === 'layout'}
+            >
+              <span className="v6-tweaks-trigger-label">Layout</span>
+              {LAYOUT_LABELS[layout]}
+              <span className="v6-tweaks-chevron" aria-hidden>▾</span>
+            </button>
+            <div className={`v6-tweaks-panel${openTweak === 'layout' ? ' is-open' : ''}`} role="menu">
+              {LAYOUT_CYCLE.map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={layout === l}
+                  className={`v6-tweaks-option${layout === l ? ' is-active' : ''}`}
+                  onClick={() => {
+                    setLayout(l);
+                    setOpenTweak(null);
+                  }}
+                >
+                  {LAYOUT_LABELS[l]}
+                  <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+                </button>
+              ))}
             </div>
-            <div className="v6-tweaks-row">
-              <span className="v6-tweaks-row-label">Palette</span>
-              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Palette">
-                {PALETTE_CYCLE.map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    role="radio"
-                    aria-checked={palette === p}
-                    className={`v6-tweaks-segment${palette === p ? ' is-active' : ''}`}
-                    onClick={() => setPalette(p)}
-                  >
-                    {PALETTE_LABELS[p]}
-                  </button>
-                ))}
-              </div>
+          </div>
+
+          <div className="v6-tweaks-menu">
+            <button
+              type="button"
+              className={`v6-tweaks-trigger${openTweak === 'palette' ? ' is-open' : ''}`}
+              onClick={() => setOpenTweak((c) => (c === 'palette' ? null : 'palette'))}
+              aria-haspopup="menu"
+              aria-expanded={openTweak === 'palette'}
+            >
+              <span className="v6-tweaks-trigger-label">Palette</span>
+              {PALETTE_LABELS[palette]}
+              <span className="v6-tweaks-chevron" aria-hidden>▾</span>
+            </button>
+            <div className={`v6-tweaks-panel${openTweak === 'palette' ? ' is-open' : ''}`} role="menu">
+              {PALETTE_CYCLE.map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={palette === p}
+                  className={`v6-tweaks-option${palette === p ? ' is-active' : ''}`}
+                  onClick={() => {
+                    setPalette(p);
+                    setOpenTweak(null);
+                  }}
+                >
+                  {PALETTE_LABELS[p]}
+                  <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+                </button>
+              ))}
             </div>
-            <div className="v6-tweaks-row">
-              <span className="v6-tweaks-row-label">Background</span>
-              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Background">
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={!bgOn}
-                  className={`v6-tweaks-segment${!bgOn ? ' is-active' : ''}`}
-                  onClick={() => setBgOn(false)}
-                >
-                  Off
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={bgOn}
-                  className={`v6-tweaks-segment${bgOn ? ' is-active' : ''}`}
-                  onClick={() => setBgOn(true)}
-                >
-                  On
-                </button>
-              </div>
+          </div>
+
+          <div className="v6-tweaks-menu">
+            <button
+              type="button"
+              className={`v6-tweaks-trigger${openTweak === 'background' ? ' is-open' : ''}`}
+              onClick={() => setOpenTweak((c) => (c === 'background' ? null : 'background'))}
+              aria-haspopup="menu"
+              aria-expanded={openTweak === 'background'}
+            >
+              <span className="v6-tweaks-trigger-label">Background</span>
+              {bgOn ? 'On' : 'Off'}
+              <span className="v6-tweaks-chevron" aria-hidden>▾</span>
+            </button>
+            <div className={`v6-tweaks-panel${openTweak === 'background' ? ' is-open' : ''}`} role="menu">
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={!bgOn}
+                className={`v6-tweaks-option${!bgOn ? ' is-active' : ''}`}
+                onClick={() => {
+                  setBgOn(false);
+                  setOpenTweak(null);
+                }}
+              >
+                Off
+                <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+              </button>
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={bgOn}
+                className={`v6-tweaks-option${bgOn ? ' is-active' : ''}`}
+                onClick={() => {
+                  setBgOn(true);
+                  setOpenTweak(null);
+                }}
+              >
+                On
+                <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+              </button>
             </div>
-            <div className="v6-tweaks-row">
-              <span className="v6-tweaks-row-label">Highlight</span>
-              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Highlight">
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={!highlightOn}
-                  className={`v6-tweaks-segment${!highlightOn ? ' is-active' : ''}`}
-                  onClick={() => setHighlightOn(false)}
-                >
-                  Off
-                </button>
-                <button
-                  type="button"
-                  role="radio"
-                  aria-checked={highlightOn}
-                  className={`v6-tweaks-segment${highlightOn ? ' is-active' : ''}`}
-                  onClick={() => setHighlightOn(true)}
-                >
-                  On
-                </button>
-              </div>
+          </div>
+
+          <div className="v6-tweaks-menu">
+            <button
+              type="button"
+              className={`v6-tweaks-trigger${openTweak === 'highlight' ? ' is-open' : ''}`}
+              onClick={() => setOpenTweak((c) => (c === 'highlight' ? null : 'highlight'))}
+              aria-haspopup="menu"
+              aria-expanded={openTweak === 'highlight'}
+            >
+              <span className="v6-tweaks-trigger-label">Highlight</span>
+              {highlightOn ? 'On' : 'Off'}
+              <span className="v6-tweaks-chevron" aria-hidden>▾</span>
+            </button>
+            <div className={`v6-tweaks-panel${openTweak === 'highlight' ? ' is-open' : ''}`} role="menu">
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={!highlightOn}
+                className={`v6-tweaks-option${!highlightOn ? ' is-active' : ''}`}
+                onClick={() => {
+                  setHighlightOn(false);
+                  setOpenTweak(null);
+                }}
+              >
+                Off
+                <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+              </button>
+              <button
+                type="button"
+                role="menuitemradio"
+                aria-checked={highlightOn}
+                className={`v6-tweaks-option${highlightOn ? ' is-active' : ''}`}
+                onClick={() => {
+                  setHighlightOn(true);
+                  setOpenTweak(null);
+                }}
+              >
+                On
+                <span className="v6-tweaks-option-check" aria-hidden>✓</span>
+              </button>
             </div>
           </div>
         </div>
