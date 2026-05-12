@@ -337,26 +337,10 @@ const V6_CSS = `
   opacity: 0;
   transition: fill 300ms ease, opacity 260ms ease;
 }
-.v6-region-cta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.18em;
-  fill: var(--v6-accent);
-  paint-order: stroke fill;
-  stroke: var(--v6-stroke);
-  stroke-width: 4;
-  stroke-linejoin: round;
-  text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 240ms ease 60ms;
-}
 .v6-region.is-hovered .v6-region-label,
 .v6-region:focus-visible .v6-region-label { fill: var(--v6-accent); }
 .v6-region.is-hovered .v6-region-sub,
 .v6-region:focus-visible .v6-region-sub { fill: var(--v6-text-strong); opacity: 1; }
-.v6-region.is-hovered .v6-region-cta,
-.v6-region:focus-visible .v6-region-cta { opacity: 1; }
 .v6-divider {
   stroke: var(--v6-text-strong);
   stroke-width: 2.2;
@@ -420,23 +404,10 @@ const V6_CSS = `
   opacity: 0;
   transition: opacity 240ms ease;
 }
-.v6-col-cta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--v6-accent);
-  opacity: 0;
-  transform: translateY(2px);
-  transition: opacity 240ms ease 60ms, transform 240ms ease 60ms;
-}
 .v6-col.is-hovered .v6-col-label,
 .v6-col:focus-visible .v6-col-label { color: var(--v6-accent); }
 .v6-col.is-hovered .v6-col-sub,
 .v6-col:focus-visible .v6-col-sub { opacity: 1; }
-.v6-col.is-hovered .v6-col-cta,
-.v6-col:focus-visible .v6-col-cta { opacity: 1; transform: none; }
 
 .v6-stage-inner {
   position: absolute;
@@ -523,15 +494,6 @@ const V6_CSS = `
   max-width: 28ch;
   line-height: 1.35;
 }
-.v6-stack-cta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--v6-accent);
-}
-
 .bl-intermission {
   position: relative;
   background: var(--bl-section-bg);
@@ -589,7 +551,6 @@ const V6_CSS = `
   fill: var(--v6-text-strong);
   opacity: 1;
 }
-.v6-root.is-highlight .v6-region-cta { opacity: 1; }
 .v6-root.is-highlight .v6-region:hover .v6-region-fill,
 .v6-root.is-highlight .v6-region:focus-visible .v6-region-fill {
   fill: color-mix(in srgb, var(--v6-accent) 22%, transparent);
@@ -664,12 +625,6 @@ const LAYOUT_LABELS: Record<Layout, string> = {
   curved: 'Curved',
   columns: 'Columns',
   stacked: 'Stacked',
-};
-
-const CTA_LABELS: Record<Region, string> = {
-  author: 'Start →',
-  reader: 'Start →',
-  both: 'Start →',
 };
 
 const LABELS: Record<Region, string> = {
@@ -1009,9 +964,6 @@ export default function V6Page() {
               <text className="v6-region-sub" textAnchor="middle" x={332} y={358}>
                 {SUBTITLES.author}
               </text>
-              <text className="v6-region-cta" textAnchor="middle" x={332} y={410}>
-                {CTA_LABELS.author}
-              </text>
             </g>
 
             <g
@@ -1029,9 +981,6 @@ export default function V6Page() {
               <text className="v6-region-sub" textAnchor="middle" x={1135} y={358}>
                 {SUBTITLES.reader}
               </text>
-              <text className="v6-region-cta" textAnchor="middle" x={1135} y={410}>
-                {CTA_LABELS.reader}
-              </text>
             </g>
 
             <g
@@ -1048,9 +997,6 @@ export default function V6Page() {
               </text>
               <text className="v6-region-sub" textAnchor="middle" x={748} y={812}>
                 {SUBTITLES.both}
-              </text>
-              <text className="v6-region-cta" textAnchor="middle" x={748} y={862}>
-                {CTA_LABELS.both}
               </text>
             </g>
 
@@ -1081,7 +1027,6 @@ export default function V6Page() {
                 <div className="v6-col-label">{LABELS[r]}</div>
                 <div className="v6-col-reveal">
                   <div className="v6-col-sub">{SUBTITLES[r]}</div>
-                  <span className="v6-col-cta">{CTA_LABELS[r]}</span>
                 </div>
               </button>
             ))}
@@ -1099,7 +1044,6 @@ export default function V6Page() {
                   <div className="v6-stack-label">{LABELS[r]}</div>
                   <div className="v6-stack-reveal">
                     <div className="v6-stack-sub">{SUBTITLES[r]}</div>
-                    <span className="v6-stack-cta">{CTA_LABELS[r]}</span>
                   </div>
                 </button>
               ))}
@@ -1112,7 +1056,6 @@ export default function V6Page() {
               <div className="v6-stack-label">{LABELS.both}</div>
               <div className="v6-stack-reveal">
                 <div className="v6-stack-sub">{SUBTITLES.both}</div>
-                <span className="v6-stack-cta">{CTA_LABELS.both}</span>
               </div>
             </button>
           </div>
