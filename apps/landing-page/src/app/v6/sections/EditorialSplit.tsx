@@ -44,12 +44,12 @@ const FEATURES: Record<Side, Feature[]> = {
 
 const COPY: Record<Side, { eyebrow: string; headline: string; body: string }> = {
   author: {
-    eyebrow: 'I’m a writer',
+    eyebrow: 'For authors',
     headline: 'Be discovered.\nBuild an audience.\nGet published.',
     body: 'Share microstories, chapters, or full manuscripts. Grow real readers, get beta feedback that shapes your draft, and take the next step toward agents.',
   },
   reader: {
-    eyebrow: 'I’m a reader',
+    eyebrow: 'For readers',
     headline: 'Read fiction before\nit hits the shelf.',
     body: 'Browse curated drops in your favorite genres. Read drafts from emerging authors and give feedback — from a one-tap reaction to notes that shape the book.',
   },
@@ -115,6 +115,15 @@ const STYLES = `
   width: 56px;
   background: var(--bl-section-accent);
   transition: background-color 320ms ease;
+}
+.bl-eyebrow-lg {
+  font-size: clamp(16px, 1.6vw, 22px);
+  letter-spacing: 0.22em;
+  padding-bottom: 12px;
+}
+.bl-eyebrow-lg::after {
+  width: 84px;
+  height: 3px;
 }
 .bl-headline {
   font-family: 'Cormorant Garamond', serif;
@@ -247,7 +256,7 @@ function OverviewColumn({
   const c = COPY[side];
   return (
     <div className={`bl-col bl-col-${align} bl-reveal${inView ? ' is-in' : ''}`}>
-      <span className="bl-eyebrow">{c.eyebrow}</span>
+      <span className="bl-eyebrow bl-eyebrow-lg">{c.eyebrow}</span>
       <h2 className="bl-headline">{c.headline}</h2>
       <p className="bl-body">{c.body}</p>
     </div>
