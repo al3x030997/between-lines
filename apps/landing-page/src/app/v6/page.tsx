@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { InlineQuestions, type InlineAnswers } from './InlineQuestions';
 import { SignUpOverlay, type SignUpVariant } from './SignUp';
 import EditorialSplit from './sections/EditorialSplit';
@@ -58,7 +58,6 @@ const V6_CSS = `
   --bl-section-accent: #E63946;
   --bl-footer-accent: #E63946;
 }
-.v6-root.is-palette-pop .v6-tweaks { background: rgba(255, 255, 255, 0.95); }
 .v6-root.is-palette-pop .v6-bg-scrim {
   background: linear-gradient(180deg, rgba(255,230,0,0.42) 0%, rgba(255,230,0,0.28) 50%, rgba(255,230,0,0.46) 100%);
 }
@@ -74,7 +73,6 @@ const V6_CSS = `
   --bl-section-accent: #C5283D;
   --bl-footer-accent: #C5283D;
 }
-.v6-root.is-palette-stranger .v6-tweaks { background: rgba(255,255,255,0.7); }
 .v6-bg {
   position: absolute;
   inset: -40px;
@@ -170,42 +168,109 @@ const V6_CSS = `
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;
+  font-family: 'Bricolage Grotesque', sans-serif;
+}
+.v6-tweaks-trigger {
+  appearance: none;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px;
+  gap: 8px;
+  padding: 8px 16px;
   border-radius: 999px;
-  background: rgba(255,255,255,0.78);
-  border: 1px solid var(--v6-divider);
+  border: 1px solid rgba(14,14,12,0.12);
+  background: rgba(255,255,255,0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 6px 20px rgba(14,14,12,0.08);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  color: #0e0e0c;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
 }
-.v6-root.is-palette-forest .v6-tweaks { background: rgba(245,237,224,0.82); }
-.v6-tweak {
+.v6-tweaks-trigger:hover,
+.v6-tweaks-trigger:focus-visible {
+  border-color: rgba(14,14,12,0.28);
+  outline: none;
+}
+.v6-tweaks-trigger.is-open {
+  border-color: rgba(14,14,12,0.32);
+  box-shadow: 0 10px 28px rgba(14,14,12,0.12);
+}
+.v6-tweaks-chevron {
+  display: inline-block;
+  font-size: 10px;
+  transform: translateY(1px);
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+  opacity: 0.7;
+}
+.v6-tweaks-trigger.is-open .v6-tweaks-chevron { transform: translateY(1px) rotate(180deg); }
+.v6-tweaks-panel {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: min(420px, calc(100vw - 32px));
+  background: #ffffff;
+  border: 1px solid rgba(14,14,12,0.1);
+  border-radius: 18px;
+  box-shadow: 0 18px 48px rgba(14,14,12,0.14);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 220ms ease, transform 260ms cubic-bezier(.22, 1, .36, 1);
+}
+.v6-tweaks-panel.is-open {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+.v6-tweaks-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.v6-tweaks-row-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #6b6b66;
+}
+.v6-tweaks-segments {
+  display: inline-flex;
+  background: rgba(14,14,12,0.04);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.v6-tweaks-segment {
   appearance: none;
   border: 0;
   background: transparent;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 999px;
   font: inherit;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--v6-text-strong);
+  color: #6b6b66;
   cursor: pointer;
   transition: background 180ms ease, color 180ms ease;
   white-space: nowrap;
 }
-.v6-tweak:hover { background: var(--v6-accent-soft); }
-.v6-tweak.is-on { background: var(--v6-accent); color: #fff; }
-.v6-root.is-palette-forest .v6-tweak.is-on { color: #F5EDE0; }
-.v6-tweak-label {
-  opacity: 0.55;
-  margin-right: 4px;
-  font-weight: 500;
+.v6-tweaks-segment:hover { color: #0e0e0c; }
+.v6-tweaks-segment.is-active {
+  background: #0e0e0c;
+  color: #ffffff;
 }
 
 .v6-hero {
@@ -580,8 +645,6 @@ type PaletteV6 = 'crimson' | 'forest' | 'pop' | 'stranger';
 type Phase = 'choose' | 'leaving' | 'questions';
 
 const PALETTE_CYCLE: PaletteV6[] = ['forest', 'crimson', 'pop', 'stranger'];
-const cyclePalette = (p: PaletteV6) =>
-  PALETTE_CYCLE[(PALETTE_CYCLE.indexOf(p) + 1) % PALETTE_CYCLE.length];
 const PALETTE_LABELS: Record<PaletteV6, string> = {
   forest: 'Forest',
   crimson: 'Crimson',
@@ -590,8 +653,6 @@ const PALETTE_LABELS: Record<PaletteV6, string> = {
 };
 
 const LAYOUT_CYCLE: Layout[] = ['curved', 'columns', 'stacked'];
-const cycleLayout = (l: Layout) =>
-  LAYOUT_CYCLE[(LAYOUT_CYCLE.indexOf(l) + 1) % LAYOUT_CYCLE.length];
 const LAYOUT_LABELS: Record<Layout, string> = {
   curved: 'Curved',
   columns: 'Columns',
@@ -626,6 +687,8 @@ export default function V6Page() {
   const [palette, setPalette] = useState<PaletteV6>('stranger');
   const [bgOn, setBgOn] = useState(false);
   const [highlightOn, setHighlightOn] = useState(true);
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+  const tweaksRef = useRef<HTMLDivElement>(null);
   const [signUp, setSignUp] = useState<{ open: boolean; variant: SignUpVariant; eyebrow?: string }>(
     { open: false, variant: 'signup' }
   );
@@ -656,6 +719,24 @@ export default function V6Page() {
       document.body.style.background = prev;
     };
   }, []);
+
+  useEffect(() => {
+    if (!tweaksOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (tweaksRef.current && !tweaksRef.current.contains(e.target as Node)) {
+        setTweaksOpen(false);
+      }
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setTweaksOpen(false);
+    };
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [tweaksOpen]);
 
   const open = (region: Region) => {
     if (phase !== 'choose') return;
@@ -707,43 +788,103 @@ export default function V6Page() {
           <span className="v6-brand-dot">·</span>
           <span>lines</span>
         </a>
-        <div className="v6-tweaks" role="group" aria-label="Page tweaks">
+        <div className="v6-tweaks" ref={tweaksRef}>
           <button
             type="button"
-            className={`v6-tweak${layout !== 'curved' ? ' is-on' : ''}`}
-            onClick={() => setLayout(cycleLayout)}
-            aria-pressed={layout !== 'curved'}
+            className={`v6-tweaks-trigger${tweaksOpen ? ' is-open' : ''}`}
+            onClick={() => setTweaksOpen((v) => !v)}
+            aria-expanded={tweaksOpen}
+            aria-haspopup="dialog"
           >
-            <span className="v6-tweak-label">Layout</span>
-            {LAYOUT_LABELS[layout]}
+            Tweaks
+            <span className="v6-tweaks-chevron" aria-hidden>▾</span>
           </button>
-          <button
-            type="button"
-            className={`v6-tweak${palette !== 'forest' ? ' is-on' : ''}`}
-            onClick={() => setPalette(cyclePalette)}
-            aria-pressed={palette !== 'forest'}
+          <div
+            className={`v6-tweaks-panel${tweaksOpen ? ' is-open' : ''}`}
+            role="dialog"
+            aria-label="Page tweaks"
           >
-            <span className="v6-tweak-label">Palette</span>
-            {PALETTE_LABELS[palette]}
-          </button>
-          <button
-            type="button"
-            className={`v6-tweak${bgOn ? ' is-on' : ''}`}
-            onClick={() => setBgOn((v) => !v)}
-            aria-pressed={bgOn}
-          >
-            <span className="v6-tweak-label">Background</span>
-            {bgOn ? 'On' : 'Off'}
-          </button>
-          <button
-            type="button"
-            className={`v6-tweak${highlightOn ? ' is-on' : ''}`}
-            onClick={() => setHighlightOn((v) => !v)}
-            aria-pressed={highlightOn}
-          >
-            <span className="v6-tweak-label">Highlight</span>
-            {highlightOn ? 'On' : 'Off'}
-          </button>
+            <div className="v6-tweaks-row">
+              <span className="v6-tweaks-row-label">Layout</span>
+              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Layout">
+                {LAYOUT_CYCLE.map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    role="radio"
+                    aria-checked={layout === l}
+                    className={`v6-tweaks-segment${layout === l ? ' is-active' : ''}`}
+                    onClick={() => setLayout(l)}
+                  >
+                    {LAYOUT_LABELS[l]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="v6-tweaks-row">
+              <span className="v6-tweaks-row-label">Palette</span>
+              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Palette">
+                {PALETTE_CYCLE.map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    role="radio"
+                    aria-checked={palette === p}
+                    className={`v6-tweaks-segment${palette === p ? ' is-active' : ''}`}
+                    onClick={() => setPalette(p)}
+                  >
+                    {PALETTE_LABELS[p]}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="v6-tweaks-row">
+              <span className="v6-tweaks-row-label">Background</span>
+              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Background">
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={!bgOn}
+                  className={`v6-tweaks-segment${!bgOn ? ' is-active' : ''}`}
+                  onClick={() => setBgOn(false)}
+                >
+                  Off
+                </button>
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={bgOn}
+                  className={`v6-tweaks-segment${bgOn ? ' is-active' : ''}`}
+                  onClick={() => setBgOn(true)}
+                >
+                  On
+                </button>
+              </div>
+            </div>
+            <div className="v6-tweaks-row">
+              <span className="v6-tweaks-row-label">Highlight</span>
+              <div className="v6-tweaks-segments" role="radiogroup" aria-label="Highlight">
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={!highlightOn}
+                  className={`v6-tweaks-segment${!highlightOn ? ' is-active' : ''}`}
+                  onClick={() => setHighlightOn(false)}
+                >
+                  Off
+                </button>
+                <button
+                  type="button"
+                  role="radio"
+                  aria-checked={highlightOn}
+                  className={`v6-tweaks-segment${highlightOn ? ' is-active' : ''}`}
+                  onClick={() => setHighlightOn(true)}
+                >
+                  On
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="v6-nav-meta">
           <span className="v6-nav-issue">Issue №01</span>
