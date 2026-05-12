@@ -42,18 +42,16 @@ const FEATURES: Record<Side, Feature[]> = {
   ],
 };
 
-const COPY: Record<Side, { eyebrow: string; headline: string; body: string; cta: string }> = {
+const COPY: Record<Side, { eyebrow: string; headline: string; body: string }> = {
   author: {
     eyebrow: 'I’m a writer',
     headline: 'Be discovered.\nBuild an audience.\nGet published.',
     body: 'Share microstories, chapters, or full manuscripts. Grow real readers, get beta feedback that shapes your draft, and take the next step toward agents.',
-    cta: 'Start writing',
   },
   reader: {
     eyebrow: 'I’m a reader',
     headline: 'Read fiction before\nit hits the shelf.',
     body: 'Browse curated drops in your favorite genres. Read drafts from emerging authors and give feedback — from a one-tap reaction to notes that shape the book.',
-    cta: 'Start reading',
   },
 };
 
@@ -136,33 +134,6 @@ const STYLES = `
   max-width: 48ch;
   margin: 0;
 }
-.bl-cta {
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 26px;
-  border-radius: 999px;
-  border: 1px solid var(--bl-section-fg);
-  background: var(--bl-section-fg);
-  color: var(--bl-section-bg);
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  letter-spacing: 0.01em;
-  cursor: pointer;
-  transition: background 220ms ease, color 220ms ease, border-color 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1);
-  margin-top: 12px;
-}
-.bl-cta:hover {
-  background: var(--bl-section-accent);
-  border-color: var(--bl-section-accent);
-  color: var(--bl-section-fg);
-  transform: translateY(-2px);
-}
-.bl-cta-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
-.bl-cta:hover .bl-cta-arrow { transform: translateX(4px); }
-
 .bl-features-list {
   list-style: none;
   padding: 0;
@@ -268,12 +239,10 @@ function OverviewColumn({
   side,
   align,
   inView,
-  onStart,
 }: {
   side: Side;
   align: 'left' | 'right';
   inView: boolean;
-  onStart: (target: StartTarget) => void;
 }) {
   const c = COPY[side];
   return (
@@ -281,10 +250,6 @@ function OverviewColumn({
       <span className="bl-eyebrow">{c.eyebrow}</span>
       <h2 className="bl-headline">{c.headline}</h2>
       <p className="bl-body">{c.body}</p>
-      <button type="button" className="bl-cta" onClick={() => onStart(side)}>
-        {c.cta}
-        <span className="bl-cta-arrow" aria-hidden>→</span>
-      </button>
     </div>
   );
 }
@@ -327,7 +292,7 @@ export default function EditorialSplit({ onStart }: Props) {
       <section className="bl-editorial bl-editorial-author" aria-label="For writers">
         <div className="bl-editorial-inner" ref={authorRef}>
           <div className="bl-editorial-grid">
-            <OverviewColumn side="author" align="left" inView={authorInView} onStart={onStart} />
+            <OverviewColumn side="author" align="left" inView={authorInView} />
             <FeaturesColumn side="author" align="right" inView={authorInView} />
           </div>
         </div>
@@ -337,7 +302,7 @@ export default function EditorialSplit({ onStart }: Props) {
         <div className="bl-editorial-inner" ref={readerRef}>
           <div className="bl-editorial-grid">
             <FeaturesColumn side="reader" align="left" inView={readerInView} />
-            <OverviewColumn side="reader" align="right" inView={readerInView} onStart={onStart} />
+            <OverviewColumn side="reader" align="right" inView={readerInView} />
           </div>
         </div>
       </section>

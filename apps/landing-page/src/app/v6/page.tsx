@@ -554,21 +554,23 @@ const V6_CSS = `
   opacity: 0.4;
 }
 
-/* Hawkins: highlight mode keeps regions transparent (no accent fill on bg) */
-.v6-root.is-palette-stranger.is-highlight .v6-region-fill,
+/* Hawkins: highlight-mode base is transparent (no persistent accent fill),
+   but hovering still fills the background with accent-soft via color-mix. */
+.v6-root.is-palette-stranger.is-highlight .v6-region-fill { fill: transparent; }
+.v6-root.is-palette-stranger.is-highlight .v6-col { background: transparent; }
+.v6-root.is-palette-stranger.is-highlight .v6-stack-card { background: transparent; }
+
 .v6-root.is-palette-stranger.is-highlight .v6-region:hover .v6-region-fill,
 .v6-root.is-palette-stranger.is-highlight .v6-region:focus-visible .v6-region-fill {
-  fill: transparent;
+  fill: color-mix(in srgb, var(--v6-accent) 22%, transparent);
 }
-.v6-root.is-palette-stranger.is-highlight .v6-col,
 .v6-root.is-palette-stranger.is-highlight .v6-col:hover,
 .v6-root.is-palette-stranger.is-highlight .v6-col:focus-visible {
-  background: transparent;
+  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
 }
-.v6-root.is-palette-stranger.is-highlight .v6-stack-card,
 .v6-root.is-palette-stranger.is-highlight .v6-stack-card:hover,
 .v6-root.is-palette-stranger.is-highlight .v6-stack-card:focus-visible {
-  background: transparent;
+  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
 }
 `;
 
