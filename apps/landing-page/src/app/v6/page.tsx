@@ -565,6 +565,7 @@ const V6_CSS = `
 }
 .v6-root.is-highlight .v6-col-label { color: var(--v6-accent); }
 .v6-root.is-highlight .v6-col-reveal { opacity: 1; transform: none; }
+.v6-root.is-highlight .v6-col-sub { opacity: 1; }
 .v6-root.is-highlight .v6-col:hover,
 .v6-root.is-highlight .v6-col:focus-visible {
   background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
@@ -645,7 +646,7 @@ export default function V6Page() {
   const [hovered, setHovered] = useState<Region | null>(null);
   const [phase, setPhase] = useState<Phase>('choose');
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
-  const [layout, setLayout] = useState<Layout>('curved');
+  const [layout, setLayout] = useState<Layout>('columns');
   const [palette, setPalette] = useState<PaletteV6>('stranger');
   const [bgOn, setBgOn] = useState(false);
   const [highlightOn, setHighlightOn] = useState(true);
