@@ -5,6 +5,7 @@ import { InlineQuestions, type InlineAnswers } from './InlineQuestions';
 import { SignUpOverlay, type SignUpVariant } from './SignUp';
 import EditorialSplit from './sections/EditorialSplit';
 import type { StartTarget } from './sections/EditorialSplit';
+import BookCarousel from './sections/BookCarousel';
 import Footer from './sections/Footer';
 
 const V6_CSS = `
@@ -310,7 +311,18 @@ const V6_CSS = `
 }
 .v6-region.is-hovered .v6-region-fill,
 .v6-region:focus-visible .v6-region-fill {
-  fill: var(--v6-accent-soft);
+  fill: rgba(233, 75, 54, 0);
+}
+.v6-region-box {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 5;
+  pointer-events: none;
+  transition: stroke 300ms ease;
+}
+.v6-region.is-hovered .v6-region-box,
+.v6-region:focus-visible .v6-region-box {
+  stroke: var(--v6-accent);
 }
 .v6-region-label {
   font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
@@ -353,6 +365,7 @@ const V6_CSS = `
   inset: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+  padding: 0 clamp(60px, 14vw, 240px);
 }
 .v6-col {
   position: relative;
@@ -361,7 +374,7 @@ const V6_CSS = `
   align-items: center;
   justify-content: center;
   gap: 14px;
-  padding: 40px 28px;
+  padding: clamp(270px, 52vh, 520px) 12px 24px;
   background: transparent;
   border: 0;
   outline: none;
@@ -371,10 +384,44 @@ const V6_CSS = `
   color: inherit;
   text-align: center;
   transition: background 400ms ease;
+  justify-content: flex-start;
 }
 .v6-col.is-hovered,
 .v6-col:focus-visible {
-  background: var(--v6-accent-soft);
+  background: transparent;
+}
+.v6-col-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 28px;
+  width: 100%;
+  position: relative;
+  border-radius: 12px;
+}
+.v6-col-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 3px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--v6-accent) 22%,
+    var(--v6-accent) 78%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.v6-col.is-hovered .v6-col-box::before,
+.v6-col:focus-visible .v6-col-box::before {
+  opacity: 1;
 }
 .v6-col-label {
   font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
@@ -392,7 +439,7 @@ const V6_CSS = `
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  min-height: 76px;
+  min-height: 108px;
 }
 .v6-col-sub {
   font-family: 'Outfit', sans-serif;
@@ -459,7 +506,40 @@ const V6_CSS = `
   transition: background 300ms ease;
 }
 .v6-stack-card.is-hovered,
-.v6-stack-card:focus-visible { background: var(--v6-accent-soft); }
+.v6-stack-card:focus-visible { background: transparent; }
+.v6-stack-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 28px;
+  width: 100%;
+  position: relative;
+  border-radius: 12px;
+}
+.v6-stack-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  padding: 3px;
+  background: linear-gradient(to bottom,
+    transparent 0%,
+    var(--v6-accent) 22%,
+    var(--v6-accent) 78%,
+    transparent 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.v6-stack-card.is-hovered .v6-stack-box::before,
+.v6-stack-card:focus-visible .v6-stack-box::before {
+  opacity: 1;
+}
 .v6-stack-label {
   font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
   font-weight: 800;
@@ -545,7 +625,7 @@ const V6_CSS = `
 
 /* === Highlight mode: persistently apply hover styles to all regions === */
 .v6-root.is-highlight .v6-region { transition: opacity 280ms ease; }
-.v6-root.is-highlight .v6-region-fill { fill: var(--v6-accent-soft); }
+.v6-root.is-highlight .v6-region-fill { fill: rgba(233, 75, 54, 0); }
 .v6-root.is-highlight .v6-region-label { fill: var(--v6-accent); }
 .v6-root.is-highlight .v6-region-sub {
   fill: var(--v6-text-strong);
@@ -553,59 +633,171 @@ const V6_CSS = `
 }
 .v6-root.is-highlight .v6-region:hover .v6-region-fill,
 .v6-root.is-highlight .v6-region:focus-visible .v6-region-fill {
-  fill: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+  fill: rgba(233, 75, 54, 0);
 }
 .v6-root.is-highlight:has(.v6-region:hover) .v6-region:not(:hover) {
   opacity: 0.4;
 }
 
 .v6-root.is-highlight .v6-col {
-  background: var(--v6-accent-soft);
-  transition: background 280ms ease, opacity 280ms ease;
+  background: transparent;
+  transition: opacity 280ms ease;
 }
+
 .v6-root.is-highlight .v6-col-label { color: var(--v6-accent); }
 .v6-root.is-highlight .v6-col-reveal { opacity: 1; transform: none; }
 .v6-root.is-highlight .v6-col-sub { opacity: 1; }
 .v6-root.is-highlight .v6-col:hover,
 .v6-root.is-highlight .v6-col:focus-visible {
-  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+  background: transparent;
 }
 .v6-root.is-highlight:has(.v6-col:hover) .v6-col:not(:hover) {
   opacity: 0.4;
 }
 
 .v6-root.is-highlight .v6-stack-card {
-  background: var(--v6-accent-soft);
-  transition: background 280ms ease, opacity 280ms ease;
+  background: transparent;
+  transition: opacity 280ms ease;
 }
+
 .v6-root.is-highlight .v6-stack-label { color: var(--v6-accent); }
 .v6-root.is-highlight .v6-stack-reveal { opacity: 1; transform: none; }
 .v6-root.is-highlight .v6-stack-card:hover,
 .v6-root.is-highlight .v6-stack-card:focus-visible {
-  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+  background: transparent;
 }
 .v6-root.is-highlight:has(.v6-stack-card:hover) .v6-stack-card:not(:hover) {
   opacity: 0.4;
 }
 
-/* Hawkins: highlight-mode base is transparent (no persistent accent fill),
-   but hovering still fills the background with accent-soft via color-mix. */
+/* Hawkins: no persistent accent fill */
 .v6-root.is-palette-stranger.is-highlight .v6-region-fill { fill: transparent; }
-.v6-root.is-palette-stranger.is-highlight .v6-col { background: transparent; }
-.v6-root.is-palette-stranger.is-highlight .v6-stack-card { background: transparent; }
 
-.v6-root.is-palette-stranger.is-highlight .v6-region:hover .v6-region-fill,
-.v6-root.is-palette-stranger.is-highlight .v6-region:focus-visible .v6-region-fill {
-  fill: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+/* === Headline hover guard — blocks column hover in the headline zone === */
+.v6-headline-guard {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: clamp(210px, 34vh, 300px);
+  z-index: 2;
+  pointer-events: all;
 }
-.v6-root.is-palette-stranger.is-highlight .v6-col:hover,
-.v6-root.is-palette-stranger.is-highlight .v6-col:focus-visible {
-  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+
+/* === Hero headline === */
+.v6-stage-layout {
+  position: absolute;
+  inset: 0;
 }
-.v6-root.is-palette-stranger.is-highlight .v6-stack-card:hover,
-.v6-root.is-palette-stranger.is-highlight .v6-stack-card:focus-visible {
-  background: color-mix(in srgb, var(--v6-accent) 22%, transparent);
+.v6-hero-head {
+  position: absolute;
+  top: clamp(110px, 18vh, 180px);
+  left: clamp(40px, 5vw, 80px);
+  right: 0;
+  z-index: 1;
+  pointer-events: none;
+  text-align: left;
 }
+.v6-hero-title {
+  margin: 0 0 14px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 800;
+  font-size: clamp(28px, 6.5vw, 108px);
+  letter-spacing: -0.04em;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
+  line-height: 0.97;
+  white-space: nowrap;
+  color: var(--v6-text-strong);
+}
+.v6-hero-sub {
+  margin: 0;
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(13px, 1.3vw, 17px);
+  font-weight: 500;
+  color: var(--v6-text-muted);
+  line-height: 1.4;
+}
+.v6-curved-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* === Start buttons === */
+.v6-start-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 18px;
+  border-radius: 999px;
+  border: 1.5px solid var(--v6-text-strong);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--v6-text-strong);
+  transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+  pointer-events: none;
+}
+.v6-col .v6-start-btn {
+  opacity: 0;
+  transition: opacity 240ms ease, background 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+.v6-col.is-hovered .v6-start-btn,
+.v6-col:focus-visible .v6-start-btn {
+  opacity: 1;
+  background: var(--v6-accent);
+  border-color: var(--v6-accent);
+  color: #fff;
+}
+.v6-root.is-highlight .v6-col .v6-start-btn { opacity: 1; }
+.v6-root.is-highlight .v6-col:hover .v6-start-btn,
+.v6-root.is-highlight .v6-col:focus-visible .v6-start-btn {
+  background: var(--v6-accent);
+  border-color: var(--v6-accent);
+  color: #fff;
+}
+.v6-stack-card.is-hovered .v6-start-btn,
+.v6-stack-card:focus-visible .v6-start-btn {
+  background: var(--v6-accent);
+  border-color: var(--v6-accent);
+  color: #fff;
+}
+.v6-root.is-highlight .v6-stack-card:hover .v6-start-btn,
+.v6-root.is-highlight .v6-stack-card:focus-visible .v6-start-btn {
+  background: var(--v6-accent);
+  border-color: var(--v6-accent);
+  color: #fff;
+}
+.v6-region-start {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  fill: var(--v6-text-muted);
+  paint-order: stroke fill;
+  stroke: var(--v6-stroke);
+  stroke-width: 3;
+  stroke-linejoin: round;
+  opacity: 0;
+  transition: fill 300ms ease, opacity 260ms ease;
+}
+.v6-region.is-hovered .v6-region-start,
+.v6-region:focus-visible .v6-region-start { fill: var(--v6-accent); opacity: 1; }
+.v6-root.is-highlight .v6-region-start { fill: var(--v6-text-strong); opacity: 1; }
+
+/* === Headline accent === */
+.v6-hero-accent {
+  font-style: italic;
+  color: var(--v6-accent);
+}
+
+
+/* === Start button entrance animation === */
+.v6-col .v6-start-btn {
+  transform: translateY(8px) scale(0.94);
+  transition: opacity 280ms ease, transform 280ms cubic-bezier(.22,1,.36,1), background 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+.v6-col.is-hovered .v6-start-btn,
+.v6-col:focus-visible .v6-start-btn { transform: none; }
+.v6-root.is-highlight .v6-col .v6-start-btn { transform: none; }
 `;
 
 type Region = 'author' | 'reader' | 'both';
@@ -640,7 +832,19 @@ const SUBTITLES: Record<Region, string> = {
   both: 'Discover and be discovered.',
 };
 
-const REGIONS: Region[] = ['author', 'reader', 'both'];
+const START_LABELS: Record<Region, string> = {
+  author: 'Start writing →',
+  reader: 'Start reading →',
+  both: "I'm both →",
+};
+
+const MARQUEE_WORDS = [
+  'chapter', 'draft', 'story', 'novel', 'prose', 'verse',
+  'ink', 'pages', 'words', 'fiction', 'tales', 'plot',
+  'arc', 'voice', 'muse', 'edit', 'read', 'write',
+];
+
+const REGIONS: Region[] = ['author', 'both', 'reader'];
 
 export default function V6Page() {
   const [hovered, setHovered] = useState<Region | null>(null);
@@ -928,139 +1132,169 @@ export default function V6Page() {
           }`}
           aria-hidden={phase !== 'choose'}
         >
-        {layout === 'curved' ? (
-          <svg
-            className="v6-canvas"
-            viewBox="0 0 1600 1000"
-            preserveAspectRatio="xMidYMid slice"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title>Between Lines</title>
-            <desc>Choose your role: author, reader, or both.</desc>
-
-            <defs>
-              <filter id="v6-rough" x="-4%" y="-4%" width="108%" height="108%">
-                <feTurbulence
-                  type="fractalNoise"
-                  baseFrequency="0.022"
-                  numOctaves={2}
-                  seed={9}
-                />
-                <feDisplacementMap in="SourceGraphic" scale={3.2} />
-              </filter>
-            </defs>
-
-            <g
-              className={`v6-region v6-region-author${hovered === 'author' ? ' is-hovered' : ''}`}
-              {...regionProps('author')}
-            >
-              <path
-                className="v6-region-fill"
-                d="M -10 -10 L 700 -10 C 695 150 670 320 660 460 C 530 620 350 800 180 1010 L -10 1010 Z"
-                pointerEvents="all"
-              />
-              <text className="v6-region-label" textAnchor="middle" x={332} y={302}>
-                {LABELS.author}
-              </text>
-              <text className="v6-region-sub" textAnchor="middle" x={332} y={358}>
-                {SUBTITLES.author}
-              </text>
-            </g>
-
-            <g
-              className={`v6-region v6-region-reader${hovered === 'reader' ? ' is-hovered' : ''}`}
-              {...regionProps('reader')}
-            >
-              <path
-                className="v6-region-fill"
-                d="M 700 -10 L 1610 -10 L 1610 1010 L 1440 1010 C 1160 810 870 620 660 460 C 670 320 695 150 700 -10 Z"
-                pointerEvents="all"
-              />
-              <text className="v6-region-label" textAnchor="middle" x={1135} y={302}>
-                {LABELS.reader}
-              </text>
-              <text className="v6-region-sub" textAnchor="middle" x={1135} y={358}>
-                {SUBTITLES.reader}
-              </text>
-            </g>
-
-            <g
-              className={`v6-region v6-region-both${hovered === 'both' ? ' is-hovered' : ''}`}
-              {...regionProps('both')}
-            >
-              <path
-                className="v6-region-fill"
-                d="M 660 460 C 870 620 1160 810 1440 1010 L 180 1010 C 350 800 530 620 660 460 Z"
-                pointerEvents="all"
-              />
-              <text className="v6-region-label" textAnchor="middle" x={748} y={758}>
-                {LABELS.both}
-              </text>
-              <text className="v6-region-sub" textAnchor="middle" x={748} y={812}>
-                {SUBTITLES.both}
-              </text>
-            </g>
-
-            <g className="v6-dividers" filter="url(#v6-rough)" pointerEvents="none">
-              <path
-                className="v6-divider v6-divider-up"
-                d="M 700 -10 C 695 150 670 320 660 460"
-              />
-              <path
-                className="v6-divider v6-divider-left"
-                d="M 660 460 C 530 620 350 800 180 1010"
-              />
-              <path
-                className="v6-divider v6-divider-right"
-                d="M 660 460 C 870 620 1160 810 1440 1010"
-              />
-            </g>
-          </svg>
-        ) : layout === 'columns' ? (
-          <div className="v6-columns">
-            {REGIONS.map((r) => (
-              <button
-                key={r}
-                type="button"
-                className={`v6-col v6-col-${r}${hovered === r ? ' is-hovered' : ''}`}
-                {...regionProps(r)}
-              >
-                <div className="v6-col-label">{LABELS[r]}</div>
-                <div className="v6-col-reveal">
-                  <div className="v6-col-sub">{SUBTITLES[r]}</div>
-                </div>
-              </button>
-            ))}
+        <div className="v6-stage-layout">
+          <div className="v6-hero-head">
+            <h1 className="v6-hero-title">Curated drops, every month.</h1>
+            <p className="v6-hero-sub">Who are you here as?</p>
           </div>
-        ) : (
-          <div className="v6-stack">
-            <div className="v6-stack-row">
-              {(['author', 'reader'] as Region[]).map((r) => (
+          <div className="v6-headline-guard" aria-hidden="true" />
+          {layout === 'curved' ? (
+            <div className="v6-curved-wrap">
+              <svg
+                className="v6-canvas"
+                viewBox="0 0 1600 1000"
+                preserveAspectRatio="xMidYMid slice"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Between Lines</title>
+                <desc>Choose your role: author, reader, or both.</desc>
+
+                <defs>
+                  <filter id="v6-rough" x="-4%" y="-4%" width="108%" height="108%">
+                    <feTurbulence
+                      type="fractalNoise"
+                      baseFrequency="0.022"
+                      numOctaves={2}
+                      seed={9}
+                    />
+                    <feDisplacementMap in="SourceGraphic" scale={3.2} />
+                  </filter>
+                </defs>
+
+                <g
+                  className={`v6-region v6-region-author${hovered === 'author' ? ' is-hovered' : ''}`}
+                  {...regionProps('author')}
+                >
+                  <path
+                    className="v6-region-fill"
+                    d="M -10 -10 L 700 -10 C 695 150 670 320 660 460 C 530 620 350 800 180 1010 L -10 1010 Z"
+                    pointerEvents="all"
+                  />
+                  <rect className="v6-region-box" x={42} y={210} width={580} height={230} rx={14} />
+                  <text className="v6-region-label" textAnchor="middle" x={332} y={302}>
+                    {LABELS.author}
+                  </text>
+                  <text className="v6-region-sub" textAnchor="middle" x={332} y={358}>
+                    {SUBTITLES.author}
+                  </text>
+                  <text className="v6-region-start" textAnchor="middle" x={332} y={412}>
+                    {START_LABELS.author}
+                  </text>
+                </g>
+
+                <g
+                  className={`v6-region v6-region-reader${hovered === 'reader' ? ' is-hovered' : ''}`}
+                  {...regionProps('reader')}
+                >
+                  <path
+                    className="v6-region-fill"
+                    d="M 700 -10 L 1610 -10 L 1610 1010 L 1440 1010 C 1160 810 870 620 660 460 C 670 320 695 150 700 -10 Z"
+                    pointerEvents="all"
+                  />
+                  <rect className="v6-region-box" x={845} y={210} width={580} height={230} rx={14} />
+                  <text className="v6-region-label" textAnchor="middle" x={1135} y={302}>
+                    {LABELS.reader}
+                  </text>
+                  <text className="v6-region-sub" textAnchor="middle" x={1135} y={358}>
+                    {SUBTITLES.reader}
+                  </text>
+                  <text className="v6-region-start" textAnchor="middle" x={1135} y={412}>
+                    {START_LABELS.reader}
+                  </text>
+                </g>
+
+                <g
+                  className={`v6-region v6-region-both${hovered === 'both' ? ' is-hovered' : ''}`}
+                  {...regionProps('both')}
+                >
+                  <path
+                    className="v6-region-fill"
+                    d="M 660 460 C 870 620 1160 810 1440 1010 L 180 1010 C 350 800 530 620 660 460 Z"
+                    pointerEvents="all"
+                  />
+                  <rect className="v6-region-box" x={548} y={700} width={400} height={190} rx={14} />
+                  <text className="v6-region-label" textAnchor="middle" x={748} y={758}>
+                    {LABELS.both}
+                  </text>
+                  <text className="v6-region-sub" textAnchor="middle" x={748} y={812}>
+                    {SUBTITLES.both}
+                  </text>
+                  <text className="v6-region-start" textAnchor="middle" x={748} y={862}>
+                    {START_LABELS.both}
+                  </text>
+                </g>
+
+                <g className="v6-dividers" filter="url(#v6-rough)" pointerEvents="none">
+                  <path
+                    className="v6-divider v6-divider-up"
+                    d="M 700 -10 C 695 150 670 320 660 460"
+                  />
+                  <path
+                    className="v6-divider v6-divider-left"
+                    d="M 660 460 C 530 620 350 800 180 1010"
+                  />
+                  <path
+                    className="v6-divider v6-divider-right"
+                    d="M 660 460 C 870 620 1160 810 1440 1010"
+                  />
+                </g>
+              </svg>
+            </div>
+          ) : layout === 'columns' ? (
+            <div className="v6-columns">
+              {REGIONS.map((r) => (
                 <button
                   key={r}
                   type="button"
-                  className={`v6-stack-card v6-stack-${r}${hovered === r ? ' is-hovered' : ''}`}
+                  className={`v6-col v6-col-${r}${hovered === r ? ' is-hovered' : ''}`}
                   {...regionProps(r)}
                 >
-                  <div className="v6-stack-label">{LABELS[r]}</div>
-                  <div className="v6-stack-reveal">
-                    <div className="v6-stack-sub">{SUBTITLES[r]}</div>
+                  <div className="v6-col-box">
+                    <div className="v6-col-label">{LABELS[r]}</div>
+                    <div className="v6-col-reveal">
+                      <div className="v6-col-sub">{SUBTITLES[r]}</div>
+                      <span className="v6-start-btn">{START_LABELS[r]}</span>
+                    </div>
                   </div>
                 </button>
               ))}
             </div>
-            <button
-              type="button"
-              className={`v6-stack-card v6-stack-both${hovered === 'both' ? ' is-hovered' : ''}`}
-              {...regionProps('both')}
-            >
-              <div className="v6-stack-label">{LABELS.both}</div>
-              <div className="v6-stack-reveal">
-                <div className="v6-stack-sub">{SUBTITLES.both}</div>
+          ) : (
+            <div className="v6-stack">
+              <div className="v6-stack-row">
+                {(['author', 'reader'] as Region[]).map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    className={`v6-stack-card v6-stack-${r}${hovered === r ? ' is-hovered' : ''}`}
+                    {...regionProps(r)}
+                  >
+                    <div className="v6-stack-box">
+                      <div className="v6-stack-label">{LABELS[r]}</div>
+                      <div className="v6-stack-reveal">
+                        <div className="v6-stack-sub">{SUBTITLES[r]}</div>
+                        <span className="v6-start-btn">{START_LABELS[r]}</span>
+                      </div>
+                    </div>
+                  </button>
+                ))}
               </div>
-            </button>
-          </div>
-        )}
+              <button
+                type="button"
+                className={`v6-stack-card v6-stack-both${hovered === 'both' ? ' is-hovered' : ''}`}
+                {...regionProps('both')}
+              >
+                <div className="v6-stack-box">
+                  <div className="v6-stack-label">{LABELS.both}</div>
+                  <div className="v6-stack-reveal">
+                    <div className="v6-stack-sub">{SUBTITLES.both}</div>
+                    <span className="v6-start-btn">{START_LABELS.both}</span>
+                  </div>
+                </div>
+              </button>
+            </div>
+          )}
+        </div>
         </div>
         <InlineQuestions
           region={selectedRegion ?? 'author'}
@@ -1070,6 +1304,8 @@ export default function V6Page() {
         />
       </div>
       </section>
+
+      <BookCarousel />
 
       <aside className="bl-intermission" aria-hidden="true">
         <span className="bl-intermission-mark">
