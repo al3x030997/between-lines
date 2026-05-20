@@ -2,11 +2,24 @@
 
 import { useEffect, useState } from 'react';
 import IntakeHero, { type IntakeSubmit } from './IntakeHero';
-import { SignUpOverlay, type SignUpVariant } from './SignUp';
+import { WaitlistOverlay } from './WaitlistForm';
 import EditorialSplit from './sections/EditorialSplit';
 import type { StartTarget } from './sections/EditorialSplit';
 import BookCarousel from './sections/BookCarousel';
 import Footer from './sections/Footer';
+
+const BANNER_MESSAGES: Record<string, string> = {
+  gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
+  invalid: 'That insider link is invalid. Re-enter your email to receive a new one.',
+  pending: 'We can’t find an active subscription for that link. Check your inbox for our confirmation email.',
+  ratelimited: 'Too many attempts. Please try again in a few minutes.',
+};
+
+const EYEBROW_BY_TARGET: Record<StartTarget, string> = {
+  reader: 'Ready to read',
+  author: 'Ready to write',
+  both: 'Discover and be discovered',
+};
 
 const V6_CSS = `
 .v8-root {
@@ -644,7 +657,7 @@ const V6_CSS = `
 /* === Doors layout (v7-inspired, v8 palette) === */
 .v8-doors {
   position: absolute;
-  top: clamp(200px, 28vh, 280px);
+  top: clamp(460px, 58vh, 600px);
   right: 0;
   bottom: 0;
   left: 0;
@@ -655,39 +668,54 @@ const V6_CSS = `
 .v8-doors::before {
   content: '';
   position: absolute;
-  top: 10%;
-  bottom: 14%;
+  top: 14%;
+  bottom: 18%;
   left: 50%;
   width: 1px;
   background: linear-gradient(
     to bottom,
     transparent 0%,
-    var(--v6-divider) 10%,
-    var(--v6-divider) 90%,
+    var(--v6-divider) 8%,
+    var(--v6-divider) 92%,
     transparent 100%
   );
   pointer-events: none;
 }
 @media (max-width: 800px) {
-  .v8-doors { grid-template-columns: 1fr; }
+  .v8-doors { grid-template-columns: 1fr; top: clamp(520px, 64vh, 680px); }
   .v8-doors::before { display: none; }
 }
 .v8-door {
   appearance: none;
   background: transparent;
   border: 0;
-  padding: clamp(72px, 11vh, 140px) clamp(28px, 5vw, 80px) clamp(96px, 14vh, 180px);
+  padding: clamp(48px, 7vh, 96px) clamp(28px, 5vw, 80px) clamp(64px, 10vh, 140px);
   text-align: left;
   color: inherit;
   font: inherit;
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 28px;
+  justify-content: flex-start;
+  gap: 20px;
   position: relative;
   -webkit-tap-highlight-color: transparent;
   transition: background var(--v6-dur-base) var(--v6-ease);
+}
+.v8-root.is-layout-doors .v8-door-reader {
+  align-items: flex-end;
+  text-align: right;
+}
+.v8-root.is-layout-doors .v8-door-author {
+  align-items: flex-start;
+  text-align: left;
+}
+@media (max-width: 800px) {
+  .v8-root.is-layout-doors .v8-door-reader,
+  .v8-root.is-layout-doors .v8-door-author {
+    align-items: flex-start;
+    text-align: left;
+  }
 }
 .v8-door:hover,
 .v8-door:focus-visible,
@@ -704,31 +732,25 @@ const V6_CSS = `
   height: 1px;
   background: var(--v6-accent);
   transform: scaleX(0);
-  transform-origin: left;
   transition: transform 480ms var(--v6-ease);
 }
+.v8-door-reader::after { transform-origin: right; }
+.v8-door-author::after { transform-origin: left; }
 .v8-door:hover::after,
 .v8-door:focus-visible::after,
 .v8-door.is-hovered::after { transform: scaleX(1); }
-.v8-door-eye {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--v6-accent);
-}
 .v8-door-title {
   margin: 0;
   font-family: 'Fraunces', 'Cormorant Garamond', serif;
   font-weight: 400;
   font-style: italic;
-  font-size: clamp(34px, 4.8vw, 64px);
+  font-size: clamp(36px, 5vw, 72px);
   line-height: 1.04;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   color: var(--v6-text-strong);
   max-width: 16ch;
   text-wrap: balance;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
 .v8-door-cta {
   margin-top: 18px;
@@ -751,30 +773,6 @@ const V6_CSS = `
 .v8-door:focus-visible .v8-door-arrow,
 .v8-door.is-hovered .v8-door-arrow { transform: translateX(6px); }
 
-/* Chapter mark + caps eyebrow forming a single typographic stamp */
-.v8-door-stamp {
-  display: flex;
-  align-items: baseline;
-  gap: 18px;
-}
-.v8-door-mark {
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(28px, 3vw, 40px);
-  line-height: 0.9;
-  letter-spacing: -0.01em;
-  color: var(--v6-text-strong);
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
-  transition: color var(--v6-dur-base) var(--v6-ease), transform var(--v6-dur-base) var(--v6-ease);
-}
-.v8-door:hover .v8-door-mark,
-.v8-door:focus-visible .v8-door-mark,
-.v8-door.is-hovered .v8-door-mark {
-  color: var(--v6-accent);
-  transform: translateY(-1px);
-}
-
 .v8-door-cta-text { display: inline-block; }
 
 /* Typographic asterism stamped where the top rule meets the gutter — a chapter mark */
@@ -786,89 +784,97 @@ const V6_CSS = `
   font-family: 'Fraunces', 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(22px, 2.2vw, 30px);
+  font-size: clamp(20px, 1.8vw, 26px);
   line-height: 1;
   color: var(--v6-accent);
   letter-spacing: 0;
   background: var(--v6-surface);
-  padding: 6px 18px;
+  padding: 4px 14px;
   pointer-events: none;
   user-select: none;
   z-index: 2;
-  opacity: 0.9;
-}
-
-/* Editorial colophon at the foot of the issue */
-.v8-doors-colophon {
-  position: absolute;
-  bottom: clamp(20px, 3vh, 36px);
-  left: 50%;
-  transform: translateX(-50%);
-  margin: 0;
-  font-family: 'Cormorant Garamond', 'Fraunces', serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  color: var(--v6-text-muted);
-  opacity: 0.62;
-  white-space: nowrap;
-  pointer-events: none;
+  opacity: 0.95;
 }
 
 .v8-root.is-layout-doors .v8-headline-guard { display: none; }
 
-/* Doors layout: header reads like a periodical masthead — caps eyebrow + rule on top, big italic headline below */
+/* Doors layout: editorial broadside masthead — twin rules + caps eyebrow + serif headline + meta strip */
 .v8-root.is-layout-doors .v8-hero-head {
-  top: clamp(54px, 8vh, 92px);
-  left: clamp(28px, 5vw, 80px);
-  right: clamp(28px, 5vw, 80px);
-  transform: none;
-  width: auto;
+  top: clamp(40px, 5vh, 72px);
+  left: 50%;
+  right: auto;
+  transform: translateX(-50%);
+  width: min(960px, calc(100% - clamp(48px, 10vw, 160px)));
   max-width: none;
-  text-align: left;
+  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  gap: clamp(14px, 2vh, 22px);
+  align-items: center;
+  gap: 0;
   pointer-events: none;
 }
+.v8-root.is-layout-doors .v8-masthead-rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: var(--v6-text-strong);
+  opacity: 0.62;
+}
 .v8-root.is-layout-doors .v8-hero-sub {
-  order: 1;
+  order: 0;
   margin: 0;
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
+  padding: 12px 0 12px;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.36em;
+  font-size: clamp(11px, 1.05vw, 13px);
+  letter-spacing: 0.46em;
   text-transform: uppercase;
   color: var(--v6-accent);
   line-height: 1;
-}
-.v8-root.is-layout-doors .v8-hero-sub::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--v6-divider);
-  max-width: 360px;
+  text-indent: 0.46em;
 }
 .v8-root.is-layout-doors .v8-hero-title {
-  order: 2;
-  margin: 0;
+  order: 0;
+  margin: clamp(28px, 4vh, 44px) auto clamp(20px, 2.4vh, 28px);
   font-family: 'Fraunces', 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(40px, 5.4vw, 76px);
-  letter-spacing: -0.02em;
+  font-style: normal;
+  font-weight: 500;
+  font-size: clamp(38px, 5.4vw, 88px);
+  letter-spacing: -0.025em;
   text-transform: none;
   color: var(--v6-text-strong);
-  line-height: 1;
+  line-height: 1.02;
   white-space: normal;
   text-wrap: balance;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
-  max-width: 20ch;
+  max-width: 18ch;
+}
+.v8-root.is-layout-doors .v8-hero-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--v6-text-strong);
+}
+.v8-hero-meta {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: clamp(10px, 0.85vw, 11px);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--v6-text-muted);
+  opacity: 0.72;
+  line-height: 1;
+}
+.v8-hero-meta-dot {
+  font-family: 'Fraunces', serif;
+  font-size: 1.4em;
+  letter-spacing: 0;
+  color: var(--v6-accent);
+  opacity: 0.85;
+  transform: translateY(-0.05em);
 }
 
 /* Doors stay equally weighted — no dimming, no persistent underline */
@@ -885,9 +891,6 @@ const V6_CSS = `
 }
 @keyframes v8-doors-fade {
   to { opacity: 1; }
-}
-@keyframes v8-doors-fade-colophon {
-  to { opacity: 0.62; }
 }
 @keyframes v8-doors-ornament-in {
   from { opacity: 0; transform: translate(-50%, -40%); }
@@ -907,10 +910,6 @@ const V6_CSS = `
 .v8-root.is-layout-doors .v8-doors-ornament {
   opacity: 0;
   animation: v8-doors-ornament-in 1000ms var(--v6-ease) 520ms forwards;
-}
-.v8-root.is-layout-doors .v8-doors-colophon {
-  opacity: 0;
-  animation: v8-doors-fade-colophon 1000ms var(--v6-ease) 720ms forwards;
 }
 
 /* Door internal spacing: stamp / title / cta with refined hierarchy */
@@ -1123,6 +1122,38 @@ html:has(.v8-root) { scroll-behavior: smooth; }
     transition-duration: 0.01ms !important;
   }
 }
+
+.bl-banner {
+  position: relative;
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0 auto;
+  max-width: min(720px, calc(100% - 32px));
+  padding: 12px 14px;
+  background: rgba(233, 75, 54, 0.08);
+  border: 1px solid rgba(233, 75, 54, 0.35);
+  border-radius: 10px;
+  color: #0e0e0c;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  margin-top: 12px;
+}
+.bl-banner-text { flex: 1 1 auto; }
+.bl-banner-close {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 0;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: inherit;
+  padding: 0 4px;
+  opacity: 0.7;
+}
+.bl-banner-close:hover { opacity: 1; }
 `;
 
 type Region = 'author' | 'reader' | 'both';
@@ -1147,23 +1178,13 @@ const LAYOUT_LABELS: Record<Layout, string> = {
 };
 
 const DOOR_TITLES: Record<'reader' | 'author', string> = {
-  reader: 'Read what hasn’t been published.',
-  author: 'Be read before you’re published.',
-};
-
-const DOOR_EYEBROWS: Record<'reader' | 'author', string> = {
-  reader: 'For readers',
-  author: 'For writers',
+  reader: 'I’m a reader',
+  author: 'I’m a writer',
 };
 
 const DOOR_CTAS: Record<'reader' | 'author', string> = {
-  reader: 'Open as a reader',
-  author: 'Submit a draft',
-};
-
-const DOOR_MARKS: Record<'reader' | 'author', string> = {
-  reader: 'I.',
-  author: 'II.',
+  reader: 'open as a reader',
+  author: 'open as a writer',
 };
 
 const LABELS: Record<Region, string> = {
@@ -1200,11 +1221,29 @@ export default function V6Page() {
   const [palette, setPalette] = useState<PaletteV6>('stranger');
   const [bgOn, setBgOn] = useState(false);
   const [highlightOn, setHighlightOn] = useState(true);
-  const [signUp, setSignUp] = useState<{ open: boolean; variant: SignUpVariant; eyebrow?: string }>(
-    { open: false, variant: 'signup' }
-  );
+  const [waitlist, setWaitlist] = useState<{ open: boolean; eyebrow?: string }>({ open: false });
 
-  const openSignIn = () => setSignUp({ open: true, variant: 'signin' });
+  // Banner state is derived from ?u=… on the URL. We read it via window.location
+  // in a useEffect (rather than useSearchParams) so the page stays statically
+  // renderable. The banner appears post-hydration; that's fine — its purpose is
+  // a soft notice, not a blocking error.
+  const [bannerMessage, setBannerMessage] = useState<string | null>(null);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get('u');
+    setBannerMessage(code ? (BANNER_MESSAGES[code] ?? null) : null);
+  }, []);
+  const dismissBanner = () => {
+    setBannerMessage(null);
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('u');
+      window.history.replaceState(null, '', url.toString());
+    }
+  };
+
+  const openWaitlist = (eyebrow?: string) => setWaitlist({ open: true, eyebrow });
+  const closeWaitlist = () => setWaitlist({ open: false });
 
   const backToChoose = () => {
     setPhase('choose');
@@ -1220,7 +1259,7 @@ export default function V6Page() {
           : 'Ready to read';
     setPhase('choose');
     setSelectedRegion(null);
-    setSignUp({ open: true, variant: 'signup', eyebrow });
+    openWaitlist(eyebrow);
   };
 
   useEffect(() => {
@@ -1239,11 +1278,7 @@ export default function V6Page() {
   };
 
   const openFromSection = (target: StartTarget) => {
-    setSelectedRegion(target);
-    setPhase('questions');
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    openWaitlist(EYEBROW_BY_TARGET[target]);
   };
 
   const regionProps = (region: Region) => ({
@@ -1277,6 +1312,20 @@ export default function V6Page() {
     <main className={rootClass}>
       <style dangerouslySetInnerHTML={{ __html: V6_CSS }} />
 
+      {bannerMessage && (
+        <div className="bl-banner" role="status" aria-live="polite">
+          <span className="bl-banner-text">{bannerMessage}</span>
+          <button
+            type="button"
+            className="bl-banner-close"
+            onClick={dismissBanner}
+            aria-label="Dismiss"
+          >
+            ×
+          </button>
+        </div>
+      )}
+
       <nav className="v8-nav">
         <a className="v8-brand" href="#" aria-label="Between Lines, home">
           <span>between</span>
@@ -1289,9 +1338,9 @@ export default function V6Page() {
           <button
             type="button"
             className="v8-nav-link v8-nav-signin"
-            onClick={openSignIn}
+            onClick={() => openWaitlist()}
           >
-            Sign in
+            Join waitlist
           </button>
         </div>
       </nav>
@@ -1313,12 +1362,28 @@ export default function V6Page() {
         >
         <div className="v8-stage-layout">
           <div className="v8-hero-head">
-            <h1 className="v8-hero-title">
-              {layout === 'doors' ? 'Read first. Be read first.' : 'Curated drops, every month.'}
-            </h1>
-            <p className="v8-hero-sub">
-              {layout === 'doors' ? 'An invitation · Issue №01' : 'Who are you here as?'}
-            </p>
+            {layout === 'doors' ? (
+              <>
+                <span className="v8-masthead-rule" aria-hidden="true" />
+                <p className="v8-hero-sub">Invitation only</p>
+                <span className="v8-masthead-rule" aria-hidden="true" />
+                <h1 className="v8-hero-title">
+                  Discover Debut Authors<br />and New Voices — <em>Fiction&nbsp;Only.</em>
+                </h1>
+                <p className="v8-hero-meta">
+                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
+                  Issue №01
+                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
+                  Spring 2026
+                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
+                </p>
+              </>
+            ) : (
+              <>
+                <h1 className="v8-hero-title">Curated drops, every month.</h1>
+                <p className="v8-hero-sub">Who are you here as?</p>
+              </>
+            )}
           </div>
           <div className="v8-headline-guard" aria-hidden="true" />
           {layout === 'doors' ? (
@@ -1330,21 +1395,14 @@ export default function V6Page() {
                   className={`v8-door v8-door-${r}${hovered === r ? ' is-hovered' : ''}`}
                   {...regionProps(r)}
                 >
-                  <div className="v8-door-stamp">
-                    <span className="v8-door-mark" aria-hidden>{DOOR_MARKS[r]}</span>
-                    <span className="v8-door-eye">{DOOR_EYEBROWS[r]}</span>
-                  </div>
                   <h2 className="v8-door-title">{DOOR_TITLES[r]}</h2>
                   <span className="v8-door-cta">
                     <span className="v8-door-cta-text">{DOOR_CTAS[r]}</span>
-                    <span className="v8-door-arrow" aria-hidden>→</span>
+                    <span className="v8-door-arrow" aria-hidden="true">→</span>
                   </span>
                 </button>
               ))}
-              <span className="v8-doors-ornament" aria-hidden>⁂</span>
-              <p className="v8-doors-colophon">
-                Issue №01 · A monthly periodical of unpublished fiction
-              </p>
+              <span className="v8-doors-ornament" aria-hidden="true">⁂</span>
             </div>
           ) : layout === 'curved' ? (
             <div className="v8-curved-wrap">
@@ -1531,11 +1589,10 @@ export default function V6Page() {
       <EditorialSplit onStart={openFromSection} />
       <Footer />
 
-      <SignUpOverlay
-        open={signUp.open}
-        variant={signUp.variant}
-        eyebrow={signUp.eyebrow}
-        onClose={() => setSignUp((s) => ({ ...s, open: false }))}
+      <WaitlistOverlay
+        open={waitlist.open}
+        eyebrow={waitlist.eyebrow}
+        onClose={closeWaitlist}
       />
     </main>
   );

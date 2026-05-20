@@ -136,7 +136,7 @@ export default function Footer() {
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Legal</h3>
             <ul>
-              <li><a href="#">Privacy</a></li>
+              <li><a href="/privacy">Privacy</a></li>
               <li><a href="#">Terms</a></li>
               <li><a href="#">Cookies</a></li>
             </ul>

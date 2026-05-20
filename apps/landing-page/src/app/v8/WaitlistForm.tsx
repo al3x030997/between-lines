@@ -1,9 +1,7 @@
-// DEPRECATED — replaced by WaitlistForm.tsx in v8; kept until v9 archive cycle.
 'use client';
 
 import { useEffect, useState } from 'react';
-
-export type SignUpVariant = 'signup' | 'signin';
+import { track } from '@vercel/analytics';
 
 const CSS = `
 .su-root {
@@ -123,6 +121,31 @@ const CSS = `
   border-color: var(--v6-accent);
   background: var(--v6-accent-soft);
 }
+.su-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 6px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #4d4d47;
+  cursor: pointer;
+}
+.su-consent input[type="checkbox"] {
+  margin-top: 3px;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  accent-color: var(--v6-accent, #e94b36);
+  cursor: pointer;
+}
+.su-consent a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.su-consent a:hover { color: var(--v6-accent, #e94b36); }
 .su-btn {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 700;
@@ -142,41 +165,6 @@ const CSS = `
   background: rgba(14, 14, 12, 0.18);
   cursor: not-allowed;
 }
-.su-divider {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 22px 0 14px;
-  color: rgba(14, 14, 12, 0.4);
-  font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-.su-divider::before,
-.su-divider::after {
-  content: '';
-  flex: 1 1 auto;
-  height: 1px;
-  background: rgba(14, 14, 12, 0.12);
-}
-.su-secondary {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 14px;
-  width: 100%;
-  padding: 12px 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(14, 14, 12, 0.18);
-  background: #ffffff;
-  color: #0e0e0c;
-  cursor: pointer;
-  transition: border-color 160ms ease, background 160ms ease;
-}
-.su-secondary:hover {
-  border-color: #0e0e0c;
-  background: rgba(14, 14, 12, 0.03);
-}
 .su-foot {
   margin-top: 22px;
   font-family: 'Outfit', sans-serif;
@@ -184,16 +172,12 @@ const CSS = `
   color: #6a6a64;
   text-align: center;
 }
-.su-link {
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: var(--v6-accent);
-  font-weight: 600;
-  cursor: pointer;
+.su-error {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: #c0392b;
+  margin: 6px 0 0;
 }
-.su-link:hover { text-decoration: underline; }
 .su-success {
   display: flex;
   flex-direction: column;
@@ -224,33 +208,28 @@ const CSS = `
 }
 `;
 
-export function SignUpOverlay({
-  open,
-  onClose,
-  variant: initialVariant = 'signup',
-  eyebrow,
-}: {
+type Props = {
   open: boolean;
   onClose: () => void;
-  variant?: SignUpVariant;
   eyebrow?: string;
-}) {
-  const [variant, setVariant] = useState<SignUpVariant>(initialVariant);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+};
 
-  useEffect(() => {
-    if (open) setVariant(initialVariant);
-  }, [open, initialVariant]);
+export function WaitlistOverlay({ open, onClose, eyebrow }: Props) {
+  const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [website, setWebsite] = useState(''); // honeypot
+  const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
     if (!open) {
-      setName('');
       setEmail('');
-      setPassword('');
-      setSubmitted(false);
+      setConsent(false);
+      setWebsite('');
+      setSubmitting(false);
+      setStatus('idle');
+      setErrorMsg('');
     }
   }, [open]);
 
@@ -265,13 +244,37 @@ export function SignUpOverlay({
 
   if (!open) return null;
 
-  const isSignIn = variant === 'signin';
-  const canSubmit = email.trim().length > 0 && password.length > 0 && (isSignIn || name.trim().length > 0);
+  const canSubmit = email.trim().length > 0 && consent && !submitting;
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!canSubmit) return;
-    setSubmitted(true);
+    setSubmitting(true);
+    setErrorMsg('');
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ email: email.trim(), consent: true, website }),
+      });
+      track('waitlist_submit', { ok: res.ok });
+      if (!res.ok) {
+        const code =
+          res.status === 429
+            ? 'Too many attempts. Please try again in a few minutes.'
+            : 'Something went wrong. Please try again.';
+        setErrorMsg(code);
+        setStatus('error');
+        return;
+      }
+      setStatus('success');
+    } catch {
+      track('waitlist_submit', { ok: false });
+      setErrorMsg('Network error. Please try again.');
+      setStatus('error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -283,33 +286,29 @@ export function SignUpOverlay({
           ×
         </button>
 
-        {!submitted ? (
-          <>
-            {eyebrow && <p className="su-eyebrow">{eyebrow}</p>}
+        {status === 'success' ? (
+          <div className="su-success">
+            <p className="su-eyebrow">Check your email</p>
             <h2 id="su-title" className="su-title">
-              {isSignIn ? 'Welcome back.' : 'Save your spot.'}
+              You’re almost in.
             </h2>
             <p className="su-pitch">
-              {isSignIn
-                ? 'Sign in to pick up where you left off.'
-                : 'Create an account so we can hold your place for launch.'}
+              We sent a confirmation link to <strong>{email}</strong>. Click it and we’ll send you
+              your private insider link.
+            </p>
+            <button type="button" className="su-btn" onClick={onClose}>
+              Done
+            </button>
+          </div>
+        ) : (
+          <>
+            {eyebrow && <p className="su-eyebrow">{eyebrow}</p>}
+            <h2 id="su-title" className="su-title">Save your spot.</h2>
+            <p className="su-pitch">
+              Join the waitlist and we’ll email you a private insider link when we open the doors.
             </p>
 
-            <form className="su-form" onSubmit={handleSubmit}>
-              {!isSignIn && (
-                <label className="su-field">
-                  <span className="su-label">Name</span>
-                  <input
-                    type="text"
-                    className="su-input"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Your name"
-                    autoComplete="name"
-                    required
-                  />
-                </label>
-              )}
+            <form className="su-form" onSubmit={handleSubmit} noValidate>
               <label className="su-field">
                 <span className="su-label">Email</span>
                 <input
@@ -325,58 +324,40 @@ export function SignUpOverlay({
                   required
                 />
               </label>
-              <label className="su-field">
-                <span className="su-label">Password</span>
+
+              {/* Honeypot — humans never see this. Bots usually fill every field. */}
+              <input
+                type="text"
+                name="website"
+                tabIndex={-1}
+                autoComplete="off"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+                aria-hidden="true"
+              />
+
+              <label className="su-consent">
                 <input
-                  type="password"
-                  className="su-input"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete={isSignIn ? 'current-password' : 'new-password'}
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => setConsent(e.target.checked)}
                   required
                 />
+                <span>
+                  I agree to receive launch updates from Between Lines and to the processing
+                  described in our <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.
+                  Unsubscribe anytime.
+                </span>
               </label>
+
+              {status === 'error' && <p className="su-error">{errorMsg}</p>}
+
               <button type="submit" className="su-btn" disabled={!canSubmit}>
-                {isSignIn ? 'Sign in' : 'Create account'}
+                {submitting ? 'Saving…' : 'Join waitlist'}
               </button>
             </form>
-
-            <div className="su-divider"><span>or</span></div>
-            <button
-              type="button"
-              className="su-secondary"
-              onClick={() => setSubmitted(true)}
-            >
-              Continue with Google
-            </button>
-
-            <p className="su-foot">
-              {isSignIn ? 'Don’t have an account? ' : 'Already a member? '}
-              <button
-                type="button"
-                className="su-link"
-                onClick={() => setVariant(isSignIn ? 'signup' : 'signin')}
-              >
-                {isSignIn ? 'Create one' : 'Sign in'}
-              </button>
-            </p>
           </>
-        ) : (
-          <div className="su-success">
-            <p className="su-eyebrow">All set</p>
-            <h2 id="su-title" className="su-title">
-              {isSignIn ? 'Welcome back.' : 'You’re on the list.'}
-            </h2>
-            <p className="su-pitch">
-              {isSignIn
-                ? 'You’re signed in.'
-                : 'We’ll be in touch as soon as we’re ready to let you in.'}
-            </p>
-            <button type="button" className="su-btn" onClick={onClose}>
-              Done
-            </button>
-          </div>
         )}
       </div>
     </div>
