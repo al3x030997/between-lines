@@ -1,16 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { sql } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { waitlistSubscribers } from '@/lib/db/schema';
-import { isAllowedOrigin, buildInsiderUrl } from '@/lib/site';
+import { isAllowedOrigin } from '@/lib/site';
 import { waitlistSubmitSchema } from '@/lib/schemas';
 import {
   getClientIp,
   waitlistEmailLimiter,
   waitlistIpLimiter,
 } from '@/lib/ratelimit';
-import { signMagicToken } from '@/lib/tokens';
-import { kitSubscribe, kitUpdateSubscriberFields } from '@/lib/kit';
+import { kitFormSubscribe } from '@/lib/kit';
 
 export const runtime = 'nodejs';
 
@@ -94,37 +92,29 @@ export async function POST(req: NextRequest) {
     })
     .returning();
 
-  // (f) Kit subscribe. If Kit is down, persist our row and return ok=true with a pending hint —
-  // the webhook will reconcile when Kit catches up.
+  // (f) Subscribe via Kit's hosted-form endpoint. Kit's v4 API does not expose
+  // a working form-subscribe endpoint for our form type, but the public hosted-
+  // form submit URL (what the embed widget posts to) works without auth.
+  // No subscriber id comes back here — the webhook handler picks the user up
+  // by email_lower on subscriber.subscriber_activate and fills in
+  // kit_subscriber_id + insider_url at that point. The 10-minute delay on the
+  // welcome-sequence automation gives the webhook room to reconcile.
   if (!KIT_FORM_ID) {
     console.error('[waitlist] KIT_FORM_ID is not set — DB row persisted, Kit subscribe skipped');
     return OK;
   }
 
-  let kitResult: Awaited<ReturnType<typeof kitSubscribe>> | null = null;
+  // Suppress unused-variable warning — `row` is still useful for future
+  // synchronous reconciliation paths if Kit ever exposes a subscriber id here.
+  void row;
+
   try {
-    kitResult = await kitSubscribe({ email, formId: KIT_FORM_ID });
+    await kitFormSubscribe({ email, formId: KIT_FORM_ID });
   } catch (err) {
-    console.error('[waitlist] kitSubscribe failed; webhook will reconcile', err);
+    console.error('[waitlist] kitFormSubscribe failed; webhook will reconcile', err);
     return NextResponse.json({ ok: true, pending: true });
   }
 
-  // (g) Persist kit_subscriber_id + write insider_url to the subscriber's Kit field.
-  try {
-    await db
-      .update(waitlistSubscribers)
-      .set({ kitSubscriberId: kitResult.subscriberId, updatedAt: new Date() })
-      .where(sql`${waitlistSubscribers.id} = ${row.id}`);
-
-    const token = signMagicToken(row.publicId, row.magicLinkVersion);
-    await kitUpdateSubscriberFields(kitResult.subscriberId, {
-      insider_url: buildInsiderUrl(token),
-    });
-  } catch (err) {
-    // Non-fatal — the 10-minute welcome-sequence delay gives the webhook room to re-fill.
-    console.error('[waitlist] insider_url field write failed; webhook will retry', err);
-  }
-
-  // (h) Identical 200 response shape for insert and update paths (no enumeration via timing).
+  // (g) Identical 200 response shape for insert and update paths (no enumeration via timing).
   return OK;
 }
