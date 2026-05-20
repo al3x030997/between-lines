@@ -1,15 +1,12 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
-// Kit (ConvertKit) wrapper. Two distinct surfaces:
-// 1. Hosted form submit at app.kit.com/forms/{form_id}/subscriptions
-//    — public, no auth, what the embed widget posts to. Used for initial
-//      subscribe so we don't need a v4 form-subscribe permission. Returns
-//      302 on success, no body (no subscriber id available immediately).
-// 2. API v4 at api.kit.com/v4 with X-Kit-Api-Key header — used for the
-//    field-update call once we know the subscriber's id (via the webhook).
+// Kit (ConvertKit) wrapper. All server-to-server calls go through the v4 API
+// at api.kit.com/v4 with the X-Kit-Api-Key header. The public hosted-form
+// endpoint (app.kit.com/forms/{id}/subscriptions) is not used: it silently
+// no-ops POSTs that don't carry the ck.5.js anti-bot fingerprint, returning
+// 302 to look like success while creating nothing.
 
 const KIT_BASE = 'https://api.kit.com/v4';
-const KIT_FORM_SUBMIT_BASE = 'https://app.kit.com/forms';
 
 function apiKey(): string {
   const k = process.env.KIT_API_KEY;
@@ -25,28 +22,35 @@ function authHeaders(): Record<string, string> {
   };
 }
 
-// Subscribe via Kit's hosted-form endpoint. Returns nothing — Kit doesn't
-// expose the subscriber id here. The webhook handler picks them up by email
-// when subscriber.subscriber_activate fires, fills in kit_subscriber_id +
-// insider_url. The 10-minute delay on the welcome-sequence automation gives
-// the webhook room to reconcile before the email goes out.
+// Subscribe an email to a Kit form via the v4 API. Returns the new
+// subscriber's id and state ("inactive" if the form has double opt-in on and
+// the user still needs to confirm, "active" otherwise).
 export async function kitFormSubscribe(params: {
   email: string;
   formId: string;
-}): Promise<void> {
+}): Promise<{ subscriberId: string; state: string }> {
   const { email, formId } = params;
-  const url = `${KIT_FORM_SUBMIT_BASE}/${encodeURIComponent(formId)}/subscriptions`;
+  const url = `${KIT_BASE}/forms/${encodeURIComponent(formId)}/subscribers`;
   const res = await fetch(url, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({ email_address: email }).toString(),
-    redirect: 'manual', // 302 to /forms/success is the success signal; don't follow.
+    headers: authHeaders(),
+    body: JSON.stringify({ email_address: email }),
   });
-  // Manual-redirect mode returns the 302 directly. Anything else is an error.
-  if (res.status !== 302 && !res.ok) {
+  if (!res.ok) {
     const body = await res.text().catch(() => '');
     throw new Error(`kitFormSubscribe failed: ${res.status} ${body.slice(0, 500)}`);
   }
+  const data: unknown = await res.json().catch(() => ({}));
+  const sub =
+    (data as { subscriber?: { id?: unknown; state?: unknown } }).subscriber ??
+    (data as { id?: unknown; state?: unknown });
+  if (!sub || sub.id == null) {
+    throw new Error('kitFormSubscribe: response missing subscriber.id');
+  }
+  return {
+    subscriberId: String(sub.id),
+    state: typeof sub.state === 'string' ? sub.state : 'unknown',
+  };
 }
 
 export async function kitUpdateSubscriberFields(
