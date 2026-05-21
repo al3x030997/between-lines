@@ -9,7 +9,7 @@ import {
   waitlistEmailLimiter,
   waitlistIpLimiter,
 } from '@/lib/ratelimit';
-import { kitFormSubscribe, kitUpdateSubscriberFields } from '@/lib/kit';
+import { kitFormSubscribe } from '@/lib/kit';
 import { signMagicToken } from '@/lib/tokens';
 
 export const runtime = 'nodejs';
@@ -94,36 +94,33 @@ export async function POST(req: NextRequest) {
     })
     .returning();
 
-  // (f) Subscribe via Kit's v4 API. Returns the subscriber id synchronously.
+  // (f) Subscribe via Kit's v4 API. The insider_url field is written BEFORE
+  // the form attach so the welcome-sequence merge tag always sees it. This
+  // lets the automation's wait step run at zero.
   if (!KIT_FORM_ID) {
     console.error('[waitlist] KIT_FORM_ID is not set — DB row persisted, Kit subscribe skipped');
     return OK;
   }
 
+  const token = signMagicToken(row.publicId, row.magicLinkVersion);
   let kitResult: { subscriberId: string; state: string };
   try {
-    kitResult = await kitFormSubscribe({ email, formId: KIT_FORM_ID });
+    kitResult = await kitFormSubscribe({
+      email,
+      formId: KIT_FORM_ID,
+      fields: { insider_url: buildInsiderUrl(token) },
+    });
   } catch (err) {
     console.error('[waitlist] kitFormSubscribe failed; webhook will reconcile', err);
     return NextResponse.json({ ok: true, pending: true });
   }
 
-  // (g) Persist Kit subscriber id, then push the insider URL into Kit so the
-  // welcome-sequence merge tag has it ready. The webhook re-fills on activate
-  // if this call fails — non-fatal.
+  // (g) Persist Kit subscriber id so future field updates / unsubscribe
+  // webhooks can match by id rather than by email_lower.
   await db
     .update(waitlistSubscribers)
     .set({ kitSubscriberId: kitResult.subscriberId, updatedAt: now })
     .where(eq(waitlistSubscribers.id, row.id));
-
-  try {
-    const token = signMagicToken(row.publicId, row.magicLinkVersion);
-    await kitUpdateSubscriberFields(kitResult.subscriberId, {
-      insider_url: buildInsiderUrl(token),
-    });
-  } catch (err) {
-    console.error('[waitlist] kitUpdateSubscriberFields failed; webhook will retry', err);
-  }
 
   // (h) Identical 200 response shape for insert and update paths (no enumeration via timing).
   return OK;

@@ -23,16 +23,22 @@ function authHeaders(): Record<string, string> {
 }
 
 // Subscribe an email to a Kit form via the v4 API. Kit's v4 has no single-
-// call form-subscribe endpoint, so we do it in two steps: create the
-// subscriber, then attach to the form. The attach call is what fires the
-// "Subscribes to Form" automation in Kit. Returns the new subscriber's id
-// and state ("active" from /v4/subscribers; Kit's API ignores double opt-in
-// here — consent is captured on our own form instead).
+// call form-subscribe endpoint, so we do it in three steps:
+//   1. POST /v4/subscribers           -> create the subscriber, returns id
+//   2. PUT  /v4/subscribers/{id}      -> write custom fields (insider_url)
+//   3. POST /v4/forms/{form}/subscribers/{id} -> attach to form, fires the
+//      "Subscribes to Form" automation
+// Field write happens BEFORE form attach so the automation's merge tags
+// always see a populated insider_url when the welcome email renders. This
+// lets us drop the safety-net wait step in Kit's automation to zero.
+// State is always "active" — the v4 API bypasses double opt-in; GDPR
+// consent is captured on our own form.
 export async function kitFormSubscribe(params: {
   email: string;
   formId: string;
+  fields?: Record<string, string>;
 }): Promise<{ subscriberId: string; state: string }> {
-  const { email, formId } = params;
+  const { email, formId, fields } = params;
 
   const createRes = await fetch(`${KIT_BASE}/subscribers`, {
     method: 'POST',
@@ -54,6 +60,10 @@ export async function kitFormSubscribe(params: {
   }
   const subscriberId = String(sub.id);
   const state = typeof sub.state === 'string' ? sub.state : 'unknown';
+
+  if (fields && Object.keys(fields).length > 0) {
+    await kitUpdateSubscriberFields(subscriberId, fields);
+  }
 
   const attachUrl = `${KIT_BASE}/forms/${encodeURIComponent(formId)}/subscribers/${encodeURIComponent(subscriberId)}`;
   const attachRes = await fetch(attachUrl, {
