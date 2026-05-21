@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { track } from '@vercel/analytics';
+import type { IntakePayload } from '@/lib/schemas';
 
 const CSS = `
 .su-root {
@@ -212,9 +213,10 @@ type Props = {
   open: boolean;
   onClose: () => void;
   eyebrow?: string;
+  intake?: IntakePayload | null;
 };
 
-export function WaitlistOverlay({ open, onClose, eyebrow }: Props) {
+export function WaitlistOverlay({ open, onClose, eyebrow, intake }: Props) {
   const [email, setEmail] = useState('');
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState(''); // honeypot
@@ -255,7 +257,12 @@ export function WaitlistOverlay({ open, onClose, eyebrow }: Props) {
       const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email: email.trim(), consent: true, website }),
+        body: JSON.stringify({
+          email: email.trim(),
+          consent: true,
+          website,
+          ...(intake ? { intake } : {}),
+        }),
       });
       track('waitlist_submit', { ok: res.ok });
       if (!res.ok) {

@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import IntakeHero, { type IntakeSubmit } from './IntakeHero';
 import { WaitlistOverlay } from './WaitlistForm';
+import type { IntakePayload } from '@/lib/schemas';
 import EditorialSplit from './sections/EditorialSplit';
 import type { StartTarget } from './sections/EditorialSplit';
 import BookCarousel from './sections/BookCarousel';
@@ -1222,6 +1223,7 @@ export default function V6Page() {
   const [bgOn, setBgOn] = useState(false);
   const [highlightOn, setHighlightOn] = useState(true);
   const [waitlist, setWaitlist] = useState<{ open: boolean; eyebrow?: string }>({ open: false });
+  const [intake, setIntake] = useState<IntakePayload | null>(null);
 
   // Banner state is derived from ?u=… on the URL. We read it via window.location
   // in a useEffect (rather than useSearchParams) so the page stays statically
@@ -1251,6 +1253,25 @@ export default function V6Page() {
   };
 
   const handleIntakeSubmit = (payload: IntakeSubmit) => {
+    // File objects don't survive JSON.stringify — keep just filename + size
+    // so the backend can store metadata and we don't lie about having the
+    // bytes (manuscript upload is a separate future feature).
+    const sanitized: IntakePayload =
+      payload.region === 'writer'
+        ? {
+            region: 'writer',
+            answers: {
+              submission: payload.answers.submission,
+              feedback: payload.answers.feedback,
+              warningsMode: payload.answers.warningsMode,
+              warnings: payload.answers.warnings,
+              fileName: payload.answers.file?.name ?? null,
+              fileSize: payload.answers.file?.size ?? null,
+            },
+          }
+        : payload;
+
+    setIntake(sanitized);
     const eyebrow =
       payload.region === 'writer'
         ? 'Submission received'
@@ -1592,6 +1613,7 @@ export default function V6Page() {
       <WaitlistOverlay
         open={waitlist.open}
         eyebrow={waitlist.eyebrow}
+        intake={intake}
         onClose={closeWaitlist}
       />
     </main>

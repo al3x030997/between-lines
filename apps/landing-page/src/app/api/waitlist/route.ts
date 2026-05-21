@@ -9,7 +9,12 @@ import {
   waitlistEmailLimiter,
   waitlistIpLimiter,
 } from '@/lib/ratelimit';
-import { kitFormSubscribe } from '@/lib/kit';
+import {
+  intakeToKit,
+  kitAddTagsToSubscriber,
+  kitFormSubscribe,
+  kitUpdateSubscriberFields,
+} from '@/lib/kit';
 import { signMagicToken } from '@/lib/tokens';
 
 export const runtime = 'nodejs';
@@ -69,7 +74,10 @@ export async function POST(req: NextRequest) {
   }
 
   // (e) Upsert by email_lower. RETURNING gives us the canonical row (publicId, version).
+  // Intake answers, if present, are stored as JSONB; a later submission with new
+  // answers overwrites the prior payload.
   const now = new Date();
+  const intake = parsed.data.intake ?? null;
   const [row] = await db
     .insert(waitlistSubscribers)
     .values({
@@ -80,6 +88,7 @@ export async function POST(req: NextRequest) {
       consentUserAgent: userAgent.slice(0, 1000),
       consentAt: now,
       source: 'landing-v8',
+      intake,
     })
     .onConflictDoUpdate({
       target: waitlistSubscribers.emailLower,
@@ -90,6 +99,7 @@ export async function POST(req: NextRequest) {
         consentUserAgent: userAgent.slice(0, 1000),
         consentAt: now,
         updatedAt: now,
+        ...(intake ? { intake } : {}),
       },
     })
     .returning();
@@ -122,6 +132,27 @@ export async function POST(req: NextRequest) {
     .set({ kitSubscriberId: kitResult.subscriberId, updatedAt: now })
     .where(eq(waitlistSubscribers.id, row.id));
 
-  // (h) Identical 200 response shape for insert and update paths (no enumeration via timing).
+  // (h) Push intake-derived tags and fields to Kit for segmentation. Non-fatal
+  // — a failure here doesn't break the signup; the subscriber and welcome
+  // email are already in flight. We log so we can investigate later.
+  if (intake) {
+    const { tags, fields } = intakeToKit(intake);
+    if (Object.keys(fields).length > 0) {
+      try {
+        await kitUpdateSubscriberFields(kitResult.subscriberId, fields);
+      } catch (err) {
+        console.error('[waitlist] intake fields write failed', err);
+      }
+    }
+    if (tags.length > 0) {
+      try {
+        await kitAddTagsToSubscriber(kitResult.subscriberId, tags);
+      } catch (err) {
+        console.error('[waitlist] intake tags write failed', err);
+      }
+    }
+  }
+
+  // (i) Identical 200 response shape for insert and update paths (no enumeration via timing).
   return OK;
 }

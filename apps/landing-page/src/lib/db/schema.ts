@@ -2,6 +2,7 @@ import {
   boolean,
   index,
   integer,
+  jsonb,
   pgTable,
   serial,
   text,
@@ -9,6 +10,7 @@ import {
   uniqueIndex,
   uuid,
 } from 'drizzle-orm/pg-core';
+import type { IntakePayload } from '../schemas';
 
 export const waitlistSubscribers = pgTable(
   'waitlist_subscribers',
@@ -31,6 +33,7 @@ export const waitlistSubscribers = pgTable(
     magicLinkVersion: integer('magic_link_version').notNull().default(1),
     unlockCount: integer('unlock_count').notNull().default(0),
     lastUnlockAt: timestamp('last_unlock_at', { withTimezone: true }),
+    intake: jsonb('intake').$type<IntakePayload | null>(),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },

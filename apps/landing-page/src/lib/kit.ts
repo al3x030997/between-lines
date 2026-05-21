@@ -1,4 +1,5 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
+import type { IntakePayload } from './schemas';
 
 // Kit (ConvertKit) wrapper. All server-to-server calls go through the v4 API
 // at api.kit.com/v4 with the X-Kit-Api-Key header. The public hosted-form
@@ -96,6 +97,127 @@ export async function kitUpdateSubscriberFields(
       `kitUpdateSubscriberFields failed: ${res.status} ${body.slice(0, 500)}`,
     );
   }
+}
+
+// --- Tag management ------------------------------------------------------
+//
+// Kit's API requires tag IDs, not names. We list the account's tags once per
+// process lifetime, cache the name->id mapping, and create missing tags on
+// demand. The cache lives for the lifetime of the serverless instance.
+
+let _tagCache: Map<string, string> | null = null;
+
+async function loadTagCache(): Promise<Map<string, string>> {
+  if (_tagCache) return _tagCache;
+  const res = await fetch(`${KIT_BASE}/tags?per_page=500`, {
+    headers: authHeaders(),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`kit list tags failed: ${res.status} ${body.slice(0, 500)}`);
+  }
+  const data: unknown = await res.json().catch(() => ({}));
+  const tags = ((data as { tags?: Array<{ id: unknown; name: unknown }> }).tags ?? [])
+    .filter((t) => t && typeof t.name === 'string' && t.id != null);
+  _tagCache = new Map(tags.map((t) => [String(t.name), String(t.id)]));
+  return _tagCache;
+}
+
+async function resolveTagId(name: string): Promise<string> {
+  const cache = await loadTagCache();
+  const existing = cache.get(name);
+  if (existing) return existing;
+
+  const res = await fetch(`${KIT_BASE}/tags`, {
+    method: 'POST',
+    headers: authHeaders(),
+    body: JSON.stringify({ name }),
+  });
+  if (!res.ok) {
+    const body = await res.text().catch(() => '');
+    throw new Error(`kit create tag failed: ${res.status} ${body.slice(0, 500)}`);
+  }
+  const data: unknown = await res.json().catch(() => ({}));
+  const tag = (data as { tag?: { id?: unknown } }).tag ?? (data as { id?: unknown });
+  if (!tag || tag.id == null) {
+    throw new Error('kit create tag: response missing tag.id');
+  }
+  const id = String(tag.id);
+  cache.set(name, id);
+  return id;
+}
+
+export async function kitAddTagsToSubscriber(
+  subscriberId: string,
+  tagNames: string[],
+): Promise<void> {
+  for (const name of tagNames) {
+    const tagId = await resolveTagId(name);
+    const res = await fetch(
+      `${KIT_BASE}/tags/${encodeURIComponent(tagId)}/subscribers/${encodeURIComponent(subscriberId)}`,
+      { method: 'POST', headers: authHeaders() },
+    );
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(
+        `kit add tag "${name}" failed: ${res.status} ${body.slice(0, 500)}`,
+      );
+    }
+  }
+}
+
+// --- Intake → Kit translation -------------------------------------------
+//
+// Tags drive Kit's segment tool. Custom fields are for personalising email
+// content. Keep the tag list focused (high-signal: region, intent, club,
+// audience, genres, submission type) and put everything else into fields.
+
+function slug(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+export function intakeToKit(intake: IntakePayload): {
+  tags: string[];
+  fields: Record<string, string>;
+} {
+  const tags: string[] = [];
+  const fields: Record<string, string> = {};
+
+  if (intake.region === 'reader') {
+    const a = intake.answers;
+    tags.push('audience-reader', `intent-${intake.intent}`);
+    if (a.club) tags.push('reader-club');
+    if (a.audience) tags.push(`read-audience-${slug(a.audience)}`);
+    for (const g of a.genres) tags.push(`genre-${slug(g)}`);
+
+    fields.region = 'reader';
+    fields.intent = intake.intent;
+    fields.reader_audience = a.audience ?? '';
+    fields.reader_genres = a.genres.join(', ');
+    fields.reader_lengths = a.lengths.join(', ');
+    fields.reader_devices = a.devices.join(', ');
+    fields.reader_modes = a.modes.join(', ');
+    fields.reader_whens = a.whens.join(', ');
+    fields.reader_reaction = a.reaction ?? '';
+    fields.reader_club = a.club ? 'yes' : 'no';
+  } else {
+    const a = intake.answers;
+    tags.push('audience-writer');
+    if (a.submission) tags.push(`submission-${slug(a.submission)}`);
+
+    fields.region = 'writer';
+    fields.writer_submission = a.submission ?? '';
+    fields.writer_feedback = a.feedback.join(', ');
+    fields.writer_warnings =
+      a.warningsMode === 'none' ? 'none' : a.warnings.join(', ');
+    fields.writer_filename = a.fileName ?? '';
+  }
+
+  return { tags, fields };
 }
 
 export function kitVerifyWebhook(

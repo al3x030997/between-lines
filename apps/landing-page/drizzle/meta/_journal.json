@@ -8,6 +8,13 @@
       "when": 1779259194935,
       "tag": "0000_steady_norrin_radd",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1779389390951,
+      "tag": "0001_special_justice",
+      "breakpoints": true
     }
   ]
 }
