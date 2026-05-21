@@ -193,6 +193,8 @@ export function intakeToKit(intake: IntakePayload): {
     if (a.club) tags.push('reader-club');
     if (a.audience) tags.push(`read-audience-${slug(a.audience)}`);
     for (const g of a.genres) tags.push(`genre-${slug(g)}`);
+    for (const l of a.lengths) tags.push(`reader-length-${slug(l)}`);
+    if (a.reaction) tags.push(`reaction-${slug(a.reaction)}`);
 
     fields.region = 'reader';
     fields.intent = intake.intent;
@@ -208,13 +210,19 @@ export function intakeToKit(intake: IntakePayload): {
     const a = intake.answers;
     tags.push('audience-writer');
     if (a.submission) tags.push(`submission-${slug(a.submission)}`);
+    for (const f of a.feedback) tags.push(`writer-feedback-${slug(f)}`);
+    if (a.warningsMode === 'list') {
+      for (const w of a.warnings) tags.push(`writer-warning-${slug(w)}`);
+    }
 
     fields.region = 'writer';
     fields.writer_submission = a.submission ?? '';
     fields.writer_feedback = a.feedback.join(', ');
+    fields.writer_warnings_mode = a.warningsMode ?? '';
     fields.writer_warnings =
       a.warningsMode === 'none' ? 'none' : a.warnings.join(', ');
     fields.writer_filename = a.fileName ?? '';
+    fields.writer_filesize = a.fileSize != null ? String(a.fileSize) : '';
   }
 
   return { tags, fields };
