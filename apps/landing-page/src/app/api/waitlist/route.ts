@@ -78,6 +78,10 @@ export async function POST(req: NextRequest) {
   // answers overwrites the prior payload.
   const now = new Date();
   const intake = parsed.data.intake ?? null;
+  console.log('[waitlist] intake', {
+    present: !!intake,
+    region: intake?.region ?? null,
+  });
   const [row] = await db
     .insert(waitlistSubscribers)
     .values({
