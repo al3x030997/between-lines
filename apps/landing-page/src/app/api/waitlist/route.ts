@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { db } from '@/lib/db/client';
 import { waitlistSubscribers } from '@/lib/db/schema';
 import { buildInsiderUrl, isAllowedOrigin } from '@/lib/site';
@@ -15,13 +15,13 @@ import {
   kitFormSubscribe,
   kitUpdateSubscriberFields,
 } from '@/lib/kit';
-import { signMagicToken } from '@/lib/tokens';
+import { signCookieJwt, signMagicToken } from '@/lib/tokens';
+import { setInsiderCookie } from '@/lib/cookies';
+import { trackServer } from '@/lib/analytics';
 
 export const runtime = 'nodejs';
 
 const KIT_FORM_ID = process.env.KIT_FORM_ID;
-
-const OK = NextResponse.json({ ok: true });
 
 function retryAfter(reset: number): Record<string, string> {
   const seconds = Math.max(1, Math.ceil((reset - Date.now()) / 1000));
@@ -113,7 +113,7 @@ export async function POST(req: NextRequest) {
   // lets the automation's wait step run at zero.
   if (!KIT_FORM_ID) {
     console.error('[waitlist] KIT_FORM_ID is not set — DB row persisted, Kit subscribe skipped');
-    return OK;
+    return NextResponse.json({ ok: true, insider: false });
   }
 
   const token = signMagicToken(row.publicId, row.magicLinkVersion);
@@ -126,14 +126,20 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error('[waitlist] kitFormSubscribe failed; webhook will reconcile', err);
-    return NextResponse.json({ ok: true, pending: true });
+    return NextResponse.json({ ok: true, insider: false, pending: true });
   }
 
-  // (g) Persist Kit subscriber id so future field updates / unsubscribe
-  // webhooks can match by id rather than by email_lower.
+  // (g) Persist Kit subscriber id + bump unlock counters so the existing
+  // /api/insider/unlock magic-link path stays consistent (signup is just an
+  // immediate auto-unlock). Match the same updates the unlock route makes.
   await db
     .update(waitlistSubscribers)
-    .set({ kitSubscriberId: kitResult.subscriberId, updatedAt: now })
+    .set({
+      kitSubscriberId: kitResult.subscriberId,
+      unlockCount: sql`${waitlistSubscribers.unlockCount} + 1`,
+      lastUnlockAt: now,
+      updatedAt: now,
+    })
     .where(eq(waitlistSubscribers.id, row.id));
 
   // (h) Push intake-derived tags and fields to Kit for segmentation. Non-fatal
@@ -157,6 +163,22 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // (i) Identical 200 response shape for insert and update paths (no enumeration via timing).
-  return OK;
+  // (i) Sign the insider cookie and attach it to the response so the browser
+  // can go straight to /insider after submit. The magic link in the welcome
+  // email keeps working for revisits from other devices.
+  const jwt = await signCookieJwt({
+    sid: kitResult.subscriberId,
+    pid: row.publicId,
+  });
+  const res = NextResponse.json({ ok: true, insider: true });
+  setInsiderCookie(res, jwt);
+
+  // (j) Fire the same analytics event the magic-link unlock does, with a
+  // source tag so we can distinguish.
+  await trackServer('insider_unlock', {
+    kit_id: kitResult.subscriberId,
+    source: 'signup',
+  });
+
+  return res;
 }

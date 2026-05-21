@@ -274,6 +274,14 @@ export function WaitlistOverlay({ open, onClose, eyebrow, intake }: Props) {
         setStatus('error');
         return;
       }
+      // Happy path: the server set the insider cookie on the response. Go
+      // straight to /insider. The "check your email" fallback below only
+      // fires when Kit subscribe failed and the webhook has to reconcile.
+      const data = (await res.json().catch(() => ({}))) as { insider?: boolean };
+      if (data.insider) {
+        window.location.assign('/insider');
+        return;
+      }
       setStatus('success');
     } catch {
       track('waitlist_submit', { ok: false });

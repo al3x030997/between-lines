@@ -36,11 +36,14 @@ export default function InsiderHome() {
     <article className="bl-insider-card">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <p className="bl-insider-eyebrow">Insider</p>
-      <h1 className="bl-insider-title">You’re in. More soon.</h1>
+      <h1 className="bl-insider-title">You’re in. Welcome.</h1>
       <p className="bl-insider-pitch">
-        This is your private corner of Between Lines. We’ll publish the first chapters,
+        This is your private corner of Between Lines. We’ll publish first chapters,
         early features, and behind-the-scenes notes here before they go anywhere else.
-        Bookmark this page — your insider link works on any device.
+        <br />
+        <br />
+        Bookmark this page — and check your inbox for the personal link we just
+        sent, so you can come back from any device.
       </p>
     </article>
   );
