@@ -43,10 +43,9 @@ const CSS = `
 }
 .bl-insider-main {
   flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(40px, 8vh, 96px) clamp(20px, 5vw, 48px);
+  display: block;
+  width: 100%;
+  padding: 0;
 }
 `;
 
