@@ -122,6 +122,44 @@ const V6_CSS = `
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
+.v8-submission-banner {
+  position: relative;
+  z-index: 6;
+  background: var(--v6-accent);
+  color: #ffffff;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 16px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.v8-submission-banner-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.85;
+  flex-shrink: 0;
+}
+.v8-submission-banner-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.v8-submission-banner-link:hover { opacity: 0.85; }
+@media (max-width: 640px) {
+  .v8-submission-banner { font-size: 11px; letter-spacing: 0.14em; padding: 8px 12px; gap: 10px; }
+  .v8-submission-banner-dot { display: none; }
+}
 .v8-nav {
   position: sticky;
   top: 0;
@@ -304,9 +342,12 @@ const V6_CSS = `
 
 .v8-hero {
   position: relative;
-  height: calc(100vh - 76px);
+  height: calc(100vh - 76px - 40px);
   overflow: hidden;
   background: var(--v6-surface);
+}
+@media (max-width: 640px) {
+  .v8-hero { height: calc(100vh - 76px - 36px); }
 }
 .v8-stage {
   position: absolute;
@@ -808,12 +849,12 @@ const V6_CSS = `
   left: 50%;
   right: auto;
   transform: translateX(-50%);
-  width: min(960px, calc(100% - clamp(48px, 10vw, 160px)));
+  width: min(1180px, calc(100% - clamp(48px, 10vw, 160px)));
   max-width: none;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 0;
   pointer-events: none;
 }
@@ -839,7 +880,7 @@ const V6_CSS = `
 }
 .v8-root.is-layout-doors .v8-hero-title {
   order: 0;
-  margin: clamp(28px, 4vh, 44px) auto clamp(20px, 2.4vh, 28px);
+  margin: clamp(28px, 4vh, 44px) 0 clamp(20px, 2.4vh, 28px);
   font-family: 'Fraunces', 'Cormorant Garamond', serif;
   font-style: normal;
   font-weight: 500;
@@ -851,7 +892,7 @@ const V6_CSS = `
   white-space: normal;
   text-wrap: balance;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
-  max-width: 18ch;
+  max-width: 22ch;
 }
 .v8-root.is-layout-doors .v8-hero-title em {
   font-style: italic;
@@ -1339,6 +1380,17 @@ export default function V6Page() {
         </div>
       )}
 
+      <div className="v8-submission-banner" role="status">
+        <span className="v8-submission-banner-dot" aria-hidden="true" />
+        <span>
+          Open for submissions &mdash; BetweenLines №01.{' '}
+          <Link href="/?intake=writer" className="v8-submission-banner-link">
+            Submit your work
+          </Link>
+        </span>
+        <span className="v8-submission-banner-dot" aria-hidden="true" />
+      </div>
+
       <nav className="v8-nav">
         <a className="v8-brand" href="#" aria-label="Between Lines, home">
           <span>between</span>
@@ -1381,7 +1433,7 @@ export default function V6Page() {
               <>
                 <span className="v8-masthead-rule" aria-hidden="true" />
                 <h1 className="v8-hero-title">
-                  Discover Debut Authors<br />and New Voices — <em>Fiction&nbsp;Only.</em>
+                  Discover Debut Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
                 </h1>
                 <p className="v8-hero-meta">
                   <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
