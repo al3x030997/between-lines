@@ -142,9 +142,18 @@ export async function POST(req: NextRequest) {
     })
     .where(eq(waitlistSubscribers.id, row.id));
 
-  // (h) Push intake-derived tags and fields to Kit for segmentation. Non-fatal
-  // — a failure here doesn't break the signup; the subscriber and welcome
-  // email are already in flight. We log so we can investigate later.
+  // (h) Tag the subscriber. Always add the `waitlist-signup` marker — Kit's
+  // "Joins a form" trigger does not fire reliably when subscribers are
+  // attached via the v4 API, so the welcome automation triggers on this
+  // tag instead. This also covers the direct-signup path (no intake).
+  // Intake-derived tags + fields are added on top for segmentation when
+  // intake is present. All tag/field writes are non-fatal — the
+  // subscriber and welcome email are already in flight.
+  try {
+    await kitAddTagsToSubscriber(kitResult.subscriberId, ['waitlist-signup']);
+  } catch (err) {
+    console.error('[waitlist] signup tag write failed', err);
+  }
   if (intake) {
     const { tags, fields } = intakeToKit(intake);
     if (Object.keys(fields).length > 0) {

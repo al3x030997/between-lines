@@ -27,11 +27,12 @@ function authHeaders(): Record<string, string> {
 // call form-subscribe endpoint, so we do it in three steps:
 //   1. POST /v4/subscribers           -> create the subscriber, returns id
 //   2. PUT  /v4/subscribers/{id}      -> write custom fields (insider_url)
-//   3. POST /v4/forms/{form}/subscribers/{id} -> attach to form, fires the
-//      "Subscribes to Form" automation
-// Field write happens BEFORE form attach so the automation's merge tags
-// always see a populated insider_url when the welcome email renders. This
-// lets us drop the safety-net wait step in Kit's automation to zero.
+//   3. POST /v4/forms/{form}/subscribers/{id} -> attach to form
+// Field write happens BEFORE form attach so the welcome email's merge tags
+// always see a populated insider_url. Kit's "Joins a form" trigger does
+// NOT fire reliably for v4 API attaches (it fires for hosted-form and
+// manual adds only), so the welcome automation is wired to trigger on the
+// `waitlist-signup` tag instead — see api/waitlist/route.ts step (h).
 // State is always "active" — the v4 API bypasses double opt-in; GDPR
 // consent is captured on our own form.
 export async function kitFormSubscribe(params: {
