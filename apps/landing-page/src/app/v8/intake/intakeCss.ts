@@ -54,13 +54,13 @@ export const INTAKE_CSS = `
   appearance: none;
   background: transparent;
   border: 0;
-  font: inherit;
-  text-align: left;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-align: center;
   cursor: pointer;
-  padding: 18px clamp(8px, 1.5vw, 16px) 22px;
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
+  padding: 16px 12px 18px;
   color: var(--v6-text-muted);
   opacity: 0.62;
   transition: opacity 200ms var(--v6-ease), color 200ms var(--v6-ease);
@@ -73,38 +73,6 @@ export const INTAKE_CSS = `
 .v8-intake-toggle-btn.is-active {
   opacity: 1;
   color: var(--v6-text-strong);
-}
-.v8-intake-toggle-mark {
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(22px, 2.4vw, 30px);
-  color: var(--v6-accent);
-  font-variation-settings: 'SOFT' 50;
-  line-height: 1;
-}
-.v8-intake-toggle-text {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.v8-intake-toggle-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: inherit;
-}
-.v8-intake-toggle-title {
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(18px, 2vw, 22px);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  font-variation-settings: 'SOFT' 50;
-  color: inherit;
 }
 .v8-intake-toggle-bar {
   position: absolute;
@@ -210,7 +178,7 @@ export const INTAKE_CSS = `
   padding: 11px 18px;
   border-radius: 999px;
   border: 1px solid var(--v6-divider);
-  background: transparent;
+  background: rgba(14, 14, 12, 0.05);
   color: var(--v6-text-strong);
   cursor: pointer;
   transition: background 180ms var(--v6-ease), border-color 180ms var(--v6-ease), color 180ms var(--v6-ease), transform 180ms var(--v6-ease), opacity 180ms var(--v6-ease);

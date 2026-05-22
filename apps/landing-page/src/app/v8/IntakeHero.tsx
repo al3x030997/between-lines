@@ -50,11 +50,7 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
             className={`v8-intake-toggle-btn${mode === 'reader' ? ' is-active' : ''}`}
             onClick={() => setMode('reader')}
           >
-            <span className="v8-intake-toggle-mark" aria-hidden="true">I.</span>
-            <span className="v8-intake-toggle-text">
-              <span className="v8-intake-toggle-eyebrow">For readers</span>
-              <span className="v8-intake-toggle-title">Read what hasn’t been published</span>
-            </span>
+            reader
           </button>
           <button
             type="button"
@@ -63,11 +59,7 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
             className={`v8-intake-toggle-btn${mode === 'writer' ? ' is-active' : ''}`}
             onClick={() => setMode('writer')}
           >
-            <span className="v8-intake-toggle-mark" aria-hidden="true">II.</span>
-            <span className="v8-intake-toggle-text">
-              <span className="v8-intake-toggle-eyebrow">For writers</span>
-              <span className="v8-intake-toggle-title">Be read before you’re published</span>
-            </span>
+            writer
           </button>
           <span className="v8-intake-toggle-bar" aria-hidden="true" />
         </div>
