@@ -132,10 +132,15 @@ export async function POST(req: NextRequest) {
   // (g) Persist Kit subscriber id + bump unlock counters so the existing
   // /api/insider/unlock magic-link path stays consistent (signup is just an
   // immediate auto-unlock). Match the same updates the unlock route makes.
+  // Also flip status -> 'active' and stamp confirmedAt: Kit v4 bypasses
+  // double opt-in (subscribers are created active immediately), so we no
+  // longer wait on the subscriber_activate webhook to mark the row active.
   await db
     .update(waitlistSubscribers)
     .set({
       kitSubscriberId: kitResult.subscriberId,
+      status: 'active',
+      confirmedAt: sql`COALESCE(${waitlistSubscribers.confirmedAt}, ${now})`,
       unlockCount: sql`${waitlistSubscribers.unlockCount} + 1`,
       lastUnlockAt: now,
       updatedAt: now,
