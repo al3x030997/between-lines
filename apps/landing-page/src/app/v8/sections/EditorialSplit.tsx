@@ -14,30 +14,34 @@ type Feature = { title: string; body: string };
 const FEATURES: Record<Side, Feature[]> = {
   author: [
     {
-      title: "Get secure Beta-Reads",
-      body: "Share chapters or full manuscripts with opt-in readers under privacy controls. Get structured feedback before you submit anywhere.",
+      title: "SecureBetaReads — protected, structured feedback",
+      body: "Match with real beta readers under confidentiality. Get reactions, quick comments, or deep thoughts on every chapter. Watermarks, no copy-paste, no AI training — ever. You control who reads, and you can revoke access anytime.",
     },
     {
-      title: "Get Published",
-      body: "Take your manuscript from polished draft to deal. Track submissions, manage query letters, and connect with editors who are actively acquiring.",
+      title: "Publish your content and build your audience",
+      body: "Share anything from microfiction to full novels, plus poetry — chapter by chapter or complete. Engage readers through Reader Pods and Writer Pods. Sell on our storefront (you keep 80%) or link to your Amazon and other storefronts from your free Author Page. We help you get discovered — editorial curation only, no paid placement.",
     },
     {
-      title: "Build your literary agent list",
-      body: "Discover agents who represent your genre, track their wishlists, and build a shortlist backed by real submission data — not guesswork.",
+      title: "Make real income from your work",
+      body: "Submit to the monthly BetweenLines Journal for $2. If selected, you share in that month's new subscription revenue after platform costs — alongside the other featured writers. Pure editorial selection: quality and fit, never paid placement or popularity metrics.",
+    },
+    {
+      title: "AgentReady — research and submit in one place",
+      body: "Build your agent list beyond QueryTracker. Generate tailored query letters, synopses, and pitches. Track every submission and every open window. Free to start; Pro is paid or unlocked with SwapCredits.",
     },
   ],
   reader: [
     {
-      title: "Support debut authors with authentic feedback",
-      body: "Your notes reach writers at the moment they matter most — while the story is still forming. Shape a book before anyone else reads it.",
+      title: "Read emerging authors before anyone else",
+      body: "Beta read unpublished manuscripts and shape books while they're still forming. If a writer you read gets agented or published, you're credited as an Early Discoverer on their author page — permanently. It can't be bought, only earned.",
     },
     {
-      title: "Human-curated drops on a monthly base",
-      body: "Every drop is handpicked by editors, not ranked by an algorithm. Expect one great recommendation, not an endless scroll.",
+      title: "Human-curated, no ads, no algorithm",
+      body: "Monthly BetweenLines Journal drops curated by editors. Reader Picks chosen by people who read. QuietReading mode holds every notification while you're in a story. No ads, ever — for any age.",
     },
     {
-      title: "Engage the authors and readers",
-      body: "Follow authors across their drafts, trade notes with fellow readers, and be part of a community that takes fiction seriously.",
+      title: "Earn your way in — no subscription required",
+      body: "Read 3 pieces free every month. Earn ReadCredits with every reaction, comment, or beta read. Spend them on more chapters, journal months, or Reader Pod invitations. Credits never expire.",
     },
   ],
 };
