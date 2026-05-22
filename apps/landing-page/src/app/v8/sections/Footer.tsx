@@ -123,6 +123,7 @@ export default function Footer() {
               <li><a href="#">For writers</a></li>
               <li><a href="#">For readers</a></li>
               <li><a href="#">How it works</a></li>
+              <li><a href="/faq">FAQ</a></li>
             </ul>
           </div>
           <div className="bl-footer-col">

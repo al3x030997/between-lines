@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import IntakeHero, { type IntakeSubmit } from './IntakeHero';
 import { WaitlistOverlay } from './WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import EditorialSplit from './sections/EditorialSplit';
 import type { StartTarget } from './sections/EditorialSplit';
 import BookCarousel from './sections/BookCarousel';
+import FaqTeaser from './sections/FaqTeaser';
 import Footer from './sections/Footer';
 
 const BANNER_MESSAGES: Record<string, string> = {
@@ -42,11 +44,11 @@ const V6_CSS = `
   --bl-section-accent: #e94b36;
   --bl-section-divider: rgba(242,239,232,0.16);
   --bl-card-shadow: rgba(0,0,0,0.5);
-  --bl-footer-bg: #ffffff;
-  --bl-footer-fg: #0e0e0c;
-  --bl-footer-muted: #6b6b66;
-  --bl-footer-divider: rgba(14,14,12,0.1);
-  --bl-footer-accent: #e94b36;
+  --bl-footer-bg: #FFC700;
+  --bl-footer-fg: #0a0a0a;
+  --bl-footer-muted: rgba(10,10,10,0.62);
+  --bl-footer-divider: rgba(11,23,51,0.22);
+  --bl-footer-accent: #C5283D;
   min-height: 100vh;
   background: var(--v6-surface);
   font-family: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
@@ -1356,6 +1358,8 @@ export default function V6Page() {
         <div className="v8-nav-meta">
           <span className="v8-nav-issue">Issue №01</span>
           <span className="v8-nav-sep" aria-hidden="true" />
+          <Link className="v8-nav-link" href="/faq">FAQ</Link>
+          <span className="v8-nav-sep" aria-hidden="true" />
           <button
             type="button"
             className="v8-nav-link v8-nav-signin"
@@ -1608,6 +1612,7 @@ export default function V6Page() {
       </aside>
 
       <EditorialSplit onStart={openFromSection} />
+      <FaqTeaser />
       <Footer />
 
       <WaitlistOverlay
