@@ -36,6 +36,12 @@ const CSS = `
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
+.bl-books-title em {
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+}
 .bl-books-sub {
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
@@ -44,7 +50,14 @@ const CSS = `
   margin: 0;
   line-height: 1.55;
   text-wrap: pretty;
-  max-width: 60ch;
+  max-width: 56ch;
+}
+.bl-books-sub + .bl-books-sub {
+  margin-top: 12px;
+}
+.bl-books-sub strong {
+  font-weight: 600;
+  color: #e94b36;
 }
 .bl-books-track {
   display: flex;
@@ -202,7 +215,7 @@ const BOOKS: Book[] = [
     italicWords: [1],
     author: 'Marcus Osei',
     authorMono: 'M. OSEI',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Thriller',
     sampleMinutes: 9,
     coverBg: '#C5283D',
@@ -214,7 +227,7 @@ const BOOKS: Book[] = [
     italicWords: [2],
     author: 'Priya Nair',
     authorMono: 'P. NAIR',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Romance',
     sampleMinutes: 8,
     coverBg: '#F3EFE6',
@@ -226,7 +239,7 @@ const BOOKS: Book[] = [
     italicWords: [1],
     author: 'J.T. Calloway',
     authorMono: 'J.T. CALLOWAY',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Speculative',
     sampleMinutes: 12,
     coverBg: '#1F3A8A',
@@ -238,7 +251,7 @@ const BOOKS: Book[] = [
     italicWords: [1],
     author: 'Dae-Jung Park',
     authorMono: 'D.-J. PARK',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Historical',
     sampleMinutes: 11,
     coverBg: '#B98740',
@@ -250,7 +263,7 @@ const BOOKS: Book[] = [
     italicWords: [1],
     author: 'Claudette Renaud',
     authorMono: 'C. RENAUD',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Literary Sci-Fi',
     sampleMinutes: 10,
     coverBg: '#2C5530',
@@ -262,7 +275,7 @@ const BOOKS: Book[] = [
     italicWords: [1],
     author: 'Nadia Volkov',
     authorMono: 'N. VOLKOV',
-    publisher: 'MANUSCRIPT',
+    publisher: 'ISSUE №01',
     genre: 'Spy Fiction',
     sampleMinutes: 9,
     coverBg: '#1A1A1A',
@@ -312,9 +325,21 @@ export default function BookCarousel() {
     <section className="bl-books">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="bl-books-head">
-        <p className="bl-books-eyebrow">Open call</p>
-        <h2 className="bl-books-title">Accepting submissions for our first journal.</h2>
-        <p className="bl-books-sub">BetweenLines №01 is open for submissions. Below — early peeks from writers in the pipeline. Want to be next?</p>
+        <p className="bl-books-eyebrow">Issue №01 · submissions open</p>
+        <h2 className="bl-books-title">
+          Read the first issue —
+          <br />
+          <em>or write your way in.</em>
+        </h2>
+        <p className="bl-books-sub">
+          A curated issue of debut fiction and poetry, hand-picked by editors. Below: writers
+          shortlisted for Issue №01.
+        </p>
+        <p className="bl-books-sub">
+          Open to any writer on the platform — <strong>free to submit while we launch</strong>.
+          Selected writers share a portion of that issue&rsquo;s new-subscription revenue. Readers
+          can recommend a writer for free.
+        </p>
       </div>
       <div className="bl-books-track" ref={trackRef}>
         {BOOKS.map((book) => (
