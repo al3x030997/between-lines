@@ -25,7 +25,7 @@ docs/                     # cross-cutting (MASTER.md, IMPLEMENTATION_PLAN.md, AD
 ## Conventions
 
 - **Naming**: kebab-case for directories and JS package names. Python packages stay snake_case.
-- **One shared backend**: agent-match's FastAPI serves both apps. agent-list endpoints go under `apps/agent-match/backend/autoquery/api/routes/list/`. Don't spin up a second backend without a strong reason.
+- **Backends are flexible**: agent-match's FastAPI is the primary backend and serves both agent-match and agent-list (agent-list endpoints go under `apps/agent-match/backend/autoquery/api/routes/list/`). Apps with a different shape — e.g., a marketing site with its own waitlist data — can have their own backend when it makes sense. Use judgment: consolidate when domains overlap, separate when they don't.
 - **Canon is shared**: never duplicate the YAMLs. Import from `betweenlines_canon` (Python) or `@between-lines/canon` (TS).
 - **No secrets in git**: per-app `.env` files (gitignored), root `.env.example` documents shared vars.
 
