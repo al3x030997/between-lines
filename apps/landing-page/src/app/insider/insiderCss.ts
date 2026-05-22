@@ -193,14 +193,14 @@ export const INSIDER_CSS = `
 /* === Card primitive === */
 .bl-card {
   position: relative;
-  border: 1px solid var(--bl-divider);
+  border: 1px solid var(--bl-divider-strong);
   border-radius: 18px;
   padding: 24px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
   transition: border-color 220ms var(--bl-ease), transform 220ms var(--bl-ease), background 220ms var(--bl-ease);
 }
 .bl-card:hover {
-  border-color: var(--bl-divider-strong);
+  border-color: rgba(242, 239, 232, 0.32);
   transform: translateY(-2px);
 }
 
@@ -212,6 +212,7 @@ export const INSIDER_CSS = `
   padding: 22px 24px;
   border: 1px dashed var(--bl-divider-strong);
   border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
 }
 .bl-confirm-label {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -366,9 +367,9 @@ export const INSIDER_CSS = `
 }
 .bl-stat-tile {
   padding: 22px 22px 20px;
-  border: 1px solid var(--bl-divider);
+  border: 1px solid var(--bl-divider-strong);
   border-radius: 16px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0));
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.035));
 }
 .bl-stat-num {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -467,7 +468,7 @@ export const INSIDER_CSS = `
   border-radius: 20px;
   background:
     radial-gradient(120% 70% at 0% 0%, rgba(233, 75, 54, 0.10), transparent 55%),
-    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0));
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
 }
 .bl-submission-head {
   display: flex;
@@ -551,7 +552,7 @@ export const INSIDER_CSS = `
   border: 1px solid rgba(233, 75, 54, 0.36);
   background:
     radial-gradient(80% 70% at 100% 0%, rgba(233, 75, 54, 0.16), transparent 65%),
-    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0));
+    linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
   position: relative;
   overflow: hidden;
 }
