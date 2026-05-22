@@ -843,13 +843,13 @@ const V6_CSS = `
 
 .v8-root.is-layout-doors .v8-headline-guard { display: none; }
 
-/* Doors layout: editorial broadside masthead — twin rules + caps eyebrow + serif headline + meta strip */
+/* Doors layout: editorial broadside masthead — caps eyebrow + serif headline + meta strip */
 .v8-root.is-layout-doors .v8-hero-head {
   top: clamp(40px, 5vh, 72px);
-  left: 50%;
+  left: clamp(28px, 5.5vw, 120px);
   right: auto;
-  transform: translateX(-50%);
-  width: min(1180px, calc(100% - clamp(48px, 10vw, 160px)));
+  transform: none;
+  width: min(1080px, calc(100% - clamp(56px, 11vw, 240px)));
   max-width: none;
   text-align: left;
   display: flex;
@@ -859,11 +859,7 @@ const V6_CSS = `
   pointer-events: none;
 }
 .v8-root.is-layout-doors .v8-masthead-rule {
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: var(--v6-text-strong);
-  opacity: 0.62;
+  display: none;
 }
 .v8-root.is-layout-doors .v8-hero-sub {
   order: 0;
@@ -920,6 +916,18 @@ const V6_CSS = `
   color: var(--v6-accent);
   opacity: 0.85;
   transform: translateY(-0.05em);
+}
+.v8-root.is-layout-doors .v8-hero-lede {
+  margin: clamp(24px, 3.5vh, 36px) 0 0;
+  max-width: 44ch;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  font-size: clamp(15px, 1.3vw, 19px);
+  line-height: 1.55;
+  letter-spacing: 0.005em;
+  color: var(--v6-text-strong);
+  opacity: 0.78;
+  text-wrap: pretty;
 }
 
 /* Doors stay equally weighted — no dimming, no persistent underline */
@@ -1431,7 +1439,6 @@ export default function V6Page() {
           <div className="v8-hero-head">
             {layout === 'doors' ? (
               <>
-                <span className="v8-masthead-rule" aria-hidden="true" />
                 <h1 className="v8-hero-title">
                   Discover Debut Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
                 </h1>
@@ -1441,6 +1448,9 @@ export default function V6Page() {
                   <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
                   Spring 2026
                   <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
+                </p>
+                <p className="v8-hero-lede">
+                  A monthly journal of new fiction &mdash; read writers worth reading, before the world catches on.
                 </p>
               </>
             ) : (
