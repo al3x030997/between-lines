@@ -192,6 +192,8 @@ export function intakeToKit(intake: IntakePayload): {
     const a = intake.answers;
     tags.push('audience-reader', `intent-${intake.intent}`);
     if (a.club) tags.push('reader-club');
+    if (a.betaPool) tags.push('reader-beta-pool');
+    if (a.newsletter) tags.push('reader-newsletter');
     if (a.audience) tags.push(`read-audience-${slug(a.audience)}`);
     for (const g of a.genres) tags.push(`genre-${slug(g)}`);
     for (const l of a.lengths) tags.push(`reader-length-${slug(l)}`);
@@ -206,24 +208,95 @@ export function intakeToKit(intake: IntakePayload): {
     fields.reader_modes = a.modes.join(', ');
     fields.reader_whens = a.whens.join(', ');
     fields.reader_reaction = a.reaction ?? '';
+    fields.reader_beta_pool = a.betaPool ? 'yes' : 'no';
     fields.reader_club = a.club ? 'yes' : 'no';
+    fields.reader_newsletter = a.newsletter ? 'yes' : 'no';
+    fields.reader_favorite_books = a.favoriteBooks.join(' | ');
   } else {
     const a = intake.answers;
     tags.push('audience-writer');
-    if (a.submission) tags.push(`submission-${slug(a.submission)}`);
-    for (const f of a.feedback) tags.push(`writer-feedback-${slug(f)}`);
-    if (a.warningsMode === 'list') {
-      for (const w of a.warnings) tags.push(`writer-warning-${slug(w)}`);
+    if (a.journey) tags.push(`journey-${a.journey}`);
+    if (a.pubRoute) tags.push(`pub-route-${a.pubRoute}`);
+    if (a.pubRoute === 'traditional' && a.agentStage) {
+      tags.push(`agent-stage-${a.agentStage}`);
     }
+    if (a.manuscriptStage) tags.push(`ms-stage-${a.manuscriptStage}`);
+    if (a.targetLength) tags.push(`target-length-${a.targetLength}`);
+    if (a.language) tags.push(`language-${a.language}`);
+
+    const primaryGenres = [
+      ...a.genre.fictionPrimary,
+      ...a.genre.nonfictionPrimary,
+    ].slice(0, 3);
+    for (const g of primaryGenres) tags.push(`genre-${slug(g)}`);
+    if (a.genre.openToAll) tags.push('genre-open-to-all');
+
+    for (const goal of a.goals.selected) {
+      tags.push(`goal-${slug(goal)}`);
+    }
+    if (a.goals.buildAgentList.mode) {
+      tags.push(`agent-list-mode-${a.goals.buildAgentList.mode}`);
+    }
+    if (a.goals.uploadSample.wantHelp != null) {
+      tags.push(`help-wanted-${a.goals.uploadSample.wantHelp ? 'yes' : 'no'}`);
+    }
+    for (const tier of a.goals.uploadSample.helpKit.aiTierInterest) {
+      tags.push(`ai-tier-${tier}`);
+    }
+    if (a.betaPool) tags.push('writer-beta-pool');
+    if (!a.pod) tags.push('writer-pod-opt-out');
+    if (a.giveaways === true) tags.push('writer-giveaways-yes');
+    if (a.platform) tags.push(`writer-platform-${a.platform}`);
 
     fields.region = 'writer';
-    fields.writer_submission = a.submission ?? '';
-    fields.writer_feedback = a.feedback.join(', ');
-    fields.writer_warnings_mode = a.warningsMode ?? '';
-    fields.writer_warnings =
-      a.warningsMode === 'none' ? 'none' : a.warnings.join(', ');
-    fields.writer_filename = a.fileName ?? '';
-    fields.writer_filesize = a.fileSize != null ? String(a.fileSize) : '';
+    fields.writer_genre_focus = a.genre.focus ?? '';
+    fields.writer_genre_fiction = a.genre.fictionPrimary.join(', ');
+    fields.writer_genre_nonfiction = a.genre.nonfictionPrimary.join(', ');
+    fields.writer_genre_open_to_all = a.genre.openToAll ? 'yes' : 'no';
+    fields.writer_journey = a.journey ?? '';
+    fields.writer_awards = a.awards;
+    fields.writer_working_on = a.workingOn ?? '';
+    fields.writer_pub_route = a.pubRoute ?? '';
+    fields.writer_agent_stage = a.agentStage ?? '';
+    fields.writer_manuscript_stage = a.manuscriptStage ?? '';
+    fields.writer_language = a.language ?? '';
+    fields.writer_giveaways =
+      a.giveaways == null ? '' : a.giveaways ? 'yes' : 'no';
+    fields.writer_target_length = a.targetLength ?? '';
+    fields.writer_submissions = a.submissions ?? '';
+    fields.writer_timeline = a.timeline ?? '';
+    fields.writer_month_goal = a.monthGoal ?? '';
+    fields.writer_fav_books = a.favoriteBooks.join(' | ');
+    fields.writer_platform = a.platform ?? '';
+    fields.writer_beta_pool = a.betaPool ? 'yes' : 'no';
+    fields.writer_pod = a.pod ? 'yes' : 'no';
+    fields.writer_goals = a.goals.selected.join(', ');
+    fields.writer_agent_list_mode = a.goals.buildAgentList.mode ?? '';
+    fields.writer_agent_list_filename = a.goals.buildAgentList.list?.name ?? '';
+    fields.writer_agent_list_filesize =
+      a.goals.buildAgentList.list?.size != null
+        ? String(a.goals.buildAgentList.list.size)
+        : '';
+    fields.writer_sample_filename = a.goals.uploadSample.sample?.name ?? '';
+    fields.writer_sample_filesize =
+      a.goals.uploadSample.sample?.size != null
+        ? String(a.goals.uploadSample.sample.size)
+        : '';
+    fields.writer_help_wanted =
+      a.goals.uploadSample.wantHelp == null
+        ? ''
+        : a.goals.uploadSample.wantHelp
+        ? 'yes'
+        : 'no';
+    fields.writer_synopsis_filename =
+      a.goals.uploadSample.helpKit.synopsis?.name ?? '';
+    fields.writer_pitch_filename =
+      a.goals.uploadSample.helpKit.pitch?.name ?? '';
+    fields.writer_query_filename =
+      a.goals.uploadSample.helpKit.queryLetter?.name ?? '';
+    fields.writer_ai_tier_interest =
+      a.goals.uploadSample.helpKit.aiTierInterest.join(', ');
+    fields.writer_also_choose = a.goals.uploadSample.alsoChoose.join(', ');
   }
 
   return { tags, fields };

@@ -55,12 +55,12 @@ export const INTAKE_CSS = `
   background: transparent;
   border: 0;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(15px, 1.6vw, 18px);
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-align: center;
   cursor: pointer;
-  padding: 16px 12px 18px;
+  padding: 20px 16px 22px;
   color: var(--v6-text-muted);
   opacity: 0.62;
   transition: opacity 200ms var(--v6-ease), color 200ms var(--v6-ease);
@@ -130,16 +130,15 @@ export const INTAKE_CSS = `
   opacity: 0.55;
 }
 .v8-intake-prompt {
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-weight: 400;
+  font-weight: 500;
   font-size: clamp(22px, 2.6vw, 30px);
   line-height: 1.15;
   letter-spacing: -0.01em;
   color: var(--v6-text-strong);
   margin: 0 0 4px;
   text-wrap: balance;
-  font-variation-settings: 'SOFT' 60;
 }
 .v8-intake-helper {
   font-family: 'Outfit', sans-serif;
@@ -348,11 +347,11 @@ export const INTAKE_CSS = `
   opacity: 0.75;
 }
 .v8-upload-icon {
-  font-family: 'Fraunces', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-size: 26px;
   color: var(--v6-accent);
   font-style: italic;
-  font-variation-settings: 'SOFT' 60;
+  font-weight: 500;
   line-height: 1;
 }
 .v8-upload-error {
@@ -451,9 +450,9 @@ export const INTAKE_CSS = `
   border-radius: 0 8px 8px 0;
 }
 .v8-intake-fomo strong {
-  font-family: 'Fraunces', serif;
+  font-family: 'Cormorant Garamond', serif;
   font-style: italic;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--v6-accent);
 }
 
@@ -466,7 +465,7 @@ export const INTAKE_CSS = `
 
 @media (max-width: 640px) {
   .v8-intake { padding-left: 18px; padding-right: 18px; }
-  .v8-intake-toggle-btn { padding: 14px 10px 16px; }
+  .v8-intake-toggle-btn { padding: 16px 12px 18px; font-size: 17px; }
   .v8-intake-prompt { font-size: 22px; }
 }
 `;

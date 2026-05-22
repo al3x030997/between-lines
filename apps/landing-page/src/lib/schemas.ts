@@ -10,16 +10,90 @@ const readerAnswersSchema = z.object({
   modes: z.array(z.string().max(64)).max(10),
   whens: z.array(z.string().max(64)).max(10),
   reaction: z.string().max(64).nullable(),
+  betaPool: z.boolean(),
   club: z.boolean(),
+  newsletter: z.boolean(),
+  favoriteBooks: z.array(z.string().max(120)).max(10),
 });
 
+const fileMetaSchema = z
+  .object({
+    name: z.string().max(255),
+    size: z.number().int().nonnegative(),
+  })
+  .nullable();
+
 const writerAnswersSchema = z.object({
-  submission: z.string().max(64).nullable(),
-  feedback: z.array(z.string().max(64)).max(20),
-  warningsMode: z.enum(['none', 'list']).nullable(),
-  warnings: z.array(z.string().max(64)).max(20),
-  fileName: z.string().max(255).nullable(),
-  fileSize: z.number().int().nonnegative().nullable(),
+  genre: z.object({
+    focus: z.enum(['single', 'cross']).nullable(),
+    fictionPrimary: z.array(z.string().max(64)).max(10),
+    nonfictionPrimary: z.array(z.string().max(64)).max(10),
+    openToAll: z.boolean(),
+  }),
+  journey: z.enum(['aspiring', 'emerging', 'established']).nullable(),
+  awards: z.string().max(500),
+  workingOn: z.enum(['debut', 'new', 'thinking']).nullable(),
+  pubRoute: z.enum(['traditional', 'self', 'reading-group', 'unsure']).nullable(),
+  agentStage: z
+    .enum(['researching', 'building-list', 'querying-soon', 'querying-now'])
+    .nullable(),
+  manuscriptStage: z
+    .enum([
+      'draft',
+      'final-draft',
+      'editing',
+      'proofreading',
+      'complete',
+      'seeking-betas',
+      'seeking-reviews',
+    ])
+    .nullable(),
+  language: z.enum(['en', 'de', 'hi', 'fr', 'es', 'other']).nullable(),
+  giveaways: z.boolean().nullable(),
+  targetLength: z
+    .enum(['lt15k', '15-40k', '40-80k', '80-120k', '120kplus', 'unsure'])
+    .nullable(),
+  submissions: z.enum(['agents', 'journals', 'both', 'na']).nullable(),
+  timeline: z.enum(['q', '3-6m', '6-12m']).nullable(),
+  monthGoal: z
+    .enum(['finish-revision', 'beta-feedback', 'agent-list', 'send-queries'])
+    .nullable(),
+  favoriteBooks: z.array(z.string().max(120)).max(10),
+  platform: z
+    .enum([
+      'prowritingaid',
+      'scrivener',
+      'wordpress',
+      'tumblr',
+      'substack',
+      'medium',
+      'wattpad',
+    ])
+    .nullable(),
+  betaPool: z.boolean(),
+  pod: z.boolean(),
+  goals: z.object({
+    selected: z
+      .array(z.enum(['buildAgentList', 'buildAuthorPage', 'uploadSample']))
+      .max(3),
+    buildAgentList: z.object({
+      mode: z.enum(['research', 'upload']).nullable(),
+      list: fileMetaSchema,
+    }),
+    uploadSample: z.object({
+      sample: fileMetaSchema,
+      wantHelp: z.boolean().nullable(),
+      helpKit: z.object({
+        synopsis: fileMetaSchema,
+        pitch: fileMetaSchema,
+        queryLetter: fileMetaSchema,
+        aiTierInterest: z.array(z.enum(['assess', 'develop'])).max(2),
+      }),
+      alsoChoose: z
+        .array(z.enum(['buildAgentList', 'buildAuthorPage', 'justRead']))
+        .max(3),
+    }),
+  }),
 });
 
 export const intakeSchema = z.discriminatedUnion('region', [

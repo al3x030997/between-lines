@@ -214,6 +214,10 @@ export const FAQ: FaqCategory[] = [
         a: 'If you beta read a writer whose work goes on to be agented, shortlisted for a prize, or traditionally published — you are permanently credited as an Early Discoverer on that writer’s author page. It cannot be bought. Only earned.',
       },
       {
+        q: 'How do SwapCredits work — can I exchange beta-reads?',
+        a: 'Yes. Every time you give a beta-read on the platform you earn SwapCredits. Readers earn them too — and so do writers who read other writers’ drafts.\n\nCredits never expire. You can spend them on getting a beta-read of your own manuscript, on a month of the Journal subscription, or on AgentReady Pro time. The whole point is that active participation funds your own progress — no cash required.\n\nThe loop is simple: read someone else’s work carefully, leave the kind of feedback you’d want yourself, and the credits land in your account. When you’re ready to send your draft into the room, those credits unlock the readers you need.',
+      },
+      {
         q: 'Am I committing to read the whole manuscript?',
         a: 'You commit to reading the minimum — 3 chapters or 5,000 words — and giving feedback within the writer’s requested timeframe. Reading further is your choice. If you cannot complete a beta read you can notify the writer through the platform.',
       },

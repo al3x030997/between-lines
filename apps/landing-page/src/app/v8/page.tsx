@@ -5,6 +5,7 @@ import Link from 'next/link';
 import IntakeHero, { type IntakeSubmit } from './IntakeHero';
 import { WaitlistOverlay } from './WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
+import { serializeWriter } from './intake/writer/writerTypes';
 import EditorialSplit from './sections/EditorialSplit';
 import type { StartTarget } from './sections/EditorialSplit';
 import BookCarousel from './sections/BookCarousel';
@@ -1255,22 +1256,11 @@ export default function V6Page() {
   };
 
   const handleIntakeSubmit = (payload: IntakeSubmit) => {
-    // File objects don't survive JSON.stringify — keep just filename + size
-    // so the backend can store metadata and we don't lie about having the
-    // bytes (manuscript upload is a separate future feature).
+    // File objects don't survive JSON.stringify. serializeWriter() walks the
+    // nested goals tree and emits {name, size} metadata for every file slot.
     const sanitized: IntakePayload =
       payload.region === 'writer'
-        ? {
-            region: 'writer',
-            answers: {
-              submission: payload.answers.submission,
-              feedback: payload.answers.feedback,
-              warningsMode: payload.answers.warningsMode,
-              warnings: payload.answers.warnings,
-              fileName: payload.answers.file?.name ?? null,
-              fileSize: payload.answers.file?.size ?? null,
-            },
-          }
+        ? { region: 'writer', answers: serializeWriter(payload.answers) }
         : payload;
 
     setIntake(sanitized);
@@ -1389,8 +1379,6 @@ export default function V6Page() {
           <div className="v8-hero-head">
             {layout === 'doors' ? (
               <>
-                <span className="v8-masthead-rule" aria-hidden="true" />
-                <p className="v8-hero-sub">Invitation only</p>
                 <span className="v8-masthead-rule" aria-hidden="true" />
                 <h1 className="v8-hero-title">
                   Discover Debut Authors<br />and New Voices — <em>Fiction&nbsp;Only.</em>

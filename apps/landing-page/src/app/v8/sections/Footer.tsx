@@ -5,7 +5,7 @@ const STYLES = `
   background: var(--bl-footer-bg);
   color: var(--bl-footer-fg);
   padding: clamp(48px, 6vw, 80px) clamp(24px, 5vw, 80px) 40px;
-  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
   transition: background-color 320ms ease, color 320ms ease;
 }
 .bl-footer-inner {

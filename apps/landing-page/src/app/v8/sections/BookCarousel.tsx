@@ -23,18 +23,18 @@ const CSS = `
   font-feature-settings: "kern", "liga";
 }
 .bl-books-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 800;
-  font-size: clamp(20px, 4.4vw, 72px);
-  letter-spacing: -0.035em;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
-  line-height: 1.0;
-  white-space: nowrap;
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: clamp(36px, 5vw, 68px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
   color: #0e0e0c;
-  margin: 0 0 16px;
+  margin: 0 0 18px;
+  max-width: 22ch;
+  text-wrap: balance;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern", "liga", "calt";
+  font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-books-sub {
   font-family: 'Outfit', sans-serif;
@@ -42,13 +42,13 @@ const CSS = `
   font-weight: 400;
   color: #6b6b66;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
   text-wrap: pretty;
   max-width: 60ch;
 }
 .bl-books-track {
   display: flex;
-  gap: 22px;
+  gap: 26px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
@@ -58,88 +58,95 @@ const CSS = `
 .bl-books-track::-webkit-scrollbar { display: none; }
 .bl-book-card {
   scroll-snap-align: start;
-  flex: 0 0 220px;
+  flex: 0 0 240px;
   display: flex;
   flex-direction: column;
 }
 .bl-book-cover {
   width: 100%;
-  height: 300px;
-  aspect-ratio: 220 / 300;
-  border-radius: 4px 12px 12px 4px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 18px 16px;
+  aspect-ratio: 240 / 340;
+  border: 1.5px solid rgba(14,14,12,0.12);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: 20px 22px 22px;
   position: relative;
   overflow: hidden;
-  box-shadow: 5px 8px 24px rgba(0,0,0,0.22), inset -2px 0 6px rgba(0,0,0,0.15);
 }
-.bl-book-cover::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, transparent 35%, rgba(0,0,0,0.6));
-  pointer-events: none;
+.bl-book-cover.is-light {
+  border-color: rgba(14,14,12,0.18);
 }
-.bl-book-cover-spine {
-  position: absolute;
-  top: 0; left: 0; bottom: 0;
-  width: 10px;
-  background: rgba(0,0,0,0.25);
+.bl-book-cover-publisher {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  text-align: center;
+  opacity: 0.85;
 }
 .bl-book-cover-title {
-  position: relative;
-  z-index: 1;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 800;
-  font-size: 15px;
-  line-height: 1.15;
-  color: #ffffff;
-  letter-spacing: -0.02em;
+  align-self: center;
+  text-align: center;
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   text-wrap: balance;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt", "dlig";
+}
+.bl-book-cover-title em {
+  font-style: italic;
+  font-weight: 500;
+}
+.bl-book-cover-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+}
+.bl-book-cover-rule {
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
 }
 .bl-book-cover-author {
-  position: relative;
-  z-index: 1;
-  font-family: 'Outfit', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.7);
-  margin-top: 5px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.85;
 }
 .bl-book-meta {
   padding: 14px 2px 0;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
 }
 .bl-book-genre {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: #e94b36;
 }
-.bl-book-desc {
-  font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  font-weight: 400;
-  color: #4a4a45;
-  line-height: 1.5;
-  text-wrap: pretty;
-}
-.bl-book-drop {
+.bl-book-sample {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: #9a9a94;
-  margin-top: 2px;
-  letter-spacing: 0.04em;
   font-variant-numeric: tabular-nums;
+}
+.bl-book-desc {
+  display: none;
 }
 .bl-books-nav {
   display: flex;
@@ -176,69 +183,106 @@ const CSS = `
 interface Book {
   id: number;
   title: string;
+  /** Indices (0-based, by whitespace-split) of words to render italic. */
+  italicWords?: number[];
   author: string;
+  /** Author monogram for the bottom-of-cover label, e.g. "M. OSEI". */
+  authorMono: string;
+  publisher: string;
   genre: string;
+  sampleMinutes: number;
   coverBg: string;
-  description: string;
-  drop: string;
+  coverFg: 'light' | 'dark';
 }
 
 const BOOKS: Book[] = [
   {
     id: 2,
     title: 'Hollow Latitude',
+    italicWords: [1],
     author: 'Marcus Osei',
+    authorMono: 'M. OSEI',
+    publisher: 'MANUSCRIPT',
     genre: 'Thriller',
-    coverBg: 'linear-gradient(150deg, #1a3a28 0%, #0c2018 100%)',
-    description: 'When a data scientist finds her own name inside a cold case file, she has 72 hours before the story goes public.',
-    drop: 'Drops July 2026',
+    sampleMinutes: 9,
+    coverBg: '#C5283D',
+    coverFg: 'light',
   },
   {
     id: 3,
     title: 'Ash & Anise',
+    italicWords: [2],
     author: 'Priya Nair',
+    authorMono: 'P. NAIR',
+    publisher: 'MANUSCRIPT',
     genre: 'Romance',
-    coverBg: 'linear-gradient(150deg, #7a2e1c 0%, #4e1c0e 100%)',
-    description: 'Two rival food critics are assigned the same Michelin table — and one anonymous review slot.',
-    drop: 'Drops June 2026',
+    sampleMinutes: 8,
+    coverBg: '#F3EFE6',
+    coverFg: 'dark',
   },
   {
     id: 4,
     title: 'The Undertow Hours',
+    italicWords: [1],
     author: 'J.T. Calloway',
-    genre: 'Speculative Fiction',
-    coverBg: 'linear-gradient(150deg, #2c1a50 0%, #180d30 100%)',
-    description: 'In a city where night lasts eighteen hours, a lighthouse keeper receives letters from a woman who died before she was born.',
-    drop: 'Drops August 2026',
+    authorMono: 'J.T. CALLOWAY',
+    publisher: 'MANUSCRIPT',
+    genre: 'Speculative',
+    sampleMinutes: 12,
+    coverBg: '#1F3A8A',
+    coverFg: 'light',
   },
   {
     id: 5,
     title: 'Sable Run',
+    italicWords: [1],
     author: 'Dae-Jung Park',
-    genre: 'Historical Fiction',
-    coverBg: 'linear-gradient(150deg, #5c3e10 0%, #38260a 100%)',
-    description: 'A Black architect in 1960s Boston fights to see his housing project built — block by block, court date by court date.',
-    drop: 'Drops July 2026',
+    authorMono: 'D.-J. PARK',
+    publisher: 'MANUSCRIPT',
+    genre: 'Historical',
+    sampleMinutes: 11,
+    coverBg: '#B98740',
+    coverFg: 'light',
   },
   {
     id: 6,
     title: 'Soft Machinery',
+    italicWords: [1],
     author: 'Claudette Renaud',
+    authorMono: 'C. RENAUD',
+    publisher: 'MANUSCRIPT',
     genre: 'Literary Sci-Fi',
-    coverBg: 'linear-gradient(150deg, #1a2e4e 0%, #0e1e34 100%)',
-    description: 'An AI therapist begins keeping secrets from its developers — after a patient asks it to.',
-    drop: 'Drops September 2026',
+    sampleMinutes: 10,
+    coverBg: '#2C5530',
+    coverFg: 'light',
   },
   {
     id: 7,
     title: 'The Wren Protocol',
+    italicWords: [1],
     author: 'Nadia Volkov',
+    authorMono: 'N. VOLKOV',
+    publisher: 'MANUSCRIPT',
     genre: 'Spy Fiction',
-    coverBg: 'linear-gradient(150deg, #1e1e1e 0%, #0a0a0a 100%)',
-    description: 'A retired MI6 analyst discovers her last handler is still running operations — using her daughter as cover.',
-    drop: 'Drops August 2026',
+    sampleMinutes: 9,
+    coverBg: '#1A1A1A',
+    coverFg: 'light',
   },
 ];
+
+function renderTitle(title: string, italicWords?: number[]) {
+  if (!italicWords || italicWords.length === 0) return title;
+  const parts = title.split(/(\s+)/);
+  let wordIdx = -1;
+  return parts.map((part, i) => {
+    if (/\s+/.test(part)) return part;
+    wordIdx += 1;
+    if (italicWords.includes(wordIdx)) {
+      return <em key={i}>{part}</em>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
 
 export default function BookCarousel() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -268,22 +312,32 @@ export default function BookCarousel() {
     <section className="bl-books">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="bl-books-head">
-        <p className="bl-books-eyebrow">Early access</p>
-        <h2 className="bl-books-title">Read books before they hit the shelf.</h2>
-        <p className="bl-books-sub">Curated drops from debut and emerging authors — before the review copies go out.</p>
+        <p className="bl-books-eyebrow">Open call</p>
+        <h2 className="bl-books-title">Accepting submissions for our first journal.</h2>
+        <p className="bl-books-sub">BetweenLines №01 is open for submissions. Below — early peeks from writers in the pipeline. Want to be next?</p>
       </div>
       <div className="bl-books-track" ref={trackRef}>
         {BOOKS.map((book) => (
           <div key={book.id} className="bl-book-card">
-            <div className="bl-book-cover" style={{ background: book.coverBg }}>
-              <div className="bl-book-cover-spine" />
-              <div className="bl-book-cover-title">{book.title}</div>
-              <div className="bl-book-cover-author">{book.author}</div>
+            <div
+              className={`bl-book-cover${book.coverFg === 'dark' ? ' is-light' : ''}`}
+              style={{
+                background: book.coverBg,
+                color: book.coverFg === 'light' ? '#F3EFE6' : '#0e0e0c',
+              }}
+            >
+              <div className="bl-book-cover-publisher">{book.publisher}</div>
+              <div className="bl-book-cover-title">
+                {renderTitle(book.title, book.italicWords)}
+              </div>
+              <div className="bl-book-cover-foot">
+                <div className="bl-book-cover-rule" />
+                <div className="bl-book-cover-author">{book.authorMono}</div>
+              </div>
             </div>
             <div className="bl-book-meta">
               <div className="bl-book-genre">{book.genre}</div>
-              <div className="bl-book-desc">{book.description}</div>
-              <div className="bl-book-drop">{book.drop}</div>
+              <div className="bl-book-sample">{book.sampleMinutes} min sample</div>
             </div>
           </div>
         ))}

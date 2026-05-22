@@ -70,7 +70,7 @@ const CSS = `
   max-width: 760px;
 }
 .bl-faq-hero-eyebrow {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -80,16 +80,16 @@ const CSS = `
 .bl-faq-hero-title {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 800;
-  font-size: clamp(36px, 5vw, 56px);
+  font-size: clamp(44px, 6vw, 68px);
   letter-spacing: -0.03em;
   line-height: 1.05;
   color: #0e0e0c;
-  margin: 0 0 14px;
+  margin: 0 0 16px;
 }
 .bl-faq-hero-lede {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(15px, 1.05vw, 17px);
-  line-height: 1.6;
+  font-size: clamp(17px, 1.25vw, 20px);
+  line-height: 1.65;
   color: #5a5a52;
   margin: 0;
   max-width: 56ch;
@@ -113,7 +113,7 @@ const CSS = `
 }
 .bl-faq-side-label {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -122,7 +122,7 @@ const CSS = `
 }
 .bl-faq-side a {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   color: #0e0e0c;
   text-decoration: none;
@@ -135,7 +135,7 @@ const CSS = `
 .bl-faq-side a:hover { color: #e94b36; }
 .bl-faq-side-num {
   font-variant-numeric: tabular-nums;
-  font-size: 11px;
+  font-size: 12px;
   color: #5a5a52;
   letter-spacing: 0.1em;
 }
@@ -156,7 +156,7 @@ const CSS = `
 .bl-faq-section-eyebrow {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: #e94b36;
@@ -166,7 +166,7 @@ const CSS = `
 .bl-faq-section-title {
   font-family: 'Cormorant Garamond', 'Times New Roman', serif;
   font-weight: 600;
-  font-size: clamp(30px, 3.6vw, 44px);
+  font-size: clamp(36px, 4.4vw, 52px);
   letter-spacing: -0.02em;
   line-height: 1.05;
   color: #0e0e0c;
@@ -192,15 +192,15 @@ const CSS = `
 .bl-faq-q {
   list-style: none;
   cursor: pointer;
-  padding: 18px 4px;
+  padding: 20px 4px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: clamp(15px, 1.15vw, 17px);
-  line-height: 1.4;
+  font-size: clamp(17px, 1.35vw, 20px);
+  line-height: 1.45;
   color: #0e0e0c;
   transition: color 180ms ease;
 }
@@ -239,9 +239,9 @@ const CSS = `
   transform: translateX(-50%) rotate(90deg);
 }
 .bl-faq-a {
-  padding: 4px 28px 22px 4px;
+  padding: 6px 28px 24px 4px;
   font-family: 'Outfit', sans-serif;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.65;
   color: #2a2a25;
 }
@@ -260,20 +260,20 @@ const CSS = `
   width: 100%;
   border-collapse: collapse;
   font-family: 'Outfit', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   min-width: 360px;
 }
 .bl-faq-table th,
 .bl-faq-table td {
   text-align: left;
-  padding: 10px 14px;
+  padding: 11px 14px;
   border-bottom: 1px solid rgba(14,14,12,0.08);
   vertical-align: top;
 }
 .bl-faq-table thead th {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: #5a5a52;
@@ -291,7 +291,7 @@ const CSS = `
   justify-content: space-between;
   gap: 16px;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   color: #5a5a52;
 }
 .bl-faq-foot a {

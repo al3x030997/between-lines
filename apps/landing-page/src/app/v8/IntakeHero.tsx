@@ -50,7 +50,7 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
             className={`v8-intake-toggle-btn${mode === 'reader' ? ' is-active' : ''}`}
             onClick={() => setMode('reader')}
           >
-            reader
+            I&rsquo;m a reader
           </button>
           <button
             type="button"
@@ -59,7 +59,7 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
             className={`v8-intake-toggle-btn${mode === 'writer' ? ' is-active' : ''}`}
             onClick={() => setMode('writer')}
           >
-            writer
+            I&rsquo;m a writer
           </button>
           <span className="v8-intake-toggle-bar" aria-hidden="true" />
         </div>

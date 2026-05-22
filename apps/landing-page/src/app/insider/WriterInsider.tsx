@@ -3,6 +3,16 @@ import InsiderCountdown from './InsiderCountdown';
 import InsiderReferral from './InsiderReferral';
 
 type WriterIntake = Extract<IntakePayload, { region: 'writer' }>;
+type WriterAnswers = WriterIntake['answers'];
+
+const TARGET_LENGTH_LABEL: Record<string, string> = {
+  lt15k: 'Short — under 15k',
+  '15-40k': 'Novella — 15–40k',
+  '40-80k': 'Novel — 40–80k',
+  '80-120k': 'Novel — 80–120k',
+  '120kplus': 'Epic — 120k+',
+  unsure: 'Length not set',
+};
 
 function formatBytes(bytes: number | null): string {
   if (bytes == null) return '';
@@ -11,25 +21,59 @@ function formatBytes(bytes: number | null): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function poolEstimate(submission: string | null): { num: string; label: string } {
+function poolEstimate(targetLength: string | null): { num: string; label: string } {
   const map: Record<string, { num: string; label: string }> = {
-    Microstory: { num: '3,420', label: 'readers waiting on microstories' },
-    Flash: { num: '5,118', label: 'readers waiting on flash fiction' },
-    'Chapter 1': { num: '6,802', label: 'readers asked specifically for first chapters' },
-    Excerpt: { num: '4,377', label: 'readers waiting on long-form excerpts' },
-    'Full manuscript': { num: '1,260', label: 'beta readers cleared for full manuscripts' },
+    lt15k: { num: '5,118', label: 'readers waiting on short-form work' },
+    '15-40k': { num: '3,420', label: 'readers waiting on novellas' },
+    '40-80k': { num: '6,802', label: 'readers waiting on novels' },
+    '80-120k': { num: '4,377', label: 'readers waiting on long novels' },
+    '120kplus': { num: '1,260', label: 'beta readers cleared for long manuscripts' },
   };
-  return map[submission ?? ''] ?? { num: '12,348', label: 'readers in the pool right now' };
+  return (
+    map[targetLength ?? ''] ?? {
+      num: '12,348',
+      label: 'readers in the pool right now',
+    }
+  );
 }
 
-const FEEDBACK_HELP: Record<string, string> = {
-  'Outline / big-picture': 'Does the shape of the story hold?',
-  'Plot clarity': 'Did anything land confusing or out of order?',
-  Characters: 'Do they feel like people you would meet?',
-  Pacing: 'Where did attention drop, and where did it grip?',
-  'Hook (would you keep reading?)':
-    'The only question that counts: would you turn the page?',
-};
+function focusAreasFor(answers: WriterAnswers): { kicker: string; body: string }[] {
+  // Derive editorial focus areas from goals + month goal, so the insider page
+  // can talk meaningfully even before we collect explicit feedback prefs.
+  const out: { kicker: string; body: string }[] = [];
+  const goals = answers.goals.selected;
+  if (goals.includes('uploadSample')) {
+    out.push({
+      kicker: 'First-reader reactions',
+      body: 'We route this draft to the readers whose taste profile matches your genre and length first.',
+    });
+  }
+  if (goals.includes('buildAgentList')) {
+    out.push({
+      kicker: 'Agent-ready prep',
+      body: 'AgentReady surfaces agents repping your genre, tracked against open / closed status.',
+    });
+  }
+  if (goals.includes('buildAuthorPage')) {
+    out.push({
+      kicker: 'Your author page',
+      body: 'A generated starter page is queued — themes, portfolio, agent-ready bio.',
+    });
+  }
+  if (answers.monthGoal === 'beta-feedback') {
+    out.push({
+      kicker: 'Beta feedback',
+      body: 'Matched to readers who marked “deep thoughts” as their reaction style.',
+    });
+  }
+  if (out.length === 0) {
+    out.push({
+      kicker: 'Open read',
+      body: 'You didn’t flag a focus area, so we’ll read for everything — and surface the strongest signal.',
+    });
+  }
+  return out;
+}
 
 function todayMasthead(): string {
   const d = new Date();
@@ -87,10 +131,14 @@ export default function WriterInsider({
   sid: string;
 }) {
   const { answers } = intake;
-  const submission = answers.submission;
-  const fileName = answers.fileName ?? 'your_draft.docx';
-  const fileSize = formatBytes(answers.fileSize);
-  const pool = poolEstimate(submission);
+  const sample = answers.goals.uploadSample.sample;
+  const fileName = sample?.name ?? 'your_draft.docx';
+  const fileSize = formatBytes(sample?.size ?? null);
+  const submissionLabel = answers.targetLength
+    ? TARGET_LENGTH_LABEL[answers.targetLength] ?? 'draft'
+    : 'draft';
+  const pool = poolEstimate(answers.targetLength);
+  const focusAreas = focusAreasFor(answers);
   const todayDate = todayMasthead();
   const firstReaderIso = firstReaderTargetIso();
 
@@ -157,7 +205,7 @@ export default function WriterInsider({
             <div className="bl-submission-file">
               <span className="bl-submission-fname">{fileName}</span>
               <span className="bl-submission-fmeta">
-                {submission ?? 'draft'}
+                {submissionLabel}
                 {fileSize ? ` · ${fileSize}` : ''}
               </span>
             </div>
@@ -197,56 +245,21 @@ export default function WriterInsider({
           italicWord="listening"
           note="You picked these. We route accordingly."
         />
-        {answers.feedback.length === 0 ? (
-          <div className="bl-card">
-            <p className="bl-pitch" style={{ margin: 0 }}>
-              You didn’t flag a focus area, so we’ll read for everything — and surface the
-              strongest signal. You can refine this any time.
-            </p>
-            <div style={{ marginTop: 16 }}>
-              <a className="bl-btn is-ghost is-small" href="/?intake=writer">
-                Tell us what to read for
-              </a>
-            </div>
-          </div>
-        ) : (
-          <div className="bl-editorial-grid">
-            {answers.feedback.map((f) => (
-              <article key={f} className="bl-card">
-                <p className="bl-editorial-kicker">{f}</p>
-                <p className="bl-editorial-body" style={{ margin: 0 }}>
-                  {FEEDBACK_HELP[f] ?? 'A question we’ll keep front-of-mind while reading.'}
-                </p>
-              </article>
-            ))}
-          </div>
-        )}
+        <div className="bl-editorial-grid">
+          {focusAreas.map((f) => (
+            <article key={f.kicker} className="bl-card">
+              <p className="bl-editorial-kicker">{f.kicker}</p>
+              <p className="bl-editorial-body" style={{ margin: 0 }}>
+                {f.body}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
-
-      {answers.warningsMode === 'list' && answers.warnings.length > 0 ? (
-        <section>
-          <ChapterHead
-            num="03"
-            title="Content warnings, on file"
-            italicWord="on file"
-            note="Readers see these before opening. No reader picks up a draft blind."
-          />
-          <div className="bl-confirm">
-            <p className="bl-confirm-label">Flagged in this draft</p>
-            <div className="bl-chip-row">
-              {answers.warnings.map((w) => (
-                <span key={w} className="bl-chip is-accent">
-                  {w}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       <section>
         <ChapterHead
-          num={answers.warningsMode === 'list' && answers.warnings.length > 0 ? '04' : '03'}
+          num="03"
           title="Who’s in the room with you"
           italicWord="in the room"
           note="A snapshot of the active reader pool."
@@ -282,7 +295,7 @@ export default function WriterInsider({
 
       <section>
         <ChapterHead
-          num={answers.warningsMode === 'list' && answers.warnings.length > 0 ? '05' : '04'}
+          num="04"
           title="Bring one writer you trust"
           italicWord="trust"
           note="Insiders who bring one writer unlock the second-month archive."
@@ -298,7 +311,7 @@ export default function WriterInsider({
 
       <section>
         <ChapterHead
-          num={answers.warningsMode === 'list' && answers.warnings.length > 0 ? '06' : '05'}
+          num="05"
           title="What happens next"
           italicWord="next"
           note="No surprises. Same timeline for every draft."
@@ -341,7 +354,7 @@ export default function WriterInsider({
 
       <section>
         <ChapterHead
-          num={answers.warningsMode === 'list' && answers.warnings.length > 0 ? '07' : '06'}
+          num="06"
           title="From the desk"
           italicWord="desk"
           note="Insider-only craft notes."

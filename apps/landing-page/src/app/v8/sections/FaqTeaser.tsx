@@ -6,7 +6,7 @@ const STYLES = `
   background: #ffffff;
   color: #0e0e0c;
   padding: clamp(96px, 12vw, 140px) clamp(24px, 5vw, 80px);
-  font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
 }
 .bl-faq-teaser-inner {
   max-width: 1280px;
@@ -55,7 +55,7 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-faq-lede {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.6;
   color: #5a5a52;
@@ -126,7 +126,7 @@ const STYLES = `
   text-rendering: optimizeLegibility;
 }
 .bl-faq-card-blurb {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 14px;
   line-height: 1.55;
   color: #5a5a52;

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import FavoriteBooks from './shared/FavoriteBooks';
+import { Chip, Chips, Group, Prompt, ToggleChip } from './shared/intakeAtoms';
 
 export type ReaderAnswers = {
   audience: string | null;
@@ -10,7 +12,10 @@ export type ReaderAnswers = {
   modes: string[];
   whens: string[];
   reaction: string | null;
+  betaPool: boolean;
   club: boolean;
+  newsletter: boolean;
+  favoriteBooks: string[];
 };
 
 export const READER_INITIAL: ReaderAnswers = {
@@ -21,7 +26,10 @@ export const READER_INITIAL: ReaderAnswers = {
   modes: [],
   whens: [],
   reaction: null,
+  betaPool: false,
   club: false,
+  newsletter: false,
+  favoriteBooks: [],
 };
 
 const AUDIENCES = ['Adult Fiction', 'Young Adult', 'Children’s'];
@@ -210,23 +218,49 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
         </Chips>
       </Group>
 
-      <Group num="06" label="Reader club">
-        <button
-          type="button"
-          className={`v8-toggle-chip${answers.club ? ' is-on' : ''}`}
-          aria-pressed={answers.club}
+      <Group num="06" label="Favorite books">
+        <Prompt>A few titles that made you a reader.</Prompt>
+        <FavoriteBooks
+          value={answers.favoriteBooks}
+          onChange={(next) => onChange({ ...answers, favoriteBooks: next })}
+        />
+      </Group>
+
+      <Group num="07" label="Beta-reader pool">
+        <ToggleChip
+          on={answers.betaPool}
+          onClick={() => onChange({ ...answers, betaPool: !answers.betaPool })}
+        >
+          Yes, add me to the beta-reader pool
+          <span className="v8-toggle-chip-sub">
+            Read writers&rsquo; drafts before publication and earn <strong>SwapCredits</strong>.
+          </span>
+        </ToggleChip>
+        <p className="v8-intake-helper">
+          Earn credits by giving a beta-read; spend them to request beta-reads of your own work.
+        </p>
+      </Group>
+
+      <Group num="08" label="Reader club">
+        <ToggleChip
+          on={answers.club}
           onClick={() => onChange({ ...answers, club: !answers.club })}
         >
-          <span className="v8-toggle-chip-box" aria-hidden="true">
-            <svg className="v8-toggle-chip-tick" viewBox="0 0 16 16">
-              <polyline points="3 8.5 6.5 12 13 4.5" />
-            </svg>
+          Yes, add me to a virtual reader&rsquo;s club
+          <span className="v8-toggle-chip-sub">(You can change this in preferences)</span>
+        </ToggleChip>
+      </Group>
+
+      <Group num="09" label="Newsletter">
+        <ToggleChip
+          on={answers.newsletter}
+          onClick={() => onChange({ ...answers, newsletter: !answers.newsletter })}
+        >
+          Yes, I&rsquo;d like the BetweenLines newsletter
+          <span className="v8-toggle-chip-sub">
+            Notified of new writers and new submissions. Unsubscribe any time.
           </span>
-          <span>
-            Yes, add me to a virtual reader’s club
-            <span className="v8-toggle-chip-sub">(You can change this in preferences)</span>
-          </span>
-        </button>
+        </ToggleChip>
       </Group>
 
       <p className="v8-intake-caption">
@@ -257,60 +291,5 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
         genres before they fill.
       </p>
     </div>
-  );
-}
-
-function Group({
-  num,
-  label,
-  children,
-}: {
-  num: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section className="v8-intake-group">
-      <div className="v8-intake-label">
-        <span className="v8-intake-label-num">{num}</span>
-        <span>{label}</span>
-      </div>
-      {children}
-    </section>
-  );
-}
-
-function Prompt({ children }: { children: React.ReactNode }) {
-  return <h3 className="v8-intake-prompt">{children}</h3>;
-}
-
-function Chips({ children }: { children: React.ReactNode }) {
-  return <div className="v8-intake-chips">{children}</div>;
-}
-
-function Chip({
-  selected,
-  disabled,
-  onClick,
-  children,
-}: {
-  selected: boolean;
-  disabled?: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      className={`v8-chip${selected ? ' is-selected' : ''}`}
-      aria-pressed={selected}
-      aria-disabled={disabled || undefined}
-      onClick={() => {
-        if (disabled) return;
-        onClick();
-      }}
-    >
-      {children}
-    </button>
   );
 }

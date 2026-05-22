@@ -91,7 +91,7 @@ const STYLES = `
   padding: 0 clamp(8px, 2vw, 24px);
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 36px;
 }
 .bl-eyebrow {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -141,7 +141,7 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-body {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.65;
   color: var(--bl-section-muted);
@@ -190,7 +190,7 @@ const STYLES = `
   text-rendering: optimizeLegibility;
 }
 .bl-feature-body {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 15px;
   line-height: 1.6;
   color: var(--bl-section-muted);
@@ -241,7 +241,7 @@ const STYLES = `
   text-rendering: optimizeLegibility;
 }
 .bl-card-body {
-  font-family: 'Inter', 'Helvetica Neue', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 14px;
   line-height: 1.62;
   color: var(--bl-section-muted);
@@ -265,15 +265,6 @@ const STYLES = `
 .bl-card:hover .bl-card-learn {
   opacity: 1;
   transform: none;
-}
-
-.bl-sketch {
-  width: 210px;
-  height: auto;
-  opacity: 0.72;
-  align-self: flex-start;
-  color: var(--bl-section-fg);
-  overflow: visible;
 }
 
 .bl-both {
@@ -332,87 +323,6 @@ const STYLES = `
 }
 `;
 
-function AuthorSketch() {
-  return (
-    <svg viewBox="0 0 220 178" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" className="bl-sketch" aria-hidden="true">
-      {/* Desk surface */}
-      <line x1="22" y1="114" x2="198" y2="114" strokeWidth="1.8" />
-      <line x1="35" y1="114" x2="35" y2="160" strokeWidth="1.6" />
-      <line x1="185" y1="114" x2="185" y2="160" strokeWidth="1.6" />
-      {/* Papers on desk */}
-      <path d="M 90 101 L 174 101 L 174 114 L 90 114 Z" strokeWidth="1.4" />
-      <line x1="97" y1="105" x2="164" y2="105" strokeWidth="0.9" />
-      <line x1="97" y1="108" x2="150" y2="108" strokeWidth="0.9" />
-      <line x1="97" y1="111" x2="158" y2="111" strokeWidth="0.9" />
-      {/* Pen */}
-      <line x1="152" y1="98" x2="166" y2="112" strokeWidth="1.4" />
-      {/* Head */}
-      <circle cx="72" cy="44" r="17" strokeWidth="1.6" />
-      {/* Hair */}
-      <path d="M 56 38 Q 58 26 72 26 Q 86 26 88 38" strokeWidth="1.1" />
-      {/* Neck */}
-      <line x1="72" y1="61" x2="72" y2="70" strokeWidth="1.4" />
-      {/* Back / spine — hunched forward */}
-      <path d="M 66 70 C 62 84 56 97 54 109" strokeWidth="1.5" />
-      {/* Right arm reaching to desk */}
-      <path d="M 78 73 C 90 83 112 93 142 101" strokeWidth="1.5" />
-      {/* Left arm resting */}
-      <path d="M 64 82 C 67 93 72 102 76 110" strokeWidth="1.4" />
-      {/* Chair back */}
-      <line x1="44" y1="74" x2="44" y2="114" strokeWidth="1.4" />
-      {/* Chair seat */}
-      <line x1="44" y1="114" x2="70" y2="114" strokeWidth="1.3" />
-      {/* Chair legs */}
-      <line x1="44" y1="114" x2="34" y2="158" strokeWidth="1.3" />
-      <line x1="70" y1="114" x2="74" y2="158" strokeWidth="1.3" />
-    </svg>
-  );
-}
-
-function ReaderSketch() {
-  return (
-    <svg viewBox="0 0 220 192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" className="bl-sketch" aria-hidden="true">
-      {/* Head */}
-      <circle cx="110" cy="40" r="18" strokeWidth="1.6" />
-      {/* Hair */}
-      <path d="M 93 34 Q 96 21 110 21 Q 124 21 127 34" strokeWidth="1.1" />
-      {/* Neck */}
-      <line x1="110" y1="58" x2="110" y2="68" strokeWidth="1.4" />
-      {/* Shoulders */}
-      <path d="M 70 82 Q 88 68 110 66 Q 132 68 150 82" strokeWidth="1.5" />
-      {/* Left arm down to book */}
-      <path d="M 72 85 C 66 100 63 116 62 132" strokeWidth="1.5" />
-      {/* Right arm down to book */}
-      <path d="M 148 85 C 154 100 157 116 158 132" strokeWidth="1.5" />
-      {/* Left hand cupping book */}
-      <path d="M 60 132 C 62 140 70 142 80 141" strokeWidth="1.4" />
-      {/* Right hand cupping book */}
-      <path d="M 140 141 C 150 142 158 140 160 132" strokeWidth="1.4" />
-      {/* Open book — left page */}
-      <path d="M 80 128 Q 93 119 108 117 L 108 166 Q 93 168 80 174 Z" strokeWidth="1.5" />
-      {/* Open book — right page */}
-      <path d="M 112 117 Q 127 119 140 128 L 140 174 Q 127 168 112 166 Z" strokeWidth="1.5" />
-      {/* Book spine */}
-      <path d="M 108 117 C 109 140 109 152 108 166" strokeWidth="1.1" />
-      <path d="M 112 117 C 111 140 111 152 112 166" strokeWidth="1.1" />
-      {/* Text lines — left page */}
-      <line x1="86" y1="131" x2="104" y2="129" strokeWidth="0.85" />
-      <line x1="85" y1="136" x2="104" y2="134" strokeWidth="0.85" />
-      <line x1="85" y1="141" x2="104" y2="139" strokeWidth="0.85" />
-      <line x1="85" y1="146" x2="102" y2="144" strokeWidth="0.85" />
-      <line x1="85" y1="151" x2="104" y2="149" strokeWidth="0.85" />
-      <line x1="85" y1="156" x2="100" y2="154" strokeWidth="0.85" />
-      {/* Text lines — right page */}
-      <line x1="116" y1="129" x2="134" y2="131" strokeWidth="0.85" />
-      <line x1="116" y1="134" x2="135" y2="136" strokeWidth="0.85" />
-      <line x1="116" y1="139" x2="135" y2="141" strokeWidth="0.85" />
-      <line x1="116" y1="144" x2="133" y2="146" strokeWidth="0.85" />
-      <line x1="116" y1="149" x2="135" y2="151" strokeWidth="0.85" />
-      <line x1="116" y1="154" x2="132" y2="156" strokeWidth="0.85" />
-    </svg>
-  );
-}
-
 function OverviewColumn({
   side,
   align,
@@ -427,7 +337,6 @@ function OverviewColumn({
     <div className={`bl-col bl-col-${align} bl-reveal${inView ? ' is-in' : ''}`}>
       <span className="bl-eyebrow bl-eyebrow-lg">{c.eyebrow}</span>
       <h2 className="bl-headline">{c.headline}</h2>
-      {side === 'author' ? <AuthorSketch /> : <ReaderSketch />}
       <p className="bl-body">{c.body}</p>
     </div>
   );
