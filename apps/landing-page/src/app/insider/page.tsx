@@ -30,9 +30,9 @@ export default async function InsiderHome() {
   if (!row?.intake) {
     view = <EmptyInsider />;
   } else if (row.intake.region === 'reader') {
-    view = <ReaderInsider intake={row.intake} />;
+    view = <ReaderInsider intake={row.intake} sid={sid} />;
   } else {
-    view = <WriterInsider intake={row.intake} />;
+    view = <WriterInsider intake={row.intake} sid={sid} />;
   }
 
   return (

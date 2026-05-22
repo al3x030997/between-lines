@@ -1,4 +1,6 @@
 import type { IntakePayload } from '@/lib/schemas';
+import InsiderCountdown from './InsiderCountdown';
+import InsiderReferral from './InsiderReferral';
 
 type ReaderIntake = Extract<IntakePayload, { region: 'reader' }>;
 
@@ -170,41 +172,54 @@ function pickShelf(genres: string[]): ShelfStory[] {
   return picks;
 }
 
-function buildSchedule(lengths: string[]): {
+type ScheduleRow = {
   date: string;
+  iso: string;
   chip: string;
   title: string;
   byline: string;
-}[] {
+};
+
+function nextDropIso(): string {
+  const now = new Date();
+  const day = now.getDay();
+  const daysUntilSunday = (7 - day) % 7 || 7;
+  const next = new Date(now);
+  next.setDate(now.getDate() + daysUntilSunday);
+  next.setHours(8, 0, 0, 0);
+  return next.toISOString();
+}
+
+function formatDateLabel(iso: string): string {
+  const d = new Date(iso);
+  const wd = d.toLocaleDateString('en-US', { weekday: 'short' });
+  const mo = d.toLocaleDateString('en-US', { month: 'short' });
+  return `${wd} · ${mo} ${d.getDate()}`;
+}
+
+function buildSchedule(lengths: string[]): ScheduleRow[] {
   const lengthPool =
     lengths.length > 0 ? lengths : ['Flash', 'Chapter 1', 'Excerpt', 'Microstory'];
   const pickLen = (i: number) => lengthPool[i % lengthPool.length] ?? 'Flash';
-  return [
-    {
-      date: 'Wed · Jun 3',
-      chip: pickLen(0),
-      title: 'A House for the Almost-Departed',
-      byline: 'Imogen Velasco',
-    },
-    {
-      date: 'Sun · Jun 7',
-      chip: pickLen(1),
-      title: 'The Cartographer Refuses',
-      byline: 'Tomas Vinter',
-    },
-    {
-      date: 'Thu · Jun 11',
-      chip: pickLen(2),
-      title: 'How to Read a Phone Call You Did Not Make',
-      byline: 'Eli Marsh',
-    },
-    {
-      date: 'Mon · Jun 15',
-      chip: pickLen(3),
-      title: 'Open Mic: Five First Pages',
-      byline: 'Workshop, Issue 04',
-    },
+  const baseIso = nextDropIso();
+  const baseMs = new Date(baseIso).getTime();
+  const offsets = [0, 4, 8, 12];
+  const rows = [
+    { title: 'A House for the Almost-Departed', byline: 'Imogen Velasco' },
+    { title: 'The Cartographer Refuses', byline: 'Tomas Vinter' },
+    { title: 'How to Read a Phone Call You Did Not Make', byline: 'Eli Marsh' },
+    { title: 'Open Mic: Five First Pages', byline: 'Workshop, Issue 04' },
   ];
+  return rows.map((row, i) => {
+    const iso = new Date(baseMs + offsets[i] * 86400000).toISOString();
+    return {
+      iso,
+      date: formatDateLabel(iso),
+      chip: pickLen(i),
+      title: row.title,
+      byline: row.byline,
+    };
+  });
 }
 
 function reactionMicrocopy(reaction: string | null): string {
@@ -241,25 +256,59 @@ function buildPitch(intake: ReaderIntake): string {
   return `${opener} We’ll start with ${genrePhrase}mostly ${lengthLabel}.${whenPhrase}`;
 }
 
-export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
-  const { answers, intent } = intake;
-  const heroTitle =
-    intent === 'now' ? (
-      <>
-        The first chapters
-        <br />
-        are <span className="bl-h1-accent">loading.</span>
-      </>
-    ) : (
-      <>
-        Your shelf is
-        <br />
-        being <span className="bl-h1-accent">set.</span>
-      </>
-    );
+function todayMasthead(): string {
+  const d = new Date();
+  return `${d.getDate()} ${d.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()}`;
+}
 
+function ChapterHead({ num, title, italicWord, note }: {
+  num: string;
+  title: string;
+  italicWord?: string;
+  note?: string;
+}) {
+  const idx = italicWord ? title.toLowerCase().indexOf(italicWord.toLowerCase()) : -1;
+  const head = idx >= 0 ? title.slice(0, idx) : title;
+  const tail = idx >= 0 ? title.slice(idx + italicWord!.length) : '';
+  const mid = idx >= 0 ? title.slice(idx, idx + italicWord!.length) : '';
+  return (
+    <div className="bl-section-head">
+      <div className="bl-section-titles">
+        <p className="bl-chapter-eyebrow">
+          <span className="bl-chapter-num">{num}</span>
+          Chapter
+        </p>
+        <h2 className="bl-h2">
+          {head}
+          {mid ? <span className="bl-h2-italic">{mid}</span> : null}
+          {tail}
+        </h2>
+      </div>
+      {note ? <p className="bl-section-note">{note}</p> : null}
+    </div>
+  );
+}
+
+function Intermission() {
+  return (
+    <div className="bl-intermission" aria-hidden="true">
+      <span className="bl-intermission-mark">⁂</span>
+    </div>
+  );
+}
+
+export default function ReaderInsider({
+  intake,
+  sid,
+}: {
+  intake: ReaderIntake;
+  sid: string;
+}) {
+  const { answers, intent } = intake;
   const shelf = pickShelf(answers.genres);
   const schedule = buildSchedule(answers.lengths);
+  const nextDrop = schedule[0];
+  const todayDate = todayMasthead();
 
   const confirmChips: { label: string; mono?: boolean }[] = [];
   if (answers.audience) confirmChips.push({ label: answers.audience });
@@ -272,15 +321,41 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
 
   return (
     <article className="bl-page">
+      <header className="bl-masthead" aria-label="The Insider masthead">
+        <div className="bl-masthead-inner">
+          <span className="bl-masthead-brand">Between Lines</span>
+          <span className="bl-masthead-sep">·</span>
+          <span className="bl-masthead-tag">the insider</span>
+          <span className="bl-masthead-sep">·</span>
+          <span className="bl-masthead-issue">issue 04 · {todayDate}</span>
+          <span className="bl-masthead-sep">·</span>
+          <span className="bl-masthead-tag">reader</span>
+        </div>
+      </header>
+
       <header className="bl-hero">
-        <p className="bl-eyebrow">
-          <span className="bl-eyebrow-dot" />
-          Insider · reader
+        <p className="bl-hero-kicker">
+          <span className="bl-hero-kicker-mark">▍</span>
+          {intent === 'now' ? 'Today, on your shelf' : 'Your shelf, in waiting'}
         </p>
-        <h1 className="bl-h1">{heroTitle}</h1>
+        <h1 className="bl-h1">
+          {intent === 'now' ? (
+            <>
+              The first <span className="bl-h1-roman">chapters</span>
+              <br />
+              are <span className="bl-h1-accent">already loading.</span>
+            </>
+          ) : (
+            <>
+              Your <span className="bl-h1-roman">shelf</span>
+              <br />
+              is being <span className="bl-h1-accent">set for you.</span>
+            </>
+          )}
+        </h1>
         <p className="bl-pitch">{buildPitch(intake)}</p>
         <div className="bl-hero-actions">
-          <a className="bl-btn is-primary" href={`#shelf`}>
+          <a className="bl-btn is-primary" href="#shelf">
             Open my shelf
           </a>
           <a className="bl-btn is-ghost" href="/?intake=reader">
@@ -289,11 +364,27 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
         </div>
       </header>
 
+      <InsiderCountdown
+        label="Next on your shelf"
+        targetIso={nextDrop.iso}
+        prefix={`The next piece —`}
+        suffix={`— lands in`}
+        when={nextDrop.date}
+      />
+
       <section id="shelf">
-        <div className="bl-section-head">
-          <h2 className="bl-h2">Your shelf — first chapters waiting</h2>
-          <p className="bl-section-note">Three, hand-picked from this week’s drops.</p>
-        </div>
+        <ChapterHead
+          num="01"
+          title="Your shelf — first chapters waiting"
+          italicWord="waiting"
+          note="Three, hand-picked from this week’s drops."
+        />
+        <p className="bl-proof" aria-live="polite">
+          <span className="bl-proof-pulse" aria-hidden="true" />
+          <span>
+            <span className="bl-proof-num">31</span> readers opened a chapter in the last hour.
+          </span>
+        </p>
         <div className="bl-shelf-grid">
           {shelf.map((s) => (
             <article key={s.title} className="bl-card bl-shelf-card">
@@ -308,10 +399,10 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
               <p className="bl-shelf-byline">by {s.byline}</p>
               <p className="bl-shelf-blurb">{s.blurb}</p>
               <div className="bl-shelf-actions">
-                <a className="bl-btn is-primary is-small" href={`#`}>
+                <a className="bl-btn is-primary is-small" href="#">
                   Read · {s.readMinutes} min
                 </a>
-                <a className="bl-shelf-save" href={`#`}>
+                <a className="bl-shelf-save" href="#">
                   save for later
                 </a>
               </div>
@@ -320,15 +411,16 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
         </div>
       </section>
 
+      <Intermission />
+
       <section>
-        <div className="bl-section-head">
-          <h2 className="bl-h2">How you’ve set this up</h2>
-          <a className="bl-confirm-edit" href="/?intake=reader">
-            change anything →
-          </a>
-        </div>
+        <ChapterHead
+          num="02"
+          title="How we’ll read for you"
+          italicWord="for you"
+        />
         <div className="bl-confirm">
-          <p className="bl-confirm-label">We’re reading you as</p>
+          <p className="bl-confirm-label">On file</p>
           <div className="bl-chip-row">
             {confirmChips.map((c, i) => (
               <span key={`${c.label}-${i}`} className={`bl-chip${c.mono ? ' is-mono' : ''}`}>
@@ -336,19 +428,47 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
               </span>
             ))}
           </div>
+          <a className="bl-confirm-edit" href="/?intake=reader">
+            change anything →
+          </a>
         </div>
       </section>
 
       <section>
-        <div className="bl-section-head">
-          <h2 className="bl-h2">Coming up this month</h2>
-          <p className="bl-section-note">Subject to last-minute edits — they usually are.</p>
-        </div>
+        <ChapterHead
+          num="03"
+          title="Bring one reader you trust"
+          italicWord="trust"
+          note="Insiders who bring one reader unlock the second-month archive."
+        />
+        <InsiderReferral
+          sid={sid}
+          eyebrow="Open invitation"
+          title="Know someone who reads in cafés they can’t afford?"
+          body="Forward your link. They land on a personalised intake — no public sign-up page, no algorithm. We seat them next to you in the reader’s room."
+          foot="Your link is private. We don’t show who you sent it to — only that someone you invited joined."
+        />
+      </section>
+
+      <Intermission />
+
+      <section>
+        <ChapterHead
+          num="04"
+          title="What’s arriving"
+          italicWord="arriving"
+          note="Subject to last-minute edits — they usually are."
+        />
         <div className="bl-schedule">
-          {schedule.map((row) => (
-            <div key={row.title} className="bl-schedule-row">
+          {schedule.map((row, i) => (
+            <div
+              key={row.title}
+              className={`bl-schedule-row${i === 0 ? ' is-next' : ''}`}
+            >
               <span className="bl-schedule-date">{row.date}</span>
-              <span className="bl-chip is-mono bl-schedule-chip">{row.chip}</span>
+              <span className="bl-chip is-mono bl-schedule-chip">
+                {i === 0 ? 'Next' : row.chip}
+              </span>
               <span className="bl-schedule-title">{row.title}</span>
               <span className="bl-schedule-byline">{row.byline}</span>
             </div>
@@ -358,10 +478,17 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
 
       {answers.club ? (
         <section>
+          <ChapterHead
+            num="05"
+            title="The reader’s room"
+            italicWord="reader’s room"
+          />
           <div className="bl-club">
             <div>
               <p className="bl-club-when">Next session · Thu Jun 19 · 19:30 CET</p>
-              <h2 className="bl-club-title">The reader’s room: opening sentences that earn their keep</h2>
+              <h3 className="bl-club-title">
+                <em>Opening sentences</em> that earn their keep.
+              </h3>
               <p className="bl-club-body">
                 You’re in. Six readers, two writers in the room, one moderator with a stopwatch.
                 We pick three openings, we read them out, we ask the same question: would you turn
@@ -374,7 +501,7 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
             <aside className="bl-club-side">
               <span className="bl-club-side-label">Last session, in 14 words</span>
               <p className="bl-club-side-quote">
-                "The trick is not the first sentence. It’s whether the second one earns it."
+                “The trick is not the first sentence. It’s whether the second one earns it.”
               </p>
               <p className="bl-club-side-attrib">— Mira, reader since Feb</p>
             </aside>
@@ -382,17 +509,15 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
         </section>
       ) : (
         <section>
+          <ChapterHead
+            num="05"
+            title="One open seat in the reader’s room"
+            italicWord="open seat"
+          />
           <div className="bl-card" style={{ padding: '28px' }}>
-            <p className="bl-eyebrow" style={{ marginBottom: 12 }}>
-              <span className="bl-eyebrow-dot" />
-              Open seat
-            </p>
-            <h2 className="bl-h2" style={{ marginBottom: 10 }}>
-              The reader’s room meets twice a month. There’s still space.
-            </h2>
             <p className="bl-pitch" style={{ marginBottom: 18 }}>
               Six readers, two writers, one stopwatch. We read openings out loud and ask whether
-              we’d turn the page. Forty-five minutes, no homework.
+              we’d turn the page. Forty-five minutes, no homework — twice a month.
             </p>
             <a className="bl-btn is-ghost is-small" href="/?intake=reader">
               Join the room
@@ -401,51 +526,107 @@ export default function ReaderInsider({ intake }: { intake: ReaderIntake }) {
         </section>
       )}
 
+      <Intermission />
+
       <section>
-        <div className="bl-section-head">
-          <h2 className="bl-h2">Behind the lines</h2>
-          <p className="bl-section-note">Notes from the editors. Insider-only.</p>
-        </div>
-        <div className="bl-editorial-grid">
-          <article className="bl-card">
-            <p className="bl-editorial-kicker">Editor’s note · 3 min</p>
-            <h3 className="bl-editorial-title">Why we pay for "no thank yous"</h3>
+        <ChapterHead
+          num="06"
+          title="From the desk"
+          italicWord="desk"
+          note="Notes from the editors. Insider-only."
+        />
+        <div className="bl-editorial-grid has-lede">
+          <article className="bl-card is-lede">
+            <p className="bl-editorial-kicker">01 · Editor’s note · 3 min</p>
+            <h3 className="bl-editorial-title">
+              Why we pay for “no thank yous” — and what changed when we did.
+            </h3>
             <p className="bl-editorial-body">
               A short letter on why every reader who declines a piece gets a small honorarium —
-              and why that quietly changed the kind of work we receive.
+              and why that quietly changed the kind of work we receive, and the kind of declines
+              we get back.
             </p>
             <a className="bl-editorial-link" href="#">
               read the note
             </a>
           </article>
           <article className="bl-card">
-            <p className="bl-editorial-kicker">Q&amp;A · 6 min</p>
-            <h3 className="bl-editorial-title">Tomas Vinter on writing a map of a place that doesn’t exist</h3>
+            <p className="bl-editorial-kicker">02 · Q&amp;A · 6 min</p>
+            <h3 className="bl-editorial-title">
+              Tomas Vinter on writing a map of a place that doesn’t exist.
+            </h3>
             <p className="bl-editorial-body">
-              A short interview with the author of "The Salt-Cut Coast" about cartography,
-              grief, and why he wrote the second draft entirely in margin notes.
+              The author of “The Salt-Cut Coast” on cartography, grief, and why he wrote the
+              second draft entirely in margin notes.
             </p>
             <a className="bl-editorial-link" href="#">
               read the Q&amp;A
             </a>
           </article>
           <article className="bl-card">
-            <p className="bl-editorial-kicker">From the desk · 2 min</p>
-            <h3 className="bl-editorial-title">What we’re reading next week</h3>
+            <p className="bl-editorial-kicker">03 · From the desk · 2 min</p>
+            <h3 className="bl-editorial-title">
+              On reading something the second time.
+            </h3>
             <p className="bl-editorial-body">
-              Two excerpts from new writers and a short essay on reading in public. The lineup is
-              moving — bookmark this page or watch your inbox.
+              The reader’s second pass is not a re-read; it’s an answer. A short essay on what
+              authors do with the gap between the two.
             </p>
             <a className="bl-editorial-link" href="#">
-              see the lineup
+              read the essay
             </a>
           </article>
         </div>
       </section>
 
+      <section aria-label="Next issue">
+        <div className="bl-tease">
+          <div>
+            <p className="bl-tease-stamp">Issue 05 · arriving Sunday</p>
+            <h3 className="bl-tease-title">A longer week — two chapters, one essay, one room.</h3>
+            <p className="bl-tease-blurb">
+              The shelf rotates Sunday at 08:00. One title is open now; two land with the issue.
+              The room meets Thursday.
+            </p>
+          </div>
+          <ul className="bl-tease-list">
+            <li className="bl-tease-item is-open">
+              <span className="bl-tease-item-num">01</span>
+              <div className="bl-tease-item-body">
+                <p className="bl-tease-item-title">{shelf[0]?.title ?? 'The opening piece'}</p>
+                <p className="bl-tease-item-byline">by {shelf[0]?.byline ?? 'a returning reader’s author'}</p>
+              </div>
+              <span className="bl-tease-item-mark">open</span>
+            </li>
+            <li className="bl-tease-item is-locked">
+              <span className="bl-tease-item-num">02</span>
+              <div className="bl-tease-item-body">
+                <p className="bl-tease-item-title">The Light in Apartment 4B</p>
+                <p className="bl-tease-item-byline">by a debut writer — name with the issue</p>
+              </div>
+              <span className="bl-tease-item-mark">Sun</span>
+            </li>
+            <li className="bl-tease-item is-locked">
+              <span className="bl-tease-item-num">03</span>
+              <div className="bl-tease-item-body">
+                <p className="bl-tease-item-title">Essay: The Reader, Late at Night</p>
+                <p className="bl-tease-item-byline">by an editor — bylined Sunday</p>
+              </div>
+              <span className="bl-tease-item-mark">Sun</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <footer className="bl-footnote">
-        <strong>How you respond.</strong> {reactionMicrocopy(answers.reaction)} We never publish
-        a reaction with your name on it — authors only ever see the room, never the seat.
+        <p className="bl-footnote-line">
+          Reply to any of this — the desk reads everything.
+        </p>
+        <p className="bl-footnote-detail">
+          {reactionMicrocopy(answers.reaction)} We never publish a reaction with your name on it.
+          Authors only ever see the room, never the seat.
+        </p>
+        <p className="bl-footnote-sign">— the desk</p>
       </footer>
     </article>
   );
