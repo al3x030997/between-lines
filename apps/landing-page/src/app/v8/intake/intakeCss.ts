@@ -125,8 +125,8 @@ export const INTAKE_CSS = `
   font-weight: 700;
   font-style: normal;
   font-variation-settings: 'wdth' 96, 'opsz' 32;
-  font-size: clamp(20px, 2.2vw, 26px);
-  line-height: 1.18;
+  font-size: clamp(17px, 1.9vw, 22px);
+  line-height: 1.2;
   letter-spacing: -0.005em;
   color: var(--v6-accent);
   margin: 0 0 4px;
@@ -475,6 +475,6 @@ export const INTAKE_CSS = `
 @media (max-width: 640px) {
   .v8-intake { padding-left: 18px; padding-right: 18px; }
   .v8-intake-toggle-btn { padding: 16px 12px 18px; font-size: 17px; }
-  .v8-intake-prompt { font-size: 22px; }
+  .v8-intake-prompt { font-size: 19px; }
 }
 `;

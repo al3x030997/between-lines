@@ -145,7 +145,7 @@ export default function WriterGoals({ num, value, onChange }: Props) {
 
           <ExpandRow open={!!value.uploadSample.sample.file}>
             <div style={{ paddingTop: 14 }}>
-              <p className="v8-intake-prompt" style={{ fontSize: 22 }}>
+              <p className="v8-intake-prompt" style={{ fontSize: 19 }}>
                 Want help with your synopsis, pitch, or query letter?
               </p>
               <Chips>

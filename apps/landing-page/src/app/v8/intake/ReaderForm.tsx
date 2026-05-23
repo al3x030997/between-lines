@@ -227,7 +227,6 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
       </Group>
 
       <Group num="07" label="Beta-reader pool">
-        <Prompt>Want to beta-read drafts for other writers?</Prompt>
         <ToggleChip
           on={answers.betaPool}
           onClick={() => onChange({ ...answers, betaPool: !answers.betaPool })}
@@ -243,7 +242,6 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
       </Group>
 
       <Group num="08" label="Reader club">
-        <Prompt>Join a virtual reader&rsquo;s club?</Prompt>
         <ToggleChip
           on={answers.club}
           onClick={() => onChange({ ...answers, club: !answers.club })}
@@ -254,7 +252,6 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
       </Group>
 
       <Group num="09" label="Newsletter">
-        <Prompt>Get the BetweenLines newsletter?</Prompt>
         <ToggleChip
           on={answers.newsletter}
           onClick={() => onChange({ ...answers, newsletter: !answers.newsletter })}
