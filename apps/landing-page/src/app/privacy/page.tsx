@@ -14,70 +14,70 @@ const LAST_UPDATED = '2026-05-19';
 const CSS = `
 .bl-privacy-root {
   min-height: 100vh;
-  background: #ffffff;
-  color: #0e0e0c;
-  font-family: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
+  font-family: var(--bl-font-display);
   padding: clamp(48px, 8vh, 96px) clamp(20px, 5vw, 48px);
 }
 .bl-privacy-inner {
   max-width: 720px;
   margin: 0 auto;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 16px;
   line-height: 1.6;
-  color: #2a2a25;
+  color: var(--bl-ink-soft);
 }
 .bl-privacy-eyebrow {
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
   margin: 0 0 14px;
 }
 .bl-privacy-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 800;
   font-size: clamp(32px, 4.4vw, 48px);
   letter-spacing: -0.03em;
   line-height: 1.05;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0 0 8px;
 }
 .bl-privacy-updated {
-  color: #6a6a64;
+  color: var(--bl-ink-muted);
   font-size: 13px;
   margin: 0 0 32px;
 }
 .bl-privacy-inner h2 {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 20px;
   letter-spacing: -0.01em;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 32px 0 10px;
 }
 .bl-privacy-inner h3 {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 15px;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 20px 0 6px;
 }
 .bl-privacy-inner p { margin: 0 0 12px; }
 .bl-privacy-inner ul { margin: 0 0 16px 20px; }
 .bl-privacy-inner li { margin: 4px 0; }
 .bl-privacy-inner a {
-  color: #e94b36;
+  color: var(--bl-accent);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 .bl-privacy-back {
   display: inline-block;
   margin-top: 40px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  color: #0e0e0c;
+  color: var(--bl-ink);
 }
 `;
 

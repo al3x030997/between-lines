@@ -67,7 +67,7 @@ const STYLES = `
   background: var(--bl-section-bg);
   color: var(--bl-section-fg);
   padding: clamp(96px, 14vh, 160px) clamp(24px, 5vw, 80px);
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   transition: background-color 320ms ease, color 320ms ease;
 }
 .bl-editorial + .bl-editorial { padding-top: 0; }
@@ -100,7 +100,7 @@ const STYLES = `
   gap: 36px;
 }
 .bl-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.28em;
@@ -133,7 +133,7 @@ const STYLES = `
   height: 3px;
 }
 .bl-headline {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(40px, 5.4vw, 80px);
   line-height: 1.02;
@@ -147,7 +147,7 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.65;
   color: var(--bl-section-muted);
@@ -170,7 +170,7 @@ const STYLES = `
   align-items: baseline;
 }
 .bl-feature-index {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.28em;
@@ -184,7 +184,7 @@ const STYLES = `
   gap: 6px;
 }
 .bl-feature-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(24px, 2.2vw, 34px);
   line-height: 1.1;
@@ -196,7 +196,7 @@ const STYLES = `
   text-rendering: optimizeLegibility;
 }
 .bl-feature-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 15px;
   line-height: 1.6;
   color: var(--bl-section-muted);
@@ -226,7 +226,7 @@ const STYLES = `
   border-color: rgba(242,239,232,0.22);
 }
 .bl-card-index {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.2em;
@@ -235,7 +235,7 @@ const STYLES = `
   font-variant-numeric: tabular-nums;
 }
 .bl-card-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(20px, 1.8vw, 28px);
   line-height: 1.1;
@@ -247,7 +247,7 @@ const STYLES = `
   text-rendering: optimizeLegibility;
 }
 .bl-card-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 14px;
   line-height: 1.62;
   color: var(--bl-section-muted);
@@ -259,7 +259,7 @@ const STYLES = `
   align-items: center;
   gap: 5px;
   margin-top: 6px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -279,7 +279,7 @@ const STYLES = `
   text-align: center;
 }
 .bl-both-link {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 14px;
   letter-spacing: 0.18em;
   text-transform: uppercase;

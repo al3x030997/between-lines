@@ -1,21 +1,19 @@
 export const INSIDER_CSS = `
-:root {
-  --bl-bg: #0B1733;
-  --bl-bg-soft: #131F40;
-  --bl-fg: #F2EFE8;
-  --bl-fg-muted: rgba(242, 239, 232, 0.72);
-  --bl-fg-faint: rgba(242, 239, 232, 0.42);
-  --bl-accent: #e94b36;
+.bl-page {
+  --bl-bg: var(--bl-section-bg);
+  --bl-bg-soft: var(--bl-section-bg-soft);
+  --bl-fg: var(--bl-section-fg);
+  --bl-fg-muted: var(--bl-section-fg-muted);
+  --bl-fg-faint: var(--bl-section-fg-faint);
   --bl-accent-soft: rgba(233, 75, 54, 0.14);
-  --bl-divider: rgba(242, 239, 232, 0.12);
-  --bl-divider-strong: rgba(242, 239, 232, 0.22);
-  --bl-ease: cubic-bezier(.22, 1, .36, 1);
-  --bl-display: 'Cormorant Garamond', 'Times New Roman', serif;
-  --bl-serif: 'Fraunces', 'Cormorant Garamond', serif;
-  --bl-sans: 'Bricolage Grotesque', system-ui, sans-serif;
-  --bl-body: 'Outfit', system-ui, sans-serif;
-  --bl-mono: ui-monospace, 'SF Mono', Menlo, monospace;
-  --bl-script: 'Caveat', 'Brush Script MT', cursive;
+  --bl-divider: var(--bl-section-divider);
+  --bl-divider-strong: var(--bl-section-divider-strong);
+  --bl-display: var(--bl-font-serif);
+  --bl-serif: var(--bl-font-serif);
+  --bl-sans: var(--bl-font-eyebrow);
+  --bl-body: var(--bl-font-body);
+  --bl-mono: var(--bl-font-mono);
+  --bl-script: var(--bl-font-script);
 }
 
 /* Grain overlay — fixed, multiply blend, ~7% */

@@ -12,19 +12,15 @@ export const metadata: Metadata = {
 const CSS = `
 .bl-faq-root {
   min-height: 100vh;
-  background: #ffffff;
-  color: #0e0e0c;
-  font-family: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
-  --v6-ease: cubic-bezier(.22, 1, .36, 1);
-  --bl-footer-bg: #FFC700;
-  --bl-footer-fg: #0a0a0a;
-  --bl-footer-muted: rgba(10,10,10,0.62);
-  --bl-footer-divider: rgba(11,23,51,0.22);
-  --bl-footer-accent: #C5283D;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
+  font-family: var(--bl-font-display);
+  --v6-ease: var(--bl-ease);
+  --bl-footer-accent: var(--bl-accent);
 }
 .bl-faq-top {
   border-bottom: 1px solid rgba(14,14,12,0.08);
-  background: #ffffff;
+  background: var(--bl-surface);
 }
 .bl-faq-top-inner {
   max-width: 1100px;
@@ -38,28 +34,28 @@ const CSS = `
 .bl-faq-top-brand {
   display: inline-flex;
   align-items: baseline;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 18px;
   letter-spacing: -0.02em;
 }
 .bl-faq-top-dot {
-  color: #e94b36;
+  color: var(--bl-accent);
   padding: 0 4px;
   font-weight: 800;
   transform: translateY(-1px);
 }
 .bl-faq-top-back {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 500;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   text-decoration: none;
   transition: color 180ms ease;
 }
-.bl-faq-top-back:hover { color: #e94b36; }
+.bl-faq-top-back:hover { color: var(--bl-accent); }
 .bl-faq-shell {
   max-width: 1100px;
   margin: 0 auto;
@@ -74,23 +70,23 @@ const CSS = `
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
   margin: 0 0 14px;
 }
 .bl-faq-hero-title {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 800;
   font-size: clamp(44px, 6vw, 68px);
   letter-spacing: -0.03em;
   line-height: 1.05;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0 0 16px;
 }
 .bl-faq-hero-lede {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: clamp(17px, 1.25vw, 20px);
   line-height: 1.65;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   margin: 0;
   max-width: 56ch;
   text-wrap: pretty;
@@ -112,19 +108,19 @@ const CSS = `
   padding-left: 18px;
 }
 .bl-faq-side-label {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   margin: 0 0 6px;
 }
 .bl-faq-side a {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 15px;
   font-weight: 500;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   padding: 6px 0;
   display: flex;
@@ -132,11 +128,11 @@ const CSS = `
   gap: 10px;
   transition: color 180ms ease;
 }
-.bl-faq-side a:hover { color: #e94b36; }
+.bl-faq-side a:hover { color: var(--bl-accent); }
 .bl-faq-side-num {
   font-variant-numeric: tabular-nums;
   font-size: 12px;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   letter-spacing: 0.1em;
 }
 
@@ -154,22 +150,22 @@ const CSS = `
   border-bottom: 1px solid rgba(14,14,12,0.1);
 }
 .bl-faq-section-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
   margin: 0 0 10px;
   font-variant-numeric: tabular-nums;
 }
 .bl-faq-section-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: clamp(36px, 4.4vw, 52px);
   letter-spacing: -0.02em;
   line-height: 1.05;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
@@ -197,15 +193,15 @@ const CSS = `
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: clamp(17px, 1.35vw, 20px);
   line-height: 1.45;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   transition: color 180ms ease;
 }
 .bl-faq-q::-webkit-details-marker { display: none; }
-.bl-faq-q:hover { color: #e94b36; }
+.bl-faq-q:hover { color: var(--bl-accent); }
 .bl-faq-q-icon {
   flex: 0 0 auto;
   width: 18px;
@@ -240,10 +236,10 @@ const CSS = `
 }
 .bl-faq-a {
   padding: 6px 28px 24px 4px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 17px;
   line-height: 1.65;
-  color: #2a2a25;
+  color: var(--bl-ink-soft);
 }
 .bl-faq-a p { margin: 0 0 12px; text-wrap: pretty; }
 .bl-faq-a p:last-child { margin-bottom: 0; }
@@ -259,7 +255,7 @@ const CSS = `
 .bl-faq-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 15px;
   min-width: 360px;
 }
@@ -271,12 +267,12 @@ const CSS = `
   vertical-align: top;
 }
 .bl-faq-table thead th {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   background: rgba(14,14,12,0.03);
   border-bottom: 1px solid rgba(14,14,12,0.15);
 }
@@ -291,34 +287,34 @@ const CSS = `
   align-items: center;
 }
 .bl-faq-cta-primary {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: #0e0e0c;
-  color: #ffffff;
+  background: var(--bl-ink);
+  color: var(--bl-surface);
   padding: 13px 24px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 180ms ease;
 }
-.bl-faq-cta-primary:hover { transform: translateY(-1px); background: #e94b36; }
+.bl-faq-cta-primary:hover { transform: translateY(-1px); background: var(--bl-accent); }
 .bl-faq-cta-ghost {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   padding: 6px 2px;
   border-bottom: 1px solid currentColor;
   transition: color 180ms ease;
 }
-.bl-faq-cta-ghost:hover { color: #e94b36; }
+.bl-faq-cta-ghost:hover { color: var(--bl-accent); }
 
 /* AgentReady spotlight in the side nav */
 .bl-faq-spotlight {
@@ -331,7 +327,7 @@ const CSS = `
   background: #fbf6e8;
   border: 1px solid rgba(197, 40, 61, 0.18);
   border-radius: 10px;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   overflow: hidden;
   transition: border-color 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
@@ -343,7 +339,7 @@ const CSS = `
   left: 0;
   right: 0;
   height: 2px;
-  background: #e94b36;
+  background: var(--bl-accent);
   opacity: 0.85;
 }
 .bl-faq-spotlight:hover {
@@ -352,37 +348,37 @@ const CSS = `
   box-shadow: 0 14px 30px rgba(14, 14, 12, 0.08);
 }
 .bl-faq-spotlight-tag {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 10px;
   letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
 }
 .bl-faq-spotlight-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: 21px;
   line-height: 1.15;
   letter-spacing: -0.01em;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0;
 }
-.bl-faq-spotlight-title em { font-style: italic; color: #e94b36; }
+.bl-faq-spotlight-title em { font-style: italic; color: var(--bl-accent); }
 .bl-faq-spotlight-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 13px;
   line-height: 1.5;
-  color: #4a4640;
+  color: var(--bl-paper-ink-muted);
   margin: 0;
 }
 .bl-faq-spotlight-link {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -390,7 +386,7 @@ const CSS = `
   transition: color 200ms ease, gap 200ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-faq-spotlight:hover .bl-faq-spotlight-link {
-  color: #e94b36;
+  color: var(--bl-accent);
   gap: 10px;
 }
 
@@ -398,7 +394,7 @@ const CSS = `
 .bl-faq-cta-card {
   margin-top: clamp(64px, 9vw, 112px);
   padding: clamp(36px, 5vw, 56px) clamp(28px, 5vw, 56px);
-  background: #161410;
+  background: var(--bl-paper-ink);
   color: #F4EFE3;
   border-radius: 18px;
   display: grid;
@@ -418,7 +414,7 @@ const CSS = `
   pointer-events: none;
 }
 .bl-faq-cta-card-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 11px;
   letter-spacing: 0.4em;
@@ -427,7 +423,7 @@ const CSS = `
   margin: 0 0 14px;
 }
 .bl-faq-cta-card-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-display);
   font-weight: 500;
   font-size: clamp(28px, 3.4vw, 44px);
   line-height: 1.05;
@@ -438,7 +434,7 @@ const CSS = `
 }
 .bl-faq-cta-card-title em { font-style: italic; color: #E9B547; }
 .bl-faq-cta-card-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 16px;
   line-height: 1.6;
   color: rgba(244, 239, 227, 0.78);
@@ -453,12 +449,12 @@ const CSS = `
   align-items: stretch;
 }
 .bl-faq-cta-card-primary {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.06em;
   background: #F4EFE3;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   padding: 16px 26px;
   border-radius: 999px;
   text-decoration: none;
@@ -468,10 +464,10 @@ const CSS = `
 .bl-faq-cta-card-primary:hover {
   transform: translateY(-1px);
   background: #E9B547;
-  color: #161410;
+  color: var(--bl-paper-ink);
 }
 .bl-faq-cta-card-ghost {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.18em;
@@ -493,16 +489,16 @@ const CSS = `
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 13px;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
 }
 .bl-faq-foot a {
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   transition: color 180ms ease;
 }
-.bl-faq-foot a:hover { color: #e94b36; }
+.bl-faq-foot a:hover { color: var(--bl-accent); }
 
 @media (max-width: 820px) {
   .bl-faq-cta-card { grid-template-columns: 1fr; gap: 24px; }

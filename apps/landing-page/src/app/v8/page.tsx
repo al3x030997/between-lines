@@ -42,8 +42,9 @@ const V6_CSS = `
   color: var(--v6-text);
 }
 .v8-root.is-palette-forest {
-  --v6-accent: #0A3A23;
-  --v6-accent-soft: rgba(10, 58, 35, 0.08);
+  --bl-accent: #0A3A23;
+  --bl-accent-strong: #062716;
+  --bl-accent-soft: rgba(10, 58, 35, 0.08);
   --v6-text: #1a2a1f;
   --v6-text-strong: #0A3A23;
   --v6-text-muted: #2a3a2f;
@@ -54,8 +55,9 @@ const V6_CSS = `
   --bl-footer-accent: #E5B100;
 }
 .v8-root.is-palette-pop {
-  --v6-accent: #E63946;
-  --v6-accent-soft: rgba(230, 57, 70, 0.12);
+  --bl-accent: #E63946;
+  --bl-accent-strong: #c52c39;
+  --bl-accent-soft: rgba(230, 57, 70, 0.12);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
@@ -69,8 +71,9 @@ const V6_CSS = `
   background: linear-gradient(180deg, rgba(255,230,0,0.42) 0%, rgba(255,230,0,0.28) 50%, rgba(255,230,0,0.46) 100%);
 }
 .v8-root.is-palette-stranger {
-  --v6-accent: #C5283D;
-  --v6-accent-soft: rgba(197, 40, 61, 0.14);
+  --bl-accent: #C5283D;
+  --bl-accent-strong: #921a2b;
+  --bl-accent-soft: rgba(197, 40, 61, 0.14);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
@@ -1249,6 +1252,9 @@ export default function V6Page() {
     if (phase !== 'choose') return;
     setSelectedRegion(region);
     setPhase('leaving');
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     window.setTimeout(() => setPhase('questions'), 360);
   };
 
@@ -1545,7 +1551,7 @@ export default function V6Page() {
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 
-      <FaqTeaser />
+      <FaqTeaser onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />
 
       <WaitlistOverlay

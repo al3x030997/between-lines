@@ -178,11 +178,11 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
 const CSS = `
 .bl-offers {
   position: relative;
-  background: #FFC700;
-  color: #0a0a0a;
+  background: var(--bl-footer-bg);
+  color: var(--bl-footer-fg);
   padding: clamp(72px, 10vh, 112px) clamp(24px, 5vw, 80px);
   overflow: hidden;
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
 }
 .bl-offers::before {
   content: '';
@@ -214,12 +214,12 @@ const CSS = `
   align-self: stretch;
 }
 .bl-offers-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 11px;
   letter-spacing: 0.46em;
   text-transform: uppercase;
-  color: #C5283D;
+  color: var(--bl-accent);
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -233,12 +233,12 @@ const CSS = `
   opacity: 0.6;
 }
 .bl-offers-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 500;
   font-size: clamp(30px, 3.6vw, 46px);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: #0a0a0a;
+  color: var(--bl-footer-fg);
   margin: 0;
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt", "dlig";
@@ -246,32 +246,32 @@ const CSS = `
 .bl-offers-title em {
   font-style: italic;
   font-weight: 500;
-  color: #C5283D;
+  color: var(--bl-accent);
 }
 .bl-offers-volume-mark {
   display: block;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 500;
   font-size: clamp(48px, 6vw, 78px);
   line-height: 0.95;
   letter-spacing: -0.03em;
-  color: #0a0a0a;
+  color: var(--bl-footer-fg);
 }
 .bl-offers-volume-sub {
   display: block;
   margin-top: 8px;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 500;
   font-size: clamp(22px, 2.2vw, 30px);
   line-height: 1.15;
   letter-spacing: -0.015em;
-  color: #0a0a0a;
+  color: var(--bl-footer-fg);
 }
-.bl-offers-volume-sub em { color: #C5283D; }
+.bl-offers-volume-sub em { color: var(--bl-accent); }
 
 .bl-offers-lede {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 15.5px;
   line-height: 1.6;
   color: rgba(10, 10, 10, 0.74);
@@ -297,12 +297,12 @@ const CSS = `
   flex-direction: column;
   justify-content: space-between;
   box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-offers-cover:hover { transform: translateY(-2px) rotate(0deg) !important; }
 .bl-offers-cover-publisher {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 7px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -323,7 +323,7 @@ const CSS = `
 }
 .bl-offers-cover-rule { height: 1px; background: currentColor; opacity: 0.55; }
 .bl-offers-cover-author {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 7px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -351,37 +351,37 @@ const CSS = `
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: #C5283D;
-  color: #FFFFFF;
+  background: var(--bl-accent);
+  color: var(--bl-surface);
   flex: 0 0 auto;
-  box-shadow: 0 8px 22px rgba(197, 40, 61, 0.32);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--bl-accent) 32%, transparent);
 }
 
 .bl-offers-cta {
   margin-top: auto;
   align-self: flex-start;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #C5283D;
-  color: #FFF7E1;
+  background: var(--bl-accent);
+  color: var(--bl-paper-bg);
   padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-  box-shadow: 0 6px 18px rgba(197, 40, 61, 0.28);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--bl-accent) 28%, transparent);
 }
 .bl-offers-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(197, 40, 61, 0.4);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--bl-accent) 40%, transparent);
 }
 .bl-offers-cta-ghost {
   background: transparent;
-  color: #0a0a0a;
+  color: var(--bl-footer-fg);
   box-shadow: none;
   border: 1px solid rgba(10, 10, 10, 0.55);
 }

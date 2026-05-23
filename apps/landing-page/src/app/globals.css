@@ -1,5 +1,43 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&display=swap');
 
+:root {
+  --bl-accent: #e94b36;
+  --bl-accent-strong: #c93a26;
+  --bl-accent-soft: rgba(233, 75, 54, 0.06);
+  --bl-ink: #0e0e0c;
+  --bl-ink-muted: #5a5a52;
+  --bl-ink-soft: #2a2a25;
+  --bl-surface: #ffffff;
+  --bl-divider: rgba(14, 14, 12, 0.18);
+
+  --bl-section-bg: #0B1733;
+  --bl-section-bg-soft: #131F40;
+  --bl-section-fg: #F2EFE8;
+  --bl-section-fg-muted: rgba(242, 239, 232, 0.72);
+  --bl-section-fg-faint: rgba(242, 239, 232, 0.42);
+  --bl-section-muted: #8A95B5;
+  --bl-section-divider: rgba(242, 239, 232, 0.16);
+  --bl-section-divider-strong: rgba(242, 239, 232, 0.22);
+
+  --bl-paper-bg: #F6F1E3;
+  --bl-paper-ink: #161410;
+  --bl-paper-ink-muted: #4a463c;
+
+  --bl-footer-bg: #FFC700;
+  --bl-footer-fg: #0a0a0a;
+  --bl-footer-muted: rgba(10, 10, 10, 0.62);
+  --bl-footer-divider: rgba(11, 23, 51, 0.22);
+
+  --bl-font-display: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+  --bl-font-body: 'Outfit', system-ui, sans-serif;
+  --bl-font-eyebrow: 'Bricolage Grotesque', sans-serif;
+  --bl-font-serif: 'Cormorant Garamond', 'Times New Roman', serif;
+  --bl-font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --bl-font-script: 'Caveat', 'Brush Script MT', cursive;
+
+  --bl-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { min-height: 100%; }
 body { -webkit-font-smoothing: antialiased; }

@@ -104,8 +104,8 @@ export default function OpenCall({ onSubmit }: Props) {
 const CSS = `
 .bl-opencall {
   position: relative;
-  background: #ffffff;
-  color: #0e0e0c;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
   padding: clamp(96px, 14vh, 140px) clamp(24px, 5vw, 80px);
   overflow: hidden;
 }
@@ -124,22 +124,22 @@ const CSS = `
   gap: clamp(20px, 2.4vw, 30px);
 }
 .bl-opencall-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
   margin: 0;
   font-feature-settings: "kern", "liga";
 }
 .bl-opencall-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(36px, 5vw, 68px);
   letter-spacing: -0.02em;
   line-height: 1.05;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0 0 6px;
   max-width: 22ch;
   text-wrap: balance;
@@ -148,16 +148,16 @@ const CSS = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-opencall-title em {
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 500;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
 .bl-opencall-body {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 16px;
   font-weight: 400;
-  color: #4a4640;
+  color: var(--bl-ink-muted);
   margin: 0;
   line-height: 1.6;
   text-wrap: pretty;
@@ -165,7 +165,7 @@ const CSS = `
 }
 .bl-opencall-body strong {
   font-weight: 600;
-  color: #0e0e0c;
+  color: var(--bl-ink);
 }
 .bl-opencall-cta {
   display: flex;
@@ -175,33 +175,33 @@ const CSS = `
   margin-top: 10px;
 }
 .bl-opencall-cta-primary {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 14px;
   letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #0e0e0c;
-  color: #ffffff;
+  background: var(--bl-ink);
+  color: var(--bl-surface);
   padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 200ms ease;
 }
-.bl-opencall-cta-primary:hover { transform: translateY(-1px); background: #e94b36; }
+.bl-opencall-cta-primary:hover { transform: translateY(-1px); background: var(--bl-accent); }
 .bl-opencall-cta-arrow {
   display: inline-block;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-opencall-cta-primary:hover .bl-opencall-cta-arrow { transform: translateX(3px); }
 .bl-opencall-cta-ghost {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   padding: 6px 2px;
   position: relative;
@@ -218,7 +218,7 @@ const CSS = `
   opacity: 0.45;
   transition: opacity 200ms ease;
 }
-.bl-opencall-cta-ghost:hover { color: #e94b36; }
+.bl-opencall-cta-ghost:hover { color: var(--bl-accent); }
 .bl-opencall-cta-ghost:hover::after { opacity: 1; }
 
 /* ===== Right column: the journal cover, mocked as a tilted poster ===== */
@@ -240,7 +240,7 @@ const CSS = `
   background-image:
     linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.07) 100%),
     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/></svg>");
-  color: #F6F1E3;
+  color: var(--bl-paper-bg);
   display: grid;
   grid-template-rows: auto 1fr auto;
   padding: clamp(22px, 2.8vw, 32px) clamp(24px, 3vw, 36px) clamp(22px, 2.8vw, 32px) clamp(48px, 5.5vw, 64px);
@@ -256,7 +256,7 @@ const CSS = `
 .bl-opencall-cover-paper {
   position: absolute;
   inset: 0;
-  background: #F6F1E3;
+  background: var(--bl-paper-bg);
   border: 1px solid rgba(22, 20, 16, 0.08);
   box-shadow: 0 14px 30px rgba(22, 20, 16, 0.12);
   transform: rotate(-1.4deg) translate(20px, 16px);
@@ -274,7 +274,7 @@ const CSS = `
   justify-content: center;
 }
 .bl-opencall-cover-spine span {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.34em;
@@ -290,7 +290,7 @@ const CSS = `
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.3em;
@@ -302,19 +302,19 @@ const CSS = `
   align-items: center;
 }
 .bl-opencall-cover-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(38px, 4.6vw, 54px);
   line-height: 0.98;
   letter-spacing: -0.022em;
   margin: 0;
-  color: #F6F1E3;
+  color: var(--bl-paper-bg);
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-opencall-cover-title em {
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 500;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
@@ -330,7 +330,7 @@ const CSS = `
   background: rgba(246, 241, 227, 0.55);
 }
 .bl-opencall-cover-byline {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.3em;
@@ -345,14 +345,14 @@ const CSS = `
 .bl-opencall-sticker {
   position: absolute;
   z-index: 3;
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-family: var(--bl-font-mono);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  background: #ffffff;
-  color: #0e0e0c;
-  border: 1px solid #0e0e0c;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
+  border: 1px solid var(--bl-ink);
   padding: 9px 14px;
   white-space: nowrap;
   display: inline-flex;
@@ -362,7 +362,7 @@ const CSS = `
 }
 .bl-opencall-sticker-arrow {
   display: inline-block;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 12px;
   letter-spacing: 0;

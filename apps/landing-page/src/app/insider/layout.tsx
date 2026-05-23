@@ -4,9 +4,9 @@ const CSS = `
   background:
     radial-gradient(120% 80% at 50% -10%, rgba(233, 75, 54, 0.08), transparent 55%),
     radial-gradient(80% 60% at 100% 110%, rgba(80, 100, 180, 0.08), transparent 60%),
-    #0B1733;
-  color: #F2EFE8;
-  font-family: 'Outfit', system-ui, sans-serif;
+    var(--bl-section-bg);
+  color: var(--bl-section-fg);
+  font-family: var(--bl-font-body);
   display: flex;
   flex-direction: column;
 }
@@ -29,21 +29,21 @@ const CSS = `
   gap: 8px;
   text-decoration: none;
   color: inherit;
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 500;
   letter-spacing: 0.02em;
   font-size: 22px;
   line-height: 1;
 }
 .bl-insider-brand-mark {
-  font-family: 'Fraunces', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 400;
-  color: #e94b36;
+  color: var(--bl-accent);
   font-size: 22px;
 }
 .bl-insider-brand-tag {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 10px;
   letter-spacing: 0.3em;
@@ -61,7 +61,7 @@ const CSS = `
   border: 1px solid rgba(242, 239, 232, 0.24);
   border-radius: 999px;
   padding: 8px 16px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 12px;
   letter-spacing: 0.14em;
@@ -70,7 +70,7 @@ const CSS = `
   transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
 }
 .bl-insider-signout:hover {
-  border-color: #F2EFE8;
+  border-color: var(--bl-section-fg);
   background: rgba(242, 239, 232, 0.06);
 }
 .bl-insider-main {

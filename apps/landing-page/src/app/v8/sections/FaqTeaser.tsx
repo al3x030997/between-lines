@@ -3,10 +3,10 @@ import { FAQ } from '@/lib/faq';
 
 const STYLES = `
 .bl-faq-teaser {
-  background: #ffffff;
-  color: #0e0e0c;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
   padding: clamp(96px, 12vw, 140px) clamp(24px, 5vw, 80px);
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
 }
 .bl-faq-teaser-inner {
   max-width: 1280px;
@@ -21,12 +21,12 @@ const STYLES = `
   max-width: 640px;
 }
 .bl-faq-eyebrow {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #e94b36;
+  color: var(--bl-accent);
   position: relative;
   display: inline-block;
   padding-bottom: 8px;
@@ -39,15 +39,15 @@ const STYLES = `
   bottom: 0;
   height: 2px;
   width: 56px;
-  background: #e94b36;
+  background: var(--bl-accent);
 }
 .bl-faq-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: clamp(36px, 4.6vw, 64px);
   line-height: 1.04;
   letter-spacing: -0.025em;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0;
   text-wrap: balance;
   font-kerning: normal;
@@ -55,10 +55,10 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-faq-lede {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: clamp(15px, 1.05vw, 17px);
   line-height: 1.6;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   margin: 0;
   max-width: 52ch;
   text-wrap: pretty;
@@ -73,7 +73,7 @@ const STYLES = `
   flex-direction: column;
   gap: 10px;
   padding: 24px 26px 22px;
-  background: #ffffff;
+  background: var(--bl-surface);
   border: 1px solid rgba(14,14,12,0.1);
   border-radius: 14px;
   text-decoration: none;
@@ -89,7 +89,7 @@ const STYLES = `
   position: absolute;
   inset: 0;
   border-radius: 14px;
-  border-top: 2px solid #e94b36;
+  border-top: 2px solid var(--bl-accent);
   opacity: 0;
   transition: opacity 220ms cubic-bezier(.22, 1, .36, 1);
   pointer-events: none;
@@ -106,30 +106,30 @@ const STYLES = `
   opacity: 1;
 }
 .bl-faq-card-index {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.24em;
-  color: #e94b36;
+  color: var(--bl-accent);
   font-variant-numeric: tabular-nums;
   text-transform: uppercase;
 }
 .bl-faq-card-title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: clamp(22px, 1.9vw, 28px);
   line-height: 1.1;
   letter-spacing: -0.015em;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   margin: 0;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
 }
 .bl-faq-card-blurb {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: 14px;
   line-height: 1.55;
-  color: #5a5a52;
+  color: var(--bl-ink-muted);
   margin: 0;
   text-wrap: pretty;
 }
@@ -138,19 +138,19 @@ const STYLES = `
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #0e0e0c;
+  color: var(--bl-ink);
 }
 .bl-faq-card-arrow-glyph {
   transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-faq-card:hover .bl-faq-card-arrow,
 .bl-faq-card:focus-visible .bl-faq-card-arrow {
-  color: #e94b36;
+  color: var(--bl-accent);
 }
 .bl-faq-card:hover .bl-faq-card-arrow-glyph,
 .bl-faq-card:focus-visible .bl-faq-card-arrow-glyph {
@@ -161,12 +161,12 @@ const STYLES = `
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   text-decoration: none;
   padding: 12px 0;
   position: relative;
@@ -178,14 +178,14 @@ const STYLES = `
   right: 0;
   bottom: 6px;
   height: 1px;
-  background: #e94b36;
+  background: var(--bl-accent);
   transform: scaleX(0.3);
   transform-origin: left;
   transition: transform 320ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-faq-all:hover,
 .bl-faq-all:focus-visible {
-  color: #e94b36;
+  color: var(--bl-accent);
   outline: none;
 }
 .bl-faq-all:hover::after,
@@ -200,12 +200,119 @@ const STYLES = `
   transform: translateX(4px);
 }
 
+.bl-faq-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  margin: clamp(48px, 6vw, 72px) 0 clamp(56px, 7vw, 88px);
+}
+.bl-faq-split::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
+  pointer-events: none;
+}
+.bl-faq-split-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+.bl-faq-split-eyebrow {
+  font-family: var(--bl-font-eyebrow);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bl-accent);
+  margin: 0;
+}
+.bl-faq-split-headline {
+  font-family: var(--bl-font-serif);
+  font-weight: 500;
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--bl-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.bl-faq-split-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bl-faq-split-bullets li {
+  font-family: var(--bl-font-body);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--bl-ink-muted);
+  display: flex;
+  gap: 10px;
+  text-wrap: pretty;
+}
+.bl-faq-split-bullets li::before {
+  content: '→';
+  color: var(--bl-accent);
+  flex-shrink: 0;
+}
+.bl-faq-split-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 10px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--bl-accent);
+  color: #fff;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 220ms var(--bl-ease),
+    transform 220ms var(--bl-ease);
+}
+.bl-faq-split-cta:hover,
+.bl-faq-split-cta:focus-visible {
+  background: var(--bl-accent-strong);
+  transform: translateY(-1px);
+  outline: none;
+}
+.bl-faq-split-cta > span {
+  transition: transform 240ms var(--bl-ease);
+}
+.bl-faq-split-cta:hover > span,
+.bl-faq-split-cta:focus-visible > span {
+  transform: translateX(4px);
+}
+
+@media (max-width: 760px) {
+  .bl-faq-split { grid-template-columns: 1fr; gap: 40px; }
+  .bl-faq-split::before { display: none; }
+}
 @media (max-width: 600px) {
   .bl-faq-grid { grid-template-columns: 1fr; }
 }
 `;
 
-export default function FaqTeaser() {
+type Props = {
+  onReader: () => void;
+  onWriter: () => void;
+};
+
+export default function FaqTeaser({ onReader, onWriter }: Props) {
   return (
     <section className="bl-faq-teaser" aria-label="Frequently asked questions">
       <style>{STYLES}</style>
@@ -217,6 +324,35 @@ export default function FaqTeaser() {
             Browse by topic — credits, copyright, beta reading, AI policy, manuscript protection,
             and more.
           </p>
+        </div>
+
+        <div className="bl-faq-split">
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-eyebrow">For readers</span>
+            <h3 className="bl-faq-split-headline">
+              Read what no algorithm would surface.
+            </h3>
+            <ul className="bl-faq-split-bullets">
+              <li>Six editorial picks every month — books &amp; unpublished manuscripts.</li>
+              <li>First-50 sampler: read 50 pages of anything, free.</li>
+            </ul>
+            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
+              Open the shelf <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-eyebrow">For writers</span>
+            <h3 className="bl-faq-split-headline">
+              Publish your manuscript. Find your readers.
+            </h3>
+            <ul className="bl-faq-split-bullets">
+              <li>Free editorial letter — a human editor reads every submission within 14 days.</li>
+              <li>Three paths after the read: agent intro, indie press, or D2P imprint.</li>
+            </ul>
+            <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
+              Submit a manuscript <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </div>
 
         <div className="bl-faq-grid">
