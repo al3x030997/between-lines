@@ -178,8 +178,8 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
 const CSS = `
 .bl-offers {
   position: relative;
-  background: #161410;
-  color: #F3EFE6;
+  background: #FFC700;
+  color: #0a0a0a;
   padding: clamp(72px, 10vh, 112px) clamp(24px, 5vw, 80px);
   overflow: hidden;
   font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
@@ -190,7 +190,7 @@ const CSS = `
   inset: 0;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   opacity: 0.06;
-  mix-blend-mode: screen;
+  mix-blend-mode: multiply;
   pointer-events: none;
 }
 .bl-offers-inner {
@@ -209,7 +209,7 @@ const CSS = `
   min-width: 0;
 }
 .bl-offers-divider {
-  background: rgba(243, 239, 230, 0.14);
+  background: rgba(10, 10, 10, 0.18);
   width: 1px;
   align-self: stretch;
 }
@@ -219,7 +219,7 @@ const CSS = `
   font-size: 11px;
   letter-spacing: 0.46em;
   text-transform: uppercase;
-  color: #E48F4A;
+  color: #C5283D;
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -238,7 +238,7 @@ const CSS = `
   font-size: clamp(30px, 3.6vw, 46px);
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: #F3EFE6;
+  color: #0a0a0a;
   margin: 0;
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt", "dlig";
@@ -246,7 +246,7 @@ const CSS = `
 .bl-offers-title em {
   font-style: italic;
   font-weight: 500;
-  color: #E48F4A;
+  color: #C5283D;
 }
 .bl-offers-volume-mark {
   display: block;
@@ -256,7 +256,7 @@ const CSS = `
   font-size: clamp(48px, 6vw, 78px);
   line-height: 0.95;
   letter-spacing: -0.03em;
-  color: #F3EFE6;
+  color: #0a0a0a;
 }
 .bl-offers-volume-sub {
   display: block;
@@ -266,15 +266,15 @@ const CSS = `
   font-size: clamp(22px, 2.2vw, 30px);
   line-height: 1.15;
   letter-spacing: -0.015em;
-  color: #F3EFE6;
+  color: #0a0a0a;
 }
-.bl-offers-volume-sub em { color: #E48F4A; }
+.bl-offers-volume-sub em { color: #C5283D; }
 
 .bl-offers-lede {
   font-family: 'Outfit', sans-serif;
   font-size: 15.5px;
   line-height: 1.6;
-  color: rgba(243, 239, 230, 0.72);
+  color: rgba(10, 10, 10, 0.74);
   margin: 0;
   max-width: 46ch;
   text-wrap: pretty;
@@ -296,7 +296,7 @@ const CSS = `
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
   font-family: 'Cormorant Garamond', serif;
   transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -341,7 +341,7 @@ const CSS = `
 .bl-offers-wave {
   flex: 1;
   height: 48px;
-  fill: rgba(243, 239, 230, 0.35);
+  fill: rgba(10, 10, 10, 0.4);
   display: block;
 }
 .bl-offers-play {
@@ -351,10 +351,10 @@ const CSS = `
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  background: #E48F4A;
-  color: #161410;
+  background: #C5283D;
+  color: #FFFFFF;
   flex: 0 0 auto;
-  box-shadow: 0 8px 22px rgba(228, 143, 74, 0.35);
+  box-shadow: 0 8px 22px rgba(197, 40, 61, 0.32);
 }
 
 .bl-offers-cta {
@@ -367,27 +367,27 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #E48F4A;
-  color: #161410;
+  background: #C5283D;
+  color: #FFF7E1;
   padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-  box-shadow: 0 6px 18px rgba(228, 143, 74, 0.22);
+  box-shadow: 0 6px 18px rgba(197, 40, 61, 0.28);
 }
 .bl-offers-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(228, 143, 74, 0.32);
+  box-shadow: 0 12px 28px rgba(197, 40, 61, 0.4);
 }
 .bl-offers-cta-ghost {
   background: transparent;
-  color: #F3EFE6;
+  color: #0a0a0a;
   box-shadow: none;
-  border: 1px solid rgba(243, 239, 230, 0.45);
+  border: 1px solid rgba(10, 10, 10, 0.55);
 }
 .bl-offers-cta-ghost:hover {
-  background: rgba(243, 239, 230, 0.07);
-  border-color: rgba(243, 239, 230, 0.75);
+  background: rgba(10, 10, 10, 0.06);
+  border-color: rgba(10, 10, 10, 0.85);
   box-shadow: none;
 }
 .bl-offers-cta-arrow {

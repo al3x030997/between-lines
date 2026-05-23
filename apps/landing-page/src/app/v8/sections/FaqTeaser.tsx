@@ -200,127 +200,6 @@ const STYLES = `
   transform: translateX(4px);
 }
 
-/* AgentReady spotlight */
-.bl-faq-spotlight {
-  margin-top: clamp(28px, 4vw, 44px);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  gap: clamp(28px, 4vw, 56px);
-  align-items: center;
-  padding: clamp(28px, 3.6vw, 40px) clamp(28px, 4vw, 48px);
-  background: #0e0e0c;
-  color: #F4EFE3;
-  border-radius: 18px;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-  transition: transform 280ms cubic-bezier(.22, 1, .36, 1), box-shadow 280ms ease;
-}
-.bl-faq-spotlight::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.14'/></svg>");
-  opacity: 0.4;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-.bl-faq-spotlight:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 22px 48px rgba(14, 14, 12, 0.18);
-}
-.bl-faq-spotlight-icon {
-  width: 64px;
-  height: 64px;
-  border: 1px solid rgba(244, 239, 227, 0.32);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 32px;
-  color: #E9B547;
-  line-height: 1;
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-.bl-faq-spotlight-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: relative;
-  z-index: 1;
-}
-.bl-faq-spotlight-tag {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: #E9B547;
-}
-.bl-faq-spotlight-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
-  font-weight: 500;
-  font-size: clamp(24px, 2.6vw, 34px);
-  line-height: 1.1;
-  letter-spacing: -0.018em;
-  margin: 0;
-  text-wrap: balance;
-}
-.bl-faq-spotlight-title em {
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 500;
-  color: #E9B547;
-}
-.bl-faq-spotlight-blurb {
-  font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  line-height: 1.55;
-  color: rgba(244, 239, 227, 0.78);
-  margin: 0;
-  max-width: 58ch;
-  text-wrap: pretty;
-}
-.bl-faq-spotlight-cta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: #F4EFE3;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-  transition: color 200ms ease, gap 220ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-faq-spotlight:hover .bl-faq-spotlight-cta {
-  color: #E9B547;
-  gap: 12px;
-}
-.bl-faq-spotlight-cta-arrow {
-  display: inline-block;
-  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-faq-spotlight:hover .bl-faq-spotlight-cta-arrow { transform: translateX(2px); }
-
-@media (max-width: 760px) {
-  .bl-faq-spotlight {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    padding: 28px 26px;
-    text-align: left;
-  }
-  .bl-faq-spotlight-icon { width: 52px; height: 52px; font-size: 26px; }
-  .bl-faq-spotlight-cta { align-self: flex-start; }
-}
 @media (max-width: 600px) {
   .bl-faq-grid { grid-template-columns: 1fr; }
 }
@@ -358,30 +237,23 @@ export default function FaqTeaser() {
               </span>
             </Link>
           ))}
-        </div>
-
-        <Link
-          href="/faq#what-is-agentready"
-          className="bl-faq-spotlight"
-          aria-label="AgentReady — research, query, and submit in one place"
-        >
-          <span className="bl-faq-spotlight-icon" aria-hidden="true">A</span>
-          <div className="bl-faq-spotlight-body">
-            <span className="bl-faq-spotlight-tag">Tool &middot; spotlight</span>
-            <h3 className="bl-faq-spotlight-title">
-              <em>AgentReady</em> &mdash; research, query, and submit in one place.
-            </h3>
-            <p className="bl-faq-spotlight-blurb">
-              Build your agent list beyond QueryTracker. Generate tailored query letters,
-              synopses, and pitches. Free to start; Pro unlocks AI-assisted drafts and
-              real-time agent open/closed status.
+          <Link
+            href="/faq#what-is-agentready"
+            className="bl-faq-card"
+            aria-label="AgentReady — research, query, and submit in one place"
+          >
+            <span className="bl-faq-card-index">
+              {String(FAQ.length + 1).padStart(2, '0')} · TOOL
+            </span>
+            <h3 className="bl-faq-card-title">AgentReady</h3>
+            <p className="bl-faq-card-blurb">
+              Research, query, and submit in one place
             </p>
-          </div>
-          <span className="bl-faq-spotlight-cta">
-            Read how it works
-            <span className="bl-faq-spotlight-cta-arrow" aria-hidden="true">→</span>
-          </span>
-        </Link>
+            <span className="bl-faq-card-arrow">
+              Browse <span className="bl-faq-card-arrow-glyph" aria-hidden="true">→</span>
+            </span>
+          </Link>
+        </div>
 
         <Link href="/faq" className="bl-faq-all">
           Read all FAQs <span className="bl-faq-all-arrow" aria-hidden="true">→</span>

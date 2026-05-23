@@ -884,14 +884,14 @@ const V6_CSS = `
 }
 .v8-root.is-layout-doors .v8-hero-lede {
   margin: clamp(24px, 3.5vh, 36px) 0 0;
-  max-width: 54ch;
+  max-width: 80ch;
   font-family: 'Outfit', sans-serif;
   font-weight: 400;
-  font-size: clamp(15px, 1.25vw, 18px);
-  line-height: 1.55;
-  letter-spacing: 0.005em;
+  font-size: clamp(20px, 2.1vw, 30px);
+  line-height: 1.4;
+  letter-spacing: -0.005em;
   color: var(--v6-text-strong);
-  opacity: 0.82;
+  opacity: 0.92;
   text-wrap: pretty;
 }
 
