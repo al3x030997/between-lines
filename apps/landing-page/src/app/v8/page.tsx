@@ -7,9 +7,9 @@ import { WaitlistOverlay } from './WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import { serializeWriter } from './intake/writer/writerTypes';
 import OpenCall from './sections/OpenCall';
+import SignupOffers from './sections/SignupOffers';
 import FaqTeaser from './sections/FaqTeaser';
 import Footer from './sections/Footer';
-import QuotesCarousel from './sections/QuotesCarousel';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -749,6 +749,19 @@ const V6_CSS = `
   text-wrap: balance;
   font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
+.v8-door-sub {
+  margin: 6px 0 0;
+  max-width: 28ch;
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(15px, 1.25vw, 19px);
+  line-height: 1.4;
+  letter-spacing: 0.005em;
+  color: var(--v6-text-strong);
+  opacity: 0.78;
+  text-wrap: pretty;
+}
 .v8-door-cta {
   margin-top: 18px;
   display: inline-flex;
@@ -871,14 +884,14 @@ const V6_CSS = `
 }
 .v8-root.is-layout-doors .v8-hero-lede {
   margin: clamp(24px, 3.5vh, 36px) 0 0;
-  max-width: 44ch;
+  max-width: 54ch;
   font-family: 'Outfit', sans-serif;
   font-weight: 400;
-  font-size: clamp(15px, 1.3vw, 19px);
+  font-size: clamp(15px, 1.25vw, 18px);
   line-height: 1.55;
   letter-spacing: 0.005em;
   color: var(--v6-text-strong);
-  opacity: 0.78;
+  opacity: 0.82;
   text-wrap: pretty;
 }
 
@@ -1187,6 +1200,12 @@ const DOOR_TITLES: Record<'reader' | 'author', string> = {
   author: 'I’m writer first',
 };
 
+const DOOR_SUBS: Record<'reader' | 'author', string> = {
+  reader:
+    'A curated shelf of books — and unpublished manuscripts our editors defend.',
+  author: 'Publish your manuscript. Find your readers.',
+};
+
 const DOOR_CTAS: Record<'reader' | 'author', string> = {
   reader: 'open as a reader',
   author: 'open as a writer',
@@ -1380,9 +1399,10 @@ export default function V6Page() {
                   Discover Emerging Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
                 </h1>
                 <p className="v8-hero-lede">
-                  BetweenReads is a platform for serious readers and serious writers.
+                  Home for readers who want books worth their time &mdash; and writers who want real
+                  readers, real feedback, and a real path to publish. Curated by humans. No ranked
+                  feed. No pay-to-play.
                 </p>
-                <QuotesCarousel />
               </>
             ) : (
               <>
@@ -1402,6 +1422,7 @@ export default function V6Page() {
                   {...regionProps(r)}
                 >
                   <h2 className="v8-door-title">{DOOR_TITLES[r]}</h2>
+                  <p className="v8-door-sub">{DOOR_SUBS[r]}</p>
                   <span className="v8-door-cta">
                     <span className="v8-door-cta-text">{DOOR_CTAS[r]}</span>
                     <span className="v8-door-arrow" aria-hidden="true">→</span>
@@ -1591,6 +1612,8 @@ export default function V6Page() {
           <span className="bl-intermission-line" />
         </span>
       </aside>
+
+      <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 
       <FaqTeaser />
       <Footer />
