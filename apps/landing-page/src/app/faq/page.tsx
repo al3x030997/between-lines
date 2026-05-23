@@ -94,7 +94,7 @@ const CSS = `
 
 .bl-faq-layout {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: clamp(32px, 5vw, 72px);
   align-items: start;
 }
@@ -106,6 +106,8 @@ const CSS = `
   gap: 8px;
   border-left: 1px solid rgba(14,14,12,0.1);
   padding-left: 18px;
+  width: 100%;
+  min-width: 0;
 }
 .bl-faq-side-label {
   font-family: var(--bl-font-eyebrow);
@@ -330,6 +332,9 @@ const CSS = `
   color: var(--bl-ink);
   text-decoration: none;
   overflow: hidden;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   transition: border-color 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
 }
 .bl-faq-spotlight::before {
@@ -390,9 +395,236 @@ const CSS = `
   gap: 10px;
 }
 
+/* Split promo card: 3 free reads + Volume audio */
+.bl-faq-promo-card {
+  margin-top: clamp(64px, 9vw, 112px);
+  padding: clamp(36px, 5vw, 56px) clamp(28px, 5vw, 56px);
+  background: var(--bl-paper-ink);
+  color: #F4EFE3;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+}
+.bl-faq-promo-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.bl-faq-promo-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 20px);
+  min-width: 0;
+}
+.bl-faq-promo-divider {
+  background: rgba(244, 239, 227, 0.16);
+  width: 1px;
+  align-self: stretch;
+}
+.bl-faq-promo-eyebrow {
+  font-family: var(--bl-font-eyebrow);
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #E9B547;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.bl-faq-promo-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.bl-faq-promo-title {
+  font-family: var(--bl-font-display);
+  font-weight: 500;
+  font-size: clamp(28px, 3.2vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #F4EFE3;
+  margin: 0;
+  text-wrap: balance;
+  font-feature-settings: "kern", "liga", "calt";
+}
+.bl-faq-promo-title em {
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  color: #E9B547;
+}
+.bl-faq-promo-volume {
+  display: block;
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+  font-size: clamp(44px, 5.4vw, 70px);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: #F4EFE3;
+}
+.bl-faq-promo-volume-sub {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--bl-font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.1vw, 27px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: #F4EFE3;
+}
+.bl-faq-promo-volume-sub em {
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  color: #E9B547;
+}
+.bl-faq-promo-body {
+  font-family: var(--bl-font-body);
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: rgba(244, 239, 227, 0.74);
+  margin: 0;
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+.bl-faq-promo-covers {
+  display: flex;
+  gap: 12px;
+  margin: 4px 0 2px;
+  align-items: flex-end;
+}
+.bl-faq-promo-cover {
+  flex: 0 0 auto;
+  width: clamp(64px, 7vw, 88px);
+  aspect-ratio: 2 / 3;
+  border-radius: 3px;
+  padding: 8px 8px 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.32);
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
+.bl-faq-promo-cover:hover { transform: translateY(-2px) rotate(0deg) !important; }
+.bl-faq-promo-cover-publisher {
+  font-family: var(--bl-font-eyebrow);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+.bl-faq-promo-cover-title {
+  font-size: clamp(12px, 1.1vw, 15px);
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.bl-faq-promo-cover-title em { font-style: italic; font-weight: 500; }
+.bl-faq-promo-cover-foot { display: flex; flex-direction: column; gap: 3px; }
+.bl-faq-promo-cover-rule { height: 1px; background: currentColor; opacity: 0.55; }
+.bl-faq-promo-cover-author {
+  font-family: var(--bl-font-eyebrow);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.bl-faq-promo-audio {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0;
+  margin: 2px 0;
+}
+.bl-faq-promo-wave {
+  flex: 1;
+  height: 44px;
+  fill: rgba(244, 239, 227, 0.32);
+  display: block;
+}
+.bl-faq-promo-play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  background: #E9B547;
+  color: var(--bl-paper-ink);
+  flex: 0 0 auto;
+  box-shadow: 0 8px 22px rgba(233, 181, 71, 0.28);
+}
+.bl-faq-promo-cta {
+  margin-top: auto;
+  align-self: flex-start;
+  font-family: var(--bl-font-eyebrow);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #F4EFE3;
+  color: var(--bl-paper-ink);
+  padding: 14px 26px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 180ms ease, color 180ms ease;
+}
+.bl-faq-promo-cta:hover {
+  transform: translateY(-1px);
+  background: #E9B547;
+  color: var(--bl-paper-ink);
+}
+.bl-faq-promo-cta-ghost {
+  background: transparent;
+  color: rgba(244, 239, 227, 0.92);
+  border: 1px solid rgba(244, 239, 227, 0.45);
+}
+.bl-faq-promo-cta-ghost:hover {
+  background: transparent;
+  color: #E9B547;
+  border-color: #E9B547;
+}
+.bl-faq-promo-cta-arrow {
+  display: inline-block;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.bl-faq-promo-cta:hover .bl-faq-promo-cta-arrow { transform: translateX(3px); }
+
+@media (max-width: 820px) {
+  .bl-faq-promo-card {
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 5vw, 48px);
+  }
+  .bl-faq-promo-divider {
+    width: auto;
+    height: 1px;
+  }
+}
+
 /* Bottom CTA card */
 .bl-faq-cta-card {
-  margin-top: clamp(64px, 9vw, 112px);
+  margin-top: clamp(40px, 5vw, 64px);
   padding: clamp(36px, 5vw, 56px) clamp(28px, 5vw, 56px);
   background: var(--bl-paper-ink);
   color: #F4EFE3;
@@ -662,6 +894,115 @@ export default function FaqPage() {
             ))}
           </div>
         </div>
+
+        <section className="bl-faq-promo-card" aria-label="Free reads and Volume audio">
+          <article className="bl-faq-promo-panel" aria-labelledby="bl-faq-promo-reader-title">
+            <p className="bl-faq-promo-eyebrow">Free on signup</p>
+            <h2 className="bl-faq-promo-title" id="bl-faq-promo-reader-title">
+              Three originals, <em>on the house.</em>
+            </h2>
+            <div className="bl-faq-promo-covers" aria-hidden="true">
+              <div
+                className="bl-faq-promo-cover"
+                style={{ background: '#C5283D', color: '#F3EFE6', transform: 'rotate(-3deg)' }}
+              >
+                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-title">
+                  <em>Hollow</em> Latitude
+                </div>
+                <div className="bl-faq-promo-cover-foot">
+                  <div className="bl-faq-promo-cover-rule" />
+                  <div className="bl-faq-promo-cover-author">M. OSEI</div>
+                </div>
+              </div>
+              <div
+                className="bl-faq-promo-cover"
+                style={{ background: '#F3EFE6', color: '#0e0e0c', transform: 'rotate(0.5deg)' }}
+              >
+                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-title">
+                  Ash &amp; <em>Anise</em>
+                </div>
+                <div className="bl-faq-promo-cover-foot">
+                  <div className="bl-faq-promo-cover-rule" />
+                  <div className="bl-faq-promo-cover-author">P. NAIR</div>
+                </div>
+              </div>
+              <div
+                className="bl-faq-promo-cover"
+                style={{ background: '#1F3A8A', color: '#F3EFE6', transform: 'rotate(2.5deg)' }}
+              >
+                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-title">
+                  The <em>Undertow</em> Hours
+                </div>
+                <div className="bl-faq-promo-cover-foot">
+                  <div className="bl-faq-promo-cover-rule" />
+                  <div className="bl-faq-promo-cover-author">J.T. CALLOWAY</div>
+                </div>
+              </div>
+            </div>
+            <p className="bl-faq-promo-body">
+              Pick three from Issue №01 when you join &mdash; hand-selected debut fiction, yours to
+              keep. No trial, no card.
+            </p>
+            <Link href="/?intake=reader" className="bl-faq-promo-cta">
+              Claim 3 free
+              <span className="bl-faq-promo-cta-arrow" aria-hidden="true">→</span>
+            </Link>
+          </article>
+
+          <div className="bl-faq-promo-divider" aria-hidden="true" />
+
+          <article className="bl-faq-promo-panel" aria-labelledby="bl-faq-promo-volume-title">
+            <p className="bl-faq-promo-eyebrow">Introducing</p>
+            <h2 className="bl-faq-promo-title" id="bl-faq-promo-volume-title">
+              <span className="bl-faq-promo-volume">Volume.</span>
+              <span className="bl-faq-promo-volume-sub">
+                Audiobooks, voiced by <em>indie writers.</em>
+              </span>
+            </h2>
+            <div className="bl-faq-promo-audio" aria-hidden="true">
+              <svg
+                className="bl-faq-promo-wave"
+                viewBox="0 0 320 56"
+                preserveAspectRatio="none"
+                role="presentation"
+              >
+                {Array.from({ length: 48 }).map((_, i) => {
+                  const t = i / 47;
+                  const base = Math.sin(t * Math.PI * 3.2) * 0.45 + 0.55;
+                  const jitter = Math.sin(i * 7.13) * 0.18;
+                  const h = Math.max(0.08, Math.min(1, base + jitter));
+                  const height = 4 + h * 44;
+                  return (
+                    <rect
+                      key={i}
+                      x={i * 6.4 + 1}
+                      y={(56 - height) / 2}
+                      width="3"
+                      height={height}
+                      rx="1.5"
+                    />
+                  );
+                })}
+              </svg>
+              <span className="bl-faq-promo-play">
+                <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                  <path d="M8 5.5v13l11-6.5L8 5.5z" fill="currentColor" />
+                </svg>
+              </span>
+            </div>
+            <p className="bl-faq-promo-body">
+              We&rsquo;re building an audiobook home for indie writers &mdash; record your own, or
+              get matched with a narrator. Keep your rights. Early roster now forming.
+            </p>
+            <Link href="/?intake=writer" className="bl-faq-promo-cta bl-faq-promo-cta-ghost">
+              Get early access
+              <span className="bl-faq-promo-cta-arrow" aria-hidden="true">→</span>
+            </Link>
+          </article>
+        </section>
 
         <section className="bl-faq-cta-card" aria-label="Get started">
           <div>
