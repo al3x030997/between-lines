@@ -29,18 +29,19 @@ const CSS = `
   gap: 8px;
   text-decoration: none;
   color: inherit;
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
-  letter-spacing: 0.02em;
+  font-family: var(--bl-font-display);
+  font-weight: 700;
+  font-variation-settings: 'wdth' 95;
+  letter-spacing: -0.02em;
   font-size: 22px;
   line-height: 1;
 }
 .bl-insider-brand-mark {
-  font-family: var(--bl-font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-family: var(--bl-font-display);
+  font-weight: 800;
   color: var(--bl-accent);
   font-size: 22px;
+  transform: translateY(-1px);
 }
 .bl-insider-brand-tag {
   font-family: var(--bl-font-eyebrow);

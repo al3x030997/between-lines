@@ -249,9 +249,10 @@ export default function WriterGoals({ num, value, onChange }: Props) {
           gap: 12px;
         }
         .v8-goal-branch-title {
-          font-family: 'Cormorant Garamond', serif;
+          font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
           font-style: italic;
           font-weight: 500;
+          font-variation-settings: 'opsz' 96, 'SOFT' 40;
           font-size: 20px;
           line-height: 1.2;
           color: var(--v6-text-strong);

@@ -233,8 +233,9 @@ const STYLES = `
   margin: 0;
 }
 .bl-faq-split-headline {
-  font-family: var(--bl-font-serif);
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'SOFT' 40;
   font-size: clamp(22px, 2.4vw, 30px);
   line-height: 1.15;
   letter-spacing: -0.005em;
@@ -335,6 +336,8 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
             <ul className="bl-faq-split-bullets">
               <li>Six editorial picks every month — books &amp; unpublished manuscripts.</li>
               <li>First-50 sampler: read 50 pages of anything, free.</li>
+              <li>Earn credits for every reaction or beta-read. Spend them on more reads.</li>
+              <li>No ranked feed. No pay-to-play. Just six picks a month, chosen by humans.</li>
             </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onReader}>
               Open the shelf <span aria-hidden="true">→</span>
@@ -348,6 +351,8 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
             <ul className="bl-faq-split-bullets">
               <li>Free editorial letter — a human editor reads every submission within 14 days.</li>
               <li>Three paths after the read: agent intro, indie press, or D2P imprint.</li>
+              <li>Watermarked beta reads — no copy-paste, no AI training. Ever.</li>
+              <li>Your copyright stays yours. Always.</li>
             </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
               Submit a manuscript <span aria-hidden="true">→</span>

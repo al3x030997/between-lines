@@ -1,5 +1,6 @@
 export const INSIDER_CSS = `
 .bl-page {
+  /* Surface stays dark navy — countless inner overlays depend on it. */
   --bl-bg: var(--bl-section-bg);
   --bl-bg-soft: var(--bl-section-bg-soft);
   --bl-fg: var(--bl-section-fg);
@@ -8,6 +9,7 @@ export const INSIDER_CSS = `
   --bl-accent-soft: rgba(233, 75, 54, 0.14);
   --bl-divider: var(--bl-section-divider);
   --bl-divider-strong: var(--bl-section-divider-strong);
+  /* Font system aligned with landing: Fraunces serif display (was Cormorant), Bricolage sans, Outfit body */
   --bl-display: var(--bl-font-serif);
   --bl-serif: var(--bl-font-serif);
   --bl-sans: var(--bl-font-eyebrow);

@@ -645,19 +645,16 @@ const V6_CSS = `
   -webkit-tap-highlight-color: transparent;
   transition: background var(--v6-dur-base) var(--v6-ease);
 }
-.v8-root.is-layout-doors .v8-door-reader {
-  align-items: flex-end;
-  text-align: right;
-}
+.v8-root.is-layout-doors .v8-door-reader,
 .v8-root.is-layout-doors .v8-door-author {
-  align-items: flex-start;
-  text-align: left;
+  align-items: center;
+  text-align: center;
 }
 @media (max-width: 800px) {
   .v8-root.is-layout-doors .v8-door-reader,
   .v8-root.is-layout-doors .v8-door-author {
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
   }
 }
 .v8-door:hover,
@@ -677,16 +674,17 @@ const V6_CSS = `
   transform: scaleX(0);
   transition: transform 480ms var(--v6-ease);
 }
-.v8-door-reader::after { transform-origin: right; }
-.v8-door-author::after { transform-origin: left; }
+.v8-door-reader::after,
+.v8-door-author::after { transform-origin: center; }
 .v8-door:hover::after,
 .v8-door:focus-visible::after,
 .v8-door.is-hovered::after { transform: scaleX(1); }
 .v8-door-title {
   margin: 0;
-  font-family: var(--bl-font-serif);
-  font-weight: 400;
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
   font-style: italic;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
   font-size: clamp(36px, 5vw, 72px);
   line-height: 1.04;
   letter-spacing: -0.02em;
@@ -698,11 +696,12 @@ const V6_CSS = `
 .v8-door-sub {
   margin: 6px 0 0;
   max-width: 28ch;
-  font-family: var(--bl-font-serif);
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-weight: 400;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(15px, 1.25vw, 19px);
-  line-height: 1.4;
+  line-height: 1.45;
   letter-spacing: 0.005em;
   color: var(--v6-text-strong);
   opacity: 0.78;
@@ -787,24 +786,38 @@ const V6_CSS = `
 }
 .v8-root.is-layout-doors .v8-hero-title {
   order: 0;
-  margin: clamp(28px, 4vh, 44px) 0 clamp(20px, 2.4vh, 28px);
-  font-family: var(--bl-font-serif);
+  margin: clamp(28px, 4vh, 44px) 0 0;
+  font-family: var(--bl-font-display);
   font-style: normal;
-  font-weight: 500;
-  font-size: clamp(38px, 5.4vw, 88px);
-  letter-spacing: -0.025em;
+  font-weight: 800;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
+  font-size: clamp(40px, 5.6vw, 92px);
+  letter-spacing: -0.035em;
   text-transform: none;
   color: var(--v6-text-strong);
-  line-height: 1.02;
+  line-height: 0.98;
   white-space: normal;
   text-wrap: balance;
-  font-feature-settings: "kern", "liga", "calt", "dlig";
+  font-feature-settings: "kern", "liga", "calt";
   max-width: 22ch;
 }
-.v8-root.is-layout-doors .v8-hero-title em {
+.v8-root.is-layout-doors .v8-hero-title-accent {
+  display: block;
+  margin: clamp(10px, 1.4vh, 18px) 0 clamp(20px, 2.4vh, 28px);
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
   font-weight: 400;
-  color: var(--v6-text-strong);
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+  font-size: clamp(22px, 3vw, 48px);
+  line-height: 1;
+  letter-spacing: -0.005em;
+  color: var(--v6-accent);
+}
+.v8-root.is-layout-doors .v8-hero-title-accent::before {
+  content: '—\\00a0';
+  font-style: normal;
+  font-weight: 500;
+  opacity: 0.65;
 }
 .v8-hero-meta {
   margin: 0;
@@ -829,15 +842,16 @@ const V6_CSS = `
   transform: translateY(-0.05em);
 }
 .v8-root.is-layout-doors .v8-hero-lede {
-  margin: clamp(24px, 3.5vh, 36px) 0 0;
-  max-width: 80ch;
-  font-family: var(--bl-font-body);
+  margin: clamp(20px, 2.8vh, 30px) 0 0;
+  max-width: 56ch;
+  font-family: 'Fraunces', Georgia, serif;
   font-weight: 400;
-  font-size: clamp(20px, 2.1vw, 30px);
-  line-height: 1.4;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: clamp(18px, 1.7vw, 24px);
+  line-height: 1.45;
   letter-spacing: -0.005em;
   color: var(--v6-text-strong);
-  opacity: 0.92;
+  opacity: 0.85;
   text-wrap: pretty;
 }
 
@@ -1339,7 +1353,8 @@ export default function V6Page() {
             {layout === 'doors' ? (
               <>
                 <h1 className="v8-hero-title">
-                  Discover Emerging Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
+                  Discover emerging authors &amp; new voices.
+                  <span className="v8-hero-title-accent">Fiction&nbsp;only.</span>
                 </h1>
                 <p className="v8-hero-lede">
                   Home for readers who want books worth their time &mdash; and writers who want real

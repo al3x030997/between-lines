@@ -85,7 +85,7 @@ export const INTAKE_CSS = `
   transition: transform 320ms var(--v6-ease);
   pointer-events: none;
 }
-.v8-intake-toggle.is-writer .v8-intake-toggle-bar {
+.v8-intake-toggle.is-reader .v8-intake-toggle-bar {
   transform: translateX(100%);
 }
 
@@ -114,31 +114,38 @@ export const INTAKE_CSS = `
   gap: 12px;
 }
 .v8-intake-label {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--v6-accent);
-}
-.v8-intake-label-num {
-  font-variant-numeric: tabular-nums;
-  color: var(--v6-text-muted);
-  opacity: 0.55;
+  display: none;
 }
 .v8-intake-prompt {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(22px, 2.6vw, 30px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--v6-text-strong);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  font-variation-settings: 'wdth' 96, 'opsz' 32;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+  color: var(--v6-accent);
   margin: 0 0 4px;
   text-wrap: balance;
+}
+.v8-intake-prompt-num {
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.62em;
+  letter-spacing: 0.04em;
+  color: var(--v6-text-muted);
+  opacity: 0.48;
+  margin-right: 0.1em;
+  transform: translateY(-0.18em);
+  display: inline-block;
+}
+.v8-intake-prompt-text {
+  display: inline-block;
 }
 .v8-intake-helper {
   font-family: 'Outfit', sans-serif;
@@ -347,7 +354,8 @@ export const INTAKE_CSS = `
   opacity: 0.75;
 }
 .v8-upload-icon {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
   font-size: 26px;
   color: var(--v6-accent);
   font-style: italic;
@@ -450,9 +458,10 @@ export const INTAKE_CSS = `
   border-radius: 0 8px 8px 0;
 }
 .v8-intake-fomo strong {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-weight: 600;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   color: var(--v6-accent);
 }
 

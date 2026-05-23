@@ -39,19 +39,10 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
           </button>
         )}
         <div
-          className={`v8-intake-toggle${mode === 'writer' ? ' is-writer' : ''}`}
+          className={`v8-intake-toggle${mode === 'reader' ? ' is-reader' : ''}`}
           role="tablist"
           aria-label="Choose your path"
         >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={mode === 'reader'}
-            className={`v8-intake-toggle-btn${mode === 'reader' ? ' is-active' : ''}`}
-            onClick={() => setMode('reader')}
-          >
-            I&rsquo;m a reader
-          </button>
           <button
             type="button"
             role="tab"
@@ -59,7 +50,16 @@ export default function IntakeHero({ initialMode = 'reader', onBack, onSubmit }:
             className={`v8-intake-toggle-btn${mode === 'writer' ? ' is-active' : ''}`}
             onClick={() => setMode('writer')}
           >
-            I&rsquo;m a writer
+            I&rsquo;m writer first
+          </button>
+          <button
+            type="button"
+            role="tab"
+            aria-selected={mode === 'reader'}
+            className={`v8-intake-toggle-btn${mode === 'reader' ? ' is-active' : ''}`}
+            onClick={() => setMode('reader')}
+          >
+            I&rsquo;m reader first
           </button>
           <span className="v8-intake-toggle-bar" aria-hidden="true" />
         </div>

@@ -1,6 +1,8 @@
 'use client';
 
-import type { ReactNode } from 'react';
+import { createContext, useContext, type ReactNode } from 'react';
+
+const GroupNumContext = createContext<string | null>(null);
 
 export function Group({
   num,
@@ -12,18 +14,22 @@ export function Group({
   children: ReactNode;
 }) {
   return (
-    <section className="v8-intake-group" aria-label={label}>
-      <div className="v8-intake-label">
-        <span className="v8-intake-label-num">{num}</span>
-        <span>{label}</span>
-      </div>
-      {children}
-    </section>
+    <GroupNumContext.Provider value={num}>
+      <section className="v8-intake-group" aria-label={label}>
+        {children}
+      </section>
+    </GroupNumContext.Provider>
   );
 }
 
 export function Prompt({ children }: { children: ReactNode }) {
-  return <h3 className="v8-intake-prompt">{children}</h3>;
+  const num = useContext(GroupNumContext);
+  return (
+    <h3 className="v8-intake-prompt">
+      {num && <span className="v8-intake-prompt-num" aria-hidden="true">{num}.</span>}
+      <span className="v8-intake-prompt-text">{children}</span>
+    </h3>
+  );
 }
 
 export function Chips({ children }: { children: ReactNode }) {

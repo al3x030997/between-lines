@@ -61,36 +61,39 @@ export default function OpenCall({ onSubmit }: Props) {
             </span>
             <span className="bl-opencall-sticker bl-opencall-sticker-r">
               <span className="bl-opencall-sticker-arrow">&#x2197;</span>
-              Author-friendly
+              Authors keep 80%
             </span>
             <span className="bl-opencall-sticker bl-opencall-sticker-bl">
               <span className="bl-opencall-sticker-arrow">&rarr;</span>
-              No algorithms inside
+              Curated by humans
             </span>
 
             <div className="bl-opencall-cover-paper" aria-hidden="true" />
 
             <article className="bl-opencall-cover">
               <span className="bl-opencall-cover-spine">
-                <span>BL &middot; ISSUE 01</span>
+                <span>BETWEENREADS &middot; ISSUE 01</span>
               </span>
               <header className="bl-opencall-cover-head">
-                <span className="bl-opencall-cover-imprint">BL Press</span>
+                <span className="bl-opencall-cover-imprint">BetweenReads</span>
                 <span className="bl-opencall-cover-num">N&#x00BA; 001</span>
               </header>
               <div className="bl-opencall-cover-mid">
                 <h3 className="bl-opencall-cover-title">
-                  A path
+                  Six debuts.
                   <br />
-                  for every
-                  <br />
-                  <em>manuscript</em>
+                  <em>Zero algorithms.</em>
                 </h3>
+                <p className="bl-opencall-cover-toc">
+                  Fiction &middot; Essays &middot; Audiobooks
+                  <br />
+                  Read fifty pages of anything, free.
+                </p>
               </div>
               <footer className="bl-opencall-cover-foot">
                 <span className="bl-opencall-cover-rule" />
                 <span className="bl-opencall-cover-byline">
-                  The editors at BetweenReads
+                  Six debut voices &middot; Spring 2026
                 </span>
               </footer>
             </article>
@@ -134,24 +137,29 @@ const CSS = `
   font-feature-settings: "kern", "liga";
 }
 .bl-opencall-title {
-  font-family: var(--bl-font-serif);
-  font-weight: 600;
+  font-family: var(--bl-font-display);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
   font-size: clamp(36px, 5vw, 68px);
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
   color: var(--bl-ink);
   margin: 0 0 6px;
-  max-width: 22ch;
+  max-width: 18ch;
   text-wrap: balance;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern", "liga", "calt", "dlig";
+  font-feature-settings: "kern", "liga", "calt";
 }
 .bl-opencall-title em {
-  font-family: var(--bl-font-serif);
+  display: inline-block;
+  margin-top: 4px;
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+  color: var(--bl-accent);
+  letter-spacing: -0.01em;
 }
 .bl-opencall-body {
   font-family: var(--bl-font-body);
@@ -299,25 +307,39 @@ const CSS = `
 }
 .bl-opencall-cover-mid {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 .bl-opencall-cover-title {
-  font-family: var(--bl-font-serif);
-  font-weight: 600;
-  font-size: clamp(38px, 4.6vw, 54px);
-  line-height: 0.98;
-  letter-spacing: -0.022em;
+  font-family: var(--bl-font-display);
+  font-weight: 800;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
+  font-size: clamp(34px, 4.2vw, 50px);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
   margin: 0;
   color: var(--bl-paper-bg);
   font-kerning: normal;
   text-rendering: optimizeLegibility;
-  font-feature-settings: "kern", "liga", "calt", "dlig";
+  font-feature-settings: "kern", "liga", "calt";
 }
 .bl-opencall-cover-title em {
-  font-family: var(--bl-font-serif);
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-style: italic;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 144, 'SOFT' 60;
+  letter-spacing: -0.02em;
+}
+.bl-opencall-cover-toc {
+  margin: clamp(14px, 1.6vw, 20px) 0 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: clamp(12px, 1.05vw, 14px);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: rgba(246, 241, 227, 0.88);
 }
 .bl-opencall-cover-foot {
   display: flex;
