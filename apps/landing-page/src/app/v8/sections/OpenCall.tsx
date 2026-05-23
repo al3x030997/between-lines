@@ -19,52 +19,23 @@ export default function OpenCall({ onSubmit }: Props) {
       <style>{CSS}</style>
       <div className="bl-opencall-inner">
         <div className="bl-opencall-left">
-          <p className="bl-opencall-eyebrow">
-            <span className="bl-opencall-eyebrow-mark" aria-hidden="true" />
-            Open call
-          </p>
+          <p className="bl-opencall-eyebrow">Issue №01 &middot; submissions open</p>
 
           <h2 className="bl-opencall-title">
-            <span className="bl-opencall-title-lead">between.</span>
-            <em>lines</em> &mdash; first issue, <em>late summer.</em>
+            Read the first issue &mdash;
+            <br />
+            <em>or write your way in.</em>
           </h2>
 
-          <p className="bl-opencall-lede">
-            We&rsquo;re collecting submissions for the first issue of the journal. Looking for serious writing for serious readers.
+          <p className="bl-opencall-body">
+            A curated issue of emerging fiction and poetry, hand-picked by editors. We&rsquo;re
+            looking for <strong>strong, serious writers</strong> &mdash; and we are author-friendly.
           </p>
 
-          <ol className="bl-opencall-cards">
-            <li>
-              <span className="bl-opencall-num">01</span>
-              <div className="bl-opencall-card-body">
-                <h3 className="bl-opencall-card-title">Late-summer release</h3>
-                <p className="bl-opencall-card-text">
-                  The inaugural issue lands in August. One curated drop, no monthly grind.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span className="bl-opencall-num">02</span>
-              <div className="bl-opencall-card-body">
-                <h3 className="bl-opencall-card-title">Revenue pool participation</h3>
-                <p className="bl-opencall-card-text">
-                  Selected writers share that issue&rsquo;s new-subscription revenue after platform costs. No paid placement, ever.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span className="bl-opencall-num">03</span>
-              <div className="bl-opencall-card-body">
-                <h3 className="bl-opencall-card-title">Editorial-only curation</h3>
-                <p className="bl-opencall-card-text">
-                  Read by humans. Selection on quality and fit &mdash; not metrics, not algorithms.
-                </p>
-              </div>
-            </li>
-          </ol>
-
-          <p className="bl-opencall-note">
-            We&rsquo;re looking for <strong>strong, serious writers</strong>. We are author-friendly &mdash; you keep your copyright, we never train AI on your work, and you can withdraw any time.
+          <p className="bl-opencall-body">
+            Open to any writer on the platform &mdash; <strong>free to submit while we launch</strong>.
+            Selected writers share a portion of that issue&rsquo;s new-subscription revenue.
+            Readers can recommend a writer for free.
           </p>
 
           <div className="bl-opencall-cta">
@@ -83,28 +54,47 @@ export default function OpenCall({ onSubmit }: Props) {
         </div>
 
         <aside className="bl-opencall-right" aria-hidden="true">
-          <article className="bl-opencall-poster">
-            <header className="bl-opencall-poster-head">
-              <span className="bl-opencall-poster-meta">Issue №01 &middot; Late Summer 2026</span>
-              <span className="bl-opencall-poster-rule" />
-            </header>
-            <div className="bl-opencall-poster-mid">
-              <h3 className="bl-opencall-poster-title">
-                between.<em>lines</em>
-              </h3>
-              <p className="bl-opencall-poster-sub">
-                A journal of new fiction &amp; serious voices.
-              </p>
-              <span className="bl-opencall-poster-ornament">⁂</span>
-            </div>
-            <footer className="bl-opencall-poster-foot">
-              <span className="bl-opencall-poster-rule" />
-              <span className="bl-opencall-poster-stamp">Open for submissions</span>
-            </footer>
-          </article>
-          <p className="bl-opencall-poster-caption">
-            Inaugural issue, summer 2026.
-          </p>
+          <div className="bl-opencall-cover-frame">
+            <span className="bl-opencall-sticker bl-opencall-sticker-tl">
+              <span className="bl-opencall-sticker-arrow">&#x2198;</span>
+              First 50 pages, free
+            </span>
+            <span className="bl-opencall-sticker bl-opencall-sticker-r">
+              <span className="bl-opencall-sticker-arrow">&#x2197;</span>
+              Author-friendly
+            </span>
+            <span className="bl-opencall-sticker bl-opencall-sticker-bl">
+              <span className="bl-opencall-sticker-arrow">&rarr;</span>
+              No algorithms inside
+            </span>
+
+            <div className="bl-opencall-cover-paper" aria-hidden="true" />
+
+            <article className="bl-opencall-cover">
+              <span className="bl-opencall-cover-spine">
+                <span>BL &middot; ISSUE 01</span>
+              </span>
+              <header className="bl-opencall-cover-head">
+                <span className="bl-opencall-cover-imprint">BL Press</span>
+                <span className="bl-opencall-cover-num">N&#x00BA; 001</span>
+              </header>
+              <div className="bl-opencall-cover-mid">
+                <h3 className="bl-opencall-cover-title">
+                  A path
+                  <br />
+                  for every
+                  <br />
+                  <em>manuscript</em>
+                </h3>
+              </div>
+              <footer className="bl-opencall-cover-foot">
+                <span className="bl-opencall-cover-rule" />
+                <span className="bl-opencall-cover-byline">
+                  The editors at BetweenReads
+                </span>
+              </footer>
+            </article>
+          </div>
         </aside>
       </div>
     </section>
@@ -114,146 +104,75 @@ export default function OpenCall({ onSubmit }: Props) {
 const CSS = `
 .bl-opencall {
   position: relative;
-  background: #F6F1E3;
-  color: #161410;
-  padding: clamp(96px, 14vh, 160px) clamp(24px, 5vw, 80px);
+  background: #ffffff;
+  color: #0e0e0c;
+  padding: clamp(96px, 14vh, 140px) clamp(24px, 5vw, 80px);
   overflow: hidden;
-}
-.bl-opencall::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  opacity: 0.05;
-  mix-blend-mode: multiply;
-  pointer-events: none;
 }
 .bl-opencall-inner {
   max-width: 1280px;
   margin: 0 auto;
   position: relative;
   display: grid;
-  grid-template-columns: 5fr 3fr;
+  grid-template-columns: 5fr 4fr;
   gap: clamp(48px, 7vw, 120px);
-  align-items: start;
+  align-items: center;
 }
 .bl-opencall-left {
   display: flex;
   flex-direction: column;
-  gap: clamp(26px, 3vw, 40px);
+  gap: clamp(20px, 2.4vw, 30px);
 }
 .bl-opencall-eyebrow {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
   font-size: 11px;
-  letter-spacing: 0.46em;
+  font-weight: 600;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #C5283D;
+  color: #e94b36;
   margin: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-}
-.bl-opencall-eyebrow-mark {
-  display: inline-block;
-  width: 36px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
+  font-feature-settings: "kern", "liga";
 }
 .bl-opencall-title {
   font-family: 'Cormorant Garamond', 'Times New Roman', serif;
-  font-weight: 500;
-  font-size: clamp(42px, 5.6vw, 78px);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
-  color: #161410;
-  margin: 0;
-  max-width: 16ch;
+  font-weight: 600;
+  font-size: clamp(36px, 5vw, 68px);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: #0e0e0c;
+  margin: 0 0 6px;
+  max-width: 22ch;
   text-wrap: balance;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
-.bl-opencall-title-lead { font-style: normal; }
 .bl-opencall-title em {
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 500;
-  color: #C5283D;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
-.bl-opencall-lede {
+.bl-opencall-body {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(17px, 1.35vw, 21px);
-  line-height: 1.55;
-  color: #4a463c;
+  font-size: 16px;
+  font-weight: 400;
+  color: #4a4640;
   margin: 0;
-  max-width: 52ch;
-  text-wrap: pretty;
-}
-.bl-opencall-cards {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  border-top: 1px solid rgba(22, 20, 16, 0.18);
-}
-.bl-opencall-cards li {
-  display: grid;
-  grid-template-columns: 56px 1fr;
-  gap: 24px;
-  align-items: baseline;
-  padding: 22px 0;
-  border-bottom: 1px solid rgba(22, 20, 16, 0.18);
-}
-.bl-opencall-num {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.24em;
-  color: #C5283D;
-  font-variant-numeric: tabular-nums;
-}
-.bl-opencall-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.bl-opencall-card-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-weight: 600;
-  font-size: clamp(22px, 2.1vw, 28px);
-  line-height: 1.12;
-  letter-spacing: -0.005em;
-  color: #161410;
-  margin: 0;
-}
-.bl-opencall-card-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: 15px;
-  line-height: 1.55;
-  color: #4a463c;
-  margin: 0;
-  max-width: 52ch;
-  text-wrap: pretty;
-}
-.bl-opencall-note {
-  font-family: 'Outfit', sans-serif;
-  font-size: 15.5px;
   line-height: 1.6;
-  color: #4a463c;
-  margin: 0;
-  max-width: 52ch;
   text-wrap: pretty;
+  max-width: 56ch;
 }
-.bl-opencall-note strong {
+.bl-opencall-body strong {
   font-weight: 600;
-  color: #161410;
+  color: #0e0e0c;
 }
 .bl-opencall-cta {
   display: flex;
   gap: clamp(16px, 2vw, 28px);
   align-items: center;
   flex-wrap: wrap;
-  margin-top: 4px;
+  margin-top: 10px;
 }
 .bl-opencall-cta-primary {
   font-family: 'Bricolage Grotesque', sans-serif;
@@ -263,18 +182,14 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: #C5283D;
-  color: #F6F1E3;
-  padding: 16px 30px;
+  background: #0e0e0c;
+  color: #ffffff;
+  padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
-  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-  box-shadow: 0 4px 14px rgba(197, 40, 61, 0.18);
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 200ms ease;
 }
-.bl-opencall-cta-primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(197, 40, 61, 0.24);
-}
+.bl-opencall-cta-primary:hover { transform: translateY(-1px); background: #e94b36; }
 .bl-opencall-cta-arrow {
   display: inline-block;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
@@ -286,7 +201,7 @@ const CSS = `
   font-size: 13px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #161410;
+  color: #0e0e0c;
   text-decoration: none;
   padding: 6px 2px;
   position: relative;
@@ -301,140 +216,193 @@ const CSS = `
   height: 1px;
   background: currentColor;
   opacity: 0.45;
-  transition: opacity 200ms ease, background 200ms ease;
+  transition: opacity 200ms ease;
 }
-.bl-opencall-cta-ghost:hover {
-  color: #C5283D;
-}
+.bl-opencall-cta-ghost:hover { color: #e94b36; }
 .bl-opencall-cta-ghost:hover::after { opacity: 1; }
 
-/* Right column poster */
+/* ===== Right column: the journal cover, mocked as a tilted poster ===== */
 .bl-opencall-right {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: 18px;
-  position: sticky;
-  top: clamp(90px, 12vh, 120px);
+  min-height: 540px;
 }
-.bl-opencall-poster {
-  width: 100%;
-  max-width: 380px;
-  aspect-ratio: 3/4;
-  background: linear-gradient(180deg, #C5283D 0%, #921a2b 100%);
-  color: #F6F1E3;
-  padding: clamp(24px, 3vw, 36px) clamp(22px, 2.8vw, 32px);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  box-shadow: 0 30px 60px rgba(22, 20, 16, 0.22), 0 6px 14px rgba(22, 20, 16, 0.1);
+.bl-opencall-cover-frame {
   position: relative;
-  overflow: hidden;
-  transform: rotate(-1.2deg);
-  transition: transform 480ms cubic-bezier(.22, 1, .36, 1);
+  width: min(420px, 100%);
+  aspect-ratio: 3/4;
 }
-.bl-opencall-poster:hover {
-  transform: rotate(0deg) translateY(-4px);
-}
-.bl-opencall-poster::before {
-  content: '';
+.bl-opencall-cover {
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  opacity: 0.09;
-  mix-blend-mode: overlay;
-  pointer-events: none;
+  background: #B98740;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0.07) 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.12'/></svg>");
+  color: #F6F1E3;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  padding: clamp(22px, 2.8vw, 32px) clamp(24px, 3vw, 36px) clamp(22px, 2.8vw, 32px) clamp(48px, 5.5vw, 64px);
+  box-shadow: 0 30px 60px rgba(22, 20, 16, 0.22), 0 6px 16px rgba(22, 20, 16, 0.1);
+  transform: rotate(-3.6deg);
+  transform-origin: 60% 50%;
+  transition: transform 520ms cubic-bezier(.22, 1, .36, 1);
+  z-index: 2;
 }
-.bl-opencall-poster-head,
-.bl-opencall-poster-foot {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  align-items: stretch;
-  position: relative;
+.bl-opencall-cover:hover {
+  transform: rotate(-1.8deg) translateY(-4px);
+}
+.bl-opencall-cover-paper {
+  position: absolute;
+  inset: 0;
+  background: #F6F1E3;
+  border: 1px solid rgba(22, 20, 16, 0.08);
+  box-shadow: 0 14px 30px rgba(22, 20, 16, 0.12);
+  transform: rotate(-1.4deg) translate(20px, 16px);
   z-index: 1;
 }
-.bl-opencall-poster-meta {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.3em;
-  text-align: center;
-  text-transform: uppercase;
-  opacity: 0.88;
-}
-.bl-opencall-poster-rule {
-  width: 100%;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.42;
-}
-.bl-opencall-poster-mid {
+.bl-opencall-cover-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: clamp(22px, 2.4vw, 32px);
+  width: 1px;
+  background: rgba(246, 241, 227, 0.7);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
-  text-align: center;
-  position: relative;
-  z-index: 1;
 }
-.bl-opencall-poster-title {
-  font-family: 'Cormorant Garamond', serif;
+.bl-opencall-cover-spine span {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 10px;
   font-weight: 600;
-  font-size: clamp(36px, 5vw, 58px);
-  line-height: 1;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 227, 0.84);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  background: #B98740;
+  padding: 6px 3px;
+}
+.bl-opencall-cover-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(246, 241, 227, 0.94);
+}
+.bl-opencall-cover-mid {
+  display: flex;
+  align-items: center;
+}
+.bl-opencall-cover-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: clamp(38px, 4.6vw, 54px);
+  line-height: 0.98;
   letter-spacing: -0.022em;
   margin: 0;
+  color: #F6F1E3;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern", "liga", "calt", "dlig";
 }
-.bl-opencall-poster-title em {
+.bl-opencall-cover-title em {
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
   font-style: italic;
   font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'SOFT' 50;
 }
-.bl-opencall-poster-sub {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 1.35;
-  margin: 0;
-  opacity: 0.88;
-  max-width: 22ch;
+.bl-opencall-cover-foot {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
-.bl-opencall-poster-ornament {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 26px;
-  opacity: 0.72;
-  letter-spacing: 0.1em;
+.bl-opencall-cover-rule {
+  width: 100%;
+  height: 1px;
+  background: rgba(246, 241, 227, 0.55);
 }
-.bl-opencall-poster-stamp {
+.bl-opencall-cover-byline {
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
   font-size: 10px;
-  letter-spacing: 0.34em;
-  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  padding: 9px 14px;
-  border: 1px solid currentColor;
-  opacity: 0.94;
-  align-self: center;
-}
-.bl-opencall-poster-caption {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #6b6357;
-  margin: 0;
-  text-align: center;
+  color: rgba(246, 241, 227, 0.92);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-@media (max-width: 940px) {
-  .bl-opencall-inner { grid-template-columns: 1fr; gap: clamp(40px, 6vw, 64px); }
-  .bl-opencall-right { position: static; order: -1; }
-  .bl-opencall-poster { max-width: 280px; }
+/* Sticker labels with arrows */
+.bl-opencall-sticker {
+  position: absolute;
+  z-index: 3;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: #ffffff;
+  color: #0e0e0c;
+  border: 1px solid #0e0e0c;
+  padding: 9px 14px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 14px rgba(22, 20, 16, 0.1);
 }
-@media (max-width: 540px) {
-  .bl-opencall-poster { max-width: 240px; }
-  .bl-opencall-cards li { grid-template-columns: 40px 1fr; gap: 16px; }
+.bl-opencall-sticker-arrow {
+  display: inline-block;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0;
+}
+.bl-opencall-sticker-tl {
+  top: -12px;
+  left: -34px;
+  transform: rotate(-4deg);
+}
+.bl-opencall-sticker-r {
+  top: 44%;
+  right: -68px;
+  transform: rotate(3deg);
+}
+.bl-opencall-sticker-bl {
+  bottom: 32px;
+  left: -42px;
+  transform: rotate(-2deg);
+}
+
+@media (max-width: 980px) {
+  .bl-opencall-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(56px, 8vw, 80px);
+  }
+  .bl-opencall-right {
+    order: -1;
+    min-height: auto;
+    padding: 24px 0 28px;
+  }
+  .bl-opencall-cover-frame { width: min(320px, 100%); }
+  .bl-opencall-sticker-tl { left: -16px; top: -8px; }
+  .bl-opencall-sticker-r { right: -28px; top: 44%; }
+  .bl-opencall-sticker-bl { left: -20px; bottom: 28px; }
+}
+@media (max-width: 520px) {
+  .bl-opencall-cover-frame { width: min(280px, 92%); }
+  .bl-opencall-sticker { font-size: 10px; padding: 7px 11px; letter-spacing: 0.14em; }
+  .bl-opencall-sticker-tl { left: -10px; }
+  .bl-opencall-sticker-r { right: -16px; }
+  .bl-opencall-sticker-bl { left: -12px; }
 }
 `;
