@@ -693,7 +693,7 @@ const V6_CSS = `
   color: var(--v6-text-strong);
   max-width: 16ch;
   text-wrap: balance;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .v8-door-sub {
   margin: 6px 0 0;
@@ -798,7 +798,7 @@ const V6_CSS = `
   line-height: 1.02;
   white-space: normal;
   text-wrap: balance;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  font-feature-settings: "kern", "liga", "calt", "dlig";
   max-width: 22ch;
 }
 .v8-root.is-layout-doors .v8-hero-title em {
@@ -1151,11 +1151,6 @@ const DOOR_SUBS: Record<'reader' | 'author', string> = {
   author: 'Publish your manuscript. Find your readers.',
 };
 
-const DOOR_CTAS: Record<'reader' | 'author', string> = {
-  reader: 'open as a reader',
-  author: 'open as a writer',
-};
-
 const LABELS: Record<Region, string> = {
   author: 'I’m an author',
   reader: 'I’m a reader',
@@ -1371,10 +1366,6 @@ export default function V6Page() {
                 >
                   <h2 className="v8-door-title">{DOOR_TITLES[r]}</h2>
                   <p className="v8-door-sub">{DOOR_SUBS[r]}</p>
-                  <span className="v8-door-cta">
-                    <span className="v8-door-cta-text">{DOOR_CTAS[r]}</span>
-                    <span className="v8-door-arrow" aria-hidden="true">→</span>
-                  </span>
                 </button>
               ))}
               <span className="v8-doors-ornament" aria-hidden="true">⁂</span>
