@@ -55,15 +55,6 @@ export default function OpenCall({ onSubmit }: Props) {
 
         <aside className="bl-opencall-right" aria-hidden="true">
           <div className="bl-opencall-cover-frame">
-            <span className="bl-opencall-sticker bl-opencall-sticker-r">
-              <span className="bl-opencall-sticker-arrow">&#x2197;</span>
-              Authors keep 80%
-            </span>
-            <span className="bl-opencall-sticker bl-opencall-sticker-bl">
-              <span className="bl-opencall-sticker-arrow">&rarr;</span>
-              Curated by humans
-            </span>
-
             <div className="bl-opencall-cover-paper" aria-hidden="true" />
 
             <article className="bl-opencall-cover">
@@ -359,48 +350,6 @@ const CSS = `
   text-overflow: ellipsis;
 }
 
-/* Sticker labels with arrows */
-.bl-opencall-sticker {
-  position: absolute;
-  z-index: 3;
-  font-family: var(--bl-font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  background: var(--bl-surface);
-  color: var(--bl-ink);
-  border: 1px solid var(--bl-ink);
-  padding: 9px 14px;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: 0 6px 14px rgba(22, 20, 16, 0.1);
-}
-.bl-opencall-sticker-arrow {
-  display: inline-block;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0;
-}
-.bl-opencall-sticker-tl {
-  top: -12px;
-  left: -34px;
-  transform: rotate(-4deg);
-}
-.bl-opencall-sticker-r {
-  top: 44%;
-  right: -68px;
-  transform: rotate(3deg);
-}
-.bl-opencall-sticker-bl {
-  bottom: 32px;
-  left: -42px;
-  transform: rotate(-2deg);
-}
-
 @media (max-width: 980px) {
   .bl-opencall-inner {
     grid-template-columns: 1fr;
@@ -412,15 +361,8 @@ const CSS = `
     padding: 24px 0 28px;
   }
   .bl-opencall-cover-frame { width: min(320px, 100%); }
-  .bl-opencall-sticker-tl { left: -16px; top: -8px; }
-  .bl-opencall-sticker-r { right: -28px; top: 44%; }
-  .bl-opencall-sticker-bl { left: -20px; bottom: 28px; }
 }
 @media (max-width: 520px) {
   .bl-opencall-cover-frame { width: min(280px, 92%); }
-  .bl-opencall-sticker { font-size: 10px; padding: 7px 11px; letter-spacing: 0.14em; }
-  .bl-opencall-sticker-tl { left: -10px; }
-  .bl-opencall-sticker-r { right: -16px; }
-  .bl-opencall-sticker-bl { left: -12px; }
 }
 `;
