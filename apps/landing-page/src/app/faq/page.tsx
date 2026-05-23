@@ -282,16 +282,219 @@ const CSS = `
 }
 .bl-faq-table tbody tr:last-child td { border-bottom: 0; }
 
+/* Hero CTA row */
+.bl-faq-hero-actions {
+  margin-top: clamp(20px, 3vw, 32px);
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+.bl-faq-cta-primary {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #0e0e0c;
+  color: #ffffff;
+  padding: 13px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 180ms ease;
+}
+.bl-faq-cta-primary:hover { transform: translateY(-1px); background: #e94b36; }
+.bl-faq-cta-ghost {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0e0e0c;
+  text-decoration: none;
+  padding: 6px 2px;
+  border-bottom: 1px solid currentColor;
+  transition: color 180ms ease;
+}
+.bl-faq-cta-ghost:hover { color: #e94b36; }
+
+/* AgentReady spotlight in the side nav */
+.bl-faq-spotlight {
+  margin-top: 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 18px 16px;
+  background: #fbf6e8;
+  border: 1px solid rgba(197, 40, 61, 0.18);
+  border-radius: 10px;
+  color: #0e0e0c;
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
+}
+.bl-faq-spotlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #e94b36;
+  opacity: 0.85;
+}
+.bl-faq-spotlight:hover {
+  border-color: rgba(197, 40, 61, 0.42);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px rgba(14, 14, 12, 0.08);
+}
+.bl-faq-spotlight-tag {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #e94b36;
+}
+.bl-faq-spotlight-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #0e0e0c;
+  margin: 0;
+}
+.bl-faq-spotlight-title em { font-style: italic; color: #e94b36; }
+.bl-faq-spotlight-body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #4a4640;
+  margin: 0;
+}
+.bl-faq-spotlight-link {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #0e0e0c;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  transition: color 200ms ease, gap 200ms cubic-bezier(.22, 1, .36, 1);
+}
+.bl-faq-spotlight:hover .bl-faq-spotlight-link {
+  color: #e94b36;
+  gap: 10px;
+}
+
+/* Bottom CTA card */
+.bl-faq-cta-card {
+  margin-top: clamp(64px, 9vw, 112px);
+  padding: clamp(36px, 5vw, 56px) clamp(28px, 5vw, 56px);
+  background: #161410;
+  color: #F4EFE3;
+  border-radius: 18px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.bl-faq-cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+.bl-faq-cta-card-eyebrow {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #E9B547;
+  margin: 0 0 14px;
+}
+.bl-faq-cta-card-title {
+  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: clamp(28px, 3.4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin: 0 0 14px;
+  max-width: 18ch;
+  text-wrap: balance;
+}
+.bl-faq-cta-card-title em { font-style: italic; color: #E9B547; }
+.bl-faq-cta-card-body {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(244, 239, 227, 0.78);
+  margin: 0;
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+.bl-faq-cta-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: stretch;
+}
+.bl-faq-cta-card-primary {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  background: #F4EFE3;
+  color: #0e0e0c;
+  padding: 16px 26px;
+  border-radius: 999px;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1), background 180ms ease;
+}
+.bl-faq-cta-card-primary:hover {
+  transform: translateY(-1px);
+  background: #E9B547;
+  color: #161410;
+}
+.bl-faq-cta-card-ghost {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(244, 239, 227, 0.78);
+  text-decoration: none;
+  padding: 6px 4px;
+  border-bottom: 1px solid currentColor;
+  text-align: center;
+  transition: color 200ms ease;
+}
+.bl-faq-cta-card-ghost:hover { color: #E9B547; }
+
 .bl-faq-foot {
-  margin-top: clamp(56px, 8vw, 96px);
-  padding-top: 32px;
-  border-top: 1px solid rgba(14,14,12,0.1);
+  margin-top: clamp(40px, 5vw, 56px);
+  padding-top: 28px;
+  border-top: 1px solid rgba(14,14,12,0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 14px;
+  font-size: 13px;
   color: #5a5a52;
 }
 .bl-faq-foot a {
@@ -300,6 +503,11 @@ const CSS = `
   transition: color 180ms ease;
 }
 .bl-faq-foot a:hover { color: #e94b36; }
+
+@media (max-width: 820px) {
+  .bl-faq-cta-card { grid-template-columns: 1fr; gap: 24px; }
+  .bl-faq-spotlight { margin-top: 12px; }
+}
 
 @media (max-width: 820px) {
   .bl-faq-layout { grid-template-columns: 1fr; }
@@ -317,6 +525,14 @@ const CSS = `
   .bl-faq-side a { padding: 0; }
 }
 `;
+
+function slugifyQ(q: string): string {
+  return q
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
+    .slice(0, 64);
+}
 
 function AnswerBody({ a, table }: { a: string; table?: FaqQuestion['table'] }) {
   // Render paragraphs and bullet groups from the plain-text answer; tables go last.
@@ -370,10 +586,10 @@ export default function FaqPage() {
 
       <header id="top" className="bl-faq-top">
         <div className="bl-faq-top-inner">
-          <Link href="/" className="bl-faq-top-brand" aria-label="Between Lines, home">
+          <Link href="/" className="bl-faq-top-brand" aria-label="BetweenReads, home">
             <span>between</span>
-            <span className="bl-faq-top-dot">·</span>
-            <span>lines</span>
+            <span className="bl-faq-top-dot">.</span>
+            <span>reads</span>
           </Link>
           <Link href="/" className="bl-faq-top-back">
             ← Back to home
@@ -390,6 +606,15 @@ export default function FaqPage() {
             reading, credits, copyright, manuscript protection, and our position on AI. Click any
             question to expand.
           </p>
+          <div className="bl-faq-hero-actions">
+            <Link href="/" className="bl-faq-cta-primary">
+              Join the waitlist
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link href="/?intake=writer" className="bl-faq-cta-ghost">
+              Submit to between.lines
+            </Link>
+          </div>
         </div>
 
         <div className="bl-faq-layout">
@@ -401,6 +626,20 @@ export default function FaqPage() {
                 <span>{cat.title}</span>
               </a>
             ))}
+            <Link href="#what-is-agentready" className="bl-faq-spotlight" aria-label="Learn about AgentReady">
+              <span className="bl-faq-spotlight-tag">Tool · spotlight</span>
+              <h3 className="bl-faq-spotlight-title">
+                <em>AgentReady</em> &mdash; research, query, submit.
+              </h3>
+              <p className="bl-faq-spotlight-body">
+                Build your agent list beyond QueryTracker. Generate tailored query letters,
+                synopses, and pitches. Free to start; Pro unlocks AI-assisted drafts.
+              </p>
+              <span className="bl-faq-spotlight-link">
+                Read how it works
+                <span aria-hidden="true">→</span>
+              </span>
+            </Link>
           </aside>
 
           <div className="bl-faq-main">
@@ -412,7 +651,7 @@ export default function FaqPage() {
                 </div>
                 <ul className="bl-faq-items">
                   {cat.questions.map((item) => (
-                    <li key={item.q}>
+                    <li key={item.q} id={slugifyQ(item.q)}>
                       <details className="bl-faq-item">
                         <summary className="bl-faq-q">
                           <span>{item.q}</span>
@@ -427,6 +666,27 @@ export default function FaqPage() {
             ))}
           </div>
         </div>
+
+        <section className="bl-faq-cta-card" aria-label="Get started">
+          <div>
+            <p className="bl-faq-cta-card-eyebrow">Ready when you are</p>
+            <h2 className="bl-faq-cta-card-title">
+              Read writers worth reading, or <em>get yours read.</em>
+            </h2>
+            <p className="bl-faq-cta-card-body">
+              Join the waitlist to be in the first cohort, or submit your work to between.lines &mdash;
+              we&rsquo;re looking for strong, serious writers and we are author-friendly.
+            </p>
+          </div>
+          <div className="bl-faq-cta-card-actions">
+            <Link href="/" className="bl-faq-cta-card-primary">
+              Join the waitlist →
+            </Link>
+            <Link href="/about" className="bl-faq-cta-card-ghost">
+              Read more about BetweenReads
+            </Link>
+          </div>
+        </section>
 
         <div className="bl-faq-foot">
           <span>Didn’t find your answer? <Link href="/">Join the waitlist →</Link></span>

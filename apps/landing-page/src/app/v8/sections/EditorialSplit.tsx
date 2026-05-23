@@ -1,12 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { useInView } from './useInView';
 
 export type Side = 'author' | 'reader';
 export type StartTarget = Side | 'both';
 
 type Props = {
-  onStart: (target: StartTarget) => void;
+  /** When omitted, the "I'm both" CTA falls back to a homepage link. */
+  onStart?: (target: StartTarget) => void;
 };
 
 type Feature = { title: string; body: string };
@@ -436,9 +438,15 @@ export default function EditorialSplit({ onStart }: Props) {
       </section>
 
       <div className="bl-both">
-        <button type="button" className="bl-both-link" onClick={() => onStart('both')}>
-          I’m both →
-        </button>
+        {onStart ? (
+          <button type="button" className="bl-both-link" onClick={() => onStart('both')}>
+            I’m both →
+          </button>
+        ) : (
+          <Link className="bl-both-link" href="/?intake=both">
+            I’m both →
+          </Link>
+        )}
       </div>
     </>
   );

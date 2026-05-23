@@ -6,23 +6,16 @@ import IntakeHero, { type IntakeSubmit } from './IntakeHero';
 import { WaitlistOverlay } from './WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import { serializeWriter } from './intake/writer/writerTypes';
-import EditorialSplit from './sections/EditorialSplit';
-import type { StartTarget } from './sections/EditorialSplit';
-import BookCarousel from './sections/BookCarousel';
+import OpenCall from './sections/OpenCall';
 import FaqTeaser from './sections/FaqTeaser';
 import Footer from './sections/Footer';
+import QuotesCarousel from './sections/QuotesCarousel';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
   invalid: 'That insider link is invalid. Re-enter your email to receive a new one.',
   pending: 'We can’t find an active subscription for that link. Check your inbox for our confirmation email.',
   ratelimited: 'Too many attempts. Please try again in a few minutes.',
-};
-
-const EYEBROW_BY_TARGET: Record<StartTarget, string> = {
-  reader: 'Ready to read',
-  author: 'Ready to write',
-  both: 'Discover and be discovered',
 };
 
 const V6_CSS = `
@@ -121,44 +114,6 @@ const V6_CSS = `
   opacity: 0.08;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-.v8-submission-banner {
-  position: relative;
-  z-index: 6;
-  background: var(--v6-accent);
-  color: #ffffff;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 10px 16px;
-  line-height: 1.4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.v8-submission-banner-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.85;
-  flex-shrink: 0;
-}
-.v8-submission-banner-link {
-  color: inherit;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-thickness: 1px;
-}
-.v8-submission-banner-link:hover { opacity: 0.85; }
-@media (max-width: 640px) {
-  .v8-submission-banner { font-size: 11px; letter-spacing: 0.14em; padding: 8px 12px; gap: 10px; }
-  .v8-submission-banner-dot { display: none; }
 }
 .v8-nav {
   position: sticky;
@@ -342,12 +297,9 @@ const V6_CSS = `
 
 .v8-hero {
   position: relative;
-  height: calc(100vh - 76px - 40px);
+  height: calc(100vh - 76px);
   overflow: hidden;
   background: var(--v6-surface);
-}
-@media (max-width: 640px) {
-  .v8-hero { height: calc(100vh - 76px - 36px); }
 }
 .v8-stage {
   position: absolute;
@@ -1231,8 +1183,8 @@ const LAYOUT_LABELS: Record<Layout, string> = {
 };
 
 const DOOR_TITLES: Record<'reader' | 'author', string> = {
-  reader: 'I’m a reader',
-  author: 'I’m a writer',
+  reader: 'I’m reader first',
+  author: 'I’m writer first',
 };
 
 const DOOR_CTAS: Record<'reader' | 'author', string> = {
@@ -1339,10 +1291,6 @@ export default function V6Page() {
     window.setTimeout(() => setPhase('questions'), 360);
   };
 
-  const openFromSection = (target: StartTarget) => {
-    openWaitlist(EYEBROW_BY_TARGET[target]);
-  };
-
   const regionProps = (region: Region) => ({
     role: 'button' as const,
     tabIndex: 0,
@@ -1388,25 +1336,14 @@ export default function V6Page() {
         </div>
       )}
 
-      <div className="v8-submission-banner" role="status">
-        <span className="v8-submission-banner-dot" aria-hidden="true" />
-        <span>
-          Open for submissions &mdash; BetweenLines №01.{' '}
-          <Link href="/?intake=writer" className="v8-submission-banner-link">
-            Submit your work
-          </Link>
-        </span>
-        <span className="v8-submission-banner-dot" aria-hidden="true" />
-      </div>
-
       <nav className="v8-nav">
-        <a className="v8-brand" href="#" aria-label="Between Lines, home">
+        <a className="v8-brand" href="#" aria-label="BetweenReads, home">
           <span>between</span>
-          <span className="v8-brand-dot">·</span>
-          <span>lines</span>
+          <span className="v8-brand-dot">.</span>
+          <span>reads</span>
         </a>
         <div className="v8-nav-meta">
-          <span className="v8-nav-issue">Issue №01</span>
+          <Link className="v8-nav-link" href="/about">About</Link>
           <span className="v8-nav-sep" aria-hidden="true" />
           <Link className="v8-nav-link" href="/faq">FAQ</Link>
           <span className="v8-nav-sep" aria-hidden="true" />
@@ -1440,18 +1377,12 @@ export default function V6Page() {
             {layout === 'doors' ? (
               <>
                 <h1 className="v8-hero-title">
-                  Discover Debut Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
+                  Discover Emerging Authors and New Voices &mdash; <em>Fiction&nbsp;Only.</em>
                 </h1>
-                <p className="v8-hero-meta">
-                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
-                  Issue №01
-                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
-                  Spring 2026
-                  <span className="v8-hero-meta-dot" aria-hidden="true">·</span>
-                </p>
                 <p className="v8-hero-lede">
-                  A monthly journal of new fiction &mdash; read writers worth reading, before the world catches on.
+                  BetweenReads is a platform for serious readers and serious writers.
                 </p>
+                <QuotesCarousel />
               </>
             ) : (
               <>
@@ -1463,7 +1394,7 @@ export default function V6Page() {
           <div className="v8-headline-guard" aria-hidden="true" />
           {layout === 'doors' ? (
             <div className="v8-doors">
-              {(['reader', 'author'] as const).map((r) => (
+              {(['author', 'reader'] as const).map((r) => (
                 <button
                   key={r}
                   type="button"
@@ -1647,7 +1578,7 @@ export default function V6Page() {
       </div>
       </section>
 
-      <BookCarousel />
+      <OpenCall onSubmit={() => open('author')} />
 
       <aside className="bl-intermission" aria-hidden="true">
         <span className="bl-intermission-mark">
@@ -1661,7 +1592,6 @@ export default function V6Page() {
         </span>
       </aside>
 
-      <EditorialSplit onStart={openFromSection} />
       <FaqTeaser />
       <Footer />
 

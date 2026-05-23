@@ -112,8 +112,8 @@ export default function Footer() {
       <style>{STYLES}</style>
       <div className="bl-footer-inner">
         <div className="bl-footer-top">
-          <h2 className="bl-footer-mark">BetweenLines</h2>
-          <p className="bl-footer-tag">Discover debut authors before they’re published.</p>
+          <h2 className="bl-footer-mark">BetweenReads</h2>
+          <p className="bl-footer-tag">A platform for serious readers and serious writers. Home of the between.lines journal.</p>
         </div>
 
         <div className="bl-footer-cols">
@@ -129,8 +129,8 @@ export default function Footer() {
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Company</h3>
             <ul>
-              <li><a href="#">About</a></li>
-              <li><a href="#">Journal</a></li>
+              <li><a href="/about">About</a></li>
+              <li><a href="/#open-call">between.lines</a></li>
               <li><a href="#">Contact</a></li>
             </ul>
           </div>
@@ -147,7 +147,7 @@ export default function Footer() {
         <div className="bl-footer-bottom">
           <span className="bl-footer-bottom-left">
             <span className="bl-footer-accent" aria-hidden />
-            <span style={{ fontVariantNumeric: 'tabular-nums' }}>© 2026 BetweenLines</span>
+            <span style={{ fontVariantNumeric: 'tabular-nums' }}>© 2026 BetweenReads</span>
           </span>
           <a href="#">Back to top ↑</a>
         </div>

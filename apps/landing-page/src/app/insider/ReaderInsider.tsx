@@ -323,7 +323,7 @@ export default function ReaderInsider({
     <article className="bl-page">
       <header className="bl-masthead" aria-label="The Insider masthead">
         <div className="bl-masthead-inner">
-          <span className="bl-masthead-brand">Between Lines</span>
+          <span className="bl-masthead-brand">Between Reads</span>
           <span className="bl-masthead-sep">·</span>
           <span className="bl-masthead-tag">the insider</span>
           <span className="bl-masthead-sep">·</span>
