@@ -55,10 +55,6 @@ export default function OpenCall({ onSubmit }: Props) {
 
         <aside className="bl-opencall-right" aria-hidden="true">
           <div className="bl-opencall-cover-frame">
-            <span className="bl-opencall-sticker bl-opencall-sticker-tl">
-              <span className="bl-opencall-sticker-arrow">&#x2198;</span>
-              First 50 pages, free
-            </span>
             <span className="bl-opencall-sticker bl-opencall-sticker-r">
               <span className="bl-opencall-sticker-arrow">&#x2197;</span>
               Authors keep 80%
@@ -87,7 +83,7 @@ export default function OpenCall({ onSubmit }: Props) {
                 <p className="bl-opencall-cover-toc">
                   Fiction &middot; Essays &middot; Audiobooks
                   <br />
-                  Read fifty pages of anything, free.
+                  Three free reads a month. Yours.
                 </p>
               </div>
               <footer className="bl-opencall-cover-foot">
