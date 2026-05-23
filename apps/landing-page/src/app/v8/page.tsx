@@ -20,32 +20,24 @@ const BANNER_MESSAGES: Record<string, string> = {
 
 const V6_CSS = `
 .v8-root {
-  --v6-accent: #e94b36;
-  --v6-accent-soft: rgba(233, 75, 54, 0.06);
-  --v6-text: #0e0e0c;
-  --v6-text-strong: #0e0e0c;
+  --v6-accent: var(--bl-accent);
+  --v6-accent-soft: var(--bl-accent-soft);
+  --v6-text: var(--bl-ink);
+  --v6-text-strong: var(--bl-ink);
   --v6-text-muted: #14140f;
-  --v6-surface: #ffffff;
-  --v6-divider: rgba(14,14,12,0.18);
+  --v6-surface: var(--bl-surface);
+  --v6-divider: var(--bl-divider);
   --v6-stroke: rgba(255,255,255,0.85);
-  --v6-ease: cubic-bezier(.22, 1, .36, 1);
+  --v6-ease: var(--bl-ease);
   --v6-dur-fast: 180ms;
   --v6-dur-base: 240ms;
   --v6-dur-slow: 360ms;
-  --bl-section-bg: #0B1733;
-  --bl-section-fg: #F2EFE8;
-  --bl-section-muted: #8A95B5;
-  --bl-section-accent: #e94b36;
-  --bl-section-divider: rgba(242,239,232,0.16);
+  --bl-section-accent: var(--bl-accent);
   --bl-card-shadow: rgba(0,0,0,0.5);
-  --bl-footer-bg: #FFC700;
-  --bl-footer-fg: #0a0a0a;
-  --bl-footer-muted: rgba(10,10,10,0.62);
-  --bl-footer-divider: rgba(11,23,51,0.22);
-  --bl-footer-accent: #C5283D;
+  --bl-footer-accent: var(--bl-accent);
   min-height: 100vh;
   background: var(--v6-surface);
-  font-family: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+  font-family: var(--bl-font-display);
   font-optical-sizing: auto;
   color: var(--v6-text);
 }
@@ -125,15 +117,15 @@ const V6_CSS = `
   justify-content: space-between;
   padding: 0 clamp(20px, 3.5vw, 56px);
   border-bottom: 1px solid rgba(14,14,12,0.1);
-  background: #ffffff;
-  color: #0e0e0c;
+  background: var(--bl-surface);
+  color: var(--bl-ink);
 }
 .v8-brand {
   display: inline-flex;
   align-items: baseline;
   color: var(--v6-text-strong);
   text-decoration: none;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: 19px;
   letter-spacing: -0.02em;
@@ -149,7 +141,7 @@ const V6_CSS = `
   display: flex;
   align-items: center;
   gap: 22px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
 }
 .v8-nav-issue {
   font-size: 11px;
@@ -193,7 +185,7 @@ const V6_CSS = `
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 6px 20px rgba(14,14,12,0.08);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
 }
 .v8-tweaks-menu {
   position: relative;
@@ -207,7 +199,7 @@ const V6_CSS = `
   border-radius: 999px;
   border: 0;
   background: transparent;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   font: inherit;
   font-size: 11px;
   font-weight: 600;
@@ -223,8 +215,8 @@ const V6_CSS = `
   outline: none;
 }
 .v8-tweaks-trigger.is-open {
-  background: #0e0e0c;
-  color: #ffffff;
+  background: var(--bl-ink);
+  color: var(--bl-surface);
 }
 .v8-tweaks-trigger-label {
   opacity: 0.55;
@@ -245,7 +237,7 @@ const V6_CSS = `
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
   min-width: 180px;
-  background: #ffffff;
+  background: var(--bl-surface);
   border: 1px solid rgba(14,14,12,0.1);
   border-radius: 14px;
   box-shadow: 0 18px 48px rgba(14,14,12,0.14);
@@ -272,7 +264,7 @@ const V6_CSS = `
   font-size: 12px;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   cursor: pointer;
   text-align: left;
   transition: background 160ms ease, color 160ms ease;
@@ -284,12 +276,12 @@ const V6_CSS = `
 }
 .v8-tweaks-option:hover { background: rgba(14,14,12,0.04); }
 .v8-tweaks-option.is-active {
-  color: #0e0e0c;
+  color: var(--bl-ink);
   font-weight: 600;
 }
 .v8-tweaks-option-check {
   opacity: 0;
-  color: #0e0e0c;
+  color: var(--bl-ink);
   font-size: 12px;
   transition: opacity 160ms ease;
 }
@@ -348,7 +340,7 @@ const V6_CSS = `
   fill: var(--v6-accent-soft);
 }
 .v8-region-label {
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
   font-weight: 800;
   font-size: 104px;
   letter-spacing: -0.035em;
@@ -361,7 +353,7 @@ const V6_CSS = `
   transition: fill var(--v6-dur-base) var(--v6-ease);
 }
 .v8-region-sub {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-weight: 600;
   font-size: 22px;
   fill: var(--v6-text-muted);
@@ -448,7 +440,7 @@ const V6_CSS = `
   opacity: 1;
 }
 .v8-col-label {
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
   font-weight: 800;
   font-size: clamp(40px, 5.4vw, 76px);
   letter-spacing: -0.035em;
@@ -466,7 +458,7 @@ const V6_CSS = `
   min-height: 108px;
 }
 .v8-col-sub {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-weight: 500;
   font-size: 17px;
   color: var(--v6-text-muted);
@@ -569,7 +561,7 @@ const V6_CSS = `
   opacity: 1;
 }
 .v8-stack-label {
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
   font-weight: 800;
   font-size: clamp(36px, 4.4vw, 64px);
   letter-spacing: -0.035em;
@@ -595,62 +587,13 @@ const V6_CSS = `
 .v8-stack-card.is-hovered .v8-stack-reveal,
 .v8-stack-card:focus-visible .v8-stack-reveal { opacity: 1; transform: none; }
 .v8-stack-sub {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-weight: 500;
   font-size: 16px;
   color: var(--v6-text-muted);
   max-width: 28ch;
   line-height: 1.35;
 }
-.bl-intermission {
-  position: relative;
-  background: var(--bl-section-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(56px, 8vh, 96px) clamp(24px, 5vw, 80px);
-  transition: background-color 320ms ease;
-}
-.bl-intermission + .bl-editorial { padding-top: clamp(40px, 5vh, 64px); }
-.bl-intermission-mark {
-  display: inline-flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 28px);
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 600;
-  font-size: 10px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--bl-section-fg);
-}
-.bl-intermission-mark > span:not(.bl-intermission-line) {
-  opacity: 0.72;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.bl-intermission-section {
-  color: var(--bl-section-accent);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0;
-  transform: translateY(-1px);
-  transition: color 320ms ease;
-}
-.bl-intermission-arrow {
-  color: var(--bl-section-accent);
-  font-size: 11px;
-  transition: color 320ms ease;
-}
-.bl-intermission-line {
-  display: inline-block;
-  width: clamp(48px, 8vw, 120px);
-  height: 1px;
-  background: var(--bl-section-accent);
-  opacity: 0.85;
-  transition: background-color 320ms ease;
-}
-
 /* === Doors layout (v7-inspired, v8 palette) === */
 .v8-doors {
   position: absolute;
@@ -738,7 +681,7 @@ const V6_CSS = `
 .v8-door.is-hovered::after { transform: scaleX(1); }
 .v8-door-title {
   margin: 0;
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 400;
   font-style: italic;
   font-size: clamp(36px, 5vw, 72px);
@@ -752,7 +695,7 @@ const V6_CSS = `
 .v8-door-sub {
   margin: 6px 0 0;
   max-width: 28ch;
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(15px, 1.25vw, 19px);
@@ -767,7 +710,7 @@ const V6_CSS = `
   display: inline-flex;
   align-items: baseline;
   gap: 12px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -791,7 +734,7 @@ const V6_CSS = `
   left: 50%;
   top: 0;
   transform: translate(-50%, -50%);
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 400;
   font-size: clamp(20px, 1.8vw, 26px);
@@ -830,7 +773,7 @@ const V6_CSS = `
   order: 0;
   margin: 0;
   padding: 12px 0 12px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 700;
   font-size: clamp(11px, 1.05vw, 13px);
   letter-spacing: 0.46em;
@@ -842,7 +785,7 @@ const V6_CSS = `
 .v8-root.is-layout-doors .v8-hero-title {
   order: 0;
   margin: clamp(28px, 4vh, 44px) 0 clamp(20px, 2.4vh, 28px);
-  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: normal;
   font-weight: 500;
   font-size: clamp(38px, 5.4vw, 88px);
@@ -865,7 +808,7 @@ const V6_CSS = `
   display: inline-flex;
   align-items: center;
   gap: clamp(10px, 1.4vw, 18px);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: clamp(10px, 0.85vw, 11px);
   letter-spacing: 0.34em;
@@ -875,7 +818,7 @@ const V6_CSS = `
   line-height: 1;
 }
 .v8-hero-meta-dot {
-  font-family: 'Fraunces', serif;
+  font-family: var(--bl-font-serif);
   font-size: 1.4em;
   letter-spacing: 0;
   color: var(--v6-accent);
@@ -885,7 +828,7 @@ const V6_CSS = `
 .v8-root.is-layout-doors .v8-hero-lede {
   margin: clamp(24px, 3.5vh, 36px) 0 0;
   max-width: 80ch;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-weight: 400;
   font-size: clamp(20px, 2.1vw, 30px);
   line-height: 1.4;
@@ -989,7 +932,7 @@ const V6_CSS = `
 }
 .v8-hero-title {
   margin: 0 0 18px;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-weight: 800;
   font-size: clamp(28px, 6.5vw, 108px);
   letter-spacing: -0.04em;
@@ -999,7 +942,7 @@ const V6_CSS = `
 }
 .v8-hero-sub {
   margin: 0;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-size: clamp(15px, 1.6vw, 21px);
   font-weight: 500;
   color: var(--v6-text-muted);
@@ -1017,7 +960,7 @@ const V6_CSS = `
   padding: 7px 18px;
   border-radius: 999px;
   border: 1.5px solid var(--v6-text-strong);
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.01em;
@@ -1047,7 +990,7 @@ const V6_CSS = `
   transform: none;
 }
 .v8-region-start {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--bl-font-body);
   font-weight: 600;
   font-size: 18px;
   fill: var(--v6-text-muted);
@@ -1122,7 +1065,6 @@ const V6_CSS = `
 html:has(.v8-root) { scroll-behavior: smooth; }
 .v8-root .v8-hero,
 .v8-root .bl-books,
-.v8-root .bl-intermission,
 .v8-root .bl-editorial,
 .v8-root .bl-footer {
   scroll-margin-top: 96px;
@@ -1153,8 +1095,8 @@ html:has(.v8-root) { scroll-behavior: smooth; }
   background: rgba(233, 75, 54, 0.08);
   border: 1px solid rgba(233, 75, 54, 0.35);
   border-radius: 10px;
-  color: #0e0e0c;
-  font-family: 'Outfit', sans-serif;
+  color: var(--bl-ink);
+  font-family: var(--bl-font-body);
   font-size: 14px;
   line-height: 1.45;
   margin-top: 12px;
@@ -1600,18 +1542,6 @@ export default function V6Page() {
       </section>
 
       <OpenCall onSubmit={() => open('author')} />
-
-      <aside className="bl-intermission" aria-hidden="true">
-        <span className="bl-intermission-mark">
-          <span className="bl-intermission-line" />
-          <span>
-            <span className="bl-intermission-section">§</span>
-            Inside the issue
-            <span className="bl-intermission-arrow">↓</span>
-          </span>
-          <span className="bl-intermission-line" />
-        </span>
-      </aside>
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 

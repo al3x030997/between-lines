@@ -5,7 +5,7 @@ const STYLES = `
   background: var(--bl-footer-bg);
   color: var(--bl-footer-fg);
   padding: clamp(48px, 6vw, 80px) clamp(24px, 5vw, 80px) 40px;
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-family: var(--bl-font-display);
   transition: background-color 320ms ease, color 320ms ease;
 }
 .bl-footer-inner {
@@ -23,7 +23,7 @@ const STYLES = `
   flex-wrap: wrap;
 }
 .bl-footer-mark {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(36px, 4vw, 56px);
   letter-spacing: -0.02em;
@@ -34,7 +34,7 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-footer-tag {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--bl-font-serif);
   font-style: italic;
   font-size: clamp(16px, 1.4vw, 20px);
   color: var(--bl-footer-muted);
