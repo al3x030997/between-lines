@@ -6,7 +6,7 @@ import IntakeHero, { type IntakeSubmit } from './IntakeHero';
 import { WaitlistOverlay } from './WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import { serializeWriter } from './intake/writer/writerTypes';
-import OpenCall from './sections/OpenCall';
+import OpenCall from './sections/opencall';
 import SignupOffers from './sections/SignupOffers';
 import FaqTeaser from './sections/FaqTeaser';
 import Footer from './sections/Footer';
@@ -1526,7 +1526,7 @@ export default function V6Page() {
       </div>
       </section>
 
-      <OpenCall onSubmit={() => open('author')} />
+      <OpenCall onReader={() => open('reader')} onWriter={() => open('author')} />
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 

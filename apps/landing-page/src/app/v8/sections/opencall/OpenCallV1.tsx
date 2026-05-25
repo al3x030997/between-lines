@@ -3,15 +3,14 @@
 import Link from 'next/link';
 
 type Props = {
-  onSubmit?: () => void;
+  onReader: () => void;
+  onWriter: () => void;
 };
 
-export default function OpenCall({ onSubmit }: Props) {
+export default function OpenCallV1({ onWriter }: Props) {
   const handleSubmit = (e: React.MouseEvent) => {
-    if (onSubmit) {
-      e.preventDefault();
-      onSubmit();
-    }
+    e.preventDefault();
+    onWriter();
   };
 
   return (
