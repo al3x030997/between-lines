@@ -329,21 +329,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
 
         <div className="bl-faq-split">
           <div className="bl-faq-split-col">
-            <span className="bl-faq-split-eyebrow">For readers</span>
-            <h3 className="bl-faq-split-headline">
-              Read what no algorithm would surface.
-            </h3>
-            <ul className="bl-faq-split-bullets">
-              <li>Three free reads a month — chapter, short story, poem, or illustration.</li>
-              <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
-              <li>QuietReading mode — distraction-free. Nudges and notifications hold until you return.</li>
-              <li>Beta-read writers before they publish — credited as <em>Early Discoverer</em> for life.</li>
-            </ul>
-            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
-              Open the shelf <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <div className="bl-faq-split-col">
             <span className="bl-faq-split-eyebrow">For writers</span>
             <h3 className="bl-faq-split-headline">
               Publish your manuscript. Find your readers.
@@ -351,11 +336,24 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
             <ul className="bl-faq-split-bullets">
               <li>Free to upload — chapter by chapter or in full. First three chapters are free to beta-read.</li>
               <li><em>SecureBetaReads</em> — watermarked, no copy-paste, no AI training. Ever.</li>
-              <li><em>AgentReady</em> — build your agent list, track queries, write tailored letters. Free to start.</li>
               <li>Your copyright stays yours. Always.</li>
             </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
               Submit a manuscript <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-eyebrow">For readers</span>
+            <h3 className="bl-faq-split-headline">
+              Read what no algorithm would surface.
+            </h3>
+            <ul className="bl-faq-split-bullets">
+              <li>Three free reads a month — chapter, short story, poem, or illustration.</li>
+              <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
+              <li>Beta-read writers before they publish — credited as <em>Early Discoverer</em> for life.</li>
+            </ul>
+            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
+              Open the shelf <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>

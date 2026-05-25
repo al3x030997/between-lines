@@ -645,10 +645,13 @@ const V6_CSS = `
   -webkit-tap-highlight-color: transparent;
   transition: background var(--v6-dur-base) var(--v6-ease);
 }
-.v8-root.is-layout-doors .v8-door-reader,
 .v8-root.is-layout-doors .v8-door-author {
-  align-items: center;
-  text-align: center;
+  align-items: flex-end;
+  text-align: right;
+}
+.v8-root.is-layout-doors .v8-door-reader {
+  align-items: flex-start;
+  text-align: left;
 }
 @media (max-width: 800px) {
   .v8-root.is-layout-doors .v8-door-reader,
@@ -681,17 +684,17 @@ const V6_CSS = `
 .v8-door.is-hovered::after { transform: scaleX(1); }
 .v8-door-title {
   margin: 0;
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  font-style: italic;
-  font-variation-settings: 'opsz' 144, 'SOFT' 50;
+  font-family: var(--bl-font-display);
+  font-weight: 800;
+  font-style: normal;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
   font-size: clamp(36px, 5vw, 72px);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  line-height: 1.0;
+  letter-spacing: -0.035em;
   color: var(--v6-text-strong);
   max-width: 16ch;
   text-wrap: balance;
-  font-feature-settings: "kern", "liga", "calt", "dlig";
+  font-feature-settings: "kern", "liga", "calt";
 }
 .v8-door-sub {
   margin: 6px 0 0;
@@ -1160,8 +1163,7 @@ const DOOR_TITLES: Record<'reader' | 'author', string> = {
 };
 
 const DOOR_SUBS: Record<'reader' | 'author', string> = {
-  reader:
-    'A curated shelf of books — and unpublished manuscripts our editors defend.',
+  reader: 'Read fiction before it hits the shelf.',
   author: 'Publish your manuscript. Find your readers.',
 };
 
@@ -1354,13 +1356,7 @@ export default function V6Page() {
               <>
                 <h1 className="v8-hero-title">
                   Discover emerging authors &amp; new voices.
-                  <span className="v8-hero-title-accent">Fiction&nbsp;only.</span>
                 </h1>
-                <p className="v8-hero-lede">
-                  Home for readers who want books worth their time &mdash; and writers who want real
-                  readers, real feedback, and a real path to publish. Curated by humans. No ranked
-                  feed. No pay-to-play.
-                </p>
               </>
             ) : (
               <>
@@ -1381,6 +1377,12 @@ export default function V6Page() {
                 >
                   <h2 className="v8-door-title">{DOOR_TITLES[r]}</h2>
                   <p className="v8-door-sub">{DOOR_SUBS[r]}</p>
+                  <span className="v8-door-cta">
+                    <span className="v8-door-cta-text">
+                      {r === 'author' ? 'Start writing' : 'Start reading'}
+                    </span>
+                    <span className="v8-door-arrow" aria-hidden="true">→</span>
+                  </span>
                 </button>
               ))}
               <span className="v8-doors-ornament" aria-hidden="true">⁂</span>

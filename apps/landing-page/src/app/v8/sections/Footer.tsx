@@ -113,7 +113,7 @@ export default function Footer() {
       <div className="bl-footer-inner">
         <div className="bl-footer-top">
           <h2 className="bl-footer-mark">BetweenReads</h2>
-          <p className="bl-footer-tag">A platform for serious readers and serious writers. Home of the between.lines journal.</p>
+          <p className="bl-footer-tag">Home for readers who want books worth their time &mdash; and writers who want real readers, real feedback, and a real path to publish. Curated by humans. No ranked feed. No pay-to-play.</p>
         </div>
 
         <div className="bl-footer-cols">
