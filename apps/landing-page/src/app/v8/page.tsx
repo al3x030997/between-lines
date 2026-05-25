@@ -710,29 +710,6 @@ const V6_CSS = `
   opacity: 0.78;
   text-wrap: pretty;
 }
-.v8-door-cta {
-  margin-top: 18px;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--v6-text-strong);
-}
-.v8-door-arrow {
-  font-size: 18px;
-  letter-spacing: 0;
-  transition: transform 280ms var(--v6-ease);
-}
-.v8-door:hover .v8-door-arrow,
-.v8-door:focus-visible .v8-door-arrow,
-.v8-door.is-hovered .v8-door-arrow { transform: translateX(6px); }
-
-.v8-door-cta-text { display: inline-block; }
-
 /* Typographic asterism stamped where the top rule meets the gutter — a chapter mark */
 .v8-doors-ornament {
   position: absolute;
@@ -1158,8 +1135,8 @@ const LAYOUT_LABELS: Record<Layout, string> = {
 };
 
 const DOOR_TITLES: Record<'reader' | 'author', string> = {
-  reader: 'I’m reader first',
-  author: 'I’m writer first',
+  reader: 'Start reading',
+  author: 'Start writing',
 };
 
 const DOOR_SUBS: Record<'reader' | 'author', string> = {
@@ -1377,12 +1354,6 @@ export default function V6Page() {
                 >
                   <h2 className="v8-door-title">{DOOR_TITLES[r]}</h2>
                   <p className="v8-door-sub">{DOOR_SUBS[r]}</p>
-                  <span className="v8-door-cta">
-                    <span className="v8-door-cta-text">
-                      {r === 'author' ? 'Start writing' : 'Start reading'}
-                    </span>
-                    <span className="v8-door-arrow" aria-hidden="true">→</span>
-                  </span>
                 </button>
               ))}
               <span className="v8-doors-ornament" aria-hidden="true">⁂</span>
