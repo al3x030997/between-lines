@@ -163,13 +163,15 @@ const V9_CSS = `
   align-items: center;
   justify-content: center;
   padding: clamp(48px, 8vh, 120px) clamp(24px, 5vw, 80px);
-  /* Layered gradient: warm "sun" wash in the upper-left + diagonal amber falloff to the right.
-     The surface var keeps theming intact for non-Hawkins palettes. */
+  /* Soft ambient warmth from above — much subtler than the v1 left-side hotspot,
+     so the intake form (which lives in this same hero box) gets a calm ground. */
   background:
-    radial-gradient(ellipse 70% 55% at 18% 28%, rgba(255, 232, 120, 0.78) 0%, rgba(255, 232, 120, 0) 70%),
-    linear-gradient(102deg, #FFD500 0%, var(--v6-surface) 50%, #F0B400 100%);
+    radial-gradient(ellipse 140% 55% at 50% 0%, rgba(255, 240, 150, 0.35) 0%, rgba(255, 240, 150, 0) 70%),
+    linear-gradient(180deg, #FFD23A 0%, var(--v6-surface) 60%, #F5C20E 100%);
   overflow: hidden;
-  transition: opacity 360ms cubic-bezier(.22, 1, .36, 1), transform 360ms cubic-bezier(.22, 1, .36, 1);
+  transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
+              transform 360ms cubic-bezier(.22, 1, .36, 1),
+              background 320ms cubic-bezier(.22, 1, .36, 1);
   will-change: opacity, transform;
 }
 .v9-hero::before {
@@ -192,7 +194,12 @@ const V9_CSS = `
   align-items: stretch;
   padding-top: 0;
   padding-bottom: 0;
+  /* Drop the gradient entirely while the intake form is shown — flat surface
+     keeps the form grounded and removes the warm hotspot that competed with
+     the chip / label rhythm. */
+  background: var(--v6-surface);
 }
+.v9-root.is-phase-questions .v9-hero::before { opacity: 0; }
 .v9-hero-inner {
   position: relative;
   z-index: 1;
@@ -251,86 +258,118 @@ const V9_CSS = `
   max-width: 340px;
   min-height: clamp(180px, 26vh, 220px);
   padding: clamp(24px, 3.2vw, 36px) clamp(24px, 3.2vw, 36px) clamp(56px, 7vw, 72px);
-  background: #0a0a0a;
-  border: 0;
+  /* Cream "cardstock" pinned to the yellow corkboard, with a soft warm gradient
+     so it doesn't read flat against the page surface. */
+  background:
+    radial-gradient(120% 80% at 0% 0%, #FFFBE6 0%, #FFF6D8 55%, #FCEBB6 100%);
+  border: 2px solid #0a0a0a;
   border-radius: 6px;
-  color: #f6f1e3;
+  color: #0a0a0a;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  /* Crimson offset-print "stamp" mounted underneath + ambient shadow */
+  /* Crimson offset-print "stamp" mounted underneath + ambient shadow. Slightly
+     punchier than v1 so the card defines itself against the same-family yellow bg. */
   box-shadow:
-    6px 6px 0 0 #C5283D,
-    0 12px 24px rgba(14, 14, 12, 0.18);
+    8px 8px 0 0 #C5283D,
+    0 14px 30px rgba(14, 14, 12, 0.16);
   transform: translate(0, 0);
-  transition: transform 240ms cubic-bezier(.22, 1, .36, 1),
-              box-shadow 240ms cubic-bezier(.22, 1, .36, 1);
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1),
+              box-shadow 280ms cubic-bezier(.22, 1, .36, 1);
   outline: none;
   -webkit-tap-highlight-color: transparent;
   isolation: isolate;
   overflow: hidden;
 }
 .v9-cta-card::before {
+  /* Subtle paper grain so cream body has texture, not plastic flatness. */
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-  mix-blend-mode: overlay;
-  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.10;
+  z-index: 0;
+}
+.v9-cta-card::after {
+  /* Crimson hairline rule across the top — print-shop registration mark. */
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: #C5283D;
   z-index: 0;
 }
 .v9-cta-card > * { position: relative; z-index: 1; }
 .v9-cta-card:hover,
 .v9-cta-card:focus-visible {
-  transform: translate(-5px, -5px);
+  transform: translate(-7px, -7px);
   box-shadow:
-    11px 11px 0 0 #C5283D,
-    0 22px 44px rgba(14, 14, 12, 0.28),
-    0 0 0 1px rgba(255, 199, 0, 0.25);
+    15px 15px 0 0 #C5283D,
+    0 28px 50px rgba(14, 14, 12, 0.26);
 }
 .v9-cta-card:hover::before,
 .v9-cta-card:focus-visible::before {
-  opacity: 0.12;
+  opacity: 0.16;
 }
 .v9-cta-card:hover .v9-cta-card-title,
 .v9-cta-card:focus-visible .v9-cta-card-title {
-  color: #fff;
+  color: #C5283D;
 }
-.v9-cta-card:hover .v9-cta-card-sub,
-.v9-cta-card:focus-visible .v9-cta-card-sub {
-  color: rgba(246, 241, 227, 0.92);
+.v9-cta-card:hover .v9-cta-card-num,
+.v9-cta-card:focus-visible .v9-cta-card-num {
+  color: #C5283D;
+  transform: translateY(-2px);
 }
 .v9-cta-card:active {
-  transform: translate(4px, 4px);
+  transform: translate(6px, 6px);
   box-shadow:
     2px 2px 0 0 #C5283D,
-    0 3px 6px rgba(14, 14, 12, 0.16);
+    0 4px 8px rgba(14, 14, 12, 0.16);
   transition-duration: 80ms;
+}
+.v9-cta-card-num {
+  position: absolute;
+  top: clamp(18px, 2.4vw, 24px);
+  right: clamp(20px, 2.6vw, 26px);
+  font-family: var(--bl-font-eyebrow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(14, 14, 12, 0.55);
+  font-variant-numeric: tabular-nums;
+  z-index: 2;
+  transition: color 240ms cubic-bezier(.22, 1, .36, 1), transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card-title {
   margin: 0;
+  margin-top: 8px;
   font-family: var(--bl-font-display);
-  font-weight: 700;
+  font-weight: 800;
   font-variation-settings: 'wdth' 92, 'opsz' 96;
-  font-size: clamp(22px, 2.4vw, 30px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: #f6f1e3;
+  font-size: clamp(24px, 2.6vw, 32px);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: #0a0a0a;
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt";
+  transition: color 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card-rule {
   display: block;
-  width: 36px;
-  height: 2px;
+  width: 40px;
+  height: 3px;
   background: #C5283D;
-  margin: 2px 0 2px;
-  transition: width 320ms cubic-bezier(.22, 1, .36, 1);
+  margin: 4px 0 4px;
+  transition: width 360ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card:hover .v9-cta-card-rule,
 .v9-cta-card:focus-visible .v9-cta-card-rule {
-  width: 72px;
+  width: 88px;
 }
 .v9-cta-card-sub {
   margin: 0;
@@ -339,8 +378,8 @@ const V9_CSS = `
   font-weight: 400;
   font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.5;
-  color: rgba(246, 241, 227, 0.72);
+  line-height: 1.55;
+  color: rgba(14, 14, 12, 0.7);
   max-width: 26ch;
   text-wrap: pretty;
 }
@@ -362,17 +401,18 @@ const V9_CSS = `
 .v9-cta-card-arrow span {
   display: inline-block;
   font-size: 14px;
-  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card:hover .v9-cta-card-arrow span,
 .v9-cta-card:focus-visible .v9-cta-card-arrow span {
-  transform: translateX(5px);
+  transform: translateX(7px);
 }
 
 @media (max-width: 640px) {
-  .v9-cta-row { flex-direction: column; align-items: stretch; gap: 12px; }
+  .v9-cta-row { flex-direction: column; align-items: stretch; gap: 14px; }
   .v9-cta-card { max-width: none; min-height: 160px; }
-  .v9-cta-card-arrow { opacity: 0.6; transform: none; }
+  .v9-cta-card-arrow { opacity: 0.7; }
+  .v9-cta-card-num { font-size: 10px; }
 }
 
 .v8-root :where(button, a, [role="button"], input, select, textarea):focus-visible {
@@ -551,6 +591,7 @@ export default function V9Page() {
             <Link className="v8-nav-link" href="/readers">Readers</Link>
             <Link className="v8-nav-link" href="/creators">Creators</Link>
             <Link className="v8-nav-link" href="/pricing">Pricing</Link>
+            <Link className="v8-nav-link" href="/faq">FAQ</Link>
           </div>
         </div>
         <div className="v8-nav-meta">
@@ -578,7 +619,7 @@ export default function V9Page() {
             </p>
 
             <div className="v9-cta-row">
-              {(['reader', 'author'] as const).map((r) => (
+              {(['reader', 'author'] as const).map((r, i) => (
                 <button
                   key={r}
                   type="button"
@@ -586,6 +627,9 @@ export default function V9Page() {
                   onClick={() => open(r)}
                   aria-label={`${CARD_TITLES[r]}. ${CARD_SUBS[r]}`}
                 >
+                  <span className="v9-cta-card-num" aria-hidden="true">
+                    Nº&nbsp;{String(i + 1).padStart(2, '0')}
+                  </span>
                   <h2 className="v9-cta-card-title">{CARD_TITLES[r]}</h2>
                   <span className="v9-cta-card-rule" aria-hidden="true" />
                   <p className="v9-cta-card-sub">{CARD_SUBS[r]}</p>
