@@ -29,7 +29,7 @@ const CSS = `
   --bl-footer-fg: #0a0a0a;
   --bl-footer-muted: rgba(10,10,10,0.62);
   --bl-footer-divider: rgba(11,23,51,0.22);
-  --bl-footer-accent: #1B45FF;
+  --bl-footer-accent: #1F7A3E;
 }
 .bl-about-top {
   border-bottom: 1px solid rgba(14, 14, 12, 0.08);

@@ -12,7 +12,8 @@ import {
 
 type Props = { onReader: () => void; onWriter: () => void };
 
-// 6 most-common moods; matches the trimmed selector from the previous V7.
+// 6 moods displayed as chips. Pagination iterates through these in order, so
+// quote + mood stay coupled.
 const COMPACT_MOODS: Mood[] = [
   'feel-good',
   'escapist',
@@ -24,46 +25,36 @@ const COMPACT_MOODS: Mood[] = [
 
 export default function OpenCallV7({ onReader }: Props) {
   const quotes = useMemo(() => QUOTES, []);
-  const [idx, setIdx] = useState(0);
+
+  // Drive everything off mood index. Quote is derived from the active mood.
+  const [moodIdx, setMoodIdx] = useState(0);
   const [fade, setFade] = useState(false);
-  const [activeMood, setActiveMood] = useState<Mood | null>(null);
-  // Bumped each time the mood changes — drives the pulse animation on the
-  // "Now tuned to" subtitle and the brief crimson border flash on the card.
+  // Bumped on every change — drives the pulse on the "Now tuned to" subtitle.
   const [moodTick, setMoodTick] = useState(0);
 
-  const goTo = useCallback(
-    (next: number) => {
-      const target = ((next % quotes.length) + quotes.length) % quotes.length;
-      setFade(true);
-      setTimeout(() => {
-        setIdx(target);
-        setFade(false);
-      }, 220);
-    },
-    [quotes.length]
-  );
-
-  const currentQuote = quotes[idx];
+  const activeMood = COMPACT_MOODS[moodIdx];
+  const quoteIdx = MOOD_TO_QUOTE[activeMood];
+  const currentQuote = quotes[quoteIdx];
   const pillPalette = PILL_BG[currentQuote.category];
 
-  const handleMood = (mood: Mood) => {
-    setActiveMood(mood);
-    setMoodTick((t) => t + 1);
+  const switchToMoodIdx = useCallback((next: number) => {
+    const target = ((next % COMPACT_MOODS.length) + COMPACT_MOODS.length) % COMPACT_MOODS.length;
     setFade(true);
     setTimeout(() => {
-      setIdx(MOOD_TO_QUOTE[mood]);
+      setMoodIdx(target);
+      setMoodTick((t) => t + 1);
       setFade(false);
-    }, 220);
-  };
+    }, 260);
+  }, []);
 
   const visiblePicks = SEED_PICKS.slice(0, 2);
 
-  // Reset the "is-flashing" border state after the flash animation runs.
+  // is-flashing border highlight on every change.
   const [flashing, setFlashing] = useState(false);
   useEffect(() => {
     if (moodTick === 0) return;
     setFlashing(true);
-    const t = window.setTimeout(() => setFlashing(false), 520);
+    const t = window.setTimeout(() => setFlashing(false), 620);
     return () => window.clearTimeout(t);
   }, [moodTick]);
 
@@ -73,39 +64,43 @@ export default function OpenCallV7({ onReader }: Props) {
 
       <div className="bl-betweenchars-inner">
         <header className="bl-betweenchars-head">
-          <span className="bl-betweenchars-eyebrow">BetweenCharacters</span>
-          <h2 className="bl-betweenchars-title">Words that stayed with us.</h2>
+          <h2 className="bl-betweenchars-title">
+            <span className="bl-betweenchars-title-row">Words that stayed with us.</span>
+            <span className="bl-betweenchars-title-row">Characters we never forgot. Writers who inspire us.</span>
+          </h2>
           <div
             key={moodTick}
-            className={`bl-betweenchars-tuned${activeMood ? ' is-active' : ''}`}
+            className="bl-betweenchars-tuned is-active"
             aria-live="polite"
           >
-            <span className="bl-betweenchars-tuned-prefix">
-              {activeMood ? 'Now tuned to' : 'Drifting through'}
-            </span>
-            <span className="bl-betweenchars-tuned-value">
-              {activeMood ? MOOD_LABELS[activeMood] : 'all moods'}
-            </span>
+            <span className="bl-betweenchars-tuned-prefix">Now tuned to</span>
+            <span className="bl-betweenchars-tuned-value">{MOOD_LABELS[activeMood]}</span>
           </div>
         </header>
 
         <div className="bl-betweenchars-mood">
           <span className="bl-betweenchars-mood-label">How are you feeling?</span>
           <div className="bl-betweenchars-mood-row">
-            {COMPACT_MOODS.map((mood) => (
-              <button
-                key={mood}
-                type="button"
-                className={`bl-betweenchars-mood-btn${activeMood === mood ? ' is-active' : ''}`}
-                onClick={() => handleMood(mood)}
-                aria-pressed={activeMood === mood}
-              >
-                {activeMood === mood && (
-                  <span className="bl-betweenchars-mood-dot" aria-hidden="true" />
-                )}
-                <span>{MOOD_LABELS[mood]}</span>
-              </button>
-            ))}
+            {COMPACT_MOODS.map((mood, i) => {
+              const isActive = i === moodIdx;
+              return (
+                <button
+                  key={mood}
+                  type="button"
+                  className={`bl-betweenchars-mood-btn${isActive ? ' is-active' : ''}`}
+                  onClick={() => {
+                    if (isActive) return;
+                    switchToMoodIdx(i);
+                  }}
+                  aria-pressed={isActive}
+                >
+                  {isActive && (
+                    <span className="bl-betweenchars-mood-dot" aria-hidden="true" />
+                  )}
+                  <span>{MOOD_LABELS[mood]}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -139,19 +134,19 @@ export default function OpenCallV7({ onReader }: Props) {
           <button
             type="button"
             className="bl-betweenchars-nav-btn"
-            onClick={() => goTo(idx - 1)}
-            aria-label="Previous quote"
+            onClick={() => switchToMoodIdx(moodIdx - 1)}
+            aria-label="Previous mood"
           >
             ←
           </button>
           <span className="bl-betweenchars-counter">
-            {String(idx + 1).padStart(2, '0')} / {String(quotes.length).padStart(2, '0')}
+            {String(moodIdx + 1).padStart(2, '0')} / {String(COMPACT_MOODS.length).padStart(2, '0')}
           </span>
           <button
             type="button"
             className="bl-betweenchars-nav-btn"
-            onClick={() => goTo(idx + 1)}
-            aria-label="Next quote"
+            onClick={() => switchToMoodIdx(moodIdx + 1)}
+            aria-label="Next mood"
           >
             →
           </button>
@@ -205,7 +200,7 @@ const STYLES = `
 .bl-betweenchars-inner {
   position: relative;
   z-index: 1;
-  max-width: 760px;
+  max-width: 920px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -216,54 +211,43 @@ const STYLES = `
 .bl-betweenchars-head {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   text-align: center;
   align-items: center;
-}
-.bl-betweenchars-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--bl-accent);
 }
 .bl-betweenchars-title {
   margin: 0;
   font-family: var(--bl-font-display);
   font-weight: 800;
   font-variation-settings: 'wdth' 92, 'opsz' 96;
-  font-size: clamp(40px, 5.4vw, 64px);
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  font-size: clamp(28px, 3.8vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
   color: var(--bl-ink);
   text-wrap: balance;
-  max-width: 16ch;
   font-feature-settings: "kern", "liga", "calt";
+}
+.bl-betweenchars-title-row {
+  display: block;
 }
 .bl-betweenchars-tuned {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 4px;
+  margin-top: 2px;
   padding: 6px 14px;
   border-radius: 999px;
-  background: rgba(14, 14, 12, 0.04);
+  background: var(--bl-accent);
+  color: #ffffff;
   font-family: var(--bl-font-eyebrow);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--bl-ink-muted);
-  /* Pulse — fired on remount via the key={moodTick} trick */
+  /* Pulse — fired on remount via key={moodTick} */
   animation: bl-tuned-pulse 520ms cubic-bezier(.22, 1, .36, 1);
 }
-.bl-betweenchars-tuned.is-active {
-  background: var(--bl-accent);
-  color: #ffffff;
-}
-.bl-betweenchars-tuned-prefix { opacity: 0.7; }
-.bl-betweenchars-tuned.is-active .bl-betweenchars-tuned-prefix { opacity: 0.85; }
+.bl-betweenchars-tuned-prefix { opacity: 0.85; }
 .bl-betweenchars-tuned-value {
   font-family: var(--bl-font-display);
   font-weight: 700;
@@ -277,7 +261,7 @@ const STYLES = `
   100% { transform: scale(1);    opacity: 1; }
 }
 
-/* === Mood selector (now ABOVE the card — the entry point) === */
+/* === Mood selector === */
 .bl-betweenchars-mood {
   display: flex;
   flex-direction: column;
@@ -313,11 +297,13 @@ const STYLES = `
   font-weight: 500;
   color: var(--bl-ink);
   cursor: pointer;
+  /* Longer / smoother transitions so the active-state hand-off reads as motion */
   transition:
-    background 220ms cubic-bezier(.22, 1, .36, 1),
-    color 220ms cubic-bezier(.22, 1, .36, 1),
-    border-color 220ms cubic-bezier(.22, 1, .36, 1),
-    transform 220ms cubic-bezier(.22, 1, .36, 1);
+    background 320ms cubic-bezier(.22, 1, .36, 1),
+    color 320ms cubic-bezier(.22, 1, .36, 1),
+    border-color 320ms cubic-bezier(.22, 1, .36, 1),
+    transform 320ms cubic-bezier(.22, 1, .36, 1),
+    padding 320ms cubic-bezier(.22, 1, .36, 1);
   white-space: nowrap;
 }
 .bl-betweenchars-mood-btn:hover {
@@ -330,6 +316,7 @@ const STYLES = `
   color: #ffffff;
   border-color: var(--bl-ink);
   padding-left: 10px;
+  transform: translateY(-2px) scale(1.04);
 }
 .bl-betweenchars-mood-dot {
   display: inline-block;
@@ -337,7 +324,7 @@ const STYLES = `
   height: 7px;
   border-radius: 50%;
   background: var(--bl-accent);
-  box-shadow: 0 0 0 2px rgba(27, 69, 255, 0.28);
+  box-shadow: 0 0 0 2px rgba(31, 122, 62, 0.32);
   animation: bl-mood-dot 480ms cubic-bezier(.22, 1, .36, 1);
 }
 @keyframes bl-mood-dot {
@@ -346,66 +333,59 @@ const STYLES = `
   100% { transform: scale(1);   opacity: 1; }
 }
 
-/* === Quote card (yellow with bold white text) === */
+/* === Quote card (dark grey, white text) === */
 .bl-betweenchars-card {
   position: relative;
-  background: #FFC700;
-  border: 2px solid var(--bl-ink);
+  background: #1F2024;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 18px;
   padding: clamp(32px, 4vw, 52px) clamp(32px, 4vw, 56px);
   min-height: 240px;
-  /* Soft layered ambient shadow — no offset stamp block underneath. */
   box-shadow:
-    0 2px 4px rgba(14, 14, 12, 0.05),
-    0 12px 28px rgba(14, 14, 12, 0.12),
-    0 28px 56px rgba(14, 14, 12, 0.06);
+    0 2px 6px rgba(14, 14, 12, 0.10),
+    0 14px 32px rgba(14, 14, 12, 0.18),
+    0 32px 64px rgba(14, 14, 12, 0.10);
   transition:
-    opacity 240ms cubic-bezier(.22, 1, .36, 1),
-    transform 320ms cubic-bezier(.22, 1, .36, 1),
-    border-color 240ms cubic-bezier(.22, 1, .36, 1),
-    border-width 240ms cubic-bezier(.22, 1, .36, 1),
-    box-shadow 320ms cubic-bezier(.22, 1, .36, 1);
+    transform 360ms cubic-bezier(.22, 1, .36, 1),
+    border-color 280ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 360ms cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
   overflow: hidden;
 }
 .bl-betweenchars-card::before {
-  /* Paper grain so the yellow doesn't read plastic */
+  /* Subtle paper grain over the dark surface — keeps it from feeling plastic. */
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
-  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+  mix-blend-mode: overlay;
   opacity: 0.08;
   z-index: 0;
 }
 .bl-betweenchars-card.is-fading .bl-betweenchars-card-inner {
   opacity: 0;
-  transform: translateY(10px);
+  transform: translateY(8px);
 }
 .bl-betweenchars-card.is-flashing {
-  /* Mood-change feedback: border thickens + turns cobalt, card lifts slightly,
-     and a soft cobalt halo glows underneath. */
   border-color: var(--bl-accent);
-  border-width: 3px;
   transform: translateY(-4px);
   box-shadow:
-    0 4px 10px rgba(14, 14, 12, 0.08),
-    0 18px 38px rgba(14, 14, 12, 0.14),
-    0 0 0 6px rgba(27, 69, 255, 0.10);
+    0 4px 10px rgba(14, 14, 12, 0.10),
+    0 22px 44px rgba(14, 14, 12, 0.20),
+    0 0 0 4px rgba(31, 122, 62, 0.16);
 }
-/* The giant background quote-mark — watermark, not decoration */
 .bl-betweenchars-bg-mark {
   position: absolute;
-  top: -32px;
-  right: -16px;
+  top: -36px;
+  right: -18px;
   font-family: 'Fraunces', Georgia, serif;
   font-weight: 700;
   font-variation-settings: 'opsz' 144;
   font-size: clamp(180px, 22vw, 320px);
   line-height: 0.85;
   color: #ffffff;
-  opacity: 0.28;
+  opacity: 0.06;
   pointer-events: none;
   z-index: 0;
   transform: rotate(8deg);
@@ -416,15 +396,16 @@ const STYLES = `
   display: flex;
   flex-direction: column;
   gap: 14px;
+  /* Smoother content transition — opacity + slide */
   transition:
-    opacity 220ms cubic-bezier(.22, 1, .36, 1),
-    transform 280ms cubic-bezier(.22, 1, .36, 1);
+    opacity 280ms cubic-bezier(.22, 1, .36, 1),
+    transform 360ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-betweenchars-mark {
   font-family: 'Fraunces', Georgia, serif;
   font-size: 56px;
   line-height: 0.8;
-  color: rgba(14, 14, 12, 0.5);
+  color: rgba(255, 255, 255, 0.35);
   margin-bottom: -6px;
 }
 .bl-betweenchars-pill {
@@ -436,24 +417,18 @@ const STYLES = `
   text-transform: uppercase;
   padding: 5px 12px;
   border-radius: 999px;
-  /* Inline style overrides bg/color per-category; we just normalize ring */
-  box-shadow: inset 0 0 0 1px rgba(14, 14, 12, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 .bl-betweenchars-quote {
   margin: 4px 0 8px;
   font-family: 'Fraunces', Georgia, serif;
-  font-weight: 700;
+  font-weight: 500;
   font-variation-settings: 'opsz' 96, 'SOFT' 20;
   font-size: clamp(22px, 2.4vw, 30px);
   line-height: 1.4;
   color: #ffffff;
-  max-width: 24ch;
+  max-width: 28ch;
   text-wrap: pretty;
-  /* Soft ink shadow keeps white-on-yellow legible at small sizes
-     without losing the bold poster vibe */
-  text-shadow:
-    0 1px 0 rgba(14, 14, 12, 0.20),
-    0 2px 8px rgba(14, 14, 12, 0.12);
 }
 .bl-betweenchars-attr {
   display: flex;
@@ -464,16 +439,16 @@ const STYLES = `
 .bl-betweenchars-author {
   font-family: var(--bl-font-eyebrow);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: var(--bl-ink);
+  color: rgba(255, 255, 255, 0.92);
 }
 .bl-betweenchars-source {
   font-family: 'Fraunces', Georgia, serif;
   font-style: italic;
   font-size: 13px;
-  color: rgba(14, 14, 12, 0.7);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 /* === Pagination === */
@@ -506,7 +481,7 @@ const STYLES = `
   cursor: pointer;
   color: var(--bl-ink);
   font-size: 14px;
-  transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 .bl-betweenchars-nav-btn:hover {
   background: #f8f5ee;
@@ -563,7 +538,6 @@ const STYLES = `
   text-transform: uppercase;
   color: var(--bl-ink-muted);
 }
-
 .bl-betweenchars-pick-add {
   cursor: pointer;
   border: 1px dashed rgba(14, 14, 12, 0.3);
@@ -638,7 +612,7 @@ const STYLES = `
   background: var(--bl-accent);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(27, 69, 255, 0.28);
+  box-shadow: 0 12px 24px rgba(31, 122, 62, 0.28);
   outline: none;
 }
 .bl-betweenchars-cta-arrow {
@@ -660,9 +634,9 @@ const STYLES = `
   line-height: 1.5;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
+  .bl-betweenchars-title { font-size: clamp(24px, 5.8vw, 34px); }
   .bl-betweenchars-picks { grid-template-columns: 1fr; }
-  .bl-betweenchars-title { font-size: clamp(34px, 9vw, 48px); }
   .bl-betweenchars-bg-mark { font-size: 200px; right: -28px; top: -20px; }
   .bl-betweenchars-quote { font-size: 21px; }
   .bl-betweenchars-mood-row { gap: 6px; }

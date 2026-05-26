@@ -42,17 +42,17 @@ const V9_CSS = `
   color: var(--v6-text);
 }
 .v8-root.is-palette-stranger {
-  --bl-accent: #1B45FF;
-  --bl-accent-strong: #143ACC;
-  --bl-accent-soft: rgba(27, 69, 255, 0.14);
+  --bl-accent: #1F7A3E;
+  --bl-accent-strong: #155F2F;
+  --bl-accent-soft: rgba(31, 122, 62, 0.14);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
   --v6-surface: #FFC700;
   --v6-divider: rgba(11,23,51,0.22);
   --v6-stroke: rgba(255,199,0,0.95);
-  --bl-section-accent: #1B45FF;
-  --bl-footer-accent: #1B45FF;
+  --bl-section-accent: #1F7A3E;
+  --bl-footer-accent: #1F7A3E;
 }
 .v8-nav {
   position: sticky;
@@ -258,10 +258,11 @@ const V9_CSS = `
   max-width: 340px;
   min-height: clamp(180px, 26vh, 220px);
   padding: clamp(24px, 3.2vw, 36px) clamp(24px, 3.2vw, 36px) clamp(56px, 7vw, 72px);
-  /* Cream "cardstock" pinned to the yellow corkboard, with a soft warm gradient
-     so it doesn't read flat against the page surface. */
-  background:
-    radial-gradient(120% 80% at 0% 0%, #FFFBE6 0%, #FFF6D8 55%, #FCEBB6 100%);
+  /* Page-yellow body. A subtle inset black "tint" (via the ::before overlay)
+     darkens the card slightly so it separates from the page bg without
+     introducing a new color. On hover the overlay fades — card brightens
+     into the page yellow as it lifts. */
+  background: #FFC700;
   border: 2px solid #0a0a0a;
   border-radius: 6px;
   color: #0a0a0a;
@@ -283,17 +284,22 @@ const V9_CSS = `
   overflow: hidden;
 }
 .v9-cta-card::before {
-  /* Subtle paper grain so cream body has texture, not plastic flatness. */
+  /* Darkening overlay — black at 10% opacity. Page is pure yellow #FFC700,
+     so this drops the card to roughly #E6B300 (10% darker yellow), giving
+     visual separation without introducing a new color. Fades on hover. */
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.78' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
-  mix-blend-mode: multiply;
-  opacity: 0.10;
+  background: rgba(0, 0, 0, 0.10);
+  transition: background 280ms cubic-bezier(.22, 1, .36, 1);
   z-index: 0;
 }
 .v9-cta-card::after { content: none; }
+.v9-cta-card:hover::before,
+.v9-cta-card:focus-visible::before {
+  background: rgba(0, 0, 0, 0);
+}
 .v9-cta-card > * { position: relative; z-index: 1; }
 .v9-cta-card:hover,
 .v9-cta-card:focus-visible {
@@ -304,17 +310,13 @@ const V9_CSS = `
     0 18px 38px rgba(14, 14, 12, 0.18),
     0 36px 72px rgba(14, 14, 12, 0.14);
 }
-.v9-cta-card:hover::before,
-.v9-cta-card:focus-visible::before {
-  opacity: 0.16;
-}
 .v9-cta-card:hover .v9-cta-card-title,
 .v9-cta-card:focus-visible .v9-cta-card-title {
-  color: #1B45FF;
+  color: #1F7A3E;
 }
 .v9-cta-card:hover .v9-cta-card-num,
 .v9-cta-card:focus-visible .v9-cta-card-num {
-  color: #1B45FF;
+  color: #1F7A3E;
   transform: translateY(-2px);
 }
 .v9-cta-card:active {
@@ -356,7 +358,7 @@ const V9_CSS = `
   display: block;
   width: 40px;
   height: 3px;
-  background: #1B45FF;
+  background: #1F7A3E;
   margin: 4px 0 4px;
   transition: width 360ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -388,7 +390,7 @@ const V9_CSS = `
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #1B45FF;
+  color: #1F7A3E;
   z-index: 2;
 }
 .v9-cta-card-arrow span {

@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&display=swap');
 
 :root {
-  --bl-accent: #e94b36;
-  --bl-accent-strong: #c93a26;
-  --bl-accent-soft: rgba(233, 75, 54, 0.06);
+  --bl-accent: #1F7A3E;
+  --bl-accent-strong: #155F2F;
+  --bl-accent-soft: rgba(31, 122, 62, 0.08);
   --bl-ink: #0e0e0c;
   --bl-ink-muted: #5a5a52;
   --bl-ink-soft: #2a2a25;

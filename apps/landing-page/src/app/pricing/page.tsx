@@ -20,16 +20,8 @@ const PRICING_CSS = `
   font-family: var(--bl-font-body);
   color: var(--v6-text);
 }
-.pricing-root.is-palette-stranger {
-  --bl-accent: #1B45FF;
-  --bl-accent-strong: #143ACC;
-  --bl-accent-soft: rgba(27, 69, 255, 0.14);
-  --v6-text: #0a0a0a;
-  --v6-text-strong: #0a0a0a;
-  --v6-text-muted: #1a1a1a;
-  --v6-surface: #FFC700;
-  --v6-divider: rgba(11,23,51,0.22);
-}
+/* Pricing inherits the brand defaults from globals.css:
+   white surface, green accent, ink text. Matches FAQ page style. */
 
 /* === nav (mirrors v9) === */
 .pricing-nav {
@@ -263,7 +255,7 @@ const PRICING_CSS = `
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #FFC700;
+  color: #6BC480;
   margin-bottom: 10px;
 }
 .pricing-member-title {
@@ -297,9 +289,9 @@ const PRICING_CSS = `
   font-family: var(--bl-font-eyebrow);
   font-size: 11px;
   font-weight: 500;
-  color: #FFC700;
-  background: rgba(255,199,0,0.08);
-  border: 0.5px solid rgba(255,199,0,0.35);
+  color: #9FDDB0;
+  background: rgba(107,196,128,0.08);
+  border: 0.5px solid rgba(159,221,176,0.32);
   padding: 5px 12px;
   border-radius: 999px;
   letter-spacing: 0.01em;
@@ -326,8 +318,8 @@ const PRICING_CSS = `
 }
 .pricing-member-cta {
   appearance: none;
-  background: #FFC700;
-  color: #0a0a0a;
+  background: var(--bl-accent);
+  color: #ffffff;
   font-family: var(--bl-font-eyebrow);
   font-size: 11px;
   font-weight: 700;
@@ -337,13 +329,14 @@ const PRICING_CSS = `
   border-radius: 10px;
   border: 0;
   cursor: pointer;
-  transition: transform 200ms var(--bl-ease), box-shadow 200ms var(--bl-ease);
+  transition: background 200ms var(--bl-ease), transform 200ms var(--bl-ease), box-shadow 200ms var(--bl-ease);
   white-space: nowrap;
 }
 .pricing-member-cta:hover,
 .pricing-member-cta:focus-visible {
+  background: var(--bl-accent-strong);
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(255,199,0,0.28);
+  box-shadow: 0 10px 22px rgba(31, 122, 62, 0.28);
   outline: none;
 }
 .pricing-member-math {
@@ -354,7 +347,7 @@ const PRICING_CSS = `
   line-height: 1.65;
   text-align: right;
 }
-.pricing-member-math strong { color: #FFC700; font-weight: 700; }
+.pricing-member-math strong { color: #9FDDB0; font-weight: 700; }
 
 @media (max-width: 760px) {
   .pricing-member { grid-template-columns: 1fr; }
@@ -398,7 +391,7 @@ const PRICING_CSS = `
 }
 .pricing-plan.is-featured {
   border-color: var(--bl-accent);
-  background: rgba(27, 69, 255,0.04);
+  background: rgba(31, 122, 62,0.04);
 }
 .pricing-plan.is-pro {
   border-color: var(--bl-accent);
@@ -524,15 +517,15 @@ const PRICING_CSS = `
 }
 .pricing-plan-cta.is-solid:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(27, 69, 255,0.24);
+  box-shadow: 0 8px 18px rgba(31, 122, 62,0.24);
 }
 
 .pricing-member-saving {
   font-family: var(--bl-font-body);
   font-size: 11px;
   color: var(--bl-accent);
-  background: rgba(27, 69, 255,0.06);
-  border: 0.5px solid rgba(27, 69, 255,0.2);
+  background: rgba(31, 122, 62,0.06);
+  border: 0.5px solid rgba(31, 122, 62,0.2);
   border-radius: 10px;
   padding: 8px 12px;
   margin-bottom: 14px;
@@ -616,7 +609,7 @@ const PRICING_CSS = `
   .pricing-tier-grid.cols-2 { grid-template-columns: 1fr; }
 }
 .pricing-tier {
-  background: rgba(255,199,0,0.06);
+  background: rgba(14,14,12,0.025);
   border: 0.5px solid var(--v6-divider);
   border-radius: 12px;
   padding: 16px;
@@ -719,7 +712,7 @@ const PRICING_CSS = `
   .pricing-savings-grid { grid-template-columns: 1fr; }
 }
 .pricing-scenario {
-  background: rgba(255,199,0,0.06);
+  background: rgba(14,14,12,0.025);
   border-radius: 12px;
   padding: 18px;
   border: 0.5px solid var(--v6-divider);
@@ -873,7 +866,7 @@ export default function PricingPage() {
   const powerAlt = isAnnual ? 'save $20 vs monthly' : 'or $100/year — save $20';
 
   return (
-    <main className="pricing-root is-palette-stranger">
+    <main className="pricing-root">
       <style dangerouslySetInnerHTML={{ __html: PRICING_CSS }} />
 
       {/* === nav === */}

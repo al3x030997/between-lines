@@ -71,17 +71,17 @@ const V6_CSS = `
   background: linear-gradient(180deg, rgba(255,230,0,0.42) 0%, rgba(255,230,0,0.28) 50%, rgba(255,230,0,0.46) 100%);
 }
 .v8-root.is-palette-stranger {
-  --bl-accent: #1B45FF;
-  --bl-accent-strong: #143ACC;
-  --bl-accent-soft: rgba(27, 69, 255, 0.14);
+  --bl-accent: #1F7A3E;
+  --bl-accent-strong: #155F2F;
+  --bl-accent-soft: rgba(31, 122, 62, 0.14);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
   --v6-surface: #FFC700;
   --v6-divider: rgba(11,23,51,0.22);
   --v6-stroke: rgba(255,199,0,0.95);
-  --bl-section-accent: #1B45FF;
-  --bl-footer-accent: #1B45FF;
+  --bl-section-accent: #1F7A3E;
+  --bl-footer-accent: #1F7A3E;
 }
 .v8-bg {
   position: absolute;
