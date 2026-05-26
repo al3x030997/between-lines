@@ -3,10 +3,6 @@
 import { useEffect, useState, type ComponentType } from 'react';
 import OpenCallV1 from './OpenCallV1';
 import OpenCallV2 from './OpenCallV2';
-import OpenCallV3 from './OpenCallV3';
-import OpenCallV4 from './OpenCallV4';
-import OpenCallV5 from './OpenCallV5';
-import OpenCallV6 from './OpenCallV6';
 import OpenCallV7 from './OpenCallV7';
 import { SketchDefs } from './shared';
 
@@ -15,7 +11,7 @@ type Props = {
   onWriter: () => void;
 };
 
-type VariantKey = 'v1' | 'v2' | 'v3' | 'v4' | 'v5' | 'v6' | 'v7';
+type VariantKey = 'v1' | 'v2' | 'v7';
 
 type VariantMeta = {
   key: VariantKey;
@@ -27,10 +23,6 @@ type VariantMeta = {
 const VARIANTS: VariantMeta[] = [
   { key: 'v1', label: 'Issue cover', subtitle: 'Static editorial mock', Component: OpenCallV1 },
   { key: 'v2', label: 'First-line reel', subtitle: 'Single opening line, expandable', Component: OpenCallV2 },
-  { key: 'v3', label: 'Tip the scales', subtitle: 'Two manuscripts, head-to-head', Component: OpenCallV3 },
-  { key: 'v4', label: 'The wall', subtitle: 'Community mosaic + your line', Component: OpenCallV4 },
-  { key: 'v5', label: 'The margin', subtitle: 'Annotated reader page', Component: OpenCallV5 },
-  { key: 'v6', label: 'Mood compass', subtitle: 'Pick a mood, get three reads', Component: OpenCallV6 },
   { key: 'v7', label: 'BetweenCharacters', subtitle: 'Quotes + mood + add yours', Component: OpenCallV7 },
 ];
 
@@ -38,7 +30,7 @@ const STORAGE_KEY = 'bl-opencall-variant';
 const DEFAULT_KEY: VariantKey = 'v1';
 
 function isVariantKey(v: string | null): v is VariantKey {
-  return v !== null && /^v[1-7]$/.test(v);
+  return v !== null && /^v(1|2|7)$/.test(v);
 }
 
 export default function OpenCall({ onReader, onWriter }: Props) {
