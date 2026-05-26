@@ -172,7 +172,6 @@ export const CREATORS_SUBNAV: SubNavItem[] = [
   { label: 'Write on BetweenReads', href: '/creators/write-on-betweenreads' },
   { label: 'Upload Illustrations', href: '/creators/upload-illustrations' },
   { label: 'Secure BetaReads', href: '/creators/securebetareads' },
-  { label: 'Agent Readiness', href: '/creators/agent-readiness' },
 ];
 
 export const READERS_SUBNAV: SubNavItem[] = [
