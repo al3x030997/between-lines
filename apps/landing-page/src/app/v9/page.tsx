@@ -84,16 +84,21 @@ const V9_CSS = `
   font-weight: 800;
   transform: translateY(-1px);
 }
+.v8-nav-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 38px);
+}
+.v8-nav-links {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2vw, 24px);
+  font-family: var(--bl-font-eyebrow);
+}
 .v8-nav-meta {
   display: flex;
   align-items: center;
-  gap: 22px;
   font-family: var(--bl-font-eyebrow);
-}
-.v8-nav-sep {
-  width: 1px;
-  height: 14px;
-  background: var(--v6-divider);
 }
 .v8-nav-link {
   font: inherit;
@@ -103,11 +108,52 @@ const V9_CSS = `
   text-decoration: none;
   background: transparent;
   border: 0;
-  padding: 0;
+  padding: 4px 0;
   cursor: pointer;
+  position: relative;
   transition: color 200ms ease;
 }
+.v8-nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--v6-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+}
 .v8-nav-link:hover { color: var(--v6-accent); }
+.v8-nav-link:hover::after { transform: scaleX(1); }
+
+.v8-nav-cta {
+  appearance: none;
+  border: 0;
+  background: var(--v6-text-strong);
+  color: #f6f1e3;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+}
+.v8-nav-cta:hover,
+.v8-nav-cta:focus-visible {
+  background: var(--v6-accent);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(14, 14, 12, 0.16);
+  outline: none;
+}
+
+@media (max-width: 760px) {
+  .v8-nav-links { display: none; }
+}
 
 /* === v9 centered hero === */
 .v9-hero {
@@ -323,46 +369,6 @@ const V9_CSS = `
   transform: translateX(5px);
 }
 
-.v9-hero-both {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--v6-text-muted);
-  cursor: pointer;
-  padding: 6px 4px;
-  position: relative;
-  transition: color 200ms ease, transform 240ms cubic-bezier(.22, 1, .36, 1);
-}
-.v9-hero-both::after {
-  content: '';
-  position: absolute;
-  left: 4px;
-  right: 22px;
-  bottom: 2px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0;
-  transition: opacity 200ms ease;
-}
-.v9-hero-both:hover,
-.v9-hero-both:focus-visible {
-  color: var(--v6-accent);
-  transform: translateY(-1px);
-  outline: none;
-}
-.v9-hero-both:hover::after,
-.v9-hero-both:focus-visible::after {
-  opacity: 1;
-}
-.v9-hero-both span { display: inline-block; transition: transform 240ms cubic-bezier(.22, 1, .36, 1); }
-.v9-hero-both:hover span,
-.v9-hero-both:focus-visible span { transform: translateX(4px); }
-
 @media (max-width: 640px) {
   .v9-cta-row { flex-direction: column; align-items: stretch; gap: 12px; }
   .v9-cta-card { max-width: none; min-height: 160px; }
@@ -534,22 +540,26 @@ export default function V9Page() {
       )}
 
       <nav className="v8-nav">
-        <a className="v8-brand" href="#" aria-label="BetweenReads, home">
-          <span>between</span>
-          <span className="v8-brand-dot">.</span>
-          <span>reads</span>
-        </a>
+        <div className="v8-nav-left">
+          <Link className="v8-brand" href="/" aria-label="BetweenReads, home">
+            <span>between</span>
+            <span className="v8-brand-dot">.</span>
+            <span>reads</span>
+          </Link>
+          <div className="v8-nav-links">
+            <Link className="v8-nav-link" href="/betweenlines">BetweenLines</Link>
+            <Link className="v8-nav-link" href="/readers">Readers</Link>
+            <Link className="v8-nav-link" href="/creators">Creators</Link>
+            <Link className="v8-nav-link" href="/pricing">Pricing</Link>
+          </div>
+        </div>
         <div className="v8-nav-meta">
-          <Link className="v8-nav-link" href="/about">About</Link>
-          <span className="v8-nav-sep" aria-hidden="true" />
-          <Link className="v8-nav-link" href="/faq">FAQ</Link>
-          <span className="v8-nav-sep" aria-hidden="true" />
           <button
             type="button"
-            className="v8-nav-link v8-nav-signin"
+            className="v8-nav-cta"
             onClick={() => openWaitlist()}
           >
-            Join waitlist
+            Join free
           </button>
         </div>
       </nav>
@@ -585,14 +595,6 @@ export default function V9Page() {
                 </button>
               ))}
             </div>
-
-            <button
-              type="button"
-              className="v9-hero-both"
-              onClick={() => open('both')}
-            >
-              I’m both <span aria-hidden="true">→</span>
-            </button>
           </div>
         )}
 
