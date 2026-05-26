@@ -21,9 +21,9 @@ const PRICING_CSS = `
   color: var(--v6-text);
 }
 .pricing-root.is-palette-stranger {
-  --bl-accent: #C5283D;
-  --bl-accent-strong: #921a2b;
-  --bl-accent-soft: rgba(197, 40, 61, 0.14);
+  --bl-accent: #1B45FF;
+  --bl-accent-strong: #143ACC;
+  --bl-accent-soft: rgba(27, 69, 255, 0.14);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
@@ -238,9 +238,11 @@ const PRICING_CSS = `
   grid-template-columns: 1fr auto;
   gap: clamp(20px, 4vw, 44px);
   align-items: flex-start;
+  /* Soft ambient shadow — dark card floating, no offset block. */
   box-shadow:
-    7px 7px 0 0 var(--bl-accent),
-    0 18px 36px rgba(14,14,12,0.22);
+    0 4px 10px rgba(14,14,12,0.10),
+    0 18px 40px rgba(14,14,12,0.20),
+    0 36px 72px rgba(14,14,12,0.12);
   overflow: hidden;
   isolation: isolate;
 }
@@ -396,14 +398,17 @@ const PRICING_CSS = `
 }
 .pricing-plan.is-featured {
   border-color: var(--bl-accent);
-  background: rgba(197,40,61,0.04);
+  background: rgba(27, 69, 255,0.04);
 }
 .pricing-plan.is-pro {
   border-color: var(--bl-accent);
   background: #fff;
+  /* Soft ambient lift for the pro tier — distinguished by border + shadow,
+     not an offset stamp. */
   box-shadow:
-    5px 5px 0 0 var(--bl-accent),
-    0 10px 22px rgba(14,14,12,0.10);
+    0 2px 6px rgba(14,14,12,0.05),
+    0 12px 28px rgba(14,14,12,0.10),
+    0 28px 56px rgba(14,14,12,0.06);
 }
 .pricing-plan-icon {
   font-size: 24px;
@@ -519,15 +524,15 @@ const PRICING_CSS = `
 }
 .pricing-plan-cta.is-solid:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(197,40,61,0.24);
+  box-shadow: 0 8px 18px rgba(27, 69, 255,0.24);
 }
 
 .pricing-member-saving {
   font-family: var(--bl-font-body);
   font-size: 11px;
   color: var(--bl-accent);
-  background: rgba(197,40,61,0.06);
-  border: 0.5px solid rgba(197,40,61,0.2);
+  background: rgba(27, 69, 255,0.06);
+  border: 0.5px solid rgba(27, 69, 255,0.2);
   border-radius: 10px;
   padding: 8px 12px;
   margin-bottom: 14px;

@@ -41,7 +41,7 @@ const STUB_CSS = `
   font-variation-settings: 'wdth' 95;
   width: fit-content;
 }
-.bl-stub-brand-dot { color: #C5283D; padding: 0 4px; font-weight: 800; transform: translateY(-1px); }
+.bl-stub-brand-dot { color: #1B45FF; padding: 0 4px; font-weight: 800; transform: translateY(-1px); }
 .bl-stub-body {
   flex: 1;
   display: flex;
@@ -58,7 +58,7 @@ const STUB_CSS = `
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: #C5283D;
+  color: #1B45FF;
 }
 .bl-stub-title {
   margin: 0;
@@ -90,7 +90,7 @@ const STUB_CSS = `
   transition: color 200ms ease, border-color 200ms ease;
 }
 .bl-stub-back:hover {
-  color: #C5283D;
-  border-bottom-color: #C5283D;
+  color: #1B45FF;
+  border-bottom-color: #1B45FF;
 }
 `;

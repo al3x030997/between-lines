@@ -197,7 +197,7 @@ export const QUOTES: Quote[] = [
 export const MOODS: Mood[] = [
   { key: 'cozy', label: 'Cozy', tint: '#C28F3D', angle: -72 },
   { key: 'dark', label: 'Dark', tint: '#2E2F36', angle: -36 },
-  { key: 'brave', label: 'Brave', tint: '#C5283D', angle: 0 },
+  { key: 'brave', label: 'Brave', tint: '#1B45FF', angle: 0 },
   { key: 'lost', label: 'Lost', tint: '#5C7A8E', angle: 36 },
   { key: 'inlove', label: 'In love', tint: '#B86489', angle: 72 },
 ];

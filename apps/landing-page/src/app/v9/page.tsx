@@ -42,17 +42,17 @@ const V9_CSS = `
   color: var(--v6-text);
 }
 .v8-root.is-palette-stranger {
-  --bl-accent: #C5283D;
-  --bl-accent-strong: #921a2b;
-  --bl-accent-soft: rgba(197, 40, 61, 0.14);
+  --bl-accent: #1B45FF;
+  --bl-accent-strong: #143ACC;
+  --bl-accent-soft: rgba(27, 69, 255, 0.14);
   --v6-text: #0a0a0a;
   --v6-text-strong: #0a0a0a;
   --v6-text-muted: #1a1a1a;
   --v6-surface: #FFC700;
   --v6-divider: rgba(11,23,51,0.22);
   --v6-stroke: rgba(255,199,0,0.95);
-  --bl-section-accent: #C5283D;
-  --bl-footer-accent: #C5283D;
+  --bl-section-accent: #1B45FF;
+  --bl-footer-accent: #1B45FF;
 }
 .v8-nav {
   position: sticky;
@@ -268,14 +268,15 @@ const V9_CSS = `
   font: inherit;
   text-align: left;
   cursor: pointer;
-  /* Crimson offset-print "stamp" mounted underneath + ambient shadow. Slightly
-     punchier than v1 so the card defines itself against the same-family yellow bg. */
+  /* Soft layered ambient shadow — the card "floats" off the yellow surface
+     without the hard offset block underneath. */
   box-shadow:
-    8px 8px 0 0 #C5283D,
-    0 14px 30px rgba(14, 14, 12, 0.16);
+    0 2px 4px rgba(14, 14, 12, 0.04),
+    0 10px 24px rgba(14, 14, 12, 0.12),
+    0 22px 48px rgba(14, 14, 12, 0.08);
   transform: translate(0, 0);
-  transition: transform 280ms cubic-bezier(.22, 1, .36, 1),
-              box-shadow 280ms cubic-bezier(.22, 1, .36, 1);
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1),
+              box-shadow 320ms cubic-bezier(.22, 1, .36, 1);
   outline: none;
   -webkit-tap-highlight-color: transparent;
   isolation: isolate;
@@ -292,24 +293,16 @@ const V9_CSS = `
   opacity: 0.10;
   z-index: 0;
 }
-.v9-cta-card::after {
-  /* Crimson hairline rule across the top — print-shop registration mark. */
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 6px;
-  background: #C5283D;
-  z-index: 0;
-}
+.v9-cta-card::after { content: none; }
 .v9-cta-card > * { position: relative; z-index: 1; }
 .v9-cta-card:hover,
 .v9-cta-card:focus-visible {
-  transform: translate(-7px, -7px);
+  /* Clean upward lift — no offset stamp to pull away from. */
+  transform: translateY(-6px);
   box-shadow:
-    15px 15px 0 0 #C5283D,
-    0 28px 50px rgba(14, 14, 12, 0.26);
+    0 4px 8px rgba(14, 14, 12, 0.06),
+    0 18px 38px rgba(14, 14, 12, 0.18),
+    0 36px 72px rgba(14, 14, 12, 0.14);
 }
 .v9-cta-card:hover::before,
 .v9-cta-card:focus-visible::before {
@@ -317,19 +310,19 @@ const V9_CSS = `
 }
 .v9-cta-card:hover .v9-cta-card-title,
 .v9-cta-card:focus-visible .v9-cta-card-title {
-  color: #C5283D;
+  color: #1B45FF;
 }
 .v9-cta-card:hover .v9-cta-card-num,
 .v9-cta-card:focus-visible .v9-cta-card-num {
-  color: #C5283D;
+  color: #1B45FF;
   transform: translateY(-2px);
 }
 .v9-cta-card:active {
-  transform: translate(6px, 6px);
+  transform: translateY(-1px) scale(0.99);
   box-shadow:
-    2px 2px 0 0 #C5283D,
-    0 4px 8px rgba(14, 14, 12, 0.16);
-  transition-duration: 80ms;
+    0 2px 6px rgba(14, 14, 12, 0.10),
+    0 6px 14px rgba(14, 14, 12, 0.08);
+  transition-duration: 100ms;
 }
 .v9-cta-card-num {
   position: absolute;
@@ -363,7 +356,7 @@ const V9_CSS = `
   display: block;
   width: 40px;
   height: 3px;
-  background: #C5283D;
+  background: #1B45FF;
   margin: 4px 0 4px;
   transition: width 360ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -395,7 +388,7 @@ const V9_CSS = `
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #C5283D;
+  color: #1B45FF;
   z-index: 2;
 }
 .v9-cta-card-arrow span {

@@ -327,7 +327,7 @@ const CSS = `
   gap: 10px;
   padding: 18px 18px 16px;
   background: #fbf6e8;
-  border: 1px solid rgba(197, 40, 61, 0.18);
+  border: 1px solid rgba(27, 69, 255, 0.18);
   border-radius: 10px;
   color: var(--bl-ink);
   text-decoration: none;
@@ -348,7 +348,7 @@ const CSS = `
   opacity: 0.85;
 }
 .bl-faq-spotlight:hover {
-  border-color: rgba(197, 40, 61, 0.42);
+  border-color: rgba(27, 69, 255, 0.42);
   transform: translateY(-1px);
   box-shadow: 0 14px 30px rgba(14, 14, 12, 0.08);
 }
@@ -904,7 +904,7 @@ export default function FaqPage() {
             <div className="bl-faq-promo-covers" aria-hidden="true">
               <div
                 className="bl-faq-promo-cover"
-                style={{ background: '#C5283D', color: '#F3EFE6', transform: 'rotate(-3deg)' }}
+                style={{ background: '#1B45FF', color: '#F3EFE6', transform: 'rotate(-3deg)' }}
               >
                 <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
                 <div className="bl-faq-promo-cover-title">

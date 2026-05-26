@@ -20,7 +20,7 @@ const MINI_BOOKS: MiniBook[] = [
     italicWords: [1],
     authorMono: 'M. OSEI',
     publisher: 'ISSUE №01',
-    coverBg: '#C5283D',
+    coverBg: '#1B45FF',
     coverFg: 'light',
   },
   {

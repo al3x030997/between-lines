@@ -337,7 +337,7 @@ const STYLES = `
   height: 7px;
   border-radius: 50%;
   background: var(--bl-accent);
-  box-shadow: 0 0 0 2px rgba(197, 40, 61, 0.28);
+  box-shadow: 0 0 0 2px rgba(27, 69, 255, 0.28);
   animation: bl-mood-dot 480ms cubic-bezier(.22, 1, .36, 1);
 }
 @keyframes bl-mood-dot {
@@ -350,17 +350,20 @@ const STYLES = `
 .bl-betweenchars-card {
   position: relative;
   background: #FFC700;
-  border: 2.5px solid var(--bl-ink);
+  border: 2px solid var(--bl-ink);
   border-radius: 18px;
   padding: clamp(32px, 4vw, 52px) clamp(32px, 4vw, 56px);
   min-height: 240px;
+  /* Soft layered ambient shadow — no offset stamp block underneath. */
   box-shadow:
-    9px 9px 0 0 var(--bl-accent),
-    0 14px 28px rgba(14, 14, 12, 0.10);
+    0 2px 4px rgba(14, 14, 12, 0.05),
+    0 12px 28px rgba(14, 14, 12, 0.12),
+    0 28px 56px rgba(14, 14, 12, 0.06);
   transition:
     opacity 240ms cubic-bezier(.22, 1, .36, 1),
     transform 320ms cubic-bezier(.22, 1, .36, 1),
     border-color 240ms cubic-bezier(.22, 1, .36, 1),
+    border-width 240ms cubic-bezier(.22, 1, .36, 1),
     box-shadow 320ms cubic-bezier(.22, 1, .36, 1);
   isolation: isolate;
   overflow: hidden;
@@ -381,11 +384,15 @@ const STYLES = `
   transform: translateY(10px);
 }
 .bl-betweenchars-card.is-flashing {
+  /* Mood-change feedback: border thickens + turns cobalt, card lifts slightly,
+     and a soft cobalt halo glows underneath. */
   border-color: var(--bl-accent);
-  transform: translate(-3px, -3px);
+  border-width: 3px;
+  transform: translateY(-4px);
   box-shadow:
-    12px 12px 0 0 var(--bl-accent),
-    0 18px 36px rgba(14, 14, 12, 0.14);
+    0 4px 10px rgba(14, 14, 12, 0.08),
+    0 18px 38px rgba(14, 14, 12, 0.14),
+    0 0 0 6px rgba(27, 69, 255, 0.10);
 }
 /* The giant background quote-mark — watermark, not decoration */
 .bl-betweenchars-bg-mark {
@@ -631,7 +638,7 @@ const STYLES = `
   background: var(--bl-accent);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(197, 40, 61, 0.28);
+  box-shadow: 0 12px 24px rgba(27, 69, 255, 0.28);
   outline: none;
 }
 .bl-betweenchars-cta-arrow {
