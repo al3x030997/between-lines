@@ -225,11 +225,10 @@ const STYLES = `
 }
 .bl-faq-split-eyebrow {
   font-family: var(--bl-font-display);
-  font-weight: 700;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
+  font-weight: 600;
   font-size: clamp(40px, 5vw, 64px);
   line-height: 1.0;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   text-transform: none;
   color: var(--bl-ink);
   margin: 0;
