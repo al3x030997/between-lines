@@ -25,7 +25,7 @@ const CSS = `
   --bl-section-fg: #F4EFE3;
   --bl-section-muted: rgba(244, 239, 227, 0.74);
   --bl-section-accent: #E9B547;
-  --bl-footer-bg: #FFC700;
+  --bl-footer-bg: #FFE600;
   --bl-footer-fg: #0a0a0a;
   --bl-footer-muted: rgba(10,10,10,0.62);
   --bl-footer-divider: rgba(11,23,51,0.22);

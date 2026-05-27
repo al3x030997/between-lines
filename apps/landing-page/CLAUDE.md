@@ -19,4 +19,4 @@ Rules:
 - **`src/app/page.tsx` is the source of truth** for which variant is live. The comment above the export line marks it explicitly.
 - **Old variants stay routable** at `/vN` for side-by-side comparison until they're 2+ generations behind. After that, move them to `src/app/_archive/vN/` — Next.js ignores `_`-prefixed folders, so they stop being deployed as public routes but remain in git for reference.
 
-Current default: **v10** (see `src/app/page.tsx`).
+Current default: **v11** (see `src/app/page.tsx`).
