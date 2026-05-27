@@ -391,6 +391,9 @@ const V10_CSS = `
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt";
+  /* screen-print misregister — a faint forest-green offset behind the headline
+     gives the type a poster / pop-art print feel without changing the words. */
+  text-shadow: 5px 5px 0 rgba(31, 122, 62, 0.14);
   opacity: 0;
   transform: translateY(10px);
   animation: v10-fade-up 620ms cubic-bezier(.22, 1, .36, 1) 180ms forwards;
@@ -495,49 +498,58 @@ const V10_CSS = `
   justify-content: flex-start;
   gap: 12px;
   width: 100%;
-  min-height: clamp(190px, 26vh, 226px);
+  flex: 1;
+  min-height: clamp(200px, 28vh, 240px);
   padding: clamp(24px, 3.2vw, 36px) clamp(24px, 3.2vw, 36px) clamp(56px, 7vw, 72px);
-  background: #FFC700;
-  border: 2px solid #0a0a0a;
-  border-radius: 6px;
+  /* No card fill — the yellow page shows through; strong black edge + hard
+     offset shadow do all the visual work. Pop-poster / screen-print feel. */
+  background: transparent;
+  border: 3px solid #0a0a0a;
+  border-radius: 0;
   color: #0a0a0a;
   font: inherit;
   text-align: left;
   cursor: pointer;
-  box-shadow:
-    0 2px 4px rgba(14, 14, 12, 0.04),
-    0 10px 24px rgba(14, 14, 12, 0.12),
-    0 22px 48px rgba(14, 14, 12, 0.08);
+  box-shadow: 7px 7px 0 #0a0a0a;
   transform: translate(0, 0);
-  transition: transform 320ms cubic-bezier(.22, 1, .36, 1),
-              box-shadow 320ms cubic-bezier(.22, 1, .36, 1);
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1),
+              box-shadow 220ms cubic-bezier(.22, 1, .36, 1);
   outline: none;
   -webkit-tap-highlight-color: transparent;
   isolation: isolate;
   overflow: hidden;
 }
-.v9-cta-card::before {
+.v9-cta-card::before { display: none; }
+.v9-cta-card::after {
+  /* Lichtenstein-style halftone field sitting in the top-right corner.
+     Dot grid masked by a radial fade so the dots are dense at the corner
+     and dissolve into the page yellow as they move inward. Pure pop-art. */
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  width: clamp(80px, 14vw, 130px);
+  height: clamp(80px, 14vw, 130px);
+  background-image: radial-gradient(circle, #0a0a0a 1.6px, transparent 1.8px);
+  background-size: 9px 9px;
+  background-position: 4px 4px;
+  -webkit-mask: radial-gradient(circle at top right, #000 0%, transparent 78%);
+          mask: radial-gradient(circle at top right, #000 0%, transparent 78%);
   pointer-events: none;
-  background: rgba(0, 0, 0, 0.10);
-  transition: background 280ms cubic-bezier(.22, 1, .36, 1);
+  opacity: 0.55;
   z-index: 0;
-}
-.v9-cta-card::after { content: none; }
-.v9-cta-card:hover::before,
-.v9-cta-card:focus-visible::before {
-  background: rgba(0, 0, 0, 0);
+  transition: opacity 220ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card > * { position: relative; z-index: 1; }
 .v9-cta-card:hover,
 .v9-cta-card:focus-visible {
-  transform: translateY(-6px);
-  box-shadow:
-    0 4px 8px rgba(14, 14, 12, 0.06),
-    0 18px 38px rgba(14, 14, 12, 0.18),
-    0 36px 72px rgba(14, 14, 12, 0.14);
+  /* slide into the offset shadow */
+  transform: translate(3px, 3px);
+  box-shadow: 4px 4px 0 #0a0a0a;
+}
+.v9-cta-card:hover::after,
+.v9-cta-card:focus-visible::after {
+  opacity: 0.85;
 }
 .v9-cta-card:hover .v9-cta-card-title,
 .v9-cta-card:focus-visible .v9-cta-card-title {
@@ -548,11 +560,10 @@ const V10_CSS = `
   transform: rotate(45deg);
 }
 .v9-cta-card:active {
-  transform: translateY(-1px) scale(0.99);
-  box-shadow:
-    0 2px 6px rgba(14, 14, 12, 0.10),
-    0 6px 14px rgba(14, 14, 12, 0.08);
-  transition-duration: 100ms;
+  /* pressed all the way into the shadow */
+  transform: translate(7px, 7px);
+  box-shadow: 0 0 0 #0a0a0a;
+  transition-duration: 80ms;
 }
 .v9-cta-card-title {
   margin: 0;
