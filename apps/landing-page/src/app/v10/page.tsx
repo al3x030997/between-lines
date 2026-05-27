@@ -820,8 +820,6 @@ export default function V10Page() {
             <div className="v9-hero-inner v10-hero-inner">
               <div className="v10-eyebrow" aria-hidden="true">
                 <span className="v10-eyebrow-rule" />
-                <span>From the editors</span>
-                <span className="v10-eyebrow-rule" />
               </div>
 
               <h1 className="v9-hero-title v10-hero-title">

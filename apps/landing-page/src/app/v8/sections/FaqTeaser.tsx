@@ -238,7 +238,6 @@ const STYLES = `
 }
 .bl-faq-split-invitation {
   font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
   font-weight: 400;
   font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(17px, 1.4vw, 20px);
@@ -247,17 +246,6 @@ const STYLES = `
   margin: 0;
   max-width: 38ch;
   text-wrap: pretty;
-}
-.bl-faq-split-headline {
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 144, 'SOFT' 40;
-  font-size: clamp(22px, 2.4vw, 30px);
-  line-height: 1.15;
-  letter-spacing: -0.005em;
-  color: var(--bl-ink);
-  margin: 0;
-  text-wrap: balance;
 }
 .bl-faq-split-bullets {
   list-style: none;
@@ -350,9 +338,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Bring your work to a platform built for writers. Find readers who care.
               Beta readers waiting. A community that reads seriously.
             </p>
-            <h4 className="bl-faq-split-headline">
-              Publish your manuscript. Find your readers.
-            </h4>
             <ul className="bl-faq-split-bullets">
               <li>Free to upload — chapter by chapter or in full. First three chapters are free to beta-read.</li>
               <li><em>SecureBetaReads</em> — watermarked, no copy-paste, no AI training. Ever.</li>
@@ -368,9 +353,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Be among the first readers on BetweenReads. Help shape what a reading
               community can be. Volunteer as a beta reader. Your taste matters here.
             </p>
-            <h4 className="bl-faq-split-headline">
-              Read what no algorithm would surface.
-            </h4>
             <ul className="bl-faq-split-bullets">
               <li>Three free reads a month — chapter, short story, poem, or illustration.</li>
               <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
