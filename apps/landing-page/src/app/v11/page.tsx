@@ -52,8 +52,9 @@ const V11_CSS = `
   top: 0;
   z-index: 10;
   background: #fff;
-  border-bottom: 1px solid var(--v11-divider);
+  border-bottom: 3px solid var(--v11-ink);
   width: 100%;
+  box-shadow: 0 1px 0 rgba(255, 230, 0, 0.9);
 }
 .v11-nav-inner {
   display: flex;
@@ -183,16 +184,38 @@ const V11_CSS = `
 /* === Hero (yellow, full screen) === */
 .v11-hero {
   background: var(--v11-yellow);
-  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px);
+  padding: clamp(32px, 5vh, 58px) clamp(20px, 4vw, 44px) clamp(34px, 6vh, 70px);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: calc(100vh - 64px);
   position: relative;
+  overflow: hidden;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
+}
+.v11-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(26, 26, 26, 0.08) 1px, transparent 1px) 0 0 / 72px 100%,
+    linear-gradient(rgba(26, 26, 26, 0.06) 1px, transparent 1px) 0 0 / 100% 96px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.72), transparent 78%);
+  pointer-events: none;
+}
+.v11-hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background: repeating-linear-gradient(90deg, var(--v11-ink) 0 42px, transparent 42px 58px);
+  opacity: 0.92;
+  pointer-events: none;
 }
 .v11-hero.is-leaving {
   opacity: 0;
@@ -207,11 +230,14 @@ const V11_CSS = `
   background: #fff;
 }
 .v11-hero-inner {
-  max-width: 980px;
+  max-width: 1060px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 1;
+  padding-top: clamp(18px, 5vh, 56px);
 }
 .v11-hero-label {
   font-size: 11px;
@@ -231,57 +257,187 @@ const V11_CSS = `
 }
 .v11-hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(44px, 7.5vw, 82px);
+  font-size: clamp(54px, 8.6vw, 116px);
   font-weight: 900;
-  line-height: 1.0;
+  line-height: 0.92;
   color: var(--v11-ink);
-  letter-spacing: -2px;
-  max-width: 960px;
+  letter-spacing: -0.045em;
+  max-width: 1040px;
   text-wrap: balance;
+}
+.v11-hero-line {
+  display: block;
 }
 .v11-hero h1 em {
   font-style: italic;
   font-weight: 700;
+  letter-spacing: -0.035em;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.08em;
+  text-decoration-color: rgba(15, 110, 86, 0.75);
 }
 
-/* === CTAs (plain underlined Playfair text — matches mock) === */
-.v11-cta-row {
+.v11-proof-strip {
   display: flex;
-  gap: clamp(28px, 5vw, 56px);
-  margin-top: clamp(40px, 6vh, 60px);
-  justify-content: center;
   flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: clamp(20px, 3.2vh, 34px);
+}
+.v11-proof-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 6px 12px;
+  border: 1.5px solid rgba(26, 26, 26, 0.48);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.32);
+  color: rgba(26, 26, 26, 0.72);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* === CTAs === */
+.v11-cta-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(230px, 1fr));
+  gap: clamp(12px, 2vw, 18px);
+  margin-top: clamp(28px, 5vh, 52px);
+  width: min(760px, 100%);
 }
 .v11-cta {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(18px, 2.2vw, 24px);
-  font-weight: 700;
+  position: relative;
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
   color: var(--v11-ink);
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid var(--v11-ink);
-  padding: 4px 2px 4px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 2px solid var(--v11-ink);
+  border-radius: 0;
+  padding: 18px 20px 16px;
   cursor: pointer;
   text-decoration: none;
+  text-align: left;
   -webkit-tap-highlight-color: transparent;
+  box-shadow: 7px 7px 0 var(--v11-ink);
   transition:
-    color 220ms cubic-bezier(.22, 1, .36, 1),
-    border-color 220ms cubic-bezier(.22, 1, .36, 1),
+    background 220ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 220ms cubic-bezier(.22, 1, .36, 1),
     transform 220ms cubic-bezier(.22, 1, .36, 1),
-    letter-spacing 320ms cubic-bezier(.22, 1, .36, 1);
+    color 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.v11-cta::after {
+  content: '→';
+  position: absolute;
+  right: 18px;
+  bottom: 15px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 30px;
+  line-height: 1;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.v11-cta-kicker {
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(26, 26, 26, 0.62);
+}
+.v11-cta-main {
+  max-width: 9ch;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.035em;
 }
 .v11-cta:hover,
 .v11-cta:focus-visible {
+  background: #fff;
   color: var(--v11-accent);
-  border-color: var(--v11-accent);
-  transform: translateY(-2px);
-  letter-spacing: 0.02em;
+  box-shadow: 11px 11px 0 var(--v11-ink);
+  transform: translate(-2px, -2px);
   outline: none;
+}
+.v11-cta:hover::after,
+.v11-cta:focus-visible::after {
+  transform: translateX(5px);
 }
 .v11-cta:active {
   transform: translateY(0);
   transition-duration: 80ms;
 }
+.v11-cta.reader {
+  background: var(--v11-ink);
+  color: var(--v11-yellow);
+}
+.v11-cta.reader .v11-cta-kicker {
+  color: rgba(255, 230, 0, 0.72);
+}
+.v11-cta.reader:hover,
+.v11-cta.reader:focus-visible {
+  background: #000;
+  color: #fff27a;
+}
+
+.v11-artifact {
+  position: absolute;
+  z-index: 0;
+  color: var(--v11-ink);
+  pointer-events: none;
+}
+.v11-artifact.manuscript {
+  left: clamp(18px, 4vw, 58px);
+  top: clamp(96px, 15vh, 150px);
+  width: clamp(118px, 14vw, 190px);
+  height: clamp(154px, 18vw, 236px);
+  border: 2px solid rgba(26, 26, 26, 0.42);
+  background: rgba(255, 255, 255, 0.28);
+  transform: rotate(-4deg);
+}
+.v11-artifact.manuscript::before {
+  content: "";
+  position: absolute;
+  inset: 24px 18px;
+  background: repeating-linear-gradient(to bottom, rgba(26, 26, 26, 0.62) 0 2px, transparent 2px 16px);
+}
+.v11-artifact.manuscript::after {
+  content: "reader notes";
+  position: absolute;
+  left: 18px;
+  bottom: 16px;
+  color: var(--v11-accent);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(15px, 1.5vw, 22px);
+  font-style: italic;
+  transform: rotate(-2deg);
+}
+.v11-artifact.shelf {
+  right: clamp(14px, 4vw, 66px);
+  top: clamp(126px, 19vh, 188px);
+  width: clamp(138px, 18vw, 250px);
+  height: clamp(120px, 15vw, 190px);
+  border-bottom: 3px solid rgba(26, 26, 26, 0.72);
+  transform: rotate(3deg);
+}
+.v11-artifact.shelf span {
+  position: absolute;
+  bottom: 3px;
+  display: block;
+  width: 18%;
+  border: 2px solid rgba(26, 26, 26, 0.5);
+  background: rgba(255, 255, 255, 0.34);
+}
+.v11-artifact.shelf span:nth-child(1) { left: 2%; height: 76%; background: rgba(15, 110, 86, 0.2); }
+.v11-artifact.shelf span:nth-child(2) { left: 22%; height: 92%; }
+.v11-artifact.shelf span:nth-child(3) { left: 42%; height: 68%; background: rgba(26, 26, 26, 0.12); }
+.v11-artifact.shelf span:nth-child(4) { left: 62%; height: 86%; background: rgba(15, 110, 86, 0.24); }
+.v11-artifact.shelf span:nth-child(5) { left: 82%; height: 72%; }
 
 /* Banner reused */
 .bl-banner {
@@ -318,6 +474,47 @@ const V11_CSS = `
 .v11-root :where(button, a, [role="button"], input, select, textarea):focus-visible {
   outline: 2px solid var(--v11-accent);
   outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .v11-hero {
+    padding-top: 28px;
+    min-height: calc(100svh - 64px);
+  }
+  .v11-hero-inner {
+    padding-top: 22px;
+  }
+  .v11-hero h1 {
+    font-size: clamp(52px, 15vw, 78px);
+    letter-spacing: -0.04em;
+  }
+  .v11-artifact {
+    opacity: 0.28;
+  }
+  .v11-artifact.manuscript {
+    left: -42px;
+    top: 96px;
+  }
+  .v11-artifact.shelf {
+    right: -58px;
+    top: 136px;
+  }
+  .v11-cta-row {
+    grid-template-columns: 1fr;
+    width: min(420px, 100%);
+    margin-top: 30px;
+  }
+  .v11-cta {
+    min-height: 94px;
+  }
+  .v11-proof-strip {
+    gap: 6px;
+  }
+  .v11-proof-pill {
+    min-height: 28px;
+    font-size: 10px;
+    padding-inline: 10px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -460,14 +657,21 @@ export default function V11Page() {
       >
         {phase !== 'questions' && (
           <div className="v11-hero-inner">
+            <div className="v11-artifact manuscript" aria-hidden="true" />
+            <div className="v11-artifact shelf" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+              <span />
+              <span />
+            </div>
             <p className="v11-hero-label">for the hidden creative</p>
             <p className="v11-hero-sub">
               wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators
             </p>
             <h1>
-              Discover <em>new voices.</em>
-              <br />
-              Curated <em>stories.</em>
+              <span className="v11-hero-line">Discover <em>new voices.</em></span>
+              <span className="v11-hero-line">Curated <em>stories.</em></span>
             </h1>
 
             <div className="v11-cta-row" role="group" aria-label="Start">
@@ -476,15 +680,22 @@ export default function V11Page() {
                 className="v11-cta"
                 onClick={() => open('author')}
               >
-                Start Creating
+                <span className="v11-cta-kicker">Writers</span>
+                <span className="v11-cta-main">Start Creating</span>
               </button>
               <button
                 type="button"
-                className="v11-cta"
+                className="v11-cta reader"
                 onClick={() => open('reader')}
               >
-                Start Reading
+                <span className="v11-cta-kicker">Readers</span>
+                <span className="v11-cta-main">Start Reading</span>
               </button>
+            </div>
+            <div className="v11-proof-strip" aria-label="Platform commitments">
+              <span className="v11-proof-pill">Free to start</span>
+              <span className="v11-proof-pill">Protected drafts</span>
+              <span className="v11-proof-pill">No ads</span>
             </div>
           </div>
         )}
