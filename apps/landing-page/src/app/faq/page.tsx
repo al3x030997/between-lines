@@ -318,6 +318,114 @@ const CSS = `
 }
 .bl-faq-cta-ghost:hover { color: var(--bl-accent); }
 
+/* Writer/Reader value split — mirrors home-page FaqTeaser */
+.bl-faq-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  margin: clamp(40px, 5vw, 64px) 0 clamp(40px, 5vw, 64px);
+  padding: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 48px);
+  background: var(--bl-surface);
+  border: 1px solid rgba(14,14,12,0.08);
+  border-radius: 18px;
+  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 20px 50px -28px rgba(14,14,12,0.18);
+}
+.bl-faq-split::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: clamp(20px, 4vw, 40px);
+  bottom: clamp(20px, 4vw, 40px);
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
+  pointer-events: none;
+}
+.bl-faq-split-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: flex-start;
+}
+.bl-faq-split-eyebrow {
+  font-family: var(--bl-font-eyebrow);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--bl-accent);
+  margin: 0;
+}
+.bl-faq-split-headline {
+  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 144, 'SOFT' 40;
+  font-size: clamp(24px, 2.6vw, 34px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  color: var(--bl-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.bl-faq-split-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bl-faq-split-bullets li {
+  font-family: var(--bl-font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--bl-ink-muted);
+  display: flex;
+  gap: 10px;
+  text-wrap: pretty;
+}
+.bl-faq-split-bullets li::before {
+  content: '→';
+  color: var(--bl-accent);
+  flex-shrink: 0;
+}
+.bl-faq-split-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 11px 24px;
+  border: none;
+  border-radius: 999px;
+  background: var(--bl-accent);
+  color: #fff;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 220ms cubic-bezier(.22,1,.36,1), transform 220ms cubic-bezier(.22,1,.36,1);
+}
+.bl-faq-split-cta:hover,
+.bl-faq-split-cta:focus-visible {
+  background: var(--bl-accent-strong);
+  transform: translateY(-1px);
+  outline: none;
+}
+.bl-faq-split-cta > span {
+  transition: transform 240ms cubic-bezier(.22,1,.36,1);
+}
+.bl-faq-split-cta:hover > span,
+.bl-faq-split-cta:focus-visible > span {
+  transform: translateX(4px);
+}
+@media (max-width: 760px) {
+  .bl-faq-split { grid-template-columns: 1fr; gap: 40px; padding: 32px 24px; }
+  .bl-faq-split::before { display: none; }
+}
+
 /* AgentReady spotlight in the side nav */
 .bl-faq-spotlight {
   margin-top: 28px;
@@ -844,6 +952,37 @@ export default function FaqPage() {
             </Link>
           </div>
         </div>
+
+        <section className="bl-faq-split" aria-label="What BetweenReads gives writers and readers">
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-eyebrow">For writers</span>
+            <h2 className="bl-faq-split-headline">
+              Publish your manuscript. Find your readers.
+            </h2>
+            <ul className="bl-faq-split-bullets">
+              <li>Free to upload &mdash; chapter by chapter or in full. First three chapters are free to beta-read.</li>
+              <li><em>SecureBetaReads</em> &mdash; watermarked, no copy-paste, no AI training. Ever.</li>
+              <li>Your copyright stays yours. Always.</li>
+            </ul>
+            <Link href="/?intake=writer" className="bl-faq-split-cta">
+              Submit a manuscript <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-eyebrow">For readers</span>
+            <h2 className="bl-faq-split-headline">
+              Read what no algorithm would surface.
+            </h2>
+            <ul className="bl-faq-split-bullets">
+              <li>Three free reads a month &mdash; chapter, short story, poem, or illustration.</li>
+              <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
+              <li>Beta-read writers before they publish &mdash; credited as <em>Early Discoverer</em> for life.</li>
+            </ul>
+            <Link href="/?intake=reader" className="bl-faq-split-cta">
+              Open the shelf <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </section>
 
         <div className="bl-faq-layout">
           <aside className="bl-faq-side" aria-label="Sections">

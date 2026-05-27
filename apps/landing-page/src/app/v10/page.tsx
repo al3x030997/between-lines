@@ -18,7 +18,7 @@ const BANNER_MESSAGES: Record<string, string> = {
   ratelimited: 'Too many attempts. Please try again in a few minutes.',
 };
 
-const V9_CSS = `
+const V10_CSS = `
 .v8-root {
   --v6-accent: var(--bl-accent);
   --v6-accent-soft: var(--bl-accent-soft);
@@ -230,16 +230,90 @@ const V9_CSS = `
   .v8-nav-dropdown { display: none; }
 }
 
-/* === v9 centered hero === */
+/* === v10 masthead band (between nav and hero) === */
+.v10-masthead {
+  position: relative;
+  z-index: 4;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  height: 34px;
+  padding: 0 clamp(20px, 3.5vw, 56px);
+  background: var(--v6-surface);
+  border-bottom: 1px solid rgba(14,14,12,0.18);
+  font-family: var(--bl-font-eyebrow);
+  color: rgba(14,14,12,0.78);
+  opacity: 0;
+  transform: translateY(-4px);
+  animation: v10-fade-down 520ms cubic-bezier(.22, 1, .36, 1) 40ms forwards;
+}
+.v10-masthead::before,
+.v10-masthead::after {
+  content: '';
+  position: absolute;
+  left: clamp(20px, 3.5vw, 56px);
+  right: clamp(20px, 3.5vw, 56px);
+  height: 1px;
+  background: var(--v6-accent);
+  opacity: 0.55;
+  pointer-events: none;
+}
+.v10-masthead::before { top: -1px; }
+.v10-masthead::after  { bottom: -1px; }
+.v10-masthead-cell {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.v10-masthead-cell:first-child { justify-self: start; }
+.v10-masthead-cell:last-child  { justify-self: end; }
+.v10-masthead-center {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: rgba(14,14,12,0.92);
+}
+.v10-masthead-center .v10-mast-dot {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--v6-accent);
+  transform: translateY(-1px);
+}
+@media (max-width: 760px) {
+  .v10-masthead { grid-template-columns: 1fr auto; height: 30px; }
+  .v10-masthead-cell:last-child { display: none; }
+  .v10-masthead-cell:first-child { font-size: 9.5px; letter-spacing: 0.2em; }
+  .v10-masthead-center { font-size: 11.5px; }
+}
+.v8-root.is-phase-questions .v10-masthead {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms cubic-bezier(.22, 1, .36, 1);
+}
+
+/* === v9/v10 shared hero shell === */
 .v9-hero {
   position: relative;
-  min-height: calc(100vh - 76px);
+  min-height: calc(100vh - 76px - 34px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(48px, 8vh, 120px) clamp(24px, 5vw, 80px);
-  /* Soft ambient warmth from above — much subtler than the v1 left-side hotspot,
-     so the intake form (which lives in this same hero box) gets a calm ground. */
+  padding: clamp(40px, 7vh, 96px) clamp(24px, 5vw, 80px) clamp(48px, 8vh, 120px);
   background:
     radial-gradient(ellipse 140% 55% at 50% 0%, rgba(255, 240, 150, 0.35) 0%, rgba(255, 240, 150, 0) 70%),
     linear-gradient(180deg, #FFD23A 0%, var(--v6-surface) 60%, #F5C20E 100%);
@@ -254,9 +328,18 @@ const V9_CSS = `
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-image:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(14,14,12,0) 0px,
+      rgba(14,14,12,0) 23px,
+      rgba(14,14,12,0.045) 23px,
+      rgba(14,14,12,0.045) 24px
+    ),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-blend-mode: normal, multiply;
   mix-blend-mode: multiply;
-  opacity: 0.06;
+  opacity: 0.7;
   z-index: 0;
 }
 .v9-hero.is-leaving {
@@ -269,16 +352,70 @@ const V9_CSS = `
   align-items: stretch;
   padding-top: 0;
   padding-bottom: 0;
-  /* Drop the gradient entirely while the intake form is shown — flat surface
-     keeps the form grounded and removes the warm hotspot that competed with
-     the chip / label rhythm. */
   background: var(--v6-surface);
 }
 .v9-root.is-phase-questions .v9-hero::before { opacity: 0; }
-.v9-hero-inner {
+.v9-root.is-phase-questions .v10-rail,
+.v9-root.is-phase-questions .v10-crop,
+.v9-root.is-phase-questions .v10-seal {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 320ms cubic-bezier(.22, 1, .36, 1);
+}
+
+/* === v10 side rails (vertical edge text) === */
+.v10-rail {
+  position: absolute;
+  top: 50%;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(14,14,12,0.55);
+  white-space: nowrap;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  animation: v10-rail-in 640ms cubic-bezier(.22, 1, .36, 1) 380ms forwards;
+}
+.v10-rail-left {
+  left: clamp(14px, 2vw, 30px);
+  transform: translateY(-50%) rotate(180deg);
+  writing-mode: vertical-rl;
+}
+.v10-rail-right {
+  right: clamp(14px, 2vw, 30px);
+  transform: translateY(-50%);
+  writing-mode: vertical-rl;
+}
+.v10-rail .v10-rail-accent { color: var(--v6-accent); }
+@media (max-width: 920px) {
+  .v10-rail { display: none; }
+}
+
+/* === v10 crop marks === */
+.v10-crop {
+  position: absolute;
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1;
+  color: rgba(14,14,12,0.4);
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+}
+.v10-crop-tl { top: 14px;    left: 14px; }
+.v10-crop-tr { top: 14px;    right: 14px; }
+.v10-crop-bl { bottom: 14px; left: 14px; }
+.v10-crop-br { bottom: 14px; right: 14px; }
+
+/* === v10 hero inner === */
+.v9-hero-inner,
+.v10-hero-inner {
   position: relative;
   z-index: 1;
-  max-width: 880px;
+  max-width: 980px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -286,13 +423,44 @@ const V9_CSS = `
   text-align: center;
   gap: clamp(20px, 3vh, 36px);
 }
-.v9-hero-title {
+
+/* === v10 eyebrow === */
+.v10-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--v6-accent);
+  opacity: 0;
+  transform: translateY(6px);
+  animation: v10-fade-up 520ms cubic-bezier(.22, 1, .36, 1) 100ms forwards;
+}
+.v10-eyebrow-rule {
+  display: inline-block;
+  width: clamp(36px, 6vw, 64px);
+  height: 1px;
+  background: var(--v6-accent);
+  opacity: 0.7;
+}
+.v10-eyebrow-ornament {
+  font-size: 9px;
+  letter-spacing: 0;
+  transform: translateY(-1px);
+}
+
+/* === v10 headline === */
+.v9-hero-title,
+.v10-hero-title {
   margin: 0;
   font-family: var(--bl-font-display);
   font-weight: 800;
   font-variation-settings: 'wdth' 92, 'opsz' 96;
-  font-size: clamp(38px, 6vw, 88px);
-  line-height: 1.0;
+  font-size: clamp(40px, 6.4vw, 96px);
+  line-height: 0.98;
   letter-spacing: -0.035em;
   color: var(--v6-text-strong);
   max-width: 18ch;
@@ -300,26 +468,158 @@ const V9_CSS = `
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt";
+  opacity: 0;
+  transform: translateY(10px);
+  animation: v10-fade-up 620ms cubic-bezier(.22, 1, .36, 1) 180ms forwards;
 }
-.v9-hero-sub {
+.v10-italic {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40, 'wdth' 100;
+  letter-spacing: -0.01em;
+  /* slight optical lift so italic sits in line with the bricolage sans */
+  margin: 0 0.02em;
+}
+.v10-amp {
+  display: inline-block;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.05em;
+  letter-spacing: 0;
+  color: var(--v6-accent);
+  transform: translateY(0.04em);
+  padding: 0 0.04em;
+}
+
+/* === v10 standfirst (drop-cap subhead + marginalia) === */
+.v10-standfirst {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(20px, 4vw, 56px);
+  width: 100%;
+  max-width: 760px;
+  margin-top: clamp(4px, 1.4vh, 16px);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: v10-fade-up 600ms cubic-bezier(.22, 1, .36, 1) 280ms forwards;
+}
+.v10-standfirst-col {
+  position: relative;
+  max-width: 38ch;
+}
+.v10-standfirst-rule {
+  display: block;
+  width: 56px;
+  height: 2px;
+  background: var(--v6-accent);
+  margin-bottom: 14px;
+}
+.v9-hero-sub,
+.v10-hero-sub {
   margin: 0;
   font-family: 'Fraunces', Georgia, serif;
   font-weight: 400;
   font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(16px, 1.6vw, 20px);
-  line-height: 1.5;
+  line-height: 1.55;
   color: var(--v6-text-muted);
-  max-width: 48ch;
   text-wrap: pretty;
 }
+.v10-dropcap {
+  float: left;
+  font-family: 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(54px, 6vw, 78px);
+  line-height: 0.82;
+  margin: 6px 10px 0 0;
+  color: var(--v6-text-strong);
+  /* a hairline forest-green underline gives the drop-cap a printed feel */
+  padding-bottom: 2px;
+  border-bottom: 2px solid var(--v6-accent);
+}
+.v10-marginalia {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 22ch;
+  padding-left: 14px;
+  border-left: 1px dashed rgba(14,14,12,0.25);
+}
+.v10-margin-handwritten {
+  font-family: 'Caveat', 'Bradley Hand', cursive;
+  font-size: 19px;
+  line-height: 1.15;
+  color: var(--v6-accent);
+  transform: rotate(-1.5deg);
+  transform-origin: left center;
+}
+.v10-margin-footnote {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgba(14,14,12,0.7);
+}
+@media (max-width: 760px) {
+  .v10-standfirst {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    max-width: 100%;
+  }
+  .v10-standfirst-col { max-width: 100%; }
+  .v10-marginalia {
+    padding-left: 0;
+    padding-top: 12px;
+    border-left: 0;
+    border-top: 1px dashed rgba(14,14,12,0.25);
+  }
+}
 
-.v9-cta-row {
+/* === CTA row + cells === */
+.v9-cta-row,
+.v10-cta-row {
   display: flex;
   align-items: stretch;
   justify-content: center;
-  gap: clamp(14px, 2vw, 24px);
+  gap: clamp(14px, 2vw, 28px);
   width: 100%;
-  margin-top: clamp(6px, 1vh, 12px);
+  margin-top: clamp(6px, 1.4vh, 16px);
+}
+.v10-cta-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  flex: 1 1 0;
+  max-width: 360px;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: v10-fade-up 620ms cubic-bezier(.22, 1, .36, 1) 420ms forwards;
+}
+.v10-cta-cell:nth-child(2) { animation-delay: 500ms; }
+.v10-cta-overline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(14,14,12,0.55);
+}
+.v10-cta-overline::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(14,14,12,0.25);
 }
 .v9-cta-card {
   appearance: none;
@@ -329,14 +629,9 @@ const V9_CSS = `
   align-items: flex-start;
   justify-content: flex-start;
   gap: 12px;
-  flex: 1 1 0;
-  max-width: 340px;
-  min-height: clamp(180px, 26vh, 220px);
+  width: 100%;
+  min-height: clamp(190px, 26vh, 226px);
   padding: clamp(24px, 3.2vw, 36px) clamp(24px, 3.2vw, 36px) clamp(56px, 7vw, 72px);
-  /* Page-yellow body. A subtle inset black "tint" (via the ::before overlay)
-     darkens the card slightly so it separates from the page bg without
-     introducing a new color. On hover the overlay fades — card brightens
-     into the page yellow as it lifts. */
   background: #FFC700;
   border: 2px solid #0a0a0a;
   border-radius: 6px;
@@ -344,8 +639,6 @@ const V9_CSS = `
   font: inherit;
   text-align: left;
   cursor: pointer;
-  /* Soft layered ambient shadow — the card "floats" off the yellow surface
-     without the hard offset block underneath. */
   box-shadow:
     0 2px 4px rgba(14, 14, 12, 0.04),
     0 10px 24px rgba(14, 14, 12, 0.12),
@@ -359,9 +652,6 @@ const V9_CSS = `
   overflow: hidden;
 }
 .v9-cta-card::before {
-  /* Darkening overlay — black at 10% opacity. Page is pure yellow #FFC700,
-     so this drops the card to roughly #E6B300 (10% darker yellow), giving
-     visual separation without introducing a new color. Fades on hover. */
   content: '';
   position: absolute;
   inset: 0;
@@ -378,7 +668,6 @@ const V9_CSS = `
 .v9-cta-card > * { position: relative; z-index: 1; }
 .v9-cta-card:hover,
 .v9-cta-card:focus-visible {
-  /* Clean upward lift — no offset stamp to pull away from. */
   transform: translateY(-6px);
   box-shadow:
     0 4px 8px rgba(14, 14, 12, 0.06),
@@ -393,6 +682,10 @@ const V9_CSS = `
 .v9-cta-card:focus-visible .v9-cta-card-num {
   color: #1F7A3E;
   transform: translateY(-2px);
+}
+.v9-cta-card:hover .v10-card-ornament,
+.v9-cta-card:focus-visible .v10-card-ornament {
+  transform: rotate(45deg);
 }
 .v9-cta-card:active {
   transform: translateY(-1px) scale(0.99);
@@ -428,6 +721,19 @@ const V9_CSS = `
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt";
   transition: color 240ms cubic-bezier(.22, 1, .36, 1);
+}
+.v10-card-rule-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.v10-card-ornament {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--v6-accent);
+  transform: rotate(0deg);
+  transition: transform 380ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card-rule {
   display: block;
@@ -479,10 +785,80 @@ const V9_CSS = `
 }
 
 @media (max-width: 640px) {
-  .v9-cta-row { flex-direction: column; align-items: stretch; gap: 14px; }
+  .v9-cta-row,
+  .v10-cta-row { flex-direction: column; align-items: stretch; gap: 18px; }
+  .v10-cta-cell { max-width: none; }
   .v9-cta-card { max-width: none; min-height: 160px; }
-  .v9-cta-card-arrow { opacity: 0.7; }
+  .v9-cta-card-arrow { opacity: 0.85; }
   .v9-cta-card-num { font-size: 10px; }
+}
+
+/* === v10 editorial seal === */
+.v10-seal {
+  position: absolute;
+  right: clamp(48px, 6vw, 96px);
+  bottom: clamp(28px, 4vh, 52px);
+  width: 96px;
+  height: 96px;
+  z-index: 1;
+  color: var(--v6-accent);
+  transform: rotate(-7deg);
+  opacity: 0;
+  animation: v10-seal-in 760ms cubic-bezier(.22, 1, .36, 1) 640ms forwards;
+  pointer-events: none;
+  user-select: none;
+}
+.v10-seal-ring {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  opacity: 0.85;
+}
+.v10-seal-ring-inner {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.6;
+  opacity: 0.45;
+}
+.v10-seal text {
+  fill: currentColor;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 6.4px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+.v10-seal-mono {
+  font-family: var(--bl-font-display);
+  font-weight: 800;
+  font-size: 18px !important;
+  letter-spacing: 0 !important;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
+}
+.v10-seal-est {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 6.2px !important;
+  letter-spacing: 0.6px !important;
+  text-transform: none !important;
+}
+@media (max-width: 760px) {
+  .v10-seal { display: none; }
+}
+
+/* === keyframes === */
+@keyframes v10-fade-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes v10-fade-down {
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes v10-rail-in {
+  to { opacity: 0.7; }
+}
+@keyframes v10-seal-in {
+  to { opacity: 1; }
 }
 
 .v8-root :where(button, a, [role="button"], input, select, textarea):focus-visible {
@@ -511,6 +887,14 @@ html:has(.v8-root) { scroll-behavior: smooth; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .v10-masthead,
+  .v10-eyebrow,
+  .v10-hero-title,
+  .v10-standfirst,
+  .v10-cta-cell,
+  .v10-rail,
+  .v10-seal { opacity: 1 !important; transform: none !important; }
+  .v10-rail { opacity: 0.7 !important; }
 }
 
 .bl-banner {
@@ -559,7 +943,12 @@ const CARD_SUBS: Record<'reader' | 'author', string> = {
   author: 'Publish your manuscript. Find your readers.',
 };
 
-export default function V9Page() {
+const CARD_OVERLINES: Record<'reader' | 'author', string> = {
+  reader: 'For the curious reader',
+  author: 'For the working author',
+};
+
+export default function V10Page() {
   const [phase, setPhase] = useState<Phase>('choose');
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [waitlist, setWaitlist] = useState<{ open: boolean; eyebrow?: string }>({ open: false });
@@ -627,13 +1016,14 @@ export default function V9Page() {
   const rootClass = [
     'v8-root',
     'v9-root',
+    'v10-root',
     'is-palette-stranger',
     phase === 'questions' ? 'is-phase-questions' : '',
   ].filter(Boolean).join(' ');
 
   return (
     <main className={rootClass}>
-      <style dangerouslySetInnerHTML={{ __html: V9_CSS }} />
+      <style dangerouslySetInnerHTML={{ __html: V10_CSS }} />
 
       {bannerMessage && (
         <div className="bl-banner" role="status" aria-live="polite">
@@ -690,41 +1080,112 @@ export default function V9Page() {
         </div>
       </nav>
 
+      <div className="v10-masthead" aria-hidden="true">
+        <span className="v10-masthead-cell">between.reads</span>
+        <span className="v10-masthead-center">
+          Curated by humans
+          <span className="v10-mast-dot" aria-hidden="true" />
+          Read between the lines
+        </span>
+        <span className="v10-masthead-cell">est.&nbsp;MMXXVI</span>
+      </div>
+
       <section
-        className={`v9-hero${phase === 'leaving' ? ' is-leaving' : ''}`}
+        className={`v9-hero v10-hero${phase === 'leaving' ? ' is-leaving' : ''}`}
         aria-label="Choose your role"
       >
         {phase !== 'questions' && (
-          <div className="v9-hero-inner">
-            <h1 className="v9-hero-title">
-              Discover emerging authors &amp; new voices.
-            </h1>
-            <p className="v9-hero-sub">
-              Curated by humans. No algorithm. Three free reads a month — yours.
-            </p>
+          <>
+            <span className="v10-rail v10-rail-left" aria-hidden="true">
+              New writing &nbsp;·&nbsp; New readers &nbsp;·&nbsp; No algorithm
+            </span>
+            <span className="v10-rail v10-rail-right" aria-hidden="true">
+              between.reads &nbsp;/&nbsp; for readers &amp; writers &nbsp;/&nbsp; est.&nbsp;MMXXVI
+            </span>
+            <span className="v10-crop v10-crop-tl" aria-hidden="true">┌</span>
+            <span className="v10-crop v10-crop-tr" aria-hidden="true">┐</span>
+            <span className="v10-crop v10-crop-bl" aria-hidden="true">└</span>
+            <span className="v10-crop v10-crop-br" aria-hidden="true">┘</span>
 
-            <div className="v9-cta-row">
-              {(['reader', 'author'] as const).map((r, i) => (
-                <button
-                  key={r}
-                  type="button"
-                  className={`v9-cta-card v9-cta-card-${r}`}
-                  onClick={() => open(r)}
-                  aria-label={`${CARD_TITLES[r]}. ${CARD_SUBS[r]}`}
-                >
-                  <span className="v9-cta-card-num" aria-hidden="true">
-                    Nº&nbsp;{String(i + 1).padStart(2, '0')}
-                  </span>
-                  <h2 className="v9-cta-card-title">{CARD_TITLES[r]}</h2>
-                  <span className="v9-cta-card-rule" aria-hidden="true" />
-                  <p className="v9-cta-card-sub">{CARD_SUBS[r]}</p>
-                  <span className="v9-cta-card-arrow" aria-hidden="true">
-                    Open <span>→</span>
-                  </span>
-                </button>
-              ))}
+            <div className="v9-hero-inner v10-hero-inner">
+              <div className="v10-eyebrow" aria-hidden="true">
+                <span className="v10-eyebrow-rule" />
+                <span>From the editors</span>
+                <span className="v10-eyebrow-rule" />
+              </div>
+
+              <h1 className="v9-hero-title v10-hero-title">
+                Discover <em className="v10-italic">emerging</em> authors{' '}
+                <span className="v10-amp">&amp;</span>{' '}
+                <em className="v10-italic">new voices.</em>
+              </h1>
+
+              <div className="v10-standfirst">
+                <div className="v10-standfirst-col">
+                  <span className="v10-standfirst-rule" aria-hidden="true" />
+                  <p className="v9-hero-sub v10-hero-sub">
+                    <span className="v10-dropcap">C</span>urated by humans. No algorithm. Three free reads a month — yours.
+                  </p>
+                </div>
+                <aside className="v10-marginalia" aria-hidden="true">
+                  <span className="v10-margin-handwritten">* yes, really &mdash; humans.</span>
+                  <span className="v10-margin-footnote">† three reads&nbsp;/&nbsp;month, every month, on the house.</span>
+                </aside>
+              </div>
+
+              <div className="v9-cta-row v10-cta-row">
+                {(['reader', 'author'] as const).map((r, i) => (
+                  <div key={r} className="v10-cta-cell">
+                    <span className="v10-cta-overline" aria-hidden="true">
+                      {CARD_OVERLINES[r]}
+                    </span>
+                    <button
+                      type="button"
+                      className={`v9-cta-card v10-cta-card v9-cta-card-${r}`}
+                      onClick={() => open(r)}
+                      aria-label={`${CARD_TITLES[r]}. ${CARD_SUBS[r]}`}
+                    >
+                      <span className="v9-cta-card-num" aria-hidden="true">
+                        Nº&nbsp;{String(i + 1).padStart(2, '0')}
+                      </span>
+                      <h2 className="v9-cta-card-title">{CARD_TITLES[r]}</h2>
+                      <span className="v10-card-rule-row" aria-hidden="true">
+                        <span className="v10-card-ornament">❖</span>
+                        <span className="v9-cta-card-rule" />
+                      </span>
+                      <p className="v9-cta-card-sub">{CARD_SUBS[r]}</p>
+                      <span className="v9-cta-card-arrow" aria-hidden="true">
+                        Open <span>→</span>
+                      </span>
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+
+            <svg
+              className="v10-seal"
+              viewBox="0 0 100 100"
+              aria-hidden="true"
+              role="presentation"
+            >
+              <defs>
+                <path
+                  id="v10-seal-circle"
+                  d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
+                />
+              </defs>
+              <circle cx="50" cy="50" r="46" className="v10-seal-ring" />
+              <circle cx="50" cy="50" r="40" className="v10-seal-ring-inner" />
+              <text>
+                <textPath href="#v10-seal-circle" startOffset="0">
+                  between.reads · curated by humans · est. MMXXVI ·&nbsp;
+                </textPath>
+              </text>
+              <text x="50" y="48" textAnchor="middle" className="v10-seal-mono">B.R</text>
+              <text x="50" y="64" textAnchor="middle" className="v10-seal-est">est. MMXXVI</text>
+            </svg>
+          </>
         )}
 
         {phase === 'questions' && (
