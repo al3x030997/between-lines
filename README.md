@@ -1,4 +1,4 @@
-# between-lines
+# between-reads
 
 Monorepo for the Between Lines product family.
 

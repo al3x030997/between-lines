@@ -1,5 +1,5 @@
 {
-  "extends": "@between-lines/tsconfig/base.json",
+  "extends": "@between-reads/tsconfig/base.json",
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext"

@@ -11,7 +11,7 @@ type Props = {
 };
 
 function buildLink(sid: string): string {
-  if (typeof window === 'undefined') return `betweenlines.co/i/${sid.slice(0, 8)}`;
+  if (typeof window === 'undefined') return `betweenreads.co/i/${sid.slice(0, 8)}`;
   const host = window.location.host.replace(/^www\./, '');
   return `${host}/i/${sid.slice(0, 8)}`;
 }

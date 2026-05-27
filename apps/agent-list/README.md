@@ -9,6 +9,6 @@ when API endpoints land (planned routers under `apps/agent-match/backend/autoque
 ## Run
 
 ```bash
-pnpm --filter @between-lines/agent-list-web dev
+pnpm --filter @between-reads/agent-list-web dev
 # → http://localhost:3001
 ```

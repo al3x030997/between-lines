@@ -1,0 +1,37 @@
+{
+  "post": {
+    "id": "aaa001",
+    "subreddit": "TestSub1",
+    "title": "A normal post",
+    "selftext": "This is **bold** and _italic_ text.\n> A block quote to strip\nBack to normal.",
+    "author": "alice",
+    "created_utc": 1700000000.0,
+    "score": 10,
+    "num_comments": 2,
+    "url": "https://reddit.com/r/TestSub1/comments/aaa001",
+    "permalink": "/r/TestSub1/comments/aaa001/a_normal_post/",
+    "link_flair_text": null,
+    "over_18": false,
+    "fetched_at": "2026-05-13T00:00:00Z"
+  },
+  "comments": [
+    {
+      "id": "cmt001",
+      "parent_id": "t3_aaa001",
+      "author": "[deleted]",
+      "body": "This comment should be dropped because author is [deleted]",
+      "score": 1,
+      "created_utc": 1700000100.0,
+      "depth": 0
+    },
+    {
+      "id": "cmt002",
+      "parent_id": "t3_aaa001",
+      "author": "bob",
+      "body": "Great post! Check https://example.com for more info.",
+      "score": 5,
+      "created_utc": 1700000200.0,
+      "depth": 0
+    }
+  ]
+}

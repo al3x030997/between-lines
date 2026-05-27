@@ -1,4 +1,4 @@
-# Shared infrastructure services for the between-lines monorepo.
+# Shared infrastructure services for the between-reads monorepo.
 # Apps include this file via `include:` and add their own services.
 #
 # Volumes preserve external names from the legacy autoquery deploy

@@ -380,14 +380,7 @@ const CSS = `
   font-size: 14px;
   line-height: 1.6;
   color: var(--bl-ink-muted);
-  display: flex;
-  gap: 10px;
   text-wrap: pretty;
-}
-.bl-faq-split-bullets li::before {
-  content: '→';
-  color: var(--bl-accent);
-  flex-shrink: 0;
 }
 .bl-faq-split-cta {
   display: inline-flex;

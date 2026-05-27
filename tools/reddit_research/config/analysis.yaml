@@ -1,0 +1,8 @@
+features:
+  tokens: true
+  ngrams: true
+  tfidf: true
+  embeddings: false
+filters:
+  min_score: -10
+  langs: ["en"]

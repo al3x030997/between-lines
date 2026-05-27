@@ -1,4 +1,4 @@
-# @between-lines/canon
+# @between-reads/canon
 
 Shared Thema-based literary vocabulary used by `agent-match` (and eventually `agent-list`).
 
@@ -14,8 +14,8 @@ canon/
 │   ├── thema_audience.yaml
 │   ├── thema_form.yaml
 │   └── VERSION
-├── python/            # betweenlines_canon Python package
-└── ts/                # @between-lines/canon TypeScript package
+├── python/            # betweenreads_canon Python package
+└── ts/                # @between-reads/canon TypeScript package
 ```
 
 The YAMLs are the single source of truth. Both loaders resolve them by relative path
@@ -26,12 +26,12 @@ editable via uv / pnpm workspace.
 
 Python:
 ```python
-from betweenlines_canon import CANON_DIR, load, version
+from betweenreads_canon import CANON_DIR, load, version
 aliases = load("aliases")
 ```
 
 TypeScript:
 ```ts
-import { CANON_DIR, load, version } from "@between-lines/canon";
+import { CANON_DIR, load, version } from "@between-reads/canon";
 const aliases = load("aliases");
 ```

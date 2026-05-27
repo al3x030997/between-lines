@@ -1,0 +1,33 @@
+# Top 20 Wattpad Posts — Reddit Research
+
+_Generated 2026-05-13_
+
+| # | Title | Subreddit | Score | Comments | Date | Via | Body summary | Top comment findings |
+|---|---|---|---|---|---|---|---|---|
+| 1 | "Offended by our patriotism, Wattpad girl?" | r/ShitAmericansSay | 29,000 | 0 | 2021-01-25 | title | _(image/link post)_ | — |
+| 2 | [OT] Hey guys, resonatingfury here. Four years ago I resp... | r/WritingPrompts | 28,376 | 452 | 2020-09-07 | selftext | tl;dr: me write good book, pls read \~ \~ \~ Good morning! I'm willing to bet that most of you won't remember my … | "Awesome, Mr. Author Fury, congratulations! This is huge and it looks awesome!" (+772) / "Congrats!  [Added to our author …" (+558) |
+| 3 | *Cough Wattpad *Cough | r/tumblr | 20,294 | 0 | 2020-10-11 | title | _(image/link post)_ | — |
+| 4 | This resume got me an interview! | r/recruitinghell | 17,155 | 485 | 2021-10-28 | selftext | Currently, I am a Software Engineer. After getting turned away multiple times, I decided to do an experiment to see if … | "Just incredible. Every time I read it again I catch something I missed on my …" (+3,055) / "Pretty sure they just search for "Microsoft, Facebook, Google, etc" and throw …" (+1,705) |
+| 5 | My QMom died today and everything is worse. | r/QAnonCasualties | 15,687 | 456 | 2021-01-23 | selftext | #okay I have reached out to the mods and asked to provide them a copy of the published obit and whatever else is … | "The beginning of this is a beautiful love letter about ones mother. The writing …" (+1,247) / "You are an extraordinary wonder, and rare literary talent. I am stunned by the …" (+754) |
+| 6 | Straight from the Wattpad comment section | r/iamverybadass | 15,369 | 0 | 2019-06-16 | title | _(image/link post)_ | — |
+| 7 | I (18 F) have apparently been dating my best friend (19 M... | r/BestofRedditorUpdates | 14,984 | 489 | 2023-03-18 | selftext | I am not The OOP, OOP is u/ThrowRA09876544435 (OOP has since deleted her account) I (18 F) have apparently been dating … | "What the absolute fuck." (+12,106) / "I had a feeling those moves were his attempt to manipulate her.
+
+He knew they …" (+8,531) |
+| 8 | At least wattpad tried | r/Archiveofourownmemes | 9,804 | 143 | 2025-09-26 | title | _(image/link post)_ | "💀
+
+Damn, they really did try. 
+
+Get behind me, Satan! You cannot tempt me." (+964) / "Speaking of Wattpad, I genuinely don't understand how AO3 doesn't have extra …" (+493) |
+| 9 | My fiancée saw me walk up the front doors of his work and... | r/offmychest | 9,455 | 123 | 2025-01-28 | selftext | I just knew. I just knew today would be a good day. Normally I don’t like going by his work when I get off as traffic … | "I am so Reddit jaded I thought you caught him cheating.  Thanks for the …" (+5,832) / "Probably the click baity title… ‘his (or my) heart dropped’ is not a positive …" (+1,096) |
+| 10 | Wattpad Fantasy | r/CuratedTumblr | 8,499 | 149 | 2024-03-26 | title | _(image/link post)_ | ""she hates me because she thinks I shit talk her behind her back. Which I …" (+2,322) / "This reads like a plot twist that even M. Night Shyamalan would say is too much." (+1,857) |
+| 11 | this has 2016 wattpad vibes .. | r/AreTheStraightsOK | 6,977 | 335 | 2020-07-28 | title | _(image/link post)_ | "Grabbing the back of my neck by surprise is a good way to get decked in the …" (+2,729) / "Um no thank you, I am a person not a possession." (+1,918) |
+| 12 | The 👏REAL👏 Heroes’s👏 Journey (Got me 7+ reads on Wattpad!) | r/writingcirclejerk | 6,923 | 29 | 2021-01-05 | title | _(image/link post)_ | "This is so inspiring" (+329) / "Why is this suprisingly better than heroes journey..." (+299) |
+| 13 | Hermione Granger and the Chamber of Secrets is DONE and b... | r/harrypotter | 6,725 | 498 | 2020-12-19 | selftext | Hi Everyone! Not sure if anyone remembers me from last year, but I'm the idiot who got drunk and decided it was a … | "Thank you! Though I will admit, I’m not sure when I will start the 3rd book... …" (+484) / "I think they would be a lot shorter. The other characters (Neville, Ginny, …" (+158) |
+| 14 | Found on wattpad 💀 | r/notliketheothergirls | 6,434 | 131 | 2021-06-09 | title | _(image/link post)_ | "AND SHE SAID IT" (+525) / "Im not like other girls *makes post*
+Felt that *immediately meets other girl …" (+292) |
+| 15 | What in the anime trope is this? | r/Hololive | 6,370 | 205 | 2026-03-11 | selftext | Source: Context: the story with the ex is even more like a wattpad story. She moved to PH from Japan as a student, and … | "Just needs Ollie and bae then he will have been roasted by the reds" (+1,452) / "My new neighbor is my ex and an Anime mega fan, now I need to hide that I'm a …" (+1,085) |
+| 16 | I have Ao3 Gurlie Popped too close to the sun | r/AO3 | 6,364 | 77 | 2025-03-07 | selftext | I don’t know how but, I am at Disney springs, and I had made some custom Ao3 M&amp;Ms. I lied and said it was my … | "I like that on seeing you could customise m and ms, both you and your sister's …" (+1,729) / "I need a prescription for "fanfiction pills" immediately!" (+1,185) |
+| 17 | My husband doesnt want to have intimacy with me unless it... | r/BestofRedditorUpdates | 5,696 | 262 | 2023-09-30 | selftext | I am not The OOP, OOP is u/Normal-Bottle641 My husband doesnt want to have intimacy with me unless it is to conceive … | "Addicted to back hugs, got freakier each day and a smut obsession, how good is …" (+5,091) / "Honestly, it's pretty impressive OP is able to manage and handle this whole …" (+3,003) |
+| 18 | A tear on my eye | r/AO3 | 5,591 | 41 | 2025-08-21 | selftext | Is this quite literally the best compliment someone can give? Like bro this made me tear up a little bit, I've never … | "I'd be printing that out and framing it 😭 what a comment" (+851) / "Already have it as a wallpaper on my laptop and tablet LMAO" (+333) |
+| 19 | OOP wasn't getting job offers with her resume, so they cr... | r/BestofRedditorUpdates | 5,557 | 358 | 2023-02-02 | selftext | I am NOT OP. Original post by /u/AngelinaTheDev in /r/RecruitingHell Trigger Warnings: &gt;!None!&lt; Mood Spoilers: … | "If anyone else was confused by the use of the acronym FAANG, it stands for …" (+3,434) / "She seems to be a bit of an underachiever since she only managed a 60% STD …" (+2,919) |
+| 20 | Cursed wattpad | r/cursedcomments | 5,193 | 36 | 2025-11-26 | title | _(image/link post)_ | "I too ooze bacterially infected sap when reading AO3" (+829) / "I should call her..." (+225) |

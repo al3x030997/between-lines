@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY . .
 ENV PYTHONPATH=/app
 
-# NOTE: betweenlines_canon (packages/canon/python) is not yet baked into
+# NOTE: betweenreads_canon (packages/canon/python) is not yet baked into
 # this image. Runtime code does not import it; only dev scripts do.
 # When canon becomes a runtime dep, expand build.context to apps/agent-match
 # and add: COPY ../packages/canon /opt/canon && pip install -e /opt/canon/python

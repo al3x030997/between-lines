@@ -1,0 +1,44 @@
+# Competitor research: platforms where authors publish, read, and discuss.
+# Each keyword is searched via Reddit's subreddits/search endpoint; matches in a
+# candidate sub's name/title/description contribute to relevance_score.
+keywords:
+  - text: "wattpad"
+  - text: "inkitt"
+  - text: "substack"
+  - text: "medium"
+  - text: "goodreads"
+  - text: "royal road"
+  - text: "royalroad"
+  - text: "kindle vella"
+  - text: "kindle unlimited"
+  - text: "archive of our own"
+  - text: "ao3"
+  - text: "fanfiction"
+  - text: "web novel"
+  - text: "webnovel"
+  - text: "web fiction"
+  - text: "scribd"
+  - text: "self-publishing"
+  - text: "self publishing"
+  - text: "kdp"
+  - text: "tapas"
+  - text: "radish"
+
+# Manually pinned subs. Bypass the subscribers>=500 filter so small but
+# on-topic communities are not dropped.
+seed_subreddits:
+  - Wattpad
+  - Inkitt
+  - substack
+  - RoyalRoad
+  - selfpublish
+  - writing
+  - books
+  - FanFiction
+  - WebFiction
+  - goodreads
+  - KindleVella
+  - WebNovels
+
+# Cap on rows in subreddits.csv after scoring and sorting.
+max_results: 50

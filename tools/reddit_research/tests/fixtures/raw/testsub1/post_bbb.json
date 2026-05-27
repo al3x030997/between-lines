@@ -1,0 +1,28 @@
+{
+  "post": {
+    "id": "bbb001",
+    "subreddit": "TestSub1",
+    "title": "A removed post with title kept",
+    "selftext": "[removed]",
+    "author": "charlie",
+    "created_utc": 1700001000.0,
+    "score": 3,
+    "num_comments": 1,
+    "url": "https://reddit.com/r/TestSub1/comments/bbb001",
+    "permalink": "/r/TestSub1/comments/bbb001/a_removed_post/",
+    "link_flair_text": null,
+    "over_18": false,
+    "fetched_at": "2026-05-13T00:00:00Z"
+  },
+  "comments": [
+    {
+      "id": "cmt003",
+      "parent_id": "t3_bbb001",
+      "author": "bob",
+      "body": "Great post! Check https://example.com for more info.",
+      "score": 2,
+      "created_utc": 1700001100.0,
+      "depth": 0
+    }
+  ]
+}

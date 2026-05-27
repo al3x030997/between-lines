@@ -1,0 +1,9 @@
+flair,n_threads,n_total_comments,median_comments_per_thread,p90_comments_per_thread,mean_engagement_ratio,mean_post_vader,mean_top3_vader,mean_consensus_neg,pct_confident_negative,total_competitor_mentions,total_switching
+General Help,209,1805,5.0,18.0,1.568,0.3,0.275,0.219,0.057,326,118
+Looking For: Recommendations,189,1901,6.0,24.2,1.75,0.625,0.415,0.131,0.005,109,77
+Looking For: Read for Read,180,2814,11.0,31.1,2.401,0.606,0.376,0.084,0.006,101,111
+Off-Topic,173,4846,10.0,61.8,1.368,0.299,0.269,0.223,0.069,672,372
+Looking For: Feedback,147,893,4.0,13.4,1.289,0.444,0.422,0.104,0.014,109,47
+Looking For: R4R/V4V/C4C/F4F,94,1130,9.5,21.7,2.657,0.613,0.396,0.066,0.0,50,39
+Other,78,1499,7.0,42.8,1.948,0.371,0.298,0.189,0.038,203,126
+Services,63,977,4.0,30.4,1.593,0.745,0.424,0.092,0.016,74,41

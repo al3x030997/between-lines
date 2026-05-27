@@ -10,6 +10,7 @@ import OpenCall from '../v8/sections/opencall';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
+import { SignInButton } from '@/components/SignInButton';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -434,7 +435,7 @@ export default function V11Page() {
               Join Free
             </button>
             <div className="v11-nav-divider" aria-hidden="true" />
-            <Link className="v11-btn-signin" href="/insider">Sign In</Link>
+            <SignInButton className="v11-btn-signin">Sign In</SignInButton>
           </div>
         </div>
       </nav>

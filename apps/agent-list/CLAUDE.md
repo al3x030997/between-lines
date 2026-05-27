@@ -7,7 +7,7 @@ Empty stub. When endpoints land, they go under `apps/agent-match/backend/autoque
 Shared with agent-match:
 - Same users / accounts.
 - Same agent records (one canonical Agent table).
-- Same canon vocabulary via `@between-lines/canon`.
+- Same canon vocabulary via `@between-reads/canon`.
 
 agent-list-only:
 - Query letter drafts, submission tracking, response tracking.

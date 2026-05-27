@@ -28,7 +28,7 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO))
 
 from autoquery.extractor.profile_extractor import ProfileExtractor  # noqa: E402
-from betweenlines_canon import CANON_DIR  # noqa: E402
+from betweenreads_canon import CANON_DIR  # noqa: E402
 
 CLEANED_DIR = REPO / "batch_capture_output" / "cleaned"
 CACHE_DIR = CANON_DIR / "_cache"

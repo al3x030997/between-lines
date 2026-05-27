@@ -1,7 +1,7 @@
 [project]
-name = "between-lines"
+name = "between-reads"
 version = "0.1.0"
-description = "Between Lines monorepo — agent-match, agent-list, landing-page"
+description = "Between Reads monorepo — agent-match, agent-list, landing-page"
 requires-python = ">=3.11"
 
 [tool.uv.workspace]

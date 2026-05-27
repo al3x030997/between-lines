@@ -1,0 +1,5 @@
+platform,n_single,mean_sent,median_sent
+wattpad,801,0.17227116104868914,0.0
+ao3,7,0.3436857142857143,0.4404
+royal_road,2,0.2383,0.2383
+webnovel,2,0.0,0.0

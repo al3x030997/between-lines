@@ -1,4 +1,4 @@
-# between-lines monorepo
+# between-reads monorepo
 
 Three apps, shared domain (literary agents / authors / queries).
 
@@ -26,7 +26,7 @@ docs/                     # cross-cutting (MASTER.md, IMPLEMENTATION_PLAN.md, AD
 
 - **Naming**: kebab-case for directories and JS package names. Python packages stay snake_case.
 - **Backends are flexible**: agent-match's FastAPI is the primary backend and serves both agent-match and agent-list (agent-list endpoints go under `apps/agent-match/backend/autoquery/api/routes/list/`). Apps with a different shape — e.g., a marketing site with its own waitlist data — can have their own backend when it makes sense. Use judgment: consolidate when domains overlap, separate when they don't.
-- **Canon is shared**: never duplicate the YAMLs. Import from `betweenlines_canon` (Python) or `@between-lines/canon` (TS).
+- **Canon is shared**: never duplicate the YAMLs. Import from `betweenreads_canon` (Python) or `@between-reads/canon` (TS).
 - **No secrets in git**: per-app `.env` files (gitignored), root `.env.example` documents shared vars.
 
 ## Commands
@@ -42,9 +42,9 @@ uv run pytest -C apps/agent-match/backend   # Python tests
 
 App-specific:
 ```bash
-pnpm --filter @between-lines/agent-match-web dev      # agent-match frontend
-pnpm --filter @between-lines/agent-list-web dev       # agent-list (port 3001)
-pnpm --filter @between-lines/landing-page dev         # landing page
+pnpm --filter @between-reads/agent-match-web dev      # agent-match frontend
+pnpm --filter @between-reads/agent-list-web dev       # agent-list (port 3001)
+pnpm --filter @between-reads/landing-page dev         # landing page
 ```
 
 Backend specifics:
@@ -69,7 +69,7 @@ cd apps/agent-match && docker compose up
 
 ## Adding a new app
 
-1. Create `apps/<new-app>/` with at minimum a `package.json` (kebab-case name `@between-lines/<new-app>`) and a CLAUDE.md.
+1. Create `apps/<new-app>/` with at minimum a `package.json` (kebab-case name `@between-reads/<new-app>`) and a CLAUDE.md.
 2. If it needs Python: add to `[tool.uv.workspace] members` in root `pyproject.toml`.
 3. If it has its own services: create `apps/<new-app>/docker-compose.yml` and `include:` the shared infra.
 4. Update root README.md and this file.

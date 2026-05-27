@@ -20,7 +20,7 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import yaml
 
-from betweenlines_canon import CANON_DIR
+from betweenreads_canon import CANON_DIR
 
 REPO = Path(__file__).resolve().parent.parent
 OUT = REPO / "data" / "mswl_sample"

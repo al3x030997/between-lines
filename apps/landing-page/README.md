@@ -8,6 +8,6 @@ bookshelf component, palette system. Standalone Next.js app — no backend.
 ## Run
 
 ```bash
-pnpm --filter @between-lines/landing-page dev
+pnpm --filter @between-reads/landing-page dev
 # → http://localhost:3000
 ```

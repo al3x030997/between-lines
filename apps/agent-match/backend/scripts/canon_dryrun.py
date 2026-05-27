@@ -21,7 +21,7 @@ from pathlib import Path
 
 import yaml
 
-from betweenlines_canon import CANON_DIR
+from betweenreads_canon import CANON_DIR
 
 REPO = Path(__file__).resolve().parent.parent
 NOTES_DIR = REPO / "data" / "mswl_sample" / "notes_parsed"
