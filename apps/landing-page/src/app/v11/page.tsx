@@ -243,66 +243,43 @@ const V11_CSS = `
   font-weight: 700;
 }
 
-/* === CTA boxes (one per button, thin ink edges, no shadow) === */
+/* === CTAs (plain underlined Playfair text — matches mock) === */
 .v11-cta-row {
+  display: flex;
+  gap: clamp(28px, 5vw, 56px);
   margin-top: clamp(40px, 6vh, 60px);
-  width: min(880px, 100%);
-  display: flex;
-  align-items: stretch;
   justify-content: center;
-  gap: clamp(20px, 3vw, 36px);
+  flex-wrap: wrap;
 }
-.v11-cta-box {
-  flex: 1 1 0;
-  max-width: 380px;
-  padding: clamp(22px, 3vw, 30px) clamp(20px, 3vw, 32px);
-  background: transparent;
-  border: 1px solid var(--v11-ink);
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+.v11-cta {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(18px, 2vw, 22px);
+  font-size: clamp(18px, 2.2vw, 24px);
   font-weight: 700;
   color: var(--v11-ink);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid var(--v11-ink);
+  padding: 4px 2px 4px;
+  cursor: pointer;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background 240ms cubic-bezier(.22, 1, .36, 1),
-    color 240ms cubic-bezier(.22, 1, .36, 1),
-    border-color 240ms cubic-bezier(.22, 1, .36, 1),
-    transform 240ms cubic-bezier(.22, 1, .36, 1);
+    color 220ms cubic-bezier(.22, 1, .36, 1),
+    border-color 220ms cubic-bezier(.22, 1, .36, 1),
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    letter-spacing 320ms cubic-bezier(.22, 1, .36, 1);
 }
-.v11-cta-label {
-  display: inline-block;
-  border-bottom: 2px solid currentColor;
-  padding-bottom: 2px;
-  transition: letter-spacing 320ms cubic-bezier(.22, 1, .36, 1);
-}
-.v11-cta-box:hover,
-.v11-cta-box:focus-visible {
-  background: var(--v11-ink);
-  color: var(--v11-yellow);
-  border-color: var(--v11-ink);
+.v11-cta:hover,
+.v11-cta:focus-visible {
+  color: var(--v11-accent);
+  border-color: var(--v11-accent);
   transform: translateY(-2px);
+  letter-spacing: 0.02em;
   outline: none;
 }
-.v11-cta-box:hover .v11-cta-label,
-.v11-cta-box:focus-visible .v11-cta-label {
-  letter-spacing: 0.02em;
-}
-.v11-cta-box:active {
+.v11-cta:active {
   transform: translateY(0);
   transition-duration: 80ms;
-}
-@media (max-width: 640px) {
-  .v11-cta-row {
-    flex-direction: column;
-    gap: 14px;
-  }
-  .v11-cta-box { max-width: none; }
 }
 
 /* Banner reused */
@@ -495,17 +472,17 @@ export default function V11Page() {
             <div className="v11-cta-row" role="group" aria-label="Start">
               <button
                 type="button"
-                className="v11-cta-box"
+                className="v11-cta"
                 onClick={() => open('author')}
               >
-                <span className="v11-cta-label">Start Creating</span>
+                Start Creating
               </button>
               <button
                 type="button"
-                className="v11-cta-box"
+                className="v11-cta"
                 onClick={() => open('reader')}
               >
-                <span className="v11-cta-label">Start Reading</span>
+                Start Reading
               </button>
             </div>
           </div>
