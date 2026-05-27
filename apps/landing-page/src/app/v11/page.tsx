@@ -179,16 +179,16 @@ const V11_CSS = `
   .v11-nav-links { display: none; }
 }
 
-/* === Hero (yellow) === */
+/* === Hero (yellow, full screen) === */
 .v11-hero {
   background: var(--v11-yellow);
-  padding: clamp(56px, 9vh, 96px) clamp(20px, 4vw, 40px) clamp(56px, 9vh, 96px);
+  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 560px;
+  min-height: calc(100vh - 64px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -243,47 +243,66 @@ const V11_CSS = `
   font-weight: 700;
 }
 
-/* === CTA box (wide, dark edges, contains both buttons) === */
-.v11-cta-box {
+/* === CTA boxes (one per button, thin ink edges, no shadow) === */
+.v11-cta-row {
   margin-top: clamp(40px, 6vh, 60px);
   width: min(880px, 100%);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: clamp(20px, 3vw, 36px);
+}
+.v11-cta-box {
+  flex: 1 1 0;
+  max-width: 380px;
+  padding: clamp(22px, 3vw, 30px) clamp(20px, 3vw, 32px);
   background: transparent;
-  border: 3px solid var(--v11-ink);
+  border: 1px solid var(--v11-ink);
   border-radius: 0;
-  box-shadow: 8px 8px 0 var(--v11-ink);
-  padding: clamp(20px, 3vw, 32px) clamp(24px, 4vw, 48px);
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  gap: clamp(24px, 4vw, 64px);
-}
-.v11-cta {
+  justify-content: center;
+  cursor: pointer;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(18px, 2.2vw, 24px);
+  font-size: clamp(18px, 2vw, 22px);
   font-weight: 700;
   color: var(--v11-ink);
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid var(--v11-ink);
-  padding: 4px 2px 4px;
-  cursor: pointer;
   text-decoration: none;
-  transition: color 200ms ease, transform 200ms ease, border-color 200ms ease;
-  font-family: 'Playfair Display', Georgia, serif;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background 240ms cubic-bezier(.22, 1, .36, 1),
+    color 240ms cubic-bezier(.22, 1, .36, 1),
+    border-color 240ms cubic-bezier(.22, 1, .36, 1),
+    transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
-.v11-cta:hover,
-.v11-cta:focus-visible {
-  color: var(--v11-accent);
-  border-color: var(--v11-accent);
+.v11-cta-label {
+  display: inline-block;
+  border-bottom: 2px solid currentColor;
+  padding-bottom: 2px;
+  transition: letter-spacing 320ms cubic-bezier(.22, 1, .36, 1);
+}
+.v11-cta-box:hover,
+.v11-cta-box:focus-visible {
+  background: var(--v11-ink);
+  color: var(--v11-yellow);
+  border-color: var(--v11-ink);
   transform: translateY(-2px);
   outline: none;
 }
+.v11-cta-box:hover .v11-cta-label,
+.v11-cta-box:focus-visible .v11-cta-label {
+  letter-spacing: 0.02em;
+}
+.v11-cta-box:active {
+  transform: translateY(0);
+  transition-duration: 80ms;
+}
 @media (max-width: 640px) {
-  .v11-cta-box {
+  .v11-cta-row {
     flex-direction: column;
-    gap: 18px;
-    padding: 24px;
+    gap: 14px;
   }
+  .v11-cta-box { max-width: none; }
 }
 
 /* Banner reused */
@@ -473,20 +492,20 @@ export default function V11Page() {
               Curated <em>stories.</em>
             </h1>
 
-            <div className="v11-cta-box" role="group" aria-label="Start">
+            <div className="v11-cta-row" role="group" aria-label="Start">
               <button
                 type="button"
-                className="v11-cta"
+                className="v11-cta-box"
                 onClick={() => open('author')}
               >
-                Start Creating
+                <span className="v11-cta-label">Start Creating</span>
               </button>
               <button
                 type="button"
-                className="v11-cta"
+                className="v11-cta-box"
                 onClick={() => open('reader')}
               >
-                Start Reading
+                <span className="v11-cta-label">Start Reading</span>
               </button>
             </div>
           </div>
