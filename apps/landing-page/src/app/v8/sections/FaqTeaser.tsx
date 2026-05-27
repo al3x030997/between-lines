@@ -246,21 +246,6 @@ const STYLES = `
   max-width: 38ch;
   text-wrap: pretty;
 }
-.bl-faq-split-bullets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.bl-faq-split-bullets li {
-  font-family: var(--bl-font-body);
-  font-size: 14px;
-  line-height: 1.55;
-  color: var(--bl-ink-muted);
-  text-wrap: pretty;
-}
 .bl-faq-split-cta {
   display: inline-flex;
   align-items: center;
@@ -330,11 +315,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Bring your work to a platform built for writers. Find readers who care.
               Beta readers waiting. A community that reads seriously.
             </p>
-            <ul className="bl-faq-split-bullets">
-              <li>Free to upload — chapter by chapter or in full. First three chapters are free to beta-read.</li>
-              <li><em>SecureBetaReads</em> — watermarked, no copy-paste, no AI training. Ever.</li>
-              <li>Your copyright stays yours. Always.</li>
-            </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
               Submit a manuscript <span aria-hidden="true">→</span>
             </button>
@@ -345,11 +325,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Be among the first readers on BetweenReads. Help shape what a reading
               community can be. Volunteer as a beta reader. Your taste matters here.
             </p>
-            <ul className="bl-faq-split-bullets">
-              <li>Three free reads a month — chapter, short story, poem, or illustration.</li>
-              <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
-              <li>Beta-read writers before they publish — credited as <em>Early Discoverer</em> for life.</li>
-            </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onReader}>
               Open the shelf <span aria-hidden="true">→</span>
             </button>

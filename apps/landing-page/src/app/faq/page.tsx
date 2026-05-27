@@ -367,21 +367,6 @@ const CSS = `
   margin: 0;
   text-wrap: balance;
 }
-.bl-faq-split-bullets {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.bl-faq-split-bullets li {
-  font-family: var(--bl-font-body);
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--bl-ink-muted);
-  text-wrap: pretty;
-}
 .bl-faq-split-cta {
   display: inline-flex;
   align-items: center;
@@ -952,11 +937,6 @@ export default function FaqPage() {
             <h2 className="bl-faq-split-headline">
               Publish your manuscript. Find your readers.
             </h2>
-            <ul className="bl-faq-split-bullets">
-              <li>Free to upload &mdash; chapter by chapter or in full. First three chapters are free to beta-read.</li>
-              <li><em>SecureBetaReads</em> &mdash; watermarked, no copy-paste, no AI training. Ever.</li>
-              <li>Your copyright stays yours. Always.</li>
-            </ul>
             <Link href="/?intake=writer" className="bl-faq-split-cta">
               Submit a manuscript <span aria-hidden="true">→</span>
             </Link>
@@ -966,11 +946,6 @@ export default function FaqPage() {
             <h2 className="bl-faq-split-headline">
               Read what no algorithm would surface.
             </h2>
-            <ul className="bl-faq-split-bullets">
-              <li>Three free reads a month &mdash; chapter, short story, poem, or illustration.</li>
-              <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
-              <li>Beta-read writers before they publish &mdash; credited as <em>Early Discoverer</em> for life.</li>
-            </ul>
             <Link href="/?intake=reader" className="bl-faq-split-cta">
               Open the shelf <span aria-hidden="true">→</span>
             </Link>
