@@ -224,13 +224,29 @@ const STYLES = `
   align-items: flex-start;
 }
 .bl-faq-split-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 600;
-  font-size: 12px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--bl-accent);
+  font-family: var(--bl-font-display);
+  font-weight: 700;
+  font-variation-settings: 'wdth' 92, 'opsz' 96;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--bl-ink);
   margin: 0;
+  text-wrap: balance;
+  font-feature-settings: "kern", "liga", "calt";
+}
+.bl-faq-split-invitation {
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.5;
+  color: var(--bl-ink);
+  margin: 0;
+  max-width: 38ch;
+  text-wrap: pretty;
 }
 .bl-faq-split-headline {
   font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
@@ -329,10 +345,14 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
 
         <div className="bl-faq-split">
           <div className="bl-faq-split-col">
-            <span className="bl-faq-split-eyebrow">For writers</span>
-            <h3 className="bl-faq-split-headline">
+            <h3 className="bl-faq-split-eyebrow">For writers</h3>
+            <p className="bl-faq-split-invitation">
+              Bring your work to a platform built for writers. Find readers who care.
+              Beta readers waiting. A community that reads seriously.
+            </p>
+            <h4 className="bl-faq-split-headline">
               Publish your manuscript. Find your readers.
-            </h3>
+            </h4>
             <ul className="bl-faq-split-bullets">
               <li>Free to upload — chapter by chapter or in full. First three chapters are free to beta-read.</li>
               <li><em>SecureBetaReads</em> — watermarked, no copy-paste, no AI training. Ever.</li>
@@ -343,10 +363,14 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
             </button>
           </div>
           <div className="bl-faq-split-col">
-            <span className="bl-faq-split-eyebrow">For readers</span>
-            <h3 className="bl-faq-split-headline">
+            <h3 className="bl-faq-split-eyebrow">For readers</h3>
+            <p className="bl-faq-split-invitation">
+              Be among the first readers on BetweenReads. Help shape what a reading
+              community can be. Volunteer as a beta reader. Your taste matters here.
+            </p>
+            <h4 className="bl-faq-split-headline">
               Read what no algorithm would surface.
-            </h3>
+            </h4>
             <ul className="bl-faq-split-bullets">
               <li>Three free reads a month — chapter, short story, poem, or illustration.</li>
               <li>Earn ReadCredits by reacting, commenting, or beta-reading. Spend them on more reads.</li>
