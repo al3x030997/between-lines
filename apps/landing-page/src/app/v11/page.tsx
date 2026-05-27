@@ -184,38 +184,16 @@ const V11_CSS = `
 /* === Hero (yellow, full screen) === */
 .v11-hero {
   background: var(--v11-yellow);
-  padding: clamp(32px, 5vh, 58px) clamp(20px, 4vw, 44px) clamp(34px, 6vh, 70px);
+  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px);
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   min-height: calc(100vh - 64px);
   position: relative;
-  overflow: hidden;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
-}
-.v11-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, rgba(26, 26, 26, 0.08) 1px, transparent 1px) 0 0 / 72px 100%,
-    linear-gradient(rgba(26, 26, 26, 0.06) 1px, transparent 1px) 0 0 / 100% 96px;
-  mask-image: linear-gradient(to bottom, rgba(0,0,0,.72), transparent 78%);
-  pointer-events: none;
-}
-.v11-hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 12px;
-  background: repeating-linear-gradient(90deg, var(--v11-ink) 0 42px, transparent 42px 58px);
-  opacity: 0.92;
-  pointer-events: none;
 }
 .v11-hero.is-leaving {
   opacity: 0;
@@ -230,14 +208,11 @@ const V11_CSS = `
   background: #fff;
 }
 .v11-hero-inner {
-  max-width: 1060px;
+  max-width: 980px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  z-index: 1;
-  padding-top: clamp(18px, 5vh, 56px);
 }
 .v11-hero-label {
   font-size: 11px;
@@ -257,12 +232,12 @@ const V11_CSS = `
 }
 .v11-hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(54px, 8.6vw, 116px);
+  font-size: clamp(44px, 7.5vw, 82px);
   font-weight: 900;
-  line-height: 0.92;
+  line-height: 1.0;
   color: var(--v11-ink);
-  letter-spacing: -0.045em;
-  max-width: 1040px;
+  letter-spacing: -2px;
+  max-width: 960px;
   text-wrap: balance;
 }
 .v11-hero-line {
@@ -271,7 +246,6 @@ const V11_CSS = `
 .v11-hero h1 em {
   font-style: italic;
   font-weight: 700;
-  letter-spacing: -0.035em;
   text-decoration: underline;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.08em;
@@ -385,60 +359,6 @@ const V11_CSS = `
   color: #fff27a;
 }
 
-.v11-artifact {
-  position: absolute;
-  z-index: 0;
-  color: var(--v11-ink);
-  pointer-events: none;
-}
-.v11-artifact.manuscript {
-  left: clamp(18px, 4vw, 58px);
-  top: clamp(96px, 15vh, 150px);
-  width: clamp(118px, 14vw, 190px);
-  height: clamp(154px, 18vw, 236px);
-  border: 2px solid rgba(26, 26, 26, 0.42);
-  background: rgba(255, 255, 255, 0.28);
-  transform: rotate(-4deg);
-}
-.v11-artifact.manuscript::before {
-  content: "";
-  position: absolute;
-  inset: 24px 18px;
-  background: repeating-linear-gradient(to bottom, rgba(26, 26, 26, 0.62) 0 2px, transparent 2px 16px);
-}
-.v11-artifact.manuscript::after {
-  content: "reader notes";
-  position: absolute;
-  left: 18px;
-  bottom: 16px;
-  color: var(--v11-accent);
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(15px, 1.5vw, 22px);
-  font-style: italic;
-  transform: rotate(-2deg);
-}
-.v11-artifact.shelf {
-  right: clamp(14px, 4vw, 66px);
-  top: clamp(126px, 19vh, 188px);
-  width: clamp(138px, 18vw, 250px);
-  height: clamp(120px, 15vw, 190px);
-  border-bottom: 3px solid rgba(26, 26, 26, 0.72);
-  transform: rotate(3deg);
-}
-.v11-artifact.shelf span {
-  position: absolute;
-  bottom: 3px;
-  display: block;
-  width: 18%;
-  border: 2px solid rgba(26, 26, 26, 0.5);
-  background: rgba(255, 255, 255, 0.34);
-}
-.v11-artifact.shelf span:nth-child(1) { left: 2%; height: 76%; background: rgba(15, 110, 86, 0.2); }
-.v11-artifact.shelf span:nth-child(2) { left: 22%; height: 92%; }
-.v11-artifact.shelf span:nth-child(3) { left: 42%; height: 68%; background: rgba(26, 26, 26, 0.12); }
-.v11-artifact.shelf span:nth-child(4) { left: 62%; height: 86%; background: rgba(15, 110, 86, 0.24); }
-.v11-artifact.shelf span:nth-child(5) { left: 82%; height: 72%; }
-
 /* Banner reused */
 .bl-banner {
   position: relative;
@@ -478,26 +398,10 @@ const V11_CSS = `
 
 @media (max-width: 760px) {
   .v11-hero {
-    padding-top: 28px;
     min-height: calc(100svh - 64px);
-  }
-  .v11-hero-inner {
-    padding-top: 22px;
   }
   .v11-hero h1 {
     font-size: clamp(52px, 15vw, 78px);
-    letter-spacing: -0.04em;
-  }
-  .v11-artifact {
-    opacity: 0.28;
-  }
-  .v11-artifact.manuscript {
-    left: -42px;
-    top: 96px;
-  }
-  .v11-artifact.shelf {
-    right: -58px;
-    top: 136px;
   }
   .v11-cta-row {
     grid-template-columns: 1fr;
@@ -657,14 +561,6 @@ export default function V11Page() {
       >
         {phase !== 'questions' && (
           <div className="v11-hero-inner">
-            <div className="v11-artifact manuscript" aria-hidden="true" />
-            <div className="v11-artifact shelf" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-              <span />
-              <span />
-            </div>
             <p className="v11-hero-label">for the hidden creative</p>
             <p className="v11-hero-sub">
               wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators
