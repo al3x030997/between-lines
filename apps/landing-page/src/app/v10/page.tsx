@@ -825,9 +825,7 @@ export default function V10Page() {
               </div>
 
               <h1 className="v9-hero-title v10-hero-title">
-                Discover <em className="v10-italic">emerging</em> authors{' '}
-                <span className="v10-amp">&amp;</span>{' '}
-                <em className="v10-italic">new voices.</em>
+                Discover <em className="v10-italic">emerging</em> authors.
               </h1>
 
               <p className="v9-hero-sub v10-hero-sub">
