@@ -279,42 +279,10 @@ const V10_CSS = `
   background: var(--v6-surface);
 }
 .v9-root.is-phase-questions .v9-hero::before { opacity: 0; }
-.v9-root.is-phase-questions .v10-rail,
 .v9-root.is-phase-questions .v10-crop {
   opacity: 0;
   pointer-events: none;
   transition: opacity 320ms cubic-bezier(.22, 1, .36, 1);
-}
-
-/* === v10 side rails (vertical edge text) === */
-.v10-rail {
-  position: absolute;
-  top: 50%;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: rgba(14,14,12,0.55);
-  white-space: nowrap;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  animation: v10-rail-in 640ms cubic-bezier(.22, 1, .36, 1) 380ms forwards;
-}
-.v10-rail-left {
-  left: clamp(14px, 2vw, 30px);
-  transform: translateY(-50%) rotate(180deg);
-  writing-mode: vertical-rl;
-}
-.v10-rail-right {
-  right: clamp(14px, 2vw, 30px);
-  transform: translateY(-50%);
-  writing-mode: vertical-rl;
-}
-.v10-rail .v10-rail-accent { color: var(--v6-accent); }
-@media (max-width: 920px) {
-  .v10-rail { display: none; }
 }
 
 /* === v10 crop marks === */
@@ -375,94 +343,70 @@ const V10_CSS = `
   transform: translateY(-1px);
 }
 
-/* === v10 headline === */
+/* === v10 headline (Bodoni Moda — high-contrast didone, magazine-cover energy) === */
 .v9-hero-title,
 .v10-hero-title {
   margin: 0;
-  font-family: var(--bl-font-display);
-  font-weight: 800;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
-  font-size: clamp(40px, 6.4vw, 96px);
-  line-height: 0.98;
-  letter-spacing: -0.035em;
+  font-family: 'Bodoni Moda', 'Bodoni 72', 'Didot', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(44px, 7vw, 104px);
+  line-height: 0.96;
+  letter-spacing: -0.025em;
   color: var(--v6-text-strong);
-  max-width: 18ch;
+  max-width: 20ch;
   text-wrap: balance;
   font-kerning: normal;
   text-rendering: optimizeLegibility;
   font-feature-settings: "kern", "liga", "calt";
-  /* screen-print misregister — a faint forest-green offset behind the headline
-     gives the type a poster / pop-art print feel without changing the words. */
+  /* screen-print misregister — faint forest-green offset behind the type for
+     a pop-poster echo. */
   text-shadow: 5px 5px 0 rgba(31, 122, 62, 0.14);
   opacity: 0;
   transform: translateY(10px);
   animation: v10-fade-up 620ms cubic-bezier(.22, 1, .36, 1) 180ms forwards;
 }
 .v10-italic {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Bodoni Moda', 'Bodoni 72', 'Didot', Georgia, serif;
   font-style: italic;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40, 'wdth' 100;
-  letter-spacing: -0.01em;
-  /* slight optical lift so italic sits in line with the bricolage sans */
-  margin: 0 0.02em;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  margin: 0 0.01em;
 }
 .v10-amp {
   display: inline-block;
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: 'Bodoni Moda', 'Bodoni 72', 'Didot', Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: 0.96em;
   letter-spacing: -0.01em;
   color: inherit;
-  padding: 0 0.02em;
+  padding: 0 0.04em;
 }
 
-/* === v10 standfirst (drop-cap subhead) === */
-.v10-standfirst {
-  position: relative;
-  width: 100%;
-  max-width: 38ch;
-  margin-top: clamp(4px, 1.4vh, 16px);
-  text-align: left;
+/* === v10 hero subhead — Fraunces, bigger, single line on desktop === */
+.v9-hero-sub,
+.v10-hero-sub {
+  margin: clamp(4px, 1.4vh, 16px) 0 0;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 500;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: clamp(20px, 2.4vw, 30px);
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--v6-text-strong);
+  text-align: center;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(8px);
   animation: v10-fade-up 600ms cubic-bezier(.22, 1, .36, 1) 280ms forwards;
 }
-.v10-standfirst-rule {
-  display: block;
-  width: 56px;
-  height: 2px;
-  background: var(--v6-accent);
-  margin-bottom: 14px;
-}
-.v9-hero-sub,
-.v10-hero-sub {
-  margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-weight: 400;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
-  font-size: clamp(16px, 1.6vw, 20px);
-  line-height: 1.55;
-  color: var(--v6-text-muted);
-  text-wrap: pretty;
-}
-.v10-dropcap {
-  float: left;
-  font-family: 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: clamp(54px, 6vw, 78px);
-  line-height: 0.82;
-  margin: 6px 10px 0 0;
-  color: var(--v6-text-strong);
-  padding-bottom: 2px;
-  border-bottom: 2px solid var(--v6-accent);
-}
 @media (max-width: 760px) {
-  .v10-standfirst {
-    max-width: 100%;
+  .v9-hero-sub,
+  .v10-hero-sub {
+    white-space: normal;
+    font-size: clamp(17px, 4.2vw, 22px);
+    text-wrap: pretty;
+    max-width: 32ch;
   }
 }
 
@@ -568,12 +512,11 @@ const V10_CSS = `
 .v9-cta-card-title {
   margin: 0;
   margin-top: 8px;
-  font-family: var(--bl-font-display);
+  font-family: 'Bodoni Moda', 'Bodoni 72', 'Didot', Georgia, serif;
   font-weight: 800;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
-  font-size: clamp(24px, 2.6vw, 32px);
+  font-size: clamp(26px, 2.8vw, 36px);
   line-height: 1.02;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   color: #0a0a0a;
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt";
@@ -606,14 +549,13 @@ const V10_CSS = `
 }
 .v9-cta-card-sub {
   margin: 0;
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-weight: 500;
   font-size: clamp(14px, 1.2vw, 16px);
-  line-height: 1.55;
-  color: rgba(14, 14, 12, 0.7);
-  max-width: 26ch;
+  line-height: 1.5;
+  letter-spacing: 0;
+  color: rgba(14, 14, 12, 0.78);
+  max-width: 28ch;
   text-wrap: pretty;
 }
 .v9-cta-card-arrow {
@@ -653,9 +595,6 @@ const V10_CSS = `
 @keyframes v10-fade-up {
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes v10-rail-in {
-  to { opacity: 0.7; }
-}
 
 .v8-root :where(button, a, [role="button"], input, select, textarea):focus-visible {
   outline: 2px solid var(--v6-accent);
@@ -685,10 +624,8 @@ html:has(.v8-root) { scroll-behavior: smooth; }
   }
   .v10-eyebrow,
   .v10-hero-title,
-  .v10-standfirst,
-  .v10-cta-cell,
-  .v10-rail { opacity: 1 !important; transform: none !important; }
-  .v10-rail { opacity: 0.7 !important; }
+  .v10-hero-sub,
+  .v10-cta-cell { opacity: 1 !important; transform: none !important; }
 }
 
 .bl-banner {
@@ -875,12 +812,6 @@ export default function V10Page() {
       >
         {phase !== 'questions' && (
           <>
-            <span className="v10-rail v10-rail-left" aria-hidden="true">
-              New writing &nbsp;·&nbsp; New readers &nbsp;·&nbsp; No algorithm
-            </span>
-            <span className="v10-rail v10-rail-right" aria-hidden="true">
-              between.reads &nbsp;/&nbsp; for readers &amp; writers &nbsp;/&nbsp; est.&nbsp;MMXXVI
-            </span>
             <span className="v10-crop v10-crop-tl" aria-hidden="true">┌</span>
             <span className="v10-crop v10-crop-tr" aria-hidden="true">┐</span>
             <span className="v10-crop v10-crop-bl" aria-hidden="true">└</span>
@@ -899,12 +830,9 @@ export default function V10Page() {
                 <em className="v10-italic">new voices.</em>
               </h1>
 
-              <div className="v10-standfirst">
-                <span className="v10-standfirst-rule" aria-hidden="true" />
-                <p className="v9-hero-sub v10-hero-sub">
-                  <span className="v10-dropcap">C</span>urated by humans. No algorithm. Three free reads a month — yours.
-                </p>
-              </div>
+              <p className="v9-hero-sub v10-hero-sub">
+                Curated by humans. No algorithm. Three free reads a month.
+              </p>
 
               <div className="v9-cta-row v10-cta-row">
                 {(['reader', 'author'] as const).map((r) => (
