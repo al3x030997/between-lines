@@ -230,86 +230,10 @@ const V10_CSS = `
   .v8-nav-dropdown { display: none; }
 }
 
-/* === v10 masthead band (between nav and hero) === */
-.v10-masthead {
-  position: relative;
-  z-index: 4;
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: clamp(16px, 3vw, 36px);
-  height: 34px;
-  padding: 0 clamp(20px, 3.5vw, 56px);
-  background: var(--v6-surface);
-  border-bottom: 1px solid rgba(14,14,12,0.18);
-  font-family: var(--bl-font-eyebrow);
-  color: rgba(14,14,12,0.78);
-  opacity: 0;
-  transform: translateY(-4px);
-  animation: v10-fade-down 520ms cubic-bezier(.22, 1, .36, 1) 40ms forwards;
-}
-.v10-masthead::before,
-.v10-masthead::after {
-  content: '';
-  position: absolute;
-  left: clamp(20px, 3.5vw, 56px);
-  right: clamp(20px, 3.5vw, 56px);
-  height: 1px;
-  background: var(--v6-accent);
-  opacity: 0.55;
-  pointer-events: none;
-}
-.v10-masthead::before { top: -1px; }
-.v10-masthead::after  { bottom: -1px; }
-.v10-masthead-cell {
-  font-size: 10.5px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.v10-masthead-cell:first-child { justify-self: start; }
-.v10-masthead-cell:last-child  { justify-self: end; }
-.v10-masthead-center {
-  justify-self: center;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
-  font-size: 12.5px;
-  letter-spacing: 0.06em;
-  text-transform: none;
-  color: rgba(14,14,12,0.92);
-}
-.v10-masthead-center .v10-mast-dot {
-  display: inline-block;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: var(--v6-accent);
-  transform: translateY(-1px);
-}
-@media (max-width: 760px) {
-  .v10-masthead { grid-template-columns: 1fr auto; height: 30px; }
-  .v10-masthead-cell:last-child { display: none; }
-  .v10-masthead-cell:first-child { font-size: 9.5px; letter-spacing: 0.2em; }
-  .v10-masthead-center { font-size: 11.5px; }
-}
-.v8-root.is-phase-questions .v10-masthead {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 320ms cubic-bezier(.22, 1, .36, 1);
-}
-
 /* === v9/v10 shared hero shell === */
 .v9-hero {
   position: relative;
-  min-height: calc(100vh - 76px - 34px);
+  min-height: calc(100vh - 76px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,8 +280,7 @@ const V10_CSS = `
 }
 .v9-root.is-phase-questions .v9-hero::before { opacity: 0; }
 .v9-root.is-phase-questions .v10-rail,
-.v9-root.is-phase-questions .v10-crop,
-.v9-root.is-phase-questions .v10-seal {
+.v9-root.is-phase-questions .v10-crop {
   opacity: 0;
   pointer-events: none;
   transition: opacity 320ms cubic-bezier(.22, 1, .36, 1);
@@ -483,33 +406,26 @@ const V10_CSS = `
 }
 .v10-amp {
   display: inline-block;
-  font-family: 'Cormorant Garamond', 'EB Garamond', Garamond, serif;
+  font-family: 'Fraunces', Georgia, serif;
   font-style: italic;
   font-weight: 500;
-  font-size: 1.05em;
-  letter-spacing: 0;
-  color: var(--v6-accent);
-  transform: translateY(0.04em);
-  padding: 0 0.04em;
+  font-variation-settings: 'opsz' 96, 'SOFT' 40;
+  font-size: 0.96em;
+  letter-spacing: -0.01em;
+  color: inherit;
+  padding: 0 0.02em;
 }
 
-/* === v10 standfirst (drop-cap subhead + marginalia) === */
+/* === v10 standfirst (drop-cap subhead) === */
 .v10-standfirst {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: start;
-  gap: clamp(20px, 4vw, 56px);
+  position: relative;
   width: 100%;
-  max-width: 760px;
+  max-width: 38ch;
   margin-top: clamp(4px, 1.4vh, 16px);
   text-align: left;
   opacity: 0;
   transform: translateY(8px);
   animation: v10-fade-up 600ms cubic-bezier(.22, 1, .36, 1) 280ms forwards;
-}
-.v10-standfirst-col {
-  position: relative;
-  max-width: 38ch;
 }
 .v10-standfirst-rule {
   display: block;
@@ -538,46 +454,12 @@ const V10_CSS = `
   line-height: 0.82;
   margin: 6px 10px 0 0;
   color: var(--v6-text-strong);
-  /* a hairline forest-green underline gives the drop-cap a printed feel */
   padding-bottom: 2px;
   border-bottom: 2px solid var(--v6-accent);
 }
-.v10-marginalia {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 22ch;
-  padding-left: 14px;
-  border-left: 1px dashed rgba(14,14,12,0.25);
-}
-.v10-margin-handwritten {
-  font-family: 'Caveat', 'Bradley Hand', cursive;
-  font-size: 19px;
-  line-height: 1.15;
-  color: var(--v6-accent);
-  transform: rotate(-1.5deg);
-  transform-origin: left center;
-}
-.v10-margin-footnote {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: 12.5px;
-  line-height: 1.45;
-  color: rgba(14,14,12,0.7);
-}
 @media (max-width: 760px) {
   .v10-standfirst {
-    grid-template-columns: 1fr;
-    gap: 14px;
     max-width: 100%;
-  }
-  .v10-standfirst-col { max-width: 100%; }
-  .v10-marginalia {
-    padding-left: 0;
-    padding-top: 12px;
-    border-left: 0;
-    border-top: 1px dashed rgba(14,14,12,0.25);
   }
 }
 
@@ -604,23 +486,6 @@ const V10_CSS = `
   animation: v10-fade-up 620ms cubic-bezier(.22, 1, .36, 1) 420ms forwards;
 }
 .v10-cta-cell:nth-child(2) { animation-delay: 500ms; }
-.v10-cta-overline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: rgba(14,14,12,0.55);
-}
-.v10-cta-overline::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: rgba(14,14,12,0.25);
-}
 .v9-cta-card {
   appearance: none;
   position: relative;
@@ -678,11 +543,6 @@ const V10_CSS = `
 .v9-cta-card:focus-visible .v9-cta-card-title {
   color: #1F7A3E;
 }
-.v9-cta-card:hover .v9-cta-card-num,
-.v9-cta-card:focus-visible .v9-cta-card-num {
-  color: #1F7A3E;
-  transform: translateY(-2px);
-}
 .v9-cta-card:hover .v10-card-ornament,
 .v9-cta-card:focus-visible .v10-card-ornament {
   transform: rotate(45deg);
@@ -693,20 +553,6 @@ const V10_CSS = `
     0 2px 6px rgba(14, 14, 12, 0.10),
     0 6px 14px rgba(14, 14, 12, 0.08);
   transition-duration: 100ms;
-}
-.v9-cta-card-num {
-  position: absolute;
-  top: clamp(18px, 2.4vw, 24px);
-  right: clamp(20px, 2.6vw, 26px);
-  font-family: var(--bl-font-eyebrow);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(14, 14, 12, 0.55);
-  font-variant-numeric: tabular-nums;
-  z-index: 2;
-  transition: color 240ms cubic-bezier(.22, 1, .36, 1), transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
 .v9-cta-card-title {
   margin: 0;
@@ -790,75 +636,14 @@ const V10_CSS = `
   .v10-cta-cell { max-width: none; }
   .v9-cta-card { max-width: none; min-height: 160px; }
   .v9-cta-card-arrow { opacity: 0.85; }
-  .v9-cta-card-num { font-size: 10px; }
-}
-
-/* === v10 editorial seal === */
-.v10-seal {
-  position: absolute;
-  right: clamp(48px, 6vw, 96px);
-  bottom: clamp(28px, 4vh, 52px);
-  width: 96px;
-  height: 96px;
-  z-index: 1;
-  color: var(--v6-accent);
-  transform: rotate(-7deg);
-  opacity: 0;
-  animation: v10-seal-in 760ms cubic-bezier(.22, 1, .36, 1) 640ms forwards;
-  pointer-events: none;
-  user-select: none;
-}
-.v10-seal-ring {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.4;
-  opacity: 0.85;
-}
-.v10-seal-ring-inner {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 0.6;
-  opacity: 0.45;
-}
-.v10-seal text {
-  fill: currentColor;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 6.4px;
-  font-weight: 700;
-  letter-spacing: 1.6px;
-  text-transform: uppercase;
-}
-.v10-seal-mono {
-  font-family: var(--bl-font-display);
-  font-weight: 800;
-  font-size: 18px !important;
-  letter-spacing: 0 !important;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
-}
-.v10-seal-est {
-  font-family: 'Fraunces', Georgia, serif;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 6.2px !important;
-  letter-spacing: 0.6px !important;
-  text-transform: none !important;
-}
-@media (max-width: 760px) {
-  .v10-seal { display: none; }
 }
 
 /* === keyframes === */
 @keyframes v10-fade-up {
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes v10-fade-down {
-  to { opacity: 1; transform: translateY(0); }
-}
 @keyframes v10-rail-in {
   to { opacity: 0.7; }
-}
-@keyframes v10-seal-in {
-  to { opacity: 1; }
 }
 
 .v8-root :where(button, a, [role="button"], input, select, textarea):focus-visible {
@@ -887,13 +672,11 @@ html:has(.v8-root) { scroll-behavior: smooth; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  .v10-masthead,
   .v10-eyebrow,
   .v10-hero-title,
   .v10-standfirst,
   .v10-cta-cell,
-  .v10-rail,
-  .v10-seal { opacity: 1 !important; transform: none !important; }
+  .v10-rail { opacity: 1 !important; transform: none !important; }
   .v10-rail { opacity: 0.7 !important; }
 }
 
@@ -941,11 +724,6 @@ const CARD_TITLES: Record<'reader' | 'author', string> = {
 const CARD_SUBS: Record<'reader' | 'author', string> = {
   reader: 'Read fiction before it hits the shelf.',
   author: 'Publish your manuscript. Find your readers.',
-};
-
-const CARD_OVERLINES: Record<'reader' | 'author', string> = {
-  reader: 'For the curious reader',
-  author: 'For the working author',
 };
 
 export default function V10Page() {
@@ -1080,16 +858,6 @@ export default function V10Page() {
         </div>
       </nav>
 
-      <div className="v10-masthead" aria-hidden="true">
-        <span className="v10-masthead-cell">between.reads</span>
-        <span className="v10-masthead-center">
-          Curated by humans
-          <span className="v10-mast-dot" aria-hidden="true" />
-          Read between the lines
-        </span>
-        <span className="v10-masthead-cell">est.&nbsp;MMXXVI</span>
-      </div>
-
       <section
         className={`v9-hero v10-hero${phase === 'leaving' ? ' is-leaving' : ''}`}
         aria-label="Choose your role"
@@ -1121,33 +889,21 @@ export default function V10Page() {
               </h1>
 
               <div className="v10-standfirst">
-                <div className="v10-standfirst-col">
-                  <span className="v10-standfirst-rule" aria-hidden="true" />
-                  <p className="v9-hero-sub v10-hero-sub">
-                    <span className="v10-dropcap">C</span>urated by humans. No algorithm. Three free reads a month — yours.
-                  </p>
-                </div>
-                <aside className="v10-marginalia" aria-hidden="true">
-                  <span className="v10-margin-handwritten">* yes, really &mdash; humans.</span>
-                  <span className="v10-margin-footnote">† three reads&nbsp;/&nbsp;month, every month, on the house.</span>
-                </aside>
+                <span className="v10-standfirst-rule" aria-hidden="true" />
+                <p className="v9-hero-sub v10-hero-sub">
+                  <span className="v10-dropcap">C</span>urated by humans. No algorithm. Three free reads a month — yours.
+                </p>
               </div>
 
               <div className="v9-cta-row v10-cta-row">
-                {(['reader', 'author'] as const).map((r, i) => (
+                {(['reader', 'author'] as const).map((r) => (
                   <div key={r} className="v10-cta-cell">
-                    <span className="v10-cta-overline" aria-hidden="true">
-                      {CARD_OVERLINES[r]}
-                    </span>
                     <button
                       type="button"
                       className={`v9-cta-card v10-cta-card v9-cta-card-${r}`}
                       onClick={() => open(r)}
                       aria-label={`${CARD_TITLES[r]}. ${CARD_SUBS[r]}`}
                     >
-                      <span className="v9-cta-card-num" aria-hidden="true">
-                        Nº&nbsp;{String(i + 1).padStart(2, '0')}
-                      </span>
                       <h2 className="v9-cta-card-title">{CARD_TITLES[r]}</h2>
                       <span className="v10-card-rule-row" aria-hidden="true">
                         <span className="v10-card-ornament">❖</span>
@@ -1163,28 +919,6 @@ export default function V10Page() {
               </div>
             </div>
 
-            <svg
-              className="v10-seal"
-              viewBox="0 0 100 100"
-              aria-hidden="true"
-              role="presentation"
-            >
-              <defs>
-                <path
-                  id="v10-seal-circle"
-                  d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"
-                />
-              </defs>
-              <circle cx="50" cy="50" r="46" className="v10-seal-ring" />
-              <circle cx="50" cy="50" r="40" className="v10-seal-ring-inner" />
-              <text>
-                <textPath href="#v10-seal-circle" startOffset="0">
-                  between.reads · curated by humans · est. MMXXVI ·&nbsp;
-                </textPath>
-              </text>
-              <text x="50" y="48" textAnchor="middle" className="v10-seal-mono">B.R</text>
-              <text x="50" y="64" textAnchor="middle" className="v10-seal-est">est. MMXXVI</text>
-            </svg>
           </>
         )}
 
