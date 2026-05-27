@@ -27,7 +27,7 @@ const VARIANTS: VariantMeta[] = [
 ];
 
 const STORAGE_KEY = 'bl-opencall-variant';
-const DEFAULT_KEY: VariantKey = 'v1';
+const DEFAULT_KEY: VariantKey = 'v7';
 
 function isVariantKey(v: string | null): v is VariantKey {
   return v !== null && /^v(1|2|7)$/.test(v);
