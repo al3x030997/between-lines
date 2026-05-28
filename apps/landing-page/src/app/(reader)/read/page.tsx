@@ -1,7 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { FilterSidebar } from '@/components/FilterSidebar';
+import { useCallback, useMemo, useState } from 'react';
+import {
+  FilterSidebar,
+  type FilterState,
+  hasActiveFilters,
+  matchesFilters,
+} from '@/components/FilterSidebar';
 import { ProductCard } from '@/components/ProductCard';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
@@ -39,7 +44,6 @@ const visibility: Record<DiscoverTabId, Section['id'][]> = {
 };
 
 function bookToCard(b: Book): React.ReactNode {
-  // Choose primary badge to display on the cover
   const primaryBadge = b.badges[0];
   return (
     <ProductCard
@@ -60,11 +64,33 @@ function bookToCard(b: Book): React.ReactNode {
 
 export default function DiscoverPage() {
   const [active, setActive] = useState<DiscoverTabId>('all');
+  const [filters, setFilters] = useState<FilterState>({});
   const visible = new Set<Section['id']>(visibility[active]);
+  const filtersActive = hasActiveFilters(filters);
+
+  const toggle = useCallback((key: string) => {
+    setFilters((prev) => {
+      const next = { ...prev };
+      if (next[key]) delete next[key];
+      else next[key] = true;
+      return next;
+    });
+  }, []);
+
+  const clearFilters = useCallback(() => setFilters({}), []);
+
+  const filteredSections = useMemo(() => {
+    return sections
+      .filter((s) => visible.has(s.id))
+      .map((s) => ({ section: s, books: getBooksBySection(s.id).filter((b) => matchesFilters(b.tags, filters)) }))
+      .filter(({ books }) => books.length > 0);
+  }, [filters, visible]);
+
+  const totalFiltered = filteredSections.reduce((n, x) => n + x.books.length, 0);
 
   return (
     <div className="br-discover">
-      <FilterSidebar />
+      <FilterSidebar filters={filters} onToggle={toggle} />
       <div className="br-discover-main">
         <StoreTabs<DiscoverTabId>
           tabs={tabs}
@@ -73,22 +99,29 @@ export default function DiscoverPage() {
           ariaLabel="Discover sections"
         />
         <div className="br-stage">
-          {sections.map((s) => {
-            if (!visible.has(s.id)) return null;
-            const books = getBooksBySection(s.id);
-            if (books.length === 0) return null;
-            return (
-              <section key={s.id} aria-labelledby={`br-sec-${s.id}`}>
-                <div className="br-sec-head">
-                  <h2 id={`br-sec-${s.id}`} className="br-sec-title">
-                    {s.label}
-                  </h2>
-                  <a className="br-sec-link">See all</a>
-                </div>
-                <div className="br-grid">{books.map(bookToCard)}</div>
-              </section>
-            );
-          })}
+          {filtersActive && (
+            <div className="br-filter-status" role="status" aria-live="polite">
+              <span>
+                {totalFiltered === 0
+                  ? 'No books match your filters.'
+                  : `${totalFiltered} book${totalFiltered === 1 ? '' : 's'} match your filters.`}
+              </span>
+              <button type="button" className="br-filter-clear" onClick={clearFilters}>
+                Clear filters
+              </button>
+            </div>
+          )}
+          {filteredSections.map(({ section: s, books }) => (
+            <section key={s.id} aria-labelledby={`br-sec-${s.id}`}>
+              <div className="br-sec-head">
+                <h2 id={`br-sec-${s.id}`} className="br-sec-title">
+                  {s.label}
+                </h2>
+                <a className="br-sec-link">See all</a>
+              </div>
+              <div className="br-grid">{books.map(bookToCard)}</div>
+            </section>
+          ))}
         </div>
       </div>
     </div>
