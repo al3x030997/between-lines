@@ -5,10 +5,6 @@ import Link from 'next/link';
 import { clearMockSession } from '@/lib/mock-session';
 import { useMockSession } from '@/lib/useMockSession';
 
-function landingUrl(): string {
-  return process.env.NEXT_PUBLIC_LANDING_URL ?? 'http://localhost:3000';
-}
-
 export function AvatarMenu() {
   const { session } = useMockSession();
   const [open, setOpen] = useState(false);
@@ -33,7 +29,7 @@ export function AvatarMenu() {
   const close = () => setOpen(false);
   const handleSignOut = () => {
     clearMockSession();
-    window.location.href = landingUrl();
+    window.location.href = '/';
   };
 
   if (!session) return null;

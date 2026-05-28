@@ -1,23 +1,21 @@
 'use client';
 
 import { useEffect, useState, type ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
 import { getMockSession } from '@/lib/mock-session';
 
-function landingUrl(): string {
-  return process.env.NEXT_PUBLIC_LANDING_URL ?? 'http://localhost:3000';
-}
-
 export function SessionGate({ children }: { children: ReactNode }) {
+  const router = useRouter();
   const [authed, setAuthed] = useState<boolean | null>(null);
 
   useEffect(() => {
     const session = getMockSession();
     if (!session) {
-      window.location.href = landingUrl();
+      router.replace('/');
       return;
     }
     setAuthed(true);
-  }, []);
+  }, [router]);
 
   if (authed === null) {
     return (

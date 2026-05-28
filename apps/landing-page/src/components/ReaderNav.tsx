@@ -16,7 +16,7 @@ const links: NavLink[] = [
   { href: '/store', label: 'Store' },
 ];
 
-export function Nav() {
+export function ReaderNav() {
   const router = useRouter();
   const pathname = usePathname() ?? '';
   const { session } = useMockSession();
