@@ -7,10 +7,8 @@ export default function ReaderLayout({ children }: { children: ReactNode }) {
   return (
     <CartProvider>
       <SessionGate>
-        <div className="br-shell">
-          <ReaderNav />
-          {children}
-        </div>
+        <ReaderNav />
+        {children}
       </SessionGate>
     </CartProvider>
   );
