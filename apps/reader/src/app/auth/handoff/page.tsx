@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { setMockSession } from '@/lib/mock-session';
+import { setMockSession, type Role } from '@/lib/mock-session';
 
 function Splash({ message }: { message: string }) {
   return (
@@ -22,11 +22,26 @@ function HandoffInner() {
 
   useEffect(() => {
     const user = params.get('u') ?? 'Sarah M.';
+    const handle = params.get('h') ?? undefined;
     const rc = Number.parseInt(params.get('rc') ?? '142', 10) || 142;
+    const sc = Number.parseInt(params.get('sc') ?? '75', 10) || 75;
     const tierParam = params.get('tier');
     const tier = tierParam === 'Member' ? 'Member' : 'Reader';
 
-    setMockSession({ user, rc, tier });
+    const rolesParam = params.get('roles');
+    let roles: Role[] = ['reader', 'writer'];
+    if (rolesParam) {
+      const parts = rolesParam.split(',').map((s) => s.trim());
+      const next: Role[] = [];
+      for (const p of parts) {
+        if ((p === 'reader' || p === 'writer') && !next.includes(p)) next.push(p);
+      }
+      if (next.length > 0) roles = next;
+    } else if (params.get('writer') === '0') {
+      roles = ['reader'];
+    }
+
+    setMockSession({ user, handle, rc, sc, tier, roles });
     router.replace('/read');
   }, [params, router]);
 

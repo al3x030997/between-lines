@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getBook } from '@/lib/mock-books';
+import { writerSlugForHandle } from '@/lib/mock-writers';
 
 type PageProps = {
   params: { book: string };
@@ -16,6 +17,7 @@ export default function BookPage({ params }: PageProps) {
     : `/read/${book.slug}/${book.chapters[0]?.slug ?? ''}`;
 
   const isClassic = book.category.toLowerCase().includes('classic');
+  const writerSlug = writerSlugForHandle(book.authorHandle);
 
   return (
     <div>
@@ -27,8 +29,20 @@ export default function BookPage({ params }: PageProps) {
         <div className="br-book-eyebrow">{book.category}</div>
         <h1 className="br-book-title">{book.title}</h1>
         <div className="br-book-author">
-          by <a>{book.author}</a>
-          {book.authorHandle ? (
+          by{' '}
+          {writerSlug ? (
+            <Link href={`/writer/${writerSlug}`}>{book.author}</Link>
+          ) : (
+            <span>{book.author}</span>
+          )}
+          {book.authorHandle && writerSlug ? (
+            <>
+              <span className="br-sep">·</span>
+              <Link href={`/writer/${writerSlug}`} style={{ fontSize: 12, color: 'var(--br-writer)' }}>
+                @{book.authorHandle}
+              </Link>
+            </>
+          ) : book.authorHandle ? (
             <>
               <span className="br-sep">·</span>
               <span style={{ fontSize: 12, color: 'var(--v11-ink-mute)' }}>@{book.authorHandle}</span>

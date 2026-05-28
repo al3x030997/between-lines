@@ -5,10 +5,11 @@ import { usePathname, useRouter } from 'next/navigation';
 import { AvatarMenu } from './AvatarMenu';
 import { useMockSession } from '@/lib/useMockSession';
 
-type NavLink = { href: string; label: string };
+type NavLink = { href: string; label: string; requiresWriter?: boolean };
 
 const links: NavLink[] = [
   { href: '/read', label: 'Read' },
+  { href: '/write', label: 'Write', requiresWriter: true },
   { href: '/betweenlines', label: 'BetweenLines' },
   { href: '/betweencharacters', label: 'BetweenCharacters' },
   { href: '/betweenpages', label: 'BetweenPages' },
@@ -19,6 +20,7 @@ export function Nav() {
   const router = useRouter();
   const pathname = usePathname() ?? '';
   const { session } = useMockSession();
+  const isWriter = session?.roles?.includes('writer') ?? false;
 
   return (
     <nav className="br-nav" aria-label="Reader navigation">
@@ -33,8 +35,8 @@ export function Nav() {
 
       <div className="br-nav-links">
         {links.map((l) => {
-          const isActive =
-            l.href === '/read' ? pathname.startsWith('/read') : pathname.startsWith(l.href);
+          if (l.requiresWriter && !isWriter) return null;
+          const isActive = pathname.startsWith(l.href);
           return (
             <Link
               key={l.href}
@@ -48,11 +50,18 @@ export function Nav() {
       </div>
 
       <div className="br-nav-right">
-        <div className="br-rc-badge" role="status" aria-label={`${session?.rc ?? 0} ReadCredits`}>
+        <Link href="/account" className="br-rc-badge" aria-label={`${session?.rc ?? 0} ReadCredits`}>
           <span aria-hidden="true">⭐</span>
           <span className="br-rc-num">{session?.rc ?? 0}</span>
           <span className="br-rc-lbl">RC</span>
-        </div>
+        </Link>
+        {isWriter ? (
+          <Link href="/write" className="br-sc-badge" aria-label={`${session?.sc ?? 0} SwapCredits`}>
+            <span aria-hidden="true">🔄</span>
+            <span className="br-sc-num">{session?.sc ?? 0}</span>
+            <span className="br-sc-lbl">SC</span>
+          </Link>
+        ) : null}
         <AvatarMenu />
       </div>
     </nav>

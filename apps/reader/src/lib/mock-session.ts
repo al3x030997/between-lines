@@ -1,10 +1,14 @@
 export type Tier = 'Reader' | 'Member';
+export type Role = 'reader' | 'writer';
 
 export type MockSession = {
   user: string;
   initial: string;
+  handle: string;
   rc: number;
+  sc: number;
   tier: Tier;
+  roles: Role[];
   ts: number;
 };
 
@@ -26,6 +30,24 @@ function notify(value: string | null) {
   );
 }
 
+function slugify(s: string): string {
+  return s
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function parseRoles(input: unknown): Role[] {
+  if (!Array.isArray(input)) return ['reader'];
+  const out: Role[] = [];
+  for (const r of input) {
+    if (r === 'reader' || r === 'writer') {
+      if (!out.includes(r)) out.push(r);
+    }
+  }
+  return out.length > 0 ? out : ['reader'];
+}
+
 export function getMockSession(): MockSession | null {
   const ls = safeStorage();
   if (!ls) return null;
@@ -35,11 +57,15 @@ export function getMockSession(): MockSession | null {
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== 'object') return null;
     const user: string = typeof parsed.user === 'string' && parsed.user.length > 0 ? parsed.user : 'Reader';
+    const handle: string = typeof parsed.handle === 'string' && parsed.handle.length > 0 ? parsed.handle : slugify(user);
     return {
       user,
       initial: typeof parsed.initial === 'string' && parsed.initial.length > 0 ? parsed.initial : user[0]!.toUpperCase(),
+      handle,
       rc: typeof parsed.rc === 'number' && Number.isFinite(parsed.rc) ? parsed.rc : 0,
+      sc: typeof parsed.sc === 'number' && Number.isFinite(parsed.sc) ? parsed.sc : 0,
       tier: parsed.tier === 'Member' ? 'Member' : 'Reader',
+      roles: parseRoles(parsed.roles),
       ts: typeof parsed.ts === 'number' ? parsed.ts : Date.now(),
     };
   } catch {
@@ -50,8 +76,11 @@ export function getMockSession(): MockSession | null {
 export type SetSessionInput = {
   user: string;
   rc: number;
+  sc?: number;
   initial?: string;
+  handle?: string;
   tier?: Tier;
+  roles?: Role[];
 };
 
 export function setMockSession(s: SetSessionInput): MockSession {
@@ -59,8 +88,11 @@ export function setMockSession(s: SetSessionInput): MockSession {
   const session: MockSession = {
     user: s.user,
     initial: s.initial ?? s.user[0]?.toUpperCase() ?? 'R',
+    handle: s.handle ?? slugify(s.user),
     rc: s.rc,
+    sc: s.sc ?? 0,
     tier: s.tier ?? 'Reader',
+    roles: s.roles && s.roles.length > 0 ? s.roles : ['reader'],
     ts: Date.now(),
   };
   const serialized = JSON.stringify(session);
@@ -79,7 +111,31 @@ export function addRC(delta: number): number {
   const cur = getMockSession();
   if (!cur) return 0;
   const next = Math.max(0, cur.rc + delta);
-  setMockSession({ user: cur.user, initial: cur.initial, rc: next, tier: cur.tier });
+  setMockSession({
+    user: cur.user,
+    initial: cur.initial,
+    handle: cur.handle,
+    rc: next,
+    sc: cur.sc,
+    tier: cur.tier,
+    roles: cur.roles,
+  });
+  return next;
+}
+
+export function addSC(delta: number): number {
+  const cur = getMockSession();
+  if (!cur) return 0;
+  const next = Math.max(0, cur.sc + delta);
+  setMockSession({
+    user: cur.user,
+    initial: cur.initial,
+    handle: cur.handle,
+    rc: cur.rc,
+    sc: next,
+    tier: cur.tier,
+    roles: cur.roles,
+  });
   return next;
 }
 

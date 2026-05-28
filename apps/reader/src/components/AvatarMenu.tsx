@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { clearMockSession } from '@/lib/mock-session';
 import { useMockSession } from '@/lib/useMockSession';
 
@@ -29,12 +30,15 @@ export function AvatarMenu() {
     };
   }, [open]);
 
+  const close = () => setOpen(false);
   const handleSignOut = () => {
     clearMockSession();
     window.location.href = landingUrl();
   };
 
   if (!session) return null;
+
+  const isWriter = session.roles.includes('writer');
 
   return (
     <div className="br-avatar-wrap" ref={wrapRef}>
@@ -51,21 +55,58 @@ export function AvatarMenu() {
       <div className={`br-avatar-menu ${open ? 'is-open' : ''}`} role="menu">
         <div className="br-am-head">
           <div className="br-am-name">{session.user}</div>
-          <div className="br-am-tier">{session.tier}</div>
+          <div className="br-am-tier">
+            {session.tier}
+            {isWriter ? ' · Writer' : ''}
+          </div>
         </div>
         <div className="br-am-rc">
           <span className="br-am-rc-lbl">⭐ ReadCredits</span>
           <span className="br-am-rc-val">{session.rc} RC</span>
         </div>
+        {isWriter ? (
+          <div
+            className="br-am-rc"
+            style={{ background: 'var(--br-sc-green-soft)' }}
+          >
+            <span className="br-am-rc-lbl" style={{ color: 'var(--br-sc-green)' }}>🔄 SwapCredits</span>
+            <span className="br-am-rc-val" style={{ color: 'var(--br-sc-green)' }}>{session.sc} SC</span>
+          </div>
+        ) : null}
         <div className="br-am-div" />
-        <div className="br-am-item" role="menuitem">👤 My Profile</div>
-        <div className="br-am-item" role="menuitem">📚 My Reading</div>
+        <Link href="/profile" className="br-am-item" role="menuitem" onClick={close}>
+          👤 My Profile
+        </Link>
+        <Link href="/account" className="br-am-item" role="menuitem" onClick={close}>
+          📚 My Reading
+        </Link>
+        {isWriter ? (
+          <Link
+            href={`/writer/${session.handle}`}
+            className="br-am-item"
+            role="menuitem"
+            onClick={close}
+          >
+            🖊️ My Writer Page
+          </Link>
+        ) : null}
+        {isWriter ? (
+          <Link href="/write" className="br-am-item" role="menuitem" onClick={close}>
+            ✍️ Open Writing Room
+          </Link>
+        ) : null}
         <div className="br-am-item" role="menuitem">🔔 Notifications</div>
         <div className="br-am-item" role="menuitem">⚙️ Preferences</div>
         <div className="br-am-div" />
-        <div className="br-am-item" role="menuitem" onClick={handleSignOut}>
+        <button
+          type="button"
+          className="br-am-item"
+          role="menuitem"
+          onClick={handleSignOut}
+          style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}
+        >
           Sign out
-        </div>
+        </button>
       </div>
     </div>
   );
