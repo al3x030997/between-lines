@@ -52,9 +52,7 @@ const V11_CSS = `
   top: 0;
   z-index: 10;
   background: #fff;
-  border-bottom: 3px solid var(--v11-ink);
   width: 100%;
-  box-shadow: 0 1px 0 rgba(255, 230, 0, 0.9);
 }
 .v11-nav-inner {
   display: flex;
