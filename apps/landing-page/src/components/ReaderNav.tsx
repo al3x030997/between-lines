@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AvatarMenu } from './AvatarMenu';
+import { ThemeToggle } from './ThemeToggle';
 import { useMockSession } from '@/lib/useMockSession';
 
 type NavLink = { href: string; label: string; requiresWriter?: boolean };
@@ -50,6 +51,7 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
+        <ThemeToggle />
         <Link href="/account" className="br-rc-badge" aria-label={`${session?.rc ?? 0} ReadCredits`}>
           <span aria-hidden="true">⭐</span>
           <span className="br-rc-num">{session?.rc ?? 0}</span>
