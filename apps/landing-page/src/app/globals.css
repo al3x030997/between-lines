@@ -400,17 +400,18 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-rc-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: var(--br-rc-gold-soft);
   border: 0.5px solid var(--br-rc-gold-border);
   border-radius: 20px;
-  padding: 4px 12px;
+  padding: 4px 11px;
   transition: background 0.15s, transform 0.15s;
   cursor: pointer;
+  white-space: nowrap;
 }
 .br-rc-badge:hover { background: var(--br-rc-gold-soft); transform: translateY(-1px); }
 .br-rc-num { font-size: 12px; font-weight: 700; color: var(--br-rc-gold); font-variant-numeric: tabular-nums; }
-.br-rc-lbl { font-size: 11px; color: var(--br-rc-gold); letter-spacing: 0.04em; }
+.br-rc-lbl { font-size: 11px; color: var(--br-rc-gold); letter-spacing: 0.02em; }
 
 /* ============================================================
    AVATAR
@@ -2055,17 +2056,18 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-sc-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: var(--br-sc-green-soft);
   border: 0.5px solid var(--br-sc-green-border);
   border-radius: 20px;
-  padding: 4px 12px;
+  padding: 4px 11px;
   cursor: pointer;
   transition: background 0.15s, transform 0.15s;
+  white-space: nowrap;
 }
 .br-sc-badge:hover { background: var(--br-sc-green-soft); transform: translateY(-1px); }
 .br-sc-num { font-size: 12px; font-weight: 700; color: var(--br-sc-green); font-variant-numeric: tabular-nums; }
-.br-sc-lbl { font-size: 11px; color: var(--br-sc-green); letter-spacing: 0.04em; }
+.br-sc-lbl { font-size: 11px; color: var(--br-sc-green); letter-spacing: 0.02em; }
 
 /* ============================================================
    PROFILE PAGE — shared hero, now-grid, credits, sections

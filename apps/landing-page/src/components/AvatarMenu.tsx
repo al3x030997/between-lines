@@ -57,16 +57,16 @@ export function AvatarMenu() {
           </div>
         </div>
         <div className="br-am-rc">
-          <span className="br-am-rc-lbl">⭐ ReadCredits</span>
-          <span className="br-am-rc-val">{session.rc} RC</span>
+          <span className="br-am-rc-lbl">Reading Coins</span>
+          <span className="br-am-rc-val">{session.rc}</span>
         </div>
         {isWriter ? (
           <div
             className="br-am-rc"
             style={{ background: 'var(--br-sc-green-soft)' }}
           >
-            <span className="br-am-rc-lbl" style={{ color: 'var(--br-sc-green)' }}>🔄 SwapCredits</span>
-            <span className="br-am-rc-val" style={{ color: 'var(--br-sc-green)' }}>{session.sc} SC</span>
+            <span className="br-am-rc-lbl" style={{ color: 'var(--br-sc-green)' }}>Swap Coins</span>
+            <span className="br-am-rc-val" style={{ color: 'var(--br-sc-green)' }}>{session.sc}</span>
           </div>
         ) : null}
         <div className="br-am-div" />
