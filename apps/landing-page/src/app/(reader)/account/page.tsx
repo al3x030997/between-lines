@@ -40,7 +40,10 @@ export default function AccountPage() {
       <Link href="/read/the-quiet-hours/the-letter-in-the-wall" className="br-account-continue">
         <div
           className="br-account-continue-cover"
-          style={{ background: 'linear-gradient(160deg,#2d2a24,#4a3f35)' }}
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(8, 8, 8, 0.08) 0%, rgba(8, 8, 8, 0.46) 100%), url('/covers/the-quiet-hours.jpg') center/cover no-repeat",
+          }}
           aria-hidden="true"
         >
           <div style={{ fontFamily: 'var(--br-font-display)', color: '#fff', fontSize: 12, lineHeight: 1.2 }}>

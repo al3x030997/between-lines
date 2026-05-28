@@ -51,6 +51,9 @@ export type StoreProduct = {
   memberPrice?: string;
 };
 
+const coverArt = (filename: string) =>
+  `linear-gradient(180deg, rgba(8, 8, 8, 0.05) 0%, rgba(8, 8, 8, 0.34) 58%, rgba(8, 8, 8, 0.58) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
+
 // ============================================================
 // EBOOKS — first row from storefront HTML
 // ============================================================
@@ -61,7 +64,7 @@ export const ebooks: StoreProduct[] = [
     title: 'The Quiet Hours',
     byline: 'Clara Ashworth',
     blurb: 'A housekeeper discovers a box of letters that reframes thirty years of loyal service — and one life she never knew existed.',
-    cover: 'linear-gradient(160deg,#2d2a24,#4a3f35)',
+    cover: coverArt('the-quiet-hours'),
     badge: { kind: 'new', label: 'New' },
     price: '$4.99',
     rc: 100,
@@ -73,7 +76,7 @@ export const ebooks: StoreProduct[] = [
     title: 'The Empty Chair',
     byline: 'James Okafor',
     blurb: "A son returns home to sort his father's belongings — and finds a life hidden in plain sight.",
-    cover: 'linear-gradient(160deg,#1a3a2a,#2d5a3d)',
+    cover: coverArt('the-empty-chair'),
     badge: { kind: 'rp', label: 'Reader Pick' },
     price: '$2.99',
     rc: 60,
@@ -85,7 +88,7 @@ export const ebooks: StoreProduct[] = [
     title: 'Before the Frost',
     byline: 'Priya Menon',
     blurb: "Two sisters share a house for one last winter before it is sold. What they say — and don't — is everything.",
-    cover: 'linear-gradient(160deg,#2a1a3a,#4a2d5a)',
+    cover: coverArt('before-the-frost'),
     badge: { kind: 'new', label: 'New' },
     price: '$2.99',
     rc: 60,
@@ -97,7 +100,7 @@ export const ebooks: StoreProduct[] = [
     title: 'Three Tuesdays in November',
     byline: 'David Liang',
     blurb: "Linked stories across three decades. Each narrator shares a secret — but only the reader knows what it is.",
-    cover: 'linear-gradient(160deg,#1a2a3a,#2d4a5a)',
+    cover: coverArt('three-tuesdays-in-november'),
     price: '$5.99',
     rc: 120,
     memberPrice: '$4.79',
@@ -108,7 +111,7 @@ export const ebooks: StoreProduct[] = [
     title: 'The Margin Notes',
     byline: 'Fatima Al-Rashid',
     blurb: 'A graduate student falls in love with a stranger through the annotations left in a second-hand copy of Middlemarch.',
-    cover: 'linear-gradient(160deg,#3a2a1a,#5a4a2d)',
+    cover: coverArt('the-margin-notes'),
     price: '$3.99',
     rc: 80,
     memberPrice: '$3.19',
@@ -119,7 +122,7 @@ export const ebooks: StoreProduct[] = [
     title: 'Ink and Wander',
     byline: 'Sofia Reyes',
     blurb: 'A poet documents a year of walking the same city street — and what she finally sees when she stops looking.',
-    cover: 'linear-gradient(160deg,#3a1a2a,#5a2d3d)',
+    cover: coverArt('ink-and-wander'),
     badge: { kind: 'rp', label: 'Reader Pick' },
     price: '$4.99',
     rc: 100,

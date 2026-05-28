@@ -44,6 +44,9 @@ export type Book = {
   section: 'bl' | 'foryou' | 'new' | 'classics';
 };
 
+const coverArt = (filename: string) =>
+  `linear-gradient(180deg, rgba(8, 8, 8, 0.05) 0%, rgba(8, 8, 8, 0.34) 58%, rgba(8, 8, 8, 0.58) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
+
 // ============================================================
 // THE QUIET HOURS — full chapter 1 text
 // ============================================================
@@ -97,7 +100,7 @@ const books: Book[] = [
     author: 'Clara Ashworth',
     authorHandle: 'MidnightDraftsman',
     category: 'Literary Fiction · Novel',
-    cover: 'linear-gradient(160deg,#2d2a24,#4a3f35)',
+    cover: coverArt('the-quiet-hours'),
     badges: [
       { kind: 'bl', label: '📰 BetweenLines Pick' },
       { kind: 'rp', label: '📖 38 Reader Picks' },
@@ -137,7 +140,7 @@ const books: Book[] = [
     author: 'David Liang',
     authorHandle: 'MidnightDraftsman',
     category: 'Short Story Collection',
-    cover: 'linear-gradient(160deg,#1a2a3a,#2d4a5a)',
+    cover: coverArt('three-tuesdays-in-november'),
     badges: [{ kind: 'bl', label: '📰 BetweenLines Pick' }],
     tags: ['Literary Fiction', 'Short Stories', 'Reflective'],
     blurb: "Linked stories across three decades. Each narrator shares a secret — but only the reader knows what it is.",
@@ -161,7 +164,7 @@ const books: Book[] = [
     title: 'The Glass Meridian',
     author: 'NocturnalReader',
     category: 'Speculative · Novel',
-    cover: 'linear-gradient(160deg,#1a3a2a,#2d5a3d)',
+    cover: coverArt('the-glass-meridian'),
     badges: [{ kind: 'bl', label: '📰 BetweenLines Pick' }],
     tags: ['Speculative', 'Reflective', 'Novel'],
     blurb: "A climate scientist in 2047 discovers her models have been predicting not just weather — but memory.",
@@ -184,7 +187,7 @@ const books: Book[] = [
     title: 'Ember & the Cartographer',
     author: 'TheOpenChapter',
     category: 'Adventure · Novel',
-    cover: 'linear-gradient(160deg,#2a1a3a,#4a2d5a)',
+    cover: coverArt('ember-and-the-cartographer'),
     badges: [{ kind: 'bp', label: '🔍 Beta Pick' }],
     tags: ['Adventure', 'Reflective', 'Novel'],
     blurb: "A young woman inherits a map that updates itself in real time — and starts leading her somewhere she can't explain.",
@@ -207,7 +210,7 @@ const books: Book[] = [
     title: 'Salt & the Sea Between',
     author: 'MarginNotes',
     category: 'Historical · Novel',
-    cover: 'linear-gradient(160deg,#3a2a1a,#5a4a2d)',
+    cover: coverArt('salt-and-the-sea-between'),
     badges: [{ kind: 'mp', label: '✦ Member Pick' }],
     tags: ['Historical', 'Slow Burn', 'Novel'],
     blurb: "Two lighthouse keepers, one storm, and letters written over fifty years that never arrived.",
@@ -231,7 +234,7 @@ const books: Book[] = [
     author: 'Priya Menon',
     authorHandle: 'MidnightDraftsman',
     category: 'Short Story',
-    cover: 'linear-gradient(160deg,#1a3a3a,#2d5a5a)',
+    cover: coverArt('before-the-frost'),
     badges: [{ kind: 'rp', label: '📖 Reader Pick' }],
     tags: ['Literary Fiction', 'Reflective', 'Short Story'],
     blurb: "A woman returns to her childhood home to find it exactly as she left it — except for one room.",
@@ -254,7 +257,7 @@ const books: Book[] = [
     title: 'The Archivist of Small Things',
     author: 'QuietPageTurner',
     category: 'Literary Fiction · Novel',
-    cover: 'linear-gradient(160deg,#1a1a3a,#2d2d5a)',
+    cover: coverArt('the-archivist-of-small-things'),
     badges: [{ kind: 'bp', label: '🔍 Beta Pick' }],
     tags: ['Literary Fiction', 'Reflective', 'Novel'],
     blurb: "A woman who collects other people's discarded photographs begins to notice the same stranger in all of them.",
@@ -277,7 +280,7 @@ const books: Book[] = [
     title: 'What the River Keeps',
     author: 'SilverMarginal',
     category: 'Poetry Collection',
-    cover: 'linear-gradient(160deg,#2a3a1a,#4a5a2d)',
+    cover: coverArt('what-the-river-keeps'),
     badges: [],
     tags: ['Poetry', 'Reflective'],
     blurb: "Six voices. One river. The things left behind when people move on.",
@@ -301,7 +304,7 @@ const books: Book[] = [
     author: 'Alexandre Dumas',
     publishYear: '1844',
     category: 'Adventure · Classic · 1844',
-    cover: 'linear-gradient(160deg,#1a0a2a,#3a1a4a)',
+    cover: coverArt('the-count-of-monte-cristo'),
     badges: [
       { kind: 'free', label: '✓ Free · Public Domain' },
       { kind: 'rp', label: '📖 Reader Pick' },
