@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import type { WriterLibraryStatus, WriterLibraryWork } from '@/lib/mock-writers';
 
 type Props = {
   works: WriterLibraryWork[];
+  allWorks: WriterLibraryWork[];
+  onAddWork: () => void;
   onOpenEditor: (id: string) => void;
   onOpenSettings: (id: string) => void;
   onOpenStorefront: (id: string) => void;
@@ -28,7 +29,7 @@ function compact(n: number) {
   return n.toLocaleString('en-US');
 }
 
-function makeDraftWork(index: number): WriterLibraryWork {
+export function makeDraftWork(index: number): WriterLibraryWork {
   return {
     id: `local-draft-${Date.now()}-${index}`,
     title: index === 1 ? 'Untitled work' : `Untitled work ${index}`,
@@ -164,55 +165,40 @@ function WriterLibraryRow({
   );
 }
 
-export function WriterLibrary({ works, onOpenEditor, onOpenSettings, onOpenStorefront, onPreview }: Props) {
-  const [drafts, setDrafts] = useState<WriterLibraryWork[]>([]);
-  const rows = useMemo(() => [...works, ...drafts], [works, drafts]);
-  const publishedCount = rows.filter((w) => w.status === 'Published').length;
-  const chapterCount = rows.reduce((sum, w) => sum + w.publishedChapters, 0);
-  const reads = rows.reduce((sum, w) => sum + w.activity.reads, 0);
-
-  const addWork = () => {
-    setDrafts((current) => [...current, makeDraftWork(current.length + 1)]);
-  };
+export function WriterLibrary({ works, allWorks, onAddWork, onOpenEditor, onOpenSettings, onOpenStorefront, onPreview }: Props) {
+  const publishedCount = allWorks.filter((w) => w.status === 'Published').length;
+  const chapterCount = allWorks.reduce((sum, w) => sum + w.publishedChapters, 0);
+  const reads = allWorks.reduce((sum, w) => sum + w.activity.reads, 0);
 
   return (
     <div className="br-write-library">
-      <div className="br-write-lib-inner">
-        <header className="br-write-lib-head">
-          <div>
-            <div className="br-write-lib-eyebrow">Writer library</div>
-            <h1>My published work</h1>
-            <p>Book status, reader access, and storefront setup before you enter the writing room.</p>
-          </div>
-          <button type="button" className="br-write-lib-add" onClick={addWork}>
-            + Add work
-          </button>
-        </header>
+      <div className="br-write-lib-summary" aria-label="Writing library summary">
+        <Metric value={publishedCount.toString()} label="published" />
+        <Metric value={chapterCount.toString()} label="chapters live" />
+        <Metric value={compact(reads)} label="total reads" />
+        <Metric value={works.length.toString()} label="shown" />
+      </div>
 
-        <div className="br-write-lib-summary" aria-label="Writing library summary">
-          <Metric value={publishedCount.toString()} label="published" />
-          <Metric value={chapterCount.toString()} label="chapters live" />
-          <Metric value={compact(reads)} label="total reads" />
-        </div>
-
-        <div className="br-write-lib-table" role="list" aria-label="Writer works">
-          {rows.map((work) => (
-            <WriterLibraryRow
-              key={work.id}
-              work={work}
-              canOpen={!work.id.startsWith('local-draft-')}
-              onOpenEditor={onOpenEditor}
-              onOpenSettings={onOpenSettings}
-              onOpenStorefront={onOpenStorefront}
-              onPreview={onPreview}
-            />
-          ))}
-          <button type="button" className="br-write-lib-newrow" onClick={addWork}>
-            <span>+</span>
-            <strong>Add another work</strong>
-            <em>New pieces appear below this library table.</em>
-          </button>
-        </div>
+      <div className="br-write-lib-table" role="list" aria-label="Writer works">
+        {works.length === 0 ? (
+          <div className="br-write-lib-empty">No works match this filter.</div>
+        ) : null}
+        {works.map((work) => (
+          <WriterLibraryRow
+            key={work.id}
+            work={work}
+            canOpen={!work.id.startsWith('local-draft-')}
+            onOpenEditor={onOpenEditor}
+            onOpenSettings={onOpenSettings}
+            onOpenStorefront={onOpenStorefront}
+            onPreview={onPreview}
+          />
+        ))}
+        <button type="button" className="br-write-lib-newrow" onClick={onAddWork}>
+          <span>+</span>
+          <strong>Add another work</strong>
+          <em>New pieces appear below this library table.</em>
+        </button>
       </div>
     </div>
   );

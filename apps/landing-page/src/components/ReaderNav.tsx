@@ -13,7 +13,7 @@ const links: NavLink[] = [
   { href: '/read', label: 'Read' },
   { href: '/write', label: 'Write' },
   { href: '/betweenlines', label: 'Submit to Journal' },
-  { href: '/read?tab=betapicks', label: 'Beta Reading' },
+  { href: '/read?tab=betareading', label: 'Beta Reading' },
 ];
 
 export function ReaderNav() {

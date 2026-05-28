@@ -1,9 +1,10 @@
 'use client';
 
+import Link from 'next/link';
 import { useCart } from '@/lib/cart';
 
 export function CartBar() {
-  const { items, isOpen, lastAdded, clear } = useCart();
+  const { items, isOpen, lastAdded } = useCart();
 
   const title = lastAdded ? `${lastAdded.title} added` : 'Cart updated';
   const count = items.length;
@@ -16,9 +17,9 @@ export function CartBar() {
           {count} item{count === 1 ? '' : 's'} in cart
         </div>
       </div>
-      <button type="button" className="br-cart-go" onClick={() => clear()}>
+      <Link className="br-cart-go" href="/checkout?source=cart">
         Checkout
-      </button>
+      </Link>
     </div>
   );
 }

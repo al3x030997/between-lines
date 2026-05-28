@@ -7,6 +7,15 @@ type FilterDef = {
 
 export type FilterGroup = 'Mood' | 'Genre' | 'Type';
 export type FilterState = Record<string, boolean>;
+export type SidebarShelfId = 'all' | 'foryou' | 'readerpicks' | 'memberpicks' | 'new';
+
+const SHELF_FILTERS: { id: SidebarShelfId; label: string; meta: string }[] = [
+  { id: 'all', label: 'All', meta: 'Full shelf' },
+  { id: 'foryou', label: 'For You', meta: 'Matched' },
+  { id: 'readerpicks', label: 'Reader Picks', meta: 'Community' },
+  { id: 'memberpicks', label: 'Member Picks', meta: 'Co-op' },
+  { id: 'new', label: 'New This Week', meta: 'Fresh' },
+];
 
 const FILTERS: FilterDef[] = [
   {
@@ -107,11 +116,34 @@ export function hasActiveFilters(filters: FilterState): boolean {
 type FilterSidebarProps = {
   filters: FilterState;
   onToggle: (key: string) => void;
+  selectedShelf: SidebarShelfId;
+  onShelfChange: (id: SidebarShelfId) => void;
 };
 
-export function FilterSidebar({ filters, onToggle }: FilterSidebarProps) {
+export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange }: FilterSidebarProps) {
   return (
     <aside className="br-fsidebar" aria-label="Filter books">
+      <div className="br-fs-section br-fs-section-shelf">
+        <span className="br-fs-label">BetweenReads</span>
+        <div className="br-fs-shelf-grid">
+          {SHELF_FILTERS.map((item) => {
+            const on = selectedShelf === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={`br-fs-shelf-btn ${on ? 'is-on' : ''}`}
+                aria-pressed={on}
+                onClick={() => onShelfChange(item.id)}
+              >
+                <span>{item.label}</span>
+                <em>{item.meta}</em>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {FILTERS.map((group) => {
         const isPillGrid = group.label === 'Mood';
         const showCount = group.label === 'Genre';

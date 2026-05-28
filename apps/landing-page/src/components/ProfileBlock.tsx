@@ -3,6 +3,12 @@
 import Link from 'next/link';
 import { useMockSession } from '@/lib/useMockSession';
 
+function compact(n: number): string {
+  if (n >= 10000) return `${(n / 1000).toFixed(0)}k`;
+  if (n >= 1000) return `${(n / 1000).toFixed(1)}k`;
+  return n.toLocaleString('en-US');
+}
+
 export function ProfileBlock() {
   const { session } = useMockSession();
   if (!session) return null;
@@ -35,6 +41,16 @@ export function ProfileBlock() {
               <span className="br-pb-sc-lbl">SC</span>
             </span>
           ) : null}
+        </div>
+        <div className="br-pb-social" aria-label="Social">
+          <span className="br-pb-social-item">
+            <span className="br-pb-social-num">{compact(session.followers)}</span>
+            <span className="br-pb-social-lbl">followers</span>
+          </span>
+          <span className="br-pb-social-item">
+            <span className="br-pb-social-num">{compact(session.following)}</span>
+            <span className="br-pb-social-lbl">following</span>
+          </span>
         </div>
       </div>
     </Link>

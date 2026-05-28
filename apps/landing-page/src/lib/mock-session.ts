@@ -9,8 +9,13 @@ export type MockSession = {
   sc: number;
   tier: Tier;
   roles: Role[];
+  followers: number;
+  following: number;
   ts: number;
 };
+
+const DEFAULT_FOLLOWERS = 412;
+const DEFAULT_FOLLOWING = 38;
 
 const KEY = 'br_mock_session';
 
@@ -66,6 +71,8 @@ export function getMockSession(): MockSession | null {
       sc: typeof parsed.sc === 'number' && Number.isFinite(parsed.sc) ? parsed.sc : 0,
       tier: parsed.tier === 'Member' ? 'Member' : 'Reader',
       roles: parseRoles(parsed.roles),
+      followers: typeof parsed.followers === 'number' && Number.isFinite(parsed.followers) ? parsed.followers : DEFAULT_FOLLOWERS,
+      following: typeof parsed.following === 'number' && Number.isFinite(parsed.following) ? parsed.following : DEFAULT_FOLLOWING,
       ts: typeof parsed.ts === 'number' ? parsed.ts : Date.now(),
     };
   } catch {
@@ -81,6 +88,8 @@ export type SetSessionInput = {
   handle?: string;
   tier?: Tier;
   roles?: Role[];
+  followers?: number;
+  following?: number;
 };
 
 export function setMockSession(s: SetSessionInput): MockSession {
@@ -93,6 +102,8 @@ export function setMockSession(s: SetSessionInput): MockSession {
     sc: s.sc ?? 0,
     tier: s.tier ?? 'Reader',
     roles: s.roles && s.roles.length > 0 ? s.roles : ['reader'],
+    followers: s.followers ?? DEFAULT_FOLLOWERS,
+    following: s.following ?? DEFAULT_FOLLOWING,
     ts: Date.now(),
   };
   const serialized = JSON.stringify(session);
@@ -119,6 +130,8 @@ export function addRC(delta: number): number {
     sc: cur.sc,
     tier: cur.tier,
     roles: cur.roles,
+    followers: cur.followers,
+    following: cur.following,
   });
   return next;
 }
@@ -135,6 +148,8 @@ export function addSC(delta: number): number {
     sc: next,
     tier: cur.tier,
     roles: cur.roles,
+    followers: cur.followers,
+    following: cur.following,
   });
   return next;
 }
