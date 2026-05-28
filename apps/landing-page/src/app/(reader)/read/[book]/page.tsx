@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getBook } from '@/lib/mock-books';
 import { writerSlugForHandle } from '@/lib/mock-writers';
+import { CommunityVoices } from '@/components/CommunityVoices';
 
 type PageProps = {
   params: { book: string };
@@ -111,31 +112,33 @@ export default function BookPage({ params }: PageProps) {
       </section>
 
       <div className="br-book-stats">
-        <div className="br-bs-item">
-          <div className="br-bs-num">{book.wordsLabel ?? book.words.toLocaleString()}</div>
-          <div className="br-bs-lbl">Words</div>
-        </div>
-        <div className="br-bs-item">
-          <div className="br-bs-num">{book.chapterCount}</div>
-          <div className="br-bs-lbl">Chapters</div>
-        </div>
+        <span className="br-bs-item">
+          <span className="br-bs-num">{book.wordsLabel ?? book.words.toLocaleString()}</span>
+          <span className="br-bs-lbl">words</span>
+        </span>
+        <span className="br-bs-item">
+          <span className="br-bs-num">{book.chapterCount}</span>
+          <span className="br-bs-lbl">chapters</span>
+        </span>
         {book.readerPicks ? (
-          <div className="br-bs-item">
-            <div className="br-bs-num">{book.readerPicks}</div>
-            <div className="br-bs-lbl">Reader picks</div>
-          </div>
+          <span className="br-bs-item">
+            <span className="br-bs-num">{book.readerPicks}</span>
+            <span className="br-bs-lbl">reader picks</span>
+          </span>
         ) : null}
-        <div className="br-bs-item">
-          <div className="br-bs-num">{book.estRead}</div>
-          <div className="br-bs-lbl">Est. read</div>
-        </div>
+        <span className="br-bs-item">
+          <span className="br-bs-num">{book.estRead}</span>
+          <span className="br-bs-lbl">est. read</span>
+        </span>
         {book.publishYear ? (
-          <div className="br-bs-item">
-            <div className="br-bs-num">{book.publishYear}</div>
-            <div className="br-bs-lbl">Published</div>
-          </div>
+          <span className="br-bs-item">
+            <span className="br-bs-num">{book.publishYear}</span>
+            <span className="br-bs-lbl">published</span>
+          </span>
         ) : null}
       </div>
+
+      <CommunityVoices />
 
       <div className="br-chapters">
         <div className="br-chapters-label br-sec-title">Chapters</div>
