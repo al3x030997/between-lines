@@ -183,7 +183,7 @@ export function ChapterSettingsTab({ chapter, onCancel }: Props) {
           <div className="br-pf-toggle-row">
             <div>
               <div className="br-pf-toggle-label">Submit to BetweenLines Journal</div>
-              <div className="br-pf-toggle-sub">Editorial consideration — $5 entry fee</div>
+              <div className="br-pf-toggle-sub">Editorial consideration — $2 entry fee</div>
             </div>
             <label className="br-pf-toggle">
               <input type="checkbox" />

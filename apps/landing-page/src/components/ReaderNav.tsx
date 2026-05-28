@@ -12,7 +12,7 @@ type NavLink = { href: string; label: string; requiresWriter?: boolean };
 const links: NavLink[] = [
   { href: '/read', label: 'Read' },
   { href: '/write', label: 'Write' },
-  { href: '/write?tab=journal', label: 'Submit to Journal' },
+  { href: '/betweenlines', label: 'Submit to Journal' },
   { href: '/read?tab=betapicks', label: 'Beta Reading' },
 ];
 
