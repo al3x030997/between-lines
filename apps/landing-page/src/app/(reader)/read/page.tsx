@@ -143,30 +143,30 @@ function DiscoverContent() {
   );
 
   return (
-    <div className="br-discover">
-      <FilterSidebar filters={filters} onToggle={toggle} />
-      <div className="br-discover-main">
-        <header className="br-discover-head">
-          <div>
-            <h1 className="br-discover-h1">Discover</h1>
-            <p className="br-discover-sub">Stories matched to your current mood</p>
-          </div>
-          <div className="br-discover-actions">
-            <button type="button" className="br-sort" aria-disabled="true">
-              <span aria-hidden="true">↕</span> Sort: Relevance <span aria-hidden="true">▾</span>
-            </button>
-            <button type="button" className="br-btn br-btn-ghost br-discover-filters" aria-disabled="true">
-              <span aria-hidden="true">⚙</span> Filters
-            </button>
-          </div>
-        </header>
-
-        <StoreTabs<DiscoverTabId>
-          tabs={tabs}
-          active={active}
-          onChange={changeTab}
-          ariaLabel="Discover sections"
-        />
+    <>
+      <header className="br-discover-head">
+        <div>
+          <h1 className="br-discover-h1">Discover</h1>
+          <p className="br-discover-sub">Stories matched to your current mood</p>
+        </div>
+        <div className="br-discover-actions">
+          <button type="button" className="br-sort" aria-disabled="true">
+            <span aria-hidden="true">↕</span> Sort: Relevance <span aria-hidden="true">▾</span>
+          </button>
+          <button type="button" className="br-btn br-btn-ghost br-discover-filters" aria-disabled="true">
+            <span aria-hidden="true">⚙</span> Filters
+          </button>
+        </div>
+      </header>
+      <div className="br-discover">
+        <FilterSidebar filters={filters} onToggle={toggle} />
+        <div className="br-discover-main">
+          <StoreTabs<DiscoverTabId>
+            tabs={tabs}
+            active={active}
+            onChange={changeTab}
+            ariaLabel="Discover sections"
+          />
 
         <div className="br-stage">
           <ContinueReadingHero />
@@ -230,6 +230,7 @@ function DiscoverContent() {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
