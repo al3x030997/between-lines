@@ -13,6 +13,7 @@ import type {
   Toggle,
   WishCard,
 } from './profile-shared';
+import { getBook } from './mock-books';
 
 export type WipCard = {
   link: LinkRef;
@@ -768,6 +769,35 @@ export type WorkSummary = {
   stage: 'Drafting' | 'Editing' | 'Final';
 };
 
+export type WriterLibraryStatus = 'Published' | 'Drafting' | 'Editing' | 'Private';
+export type StorefrontState = 'Listed' | 'Not listed' | 'Setup needed';
+
+export type WriterLibraryWork = WorkSummary & {
+  format: string;
+  status: WriterLibraryStatus;
+  readiness: string;
+  cover: string;
+  coverIsDark?: boolean;
+  publishedChapters: number;
+  totalChapters: number;
+  words: number;
+  wordsLabel: string;
+  audience: string;
+  lastUpdated: string;
+  storefront: {
+    state: StorefrontState;
+    price: string;
+    options: string[];
+    note: string;
+  };
+  activity: {
+    reads: number;
+    readerPicks: number;
+    betaRequests: number;
+    coins: number;
+  };
+};
+
 const SARAH_WORKS: WorkSummary[] = [
   {
     id: 'salt-letters',
@@ -812,6 +842,187 @@ export function getWriterWorks(handle: string): WorkSummary[] {
   if (lower === 'midnightdraftsman') return MIDNIGHT_WORKS;
   if (lower === 'sarah-m') return SARAH_WORKS;
   return [];
+}
+
+function writerCover(theme: 'salt' | 'frost' | 'chair') {
+  if (theme === 'salt') {
+    return [
+      'linear-gradient(180deg, rgba(12, 14, 12, 0.04) 0%, rgba(12, 14, 12, 0.34) 62%, rgba(12, 14, 12, 0.62) 100%)',
+      'linear-gradient(145deg, #e7dcc9 0%, #9fb2a1 42%, #2d4d54 100%)',
+    ].join(', ');
+  }
+  if (theme === 'frost') {
+    return [
+      'linear-gradient(180deg, rgba(11, 16, 18, 0.02) 0%, rgba(11, 16, 18, 0.42) 100%)',
+      'linear-gradient(145deg, #edf5f0 0%, #9ab8b8 48%, #2f4350 100%)',
+    ].join(', ');
+  }
+  return [
+    'linear-gradient(180deg, rgba(7, 8, 7, 0.08) 0%, rgba(7, 8, 7, 0.5) 100%)',
+    'linear-gradient(145deg, #c4b18d 0%, #765f4c 48%, #211b18 100%)',
+  ].join(', ');
+}
+
+function formatCount(n: number) {
+  return n.toLocaleString('en-US');
+}
+
+const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
+  'salt-letters': {
+    meta: 'Literary Fiction · Novel',
+    format: 'Novel · 3 chapters live',
+    status: 'Published',
+    readiness: 'Ready',
+    cover: writerCover('salt'),
+    coverIsDark: true,
+    publishedChapters: 3,
+    totalChapters: 3,
+    words: 2180,
+    wordsLabel: '2,180',
+    audience: 'Public readers',
+    lastUpdated: 'Today',
+    storefront: {
+      state: 'Listed',
+      price: 'Free to start',
+      options: ['BetweenReads storefront', 'Reader preview enabled'],
+      note: 'Storefront is live',
+    },
+    activity: {
+      reads: 142,
+      readerPicks: 18,
+      betaRequests: 5,
+      coins: 75,
+    },
+  },
+  'first-frost': {
+    meta: 'Short Story',
+    format: 'Short Story · 1 chapter',
+    status: 'Editing',
+    readiness: 'Needs cover',
+    cover: writerCover('frost'),
+    coverIsDark: true,
+    publishedChapters: 0,
+    totalChapters: 1,
+    words: 3200,
+    wordsLabel: '3,200',
+    audience: 'Private draft',
+    lastUpdated: 'Yesterday',
+    storefront: {
+      state: 'Setup needed',
+      price: 'Not priced',
+      options: ['Cover required', 'Blurb draft missing'],
+      note: 'Finish setup before listing',
+    },
+    activity: {
+      reads: 0,
+      readerPicks: 0,
+      betaRequests: 0,
+      coins: 0,
+    },
+  },
+  'quiet-hours': {
+    meta: 'Literary Fiction · Novel',
+    status: 'Published',
+    readiness: 'Ready',
+    audience: 'Public + beta readers',
+    lastUpdated: '2 days ago',
+    storefront: {
+      state: 'Listed',
+      price: '$4.99 · 100 RC',
+      options: ['BetweenReads storefront', 'Amazon', 'Kobo'],
+      note: 'Storefront is live',
+    },
+    activity: {
+      reads: 1248,
+      readerPicks: 38,
+      betaRequests: 12,
+      coins: 410,
+    },
+  },
+  'three-tuesdays': {
+    meta: 'Literary Fiction · Short stories',
+    status: 'Drafting',
+    readiness: 'Needs chapters',
+    audience: 'Private draft',
+    lastUpdated: '5 days ago',
+    storefront: {
+      state: 'Not listed',
+      price: '$5.99 · 120 RC',
+      options: ['Storefront draft saved'],
+      note: 'List when the collection is complete',
+    },
+    activity: {
+      reads: 0,
+      readerPicks: 0,
+      betaRequests: 2,
+      coins: 0,
+    },
+  },
+  'the-empty-chair': {
+    meta: 'Short Story',
+    format: 'Short Story · Public',
+    status: 'Published',
+    readiness: 'Ready',
+    cover: writerCover('chair'),
+    coverIsDark: true,
+    publishedChapters: 1,
+    totalChapters: 1,
+    words: 4600,
+    wordsLabel: '4,600',
+    audience: 'Public readers',
+    lastUpdated: 'Last month',
+    storefront: {
+      state: 'Listed',
+      price: '$1.99 · 40 RC',
+      options: ['BetweenReads storefront'],
+      note: 'Eligible for magazine pool',
+    },
+    activity: {
+      reads: 710,
+      readerPicks: 24,
+      betaRequests: 0,
+      coins: 96,
+    },
+  },
+};
+
+export function getWriterLibraryWorks(handle: string): WriterLibraryWork[] {
+  return getWriterWorks(handle).map((work) => {
+    const book = work.bookSlug ? getBook(work.bookSlug) : undefined;
+    const override = LIBRARY_OVERRIDES[work.id] ?? {};
+    const publishedChapters =
+      override.publishedChapters ?? (book ? Math.max(1, book.chapters.filter((c) => c.words > 0).length) : 0);
+    const totalChapters = override.totalChapters ?? book?.chapterCount ?? Math.max(1, publishedChapters);
+    const words = override.words ?? book?.words ?? 0;
+
+    return {
+      ...work,
+      meta: override.meta ?? work.meta,
+      format: override.format ?? book?.format ?? work.meta,
+      status: override.status ?? (work.stage === 'Drafting' ? 'Drafting' : 'Editing'),
+      readiness: override.readiness ?? 'Needs review',
+      cover: override.cover ?? book?.cover ?? writerCover('chair'),
+      coverIsDark: override.coverIsDark ?? book?.coverIsDark,
+      publishedChapters,
+      totalChapters,
+      words,
+      wordsLabel: override.wordsLabel ?? book?.wordsLabel ?? formatCount(words),
+      audience: override.audience ?? 'Private draft',
+      lastUpdated: override.lastUpdated ?? 'This week',
+      storefront: override.storefront ?? {
+        state: 'Not listed',
+        price: book?.price ?? 'Not priced',
+        options: ['Storefront draft saved'],
+        note: 'Not visible in the store',
+      },
+      activity: override.activity ?? {
+        reads: book?.readerPicks ? book.readerPicks * 12 : 0,
+        readerPicks: book?.readerPicks ?? 0,
+        betaRequests: 0,
+        coins: 0,
+      },
+    };
+  });
 }
 
 // Re-export for components

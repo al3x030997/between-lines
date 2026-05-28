@@ -1,25 +1,33 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getBook, type Chapter } from '@/lib/mock-books';
-import { getWriterWorks, type WorkSummary } from '@/lib/mock-writers';
+import { getWriterLibraryWorks, getWriterWorks, type WorkSummary, type WriterLibraryWork } from '@/lib/mock-writers';
 import { useMockSession } from '@/lib/useMockSession';
 import { WorkDropdown } from './WorkDropdown';
 import { ChapterSidebar } from './ChapterSidebar';
 import { WriteTab } from './WriteTab';
 import { ChapterSettingsTab } from './ChapterSettingsTab';
 import { NovelSettingsTab } from './NovelSettingsTab';
+import { WriterLibrary } from './WriterLibrary';
 
 type Tab = 'write' | 'chsettings' | 'novelsettings';
+type View = 'library' | 'editor';
 
 export function WriteShell() {
   const { session, ready } = useMockSession();
   const params = useSearchParams();
+  const router = useRouter();
 
   const works: WorkSummary[] = useMemo(() => {
     if (!session) return [];
     return getWriterWorks(session.handle);
+  }, [session]);
+
+  const libraryWorks: WriterLibraryWork[] = useMemo(() => {
+    if (!session) return [];
+    return getWriterLibraryWorks(session.handle);
   }, [session]);
 
   // Selected work (defaults to first in the list, or matches ?work=<slug>)
@@ -67,16 +75,64 @@ export function WriteShell() {
   const activeChapter = chapters.find((c) => c.slug === activeChapterSlug) ?? null;
 
   // UI state
+  const [view, setView] = useState<View>('library');
   const [tab, setTab] = useState<Tab>('write');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
 
   useEffect(() => {
     const requestedTab = params.get('tab');
+    const requestedView = params.get('view');
+    const requestedWork = params.get('work');
+
+    if (
+      requestedView === 'editor' ||
+      requestedWork ||
+      requestedTab === 'journal' ||
+      requestedTab === 'chsettings' ||
+      requestedTab === 'novelsettings' ||
+      requestedTab === 'write'
+    ) {
+      setView('editor');
+    } else {
+      setView('library');
+    }
+
     if (requestedTab === 'journal' || requestedTab === 'chsettings') {
       setTab('chsettings');
+    } else if (requestedTab === 'novelsettings') {
+      setTab('novelsettings');
+    } else if (requestedTab === 'write') {
+      setTab('write');
     }
   }, [params]);
+
+  const openLibrary = () => {
+    setView('library');
+    setWorkMenuOpen(false);
+    router.push('/write');
+  };
+
+  const openEditorForWork = (id: string, nextTab: Tab = 'write') => {
+    if (!id) return;
+    setWorkId(id);
+    setTab(nextTab);
+    setView('editor');
+    setWorkMenuOpen(false);
+    const next = new URLSearchParams();
+    next.set('view', 'editor');
+    next.set('work', id);
+    if (nextTab !== 'write') next.set('tab', nextTab);
+    router.push(`/write?${next.toString()}`);
+  };
+
+  const previewWork = (work: WriterLibraryWork) => {
+    if (work.bookSlug) {
+      router.push(`/read/${work.bookSlug}`);
+      return;
+    }
+    openEditorForWork(work.id, 'write');
+  };
 
   if (!ready) {
     return (
@@ -107,22 +163,29 @@ export function WriteShell() {
       <div className="br-write-tabbar">
         <button
           type="button"
-          className={`br-write-tab ${tab === 'write' ? 'is-active' : ''}`}
-          onClick={() => setTab('write')}
+          className={`br-write-tab ${view === 'library' ? 'is-active' : ''}`}
+          onClick={openLibrary}
+        >
+          Library
+        </button>
+        <button
+          type="button"
+          className={`br-write-tab ${view === 'editor' && tab === 'write' ? 'is-active' : ''}`}
+          onClick={() => openEditorForWork(workId || works[0]?.id || '', 'write')}
         >
           Write
         </button>
         <button
           type="button"
-          className={`br-write-tab ${tab === 'chsettings' ? 'is-active' : ''}`}
-          onClick={() => setTab('chsettings')}
+          className={`br-write-tab ${view === 'editor' && tab === 'chsettings' ? 'is-active' : ''}`}
+          onClick={() => openEditorForWork(workId || works[0]?.id || '', 'chsettings')}
         >
           Chapter Settings
         </button>
         <button
           type="button"
-          className={`br-write-tab ${tab === 'novelsettings' ? 'is-active' : ''}`}
-          onClick={() => setTab('novelsettings')}
+          className={`br-write-tab ${view === 'editor' && tab === 'novelsettings' ? 'is-active' : ''}`}
+          onClick={() => openEditorForWork(workId || works[0]?.id || '', 'novelsettings')}
         >
           Novel Settings
         </button>
@@ -132,6 +195,7 @@ export function WriteShell() {
           onChange={(id) => {
             setWorkId(id);
             setWorkMenuOpen(false);
+            if (view === 'editor') openEditorForWork(id, tab);
           }}
           open={workMenuOpen}
           onToggle={() => setWorkMenuOpen((v) => !v)}
@@ -139,39 +203,49 @@ export function WriteShell() {
         />
       </div>
 
-      {/* Main split */}
-      <div className="br-write-main">
-        <ChapterSidebar
-          collapsed={sidebarCollapsed}
-          onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
-          work={activeWork}
-          chapters={chapters}
-          activeSlug={activeChapterSlug}
-          onSelect={setActiveChapterSlug}
+      {view === 'library' ? (
+        <WriterLibrary
+          works={libraryWorks}
+          onOpenEditor={(id) => openEditorForWork(id, 'write')}
+          onOpenSettings={(id) => openEditorForWork(id, 'novelsettings')}
+          onOpenStorefront={(id) => openEditorForWork(id, 'novelsettings')}
+          onPreview={previewWork}
         />
-        <div className="br-write-right">
-          {tab === 'write' ? (
-            <WriteTab
-              workTitle={activeWork?.title ?? ''}
-              chapter={activeChapter}
-              onTitleEdit={(newTitle) => {
-                // Mocked — in v1 we don't persist
-                if (activeChapter) activeChapter.title = newTitle;
-              }}
-            />
-          ) : null}
-          {tab === 'chsettings' ? (
-            <ChapterSettingsTab chapter={activeChapter} onCancel={() => setTab('write')} />
-          ) : null}
-          {tab === 'novelsettings' ? (
-            <NovelSettingsTab
-              work={activeWork}
-              chapters={chapters}
-              onCancel={() => setTab('write')}
-            />
-          ) : null}
+      ) : (
+        /* Main split */
+        <div className="br-write-main">
+          <ChapterSidebar
+            collapsed={sidebarCollapsed}
+            onToggleCollapse={() => setSidebarCollapsed((v) => !v)}
+            work={activeWork}
+            chapters={chapters}
+            activeSlug={activeChapterSlug}
+            onSelect={setActiveChapterSlug}
+          />
+          <div className="br-write-right">
+            {tab === 'write' ? (
+              <WriteTab
+                workTitle={activeWork?.title ?? ''}
+                chapter={activeChapter}
+                onTitleEdit={(newTitle) => {
+                  // Mocked — in v1 we don't persist
+                  if (activeChapter) activeChapter.title = newTitle;
+                }}
+              />
+            ) : null}
+            {tab === 'chsettings' ? (
+              <ChapterSettingsTab chapter={activeChapter} onCancel={() => setTab('write')} />
+            ) : null}
+            {tab === 'novelsettings' ? (
+              <NovelSettingsTab
+                work={activeWork}
+                chapters={chapters}
+                onCancel={() => setTab('write')}
+              />
+            ) : null}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
