@@ -882,13 +882,130 @@ body[data-quiet="true"] .br-progress { display: none; }
   flex-shrink: 0;
   background: var(--br-panel-bg);
   border-right: 0.5px solid var(--v11-divider);
-  /* top padding clears the tabs row (~55px) so the MOOD label sits below
-     the tabs' underline, not in line with the tab text */
-  padding: 3.75rem 0 2.5rem;
+  /* Top padding is small now — the ProfileBlock fills what used to be
+     empty space between the nav and the first filter group. */
+  padding: 1rem 0 2.5rem;
   position: sticky;
   top: 65px;
   height: calc(100vh - 65px);
   overflow-y: auto;
+}
+
+/* Profile block — top of the sidebar, fills the previously empty corner */
+.br-pb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 1rem 1.75rem;
+  padding: 14px;
+  border-radius: var(--br-radius-lg);
+  background: var(--br-panel-bg);
+  border: 0.5px solid var(--br-border-warm);
+  color: var(--v11-ink);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  text-decoration: none;
+}
+.br-pb:hover {
+  background: var(--br-panel-warm);
+  border-color: var(--v11-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--br-shadow-soft);
+}
+.br-pb-avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--v11-accent);
+  color: var(--theme-accent-contrast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--br-font-display);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1.5px solid var(--v11-accent-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.br-pb-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.br-pb-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--v11-ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.br-pb-tier {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: var(--v11-ink-mute);
+  line-height: 1.2;
+}
+.br-pb-tier-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: var(--br-premium-soft);
+  color: var(--br-premium-ink);
+  border: 0.5px solid var(--br-mint-border);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.br-pb-role {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--v11-ink-trace);
+}
+.br-pb-wallet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+.br-pb-rc,
+.br-pb-sc {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.br-pb-rc-num {
+  font-weight: 700;
+  color: var(--br-rc-gold);
+}
+.br-pb-rc-lbl {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--br-rc-gold-strong);
+  letter-spacing: 0.06em;
+}
+.br-pb-sc-num {
+  font-weight: 700;
+  color: var(--br-sc-green);
+}
+.br-pb-sc-lbl {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--br-sc-green-strong);
+  letter-spacing: 0.06em;
 }
 .br-fs-section { margin-bottom: 1.75rem; padding: 0 1rem; }
 .br-fs-label {

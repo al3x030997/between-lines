@@ -1,5 +1,7 @@
 'use client';
 
+import { ProfileBlock } from './ProfileBlock';
+
 type FilterDef = {
   label: FilterGroup;
   items: { emoji: string; label: string }[];
@@ -112,6 +114,7 @@ type FilterSidebarProps = {
 export function FilterSidebar({ filters, onToggle }: FilterSidebarProps) {
   return (
     <aside className="br-fsidebar" aria-label="Filter books">
+      <ProfileBlock />
       {FILTERS.map((group) => {
         const isPillGrid = group.label === 'Mood';
         const showCount = group.label === 'Genre';
