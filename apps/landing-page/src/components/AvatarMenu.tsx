@@ -35,6 +35,7 @@ export function AvatarMenu() {
   if (!session) return null;
 
   const isWriter = session.roles.includes('writer');
+  const roleLabel = isWriter ? 'Reader · Writer' : 'Reader';
 
   return (
     <div className="br-avatar-wrap" ref={wrapRef}>
@@ -50,31 +51,32 @@ export function AvatarMenu() {
       </button>
       <div className={`br-avatar-menu ${open ? 'is-open' : ''}`} role="menu">
         <div className="br-am-head">
-          <div className="br-am-name">{session.user}</div>
-          <div className="br-am-tier">
-            {session.tier}
-            {isWriter ? ' · Writer' : ''}
+          <div className="br-am-avatar-lg" aria-hidden="true">{session.initial}</div>
+          <div>
+            <div className="br-am-name">{session.user}</div>
+            <div className="br-am-tier">{roleLabel}</div>
           </div>
         </div>
-        <div className="br-am-rc">
-          <span className="br-am-rc-lbl">Reading Coins</span>
-          <span className="br-am-rc-val">{session.rc}</span>
-        </div>
-        {isWriter ? (
-          <div
-            className="br-am-rc"
-            style={{ background: 'var(--br-sc-green-soft)' }}
-          >
-            <span className="br-am-rc-lbl" style={{ color: 'var(--br-sc-green)' }}>Swap Coins</span>
-            <span className="br-am-rc-val" style={{ color: 'var(--br-sc-green)' }}>{session.sc}</span>
+        <div className="br-am-wallet" aria-label="Account balances">
+          <div className="br-am-rc">
+            <span className="br-am-rc-lbl">Reading Coins</span>
+            <span className="br-am-rc-val">{session.rc}</span>
           </div>
-        ) : null}
+          {isWriter ? (
+            <div className="br-am-rc is-swap">
+              <span className="br-am-rc-lbl">Swap Coins</span>
+              <span className="br-am-rc-val">{session.sc}</span>
+            </div>
+          ) : null}
+        </div>
         <div className="br-am-div" />
         <Link href="/profile" className="br-am-item" role="menuitem" onClick={close}>
-          👤 My Profile
+          <span className="br-am-item-label">My Profile</span>
+          <span className="br-am-item-meta">Public reader page</span>
         </Link>
         <Link href="/account" className="br-am-item" role="menuitem" onClick={close}>
-          📚 My Reading
+          <span className="br-am-item-label">My Reading</span>
+          <span className="br-am-item-meta">Library, progress, activity</span>
         </Link>
         {isWriter ? (
           <Link
@@ -83,25 +85,33 @@ export function AvatarMenu() {
             role="menuitem"
             onClick={close}
           >
-            🖊️ My Writer Page
+            <span className="br-am-item-label">My Writer Page</span>
+            <span className="br-am-item-meta">Public author presence</span>
           </Link>
         ) : null}
         {isWriter ? (
           <Link href="/write" className="br-am-item" role="menuitem" onClick={close}>
-            ✍️ Open Writing Room
+            <span className="br-am-item-label">Open Writing Room</span>
+            <span className="br-am-item-meta">Drafts and submissions</span>
           </Link>
         ) : null}
-        <div className="br-am-item" role="menuitem">🔔 Notifications</div>
-        <div className="br-am-item" role="menuitem">⚙️ Preferences</div>
+        <div className="br-am-div" />
+        <div className="br-am-item" role="menuitem">
+          <span className="br-am-item-label">Notifications</span>
+          <span className="br-am-item-meta">Reader pods and replies</span>
+        </div>
+        <div className="br-am-item" role="menuitem">
+          <span className="br-am-item-label">Preferences</span>
+          <span className="br-am-item-meta">Theme, privacy, quiet mode</span>
+        </div>
         <div className="br-am-div" />
         <button
           type="button"
-          className="br-am-item"
+          className="br-am-item br-am-signout"
           role="menuitem"
           onClick={handleSignOut}
-          style={{ background: 'none', border: 'none', width: '100%', textAlign: 'left' }}
         >
-          Sign out
+          <span className="br-am-item-label">Sign out</span>
         </button>
       </div>
     </div>

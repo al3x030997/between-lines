@@ -71,6 +71,13 @@ export function WriteShell() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
 
+  useEffect(() => {
+    const requestedTab = params.get('tab');
+    if (requestedTab === 'journal' || requestedTab === 'chsettings') {
+      setTab('chsettings');
+    }
+  }, [params]);
+
   if (!ready) {
     return (
       <main className="br-handoff">
