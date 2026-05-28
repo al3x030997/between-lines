@@ -11,6 +11,7 @@ import {
 import { ProductCard, type CardVariant } from '@/components/ProductCard';
 import { ContinueReadingHero } from '@/components/ContinueReadingHero';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
+import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
 
@@ -145,7 +146,8 @@ function DiscoverContent() {
   return (
     <>
       <header className="br-discover-head">
-        <div>
+        <ProfileBlock />
+        <div className="br-discover-head-title">
           <h1 className="br-discover-h1">Discover</h1>
           <p className="br-discover-sub">Stories matched to your current mood</p>
         </div>

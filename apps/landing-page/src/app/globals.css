@@ -882,22 +882,26 @@ body[data-quiet="true"] .br-progress { display: none; }
   flex-shrink: 0;
   background: var(--br-panel-bg);
   border-right: 0.5px solid var(--v11-divider);
-  /* Top padding is small now — the ProfileBlock fills what used to be
-     empty space between the nav and the first filter group. */
-  padding: 1rem 0 2.5rem;
+  /* top padding clears the tabs row (~55px) so the MOOD label sits below
+     the tabs' underline, not in line with the tab text */
+  padding: 3.75rem 0 2.5rem;
   position: sticky;
   top: 65px;
   height: calc(100vh - 65px);
   overflow-y: auto;
 }
 
-/* Profile block — top of the sidebar, fills the previously empty corner */
+/* Profile block — occupies the 240px left slot of .br-discover-head, sitting
+   horizontally aligned with the "Discover" h1 (top of the page content) and
+   spanning exactly the sidebar width below so the continuous vertical divider
+   at left: 240px lands cleanly at its right edge. */
 .br-pb {
+  flex: 0 0 calc(240px - 1rem);
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 0 1rem 1.75rem;
-  padding: 14px;
+  margin: 0 calc(1rem - 0.5px) 0 0.5rem;
+  padding: 12px 14px;
   border-radius: var(--br-radius-lg);
   background: var(--br-panel-bg);
   border: 0.5px solid var(--br-border-warm);
@@ -914,8 +918,8 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-pb-avatar {
   flex-shrink: 0;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--v11-accent);
   color: var(--theme-accent-contrast);
@@ -923,7 +927,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   align-items: center;
   justify-content: center;
   font-family: var(--br-font-display);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.01em;
   border: 1.5px solid var(--v11-accent-strong);
@@ -1183,20 +1187,24 @@ body[data-quiet="true"] .br-progress { display: none; }
   margin-bottom: 2.5rem;
 }
 
-/* Discover header — large Playfair heading + sort/filter actions.
-   Left padding aligns the heading with the first tab ("All") by offsetting
-   for the sidebar width (240px) + tabs container padding (2rem) + tab
-   button padding (1.25rem). Right side stays anchored to the page edge.
+/* Discover header — ProfileBlock (240px left slot) + Discover h1/sub + sort/filter actions.
+   The 240px ProfileBlock matches the sidebar width below it; the title group
+   pads left by (2rem + 1.25rem) so the h1 still aligns with the first tab ("All").
    ::before draws a continuous divider at the sidebar's right edge so the
    vertical line runs from the nav bottom down through the header. */
 .br-discover-head {
   width: 100%;
-  padding: 1.75rem 2rem 1.25rem calc(240px + 2rem + 1.25rem);
+  padding: 1.75rem 2rem 1.25rem 0;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem;
+  align-items: center;
+  gap: 0;
   position: relative;
+}
+.br-discover-head-title {
+  flex: 1;
+  min-width: 0;
+  padding-left: calc(2rem + 1.25rem);
+  align-self: flex-end;
 }
 .br-discover-head::before {
   content: '';
