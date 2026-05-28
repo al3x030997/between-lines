@@ -7,7 +7,8 @@ import {
   hasActiveFilters,
   matchesFilters,
 } from '@/components/FilterSidebar';
-import { ProductCard } from '@/components/ProductCard';
+import { ProductCard, type CardVariant } from '@/components/ProductCard';
+import { ContinueReadingHero } from '@/components/ContinueReadingHero';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
 
@@ -43,12 +44,13 @@ const visibility: Record<DiscoverTabId, Section['id'][]> = {
   new: ['new'],
 };
 
-function bookToCard(b: Book): React.ReactNode {
+function bookToCard(b: Book, variant: CardVariant = 'default'): React.ReactNode {
   const primaryBadge = b.badges[0];
   return (
     <ProductCard
       key={b.slug}
       kind="book"
+      variant={variant}
       href={`/read/${b.slug}`}
       title={b.title}
       author={b.author}
@@ -67,6 +69,7 @@ export default function DiscoverPage() {
   const [filters, setFilters] = useState<FilterState>({});
   const visible = new Set<Section['id']>(visibility[active]);
   const filtersActive = hasActiveFilters(filters);
+  const showFeaturedLayout = active === 'all' && !filtersActive;
 
   const toggle = useCallback((key: string) => {
     setFilters((prev) => {
@@ -79,49 +82,94 @@ export default function DiscoverPage() {
 
   const clearFilters = useCallback(() => setFilters({}), []);
 
-  const filteredSections = useMemo(() => {
+  const filteredBooks = useMemo(() => {
     return sections
       .filter((s) => visible.has(s.id))
-      .map((s) => ({ section: s, books: getBooksBySection(s.id).filter((b) => matchesFilters(b.tags, filters)) }))
-      .filter(({ books }) => books.length > 0);
+      .flatMap((s) => getBooksBySection(s.id))
+      .filter((b) => matchesFilters(b.tags, filters));
   }, [filters, visible]);
 
-  const totalFiltered = filteredSections.reduce((n, x) => n + x.books.length, 0);
+  const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
+  const recommendedBooks = useMemo(
+    () => [
+      ...getBooksBySection('foryou'),
+      ...getBooksBySection('new'),
+      ...getBooksBySection('classics'),
+    ],
+    [],
+  );
 
   return (
     <div className="br-discover">
       <FilterSidebar filters={filters} onToggle={toggle} />
       <div className="br-discover-main">
+        <header className="br-discover-head">
+          <div>
+            <h1 className="br-discover-h1">Discover</h1>
+            <p className="br-discover-sub">Stories matched to your current mood</p>
+          </div>
+          <div className="br-discover-actions">
+            <button type="button" className="br-sort" aria-disabled="true">
+              <span aria-hidden="true">↕</span> Sort: Relevance <span aria-hidden="true">▾</span>
+            </button>
+            <button type="button" className="br-btn br-btn-ghost br-discover-filters" aria-disabled="true">
+              <span aria-hidden="true">⚙</span> Filters
+            </button>
+          </div>
+        </header>
+
         <StoreTabs<DiscoverTabId>
           tabs={tabs}
           active={active}
           onChange={setActive}
           ariaLabel="Discover sections"
         />
+
         <div className="br-stage">
+          <ContinueReadingHero />
+
           {filtersActive && (
             <div className="br-filter-status" role="status" aria-live="polite">
               <span>
-                {totalFiltered === 0
+                {filteredBooks.length === 0
                   ? 'No books match your filters.'
-                  : `${totalFiltered} book${totalFiltered === 1 ? '' : 's'} match your filters.`}
+                  : `${filteredBooks.length} book${filteredBooks.length === 1 ? '' : 's'} match your filters.`}
               </span>
               <button type="button" className="br-filter-clear" onClick={clearFilters}>
                 Clear filters
               </button>
             </div>
           )}
-          {filteredSections.map(({ section: s, books }) => (
-            <section key={s.id} aria-labelledby={`br-sec-${s.id}`}>
-              <div className="br-sec-head">
-                <h2 id={`br-sec-${s.id}`} className="br-sec-title">
-                  {s.label}
-                </h2>
-                <a className="br-sec-link">See all</a>
+
+          {showFeaturedLayout ? (
+            <>
+              <section aria-labelledby="br-sec-featured">
+                <div className="br-sec-head">
+                  <h2 id="br-sec-featured" className="br-sec-label">Featured this week</h2>
+                  <a className="br-sec-link">View all</a>
+                </div>
+                <div className="br-featured-row">
+                  {featuredBooks.map((b) => bookToCard(b, 'featured'))}
+                </div>
+              </section>
+
+              <section aria-labelledby="br-sec-recommended">
+                <div className="br-sec-head">
+                  <h2 id="br-sec-recommended" className="br-sec-label">Recommended for you</h2>
+                  <a className="br-sec-link">View all</a>
+                </div>
+                <div className="br-recommended-row">
+                  {recommendedBooks.map((b) => bookToCard(b, 'compact'))}
+                </div>
+              </section>
+            </>
+          ) : (
+            <section aria-label="Filtered books">
+              <div className="br-recommended-row">
+                {filteredBooks.map((b) => bookToCard(b, 'compact'))}
               </div>
-              <div className="br-grid">{books.map(bookToCard)}</div>
             </section>
-          ))}
+          )}
         </div>
       </div>
     </div>

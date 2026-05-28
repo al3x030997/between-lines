@@ -51,6 +51,23 @@ const FILTERS: FilterDef[] = [
   },
 ];
 
+const GENRE_COUNTS: Record<string, number> = {
+  Fantasy: 128,
+  Historical: 94,
+  Horror: 72,
+  'Literary Fiction': 156,
+  Mystery: 118,
+  Romance: 142,
+  'Sci-fi': 89,
+  Thriller: 101,
+  'Young Adult': 76,
+};
+
+const SAVED_FILTERS: { label: string; meta: string; count: number }[] = [
+  { label: 'Weekend reads', meta: 'Calming, Short Story, Novella', count: 12 },
+  { label: 'Epic fantasy', meta: 'Fantasy, Novel, 80k+ words', count: 28 },
+];
+
 export function filterKey(group: FilterGroup, label: string): string {
   return `${group}:${label}`;
 }
@@ -95,26 +112,77 @@ type FilterSidebarProps = {
 export function FilterSidebar({ filters, onToggle }: FilterSidebarProps) {
   return (
     <aside className="br-fsidebar" aria-label="Filter books">
-      {FILTERS.map((group) => (
-        <div className="br-fs-section" key={group.label}>
-          <span className="br-fs-label">{group.label}</span>
-          {group.items.map((it) => {
-            const key = filterKey(group.label, it.label);
-            const on = !!filters[key];
-            return (
-              <button
-                key={key}
-                type="button"
-                className={`br-fs-btn ${on ? 'is-on' : ''}`}
-                aria-pressed={on}
-                onClick={() => onToggle(key)}
-              >
-                <span aria-hidden="true">{it.emoji}</span> {it.label}
-              </button>
-            );
-          })}
+      {FILTERS.map((group) => {
+        const isPillGrid = group.label === 'Mood';
+        const showCount = group.label === 'Genre';
+        return (
+          <div className="br-fs-section" key={group.label}>
+            <span className="br-fs-label">{group.label}</span>
+            {isPillGrid ? (
+              <div className="br-fs-pills">
+                {group.items.map((it) => {
+                  const key = filterKey(group.label, it.label);
+                  const on = !!filters[key];
+                  return (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`br-fs-pill ${on ? 'is-on' : ''}`}
+                      aria-pressed={on}
+                      onClick={() => onToggle(key)}
+                    >
+                      <span aria-hidden="true">{it.emoji}</span>
+                      <span>{it.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              group.items.map((it) => {
+                const key = filterKey(group.label, it.label);
+                const on = !!filters[key];
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    className={`br-fs-row ${on ? 'is-on' : ''}`}
+                    aria-pressed={on}
+                    onClick={() => onToggle(key)}
+                  >
+                    <span className="br-fs-row-emoji" aria-hidden="true">{it.emoji}</span>
+                    <span className="br-fs-row-label">{it.label}</span>
+                    {showCount ? (
+                      <span className="br-fs-count">{GENRE_COUNTS[it.label]}</span>
+                    ) : null}
+                  </button>
+                );
+              })
+            )}
+          </div>
+        );
+      })}
+
+      <button type="button" className="br-fs-more" aria-disabled="true">
+        <span>More filters</span>
+        <span aria-hidden="true">→</span>
+      </button>
+
+      <div className="br-fs-saved">
+        <div className="br-fs-saved-head">
+          <span className="br-fs-label">Saved filters</span>
+          <span className="br-fs-saved-gear" aria-hidden="true">⚙</span>
         </div>
-      ))}
+        {SAVED_FILTERS.map((s) => (
+          <button key={s.label} type="button" className="br-fs-saved-item">
+            <span className="br-fs-saved-bookmark" aria-hidden="true">🔖</span>
+            <span className="br-fs-saved-body">
+              <span className="br-fs-saved-title">{s.label}</span>
+              <span className="br-fs-saved-meta">{s.meta}</span>
+            </span>
+            <span className="br-fs-saved-count">{s.count}</span>
+          </button>
+        ))}
+      </div>
     </aside>
   );
 }

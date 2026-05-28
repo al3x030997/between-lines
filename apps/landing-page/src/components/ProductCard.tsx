@@ -38,7 +38,9 @@ type Product = {
   memberPrice?: string;
 };
 
-export type ProductCardProps = Book | Product;
+export type CardVariant = 'default' | 'featured' | 'compact';
+
+export type ProductCardProps = (Book | Product) & { variant?: CardVariant };
 
 export function ProductCard(props: ProductCardProps) {
   const cart = useCart();
@@ -64,9 +66,13 @@ export function ProductCard(props: ProductCardProps) {
     coverStyle.background = props.cover;
   }
 
+  const variant: CardVariant = props.variant ?? 'default';
+  const variantClass = variant === 'featured' ? ' is-featured' : variant === 'compact' ? ' is-compact' : '';
+  const isFeatured = variant === 'featured';
+
   return (
     <article
-      className="br-card"
+      className={`br-card${variantClass}`}
       onClick={handleClick}
       role={props.kind === 'book' ? 'link' : 'group'}
       style={props.kind === 'product' ? { cursor: 'default' } : undefined}
@@ -92,6 +98,18 @@ export function ProductCard(props: ProductCardProps) {
             </div>
           </div>
         )}
+
+        {isFeatured && props.kind === 'book' ? (
+          <div className="br-card-overlay">
+            <p className="br-card-overlay-blurb">{props.blurb}</p>
+            <div className="br-card-overlay-foot">
+              <span className="br-card-overlay-format">{props.format}</span>
+              <span className={`br-card-overlay-access ${props.access.type === 'free' ? 'is-free' : 'is-rc'}`}>
+                {props.access.label}
+              </span>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       <div className="br-card-info">
