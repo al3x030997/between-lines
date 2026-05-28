@@ -845,7 +845,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   flex-shrink: 0;
   background: var(--br-panel-bg);
   border-right: 0.5px solid var(--v11-divider);
-  padding: 1.75rem 0 2.5rem;
+  /* top padding clears the tabs row (~55px) so the MOOD label sits below
+     the tabs' underline, not in line with the tab text */
+  padding: 3.75rem 0 2.5rem;
   position: sticky;
   top: 65px;
   height: calc(100vh - 65px);
@@ -1030,7 +1032,9 @@ body[data-quiet="true"] .br-progress { display: none; }
 /* Discover header — large Playfair heading + sort/filter actions.
    Left padding aligns the heading with the first tab ("All") by offsetting
    for the sidebar width (240px) + tabs container padding (2rem) + tab
-   button padding (1.25rem). Right side stays anchored to the page edge. */
+   button padding (1.25rem). Right side stays anchored to the page edge.
+   ::before draws a continuous divider at the sidebar's right edge so the
+   vertical line runs from the nav bottom down through the header. */
 .br-discover-head {
   width: 100%;
   padding: 1.75rem 2rem 1.25rem calc(240px + 2rem + 1.25rem);
@@ -1038,6 +1042,17 @@ body[data-quiet="true"] .br-progress { display: none; }
   align-items: flex-end;
   justify-content: space-between;
   gap: 1.5rem;
+  position: relative;
+}
+.br-discover-head::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 240px;
+  width: 0.5px;
+  background: var(--v11-divider);
+  pointer-events: none;
 }
 .br-discover-h1 {
   font-family: var(--br-font-display);
