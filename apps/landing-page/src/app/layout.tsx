@@ -1,22 +1,37 @@
 import type { Metadata } from 'next';
 import { Analytics } from '@vercel/analytics/react';
+import { ThemeBoundary } from '@/components/ThemeBoundary';
 import './globals.css';
 
+// Landing pages are locked to light; reader pages (paths under the
+// (reader) route group) default to dark and respect the stored preference.
+// Mirrored in lib/theme.ts — keep the two in sync.
 const THEME_INIT_SCRIPT = `
 (function () {
   try {
     var key = 'betweenreads.theme';
+    var path = window.location.pathname;
+    var readerPrefixes = ['/read','/write','/account','/profile','/reader','/writer','/store'];
+    var isReader = readerPrefixes.some(function (p) {
+      return path === p || path.indexOf(p + '/') === 0 || path.indexOf(p + '?') === 0;
+    });
+    var root = document.documentElement;
+    if (!isReader) {
+      root.dataset.theme = 'light';
+      root.dataset.themePreference = 'light';
+      root.style.colorScheme = 'light';
+      return;
+    }
     var stored = window.localStorage.getItem(key);
-    var setting = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'system';
+    var setting = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'dark';
     var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     var resolved = setting === 'system' ? (systemDark ? 'dark' : 'light') : setting;
-    var root = document.documentElement;
     root.dataset.theme = resolved;
     root.dataset.themePreference = setting;
     root.style.colorScheme = resolved;
   } catch (_) {
     document.documentElement.dataset.theme = 'light';
-    document.documentElement.dataset.themePreference = 'system';
+    document.documentElement.dataset.themePreference = 'light';
   }
 })();
 `;
@@ -33,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
+        <ThemeBoundary />
         {children}
         <Analytics />
       </body>

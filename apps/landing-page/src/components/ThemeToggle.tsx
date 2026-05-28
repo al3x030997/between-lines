@@ -10,9 +10,9 @@ import {
 } from '@/lib/theme';
 
 const NEXT_THEME: Record<ThemeSetting, ThemeSetting> = {
-  system: 'dark',
   dark: 'light',
   light: 'system',
+  system: 'dark',
 };
 
 const THEME_ICON: Record<ThemeSetting, string> = {
@@ -32,12 +32,12 @@ type Props = {
 };
 
 export function ThemeToggle({ className = '' }: Props) {
-  const [setting, setSetting] = useState<ThemeSetting>('system');
-  const [resolved, setResolved] = useState<ResolvedTheme>('light');
+  const [setting, setSetting] = useState<ThemeSetting>('dark');
+  const [resolved, setResolved] = useState<ResolvedTheme>('dark');
 
   useEffect(() => {
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
-    const initial = isThemeSetting(stored) ? stored : 'system';
+    const initial = isThemeSetting(stored) ? stored : 'dark';
     setSetting(initial);
     setResolved(applyTheme(initial));
   }, []);

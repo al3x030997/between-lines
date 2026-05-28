@@ -11,7 +11,6 @@ import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
 import { SignInButton } from '@/components/SignInButton';
-import { ThemeToggle } from '@/components/ThemeToggle';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -523,7 +522,6 @@ export default function V11Page() {
             <Link className="v11-nav-link support" href="/about">Support Us</Link>
           </div>
           <div className="v11-nav-right">
-            <ThemeToggle className="v11-theme-toggle" />
             <button
               type="button"
               className="v11-btn-join"
