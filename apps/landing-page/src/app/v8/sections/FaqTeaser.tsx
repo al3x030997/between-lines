@@ -73,8 +73,8 @@ const STYLES = `
   flex-direction: column;
   gap: 10px;
   padding: 24px 26px 22px;
-  background: var(--bl-surface);
-  border: 1px solid rgba(14,14,12,0.1);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-subtle);
   border-radius: 14px;
   text-decoration: none;
   color: inherit;
@@ -96,8 +96,8 @@ const STYLES = `
 }
 .bl-faq-card:hover,
 .bl-faq-card:focus-visible {
-  border-color: rgba(14,14,12,0.2);
-  box-shadow: 0 14px 32px rgba(14,14,12,0.07);
+  border-color: var(--theme-border);
+  box-shadow: 0 14px 32px rgb(var(--theme-shadow-rgb) / 0.16);
   transform: translateY(-2px);
   outline: none;
 }
@@ -255,7 +255,7 @@ const STYLES = `
   border: none;
   border-radius: 999px;
   background: var(--bl-accent);
-  color: #fff;
+  color: var(--theme-accent-contrast);
   font-family: var(--bl-font-eyebrow);
   font-size: 12px;
   font-weight: 600;

@@ -14,12 +14,12 @@ const CSS = `
   justify-content: center;
   padding: clamp(16px, 4vh, 48px) clamp(16px, 4vw, 32px);
   font-family: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
-  color: #0e0e0c;
+  color: var(--theme-text);
 }
 .su-scrim {
   position: absolute;
   inset: 0;
-  background: rgba(14, 14, 12, 0.5);
+  background: var(--theme-overlay);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   animation: su-fade 220ms ease both;
@@ -28,13 +28,13 @@ const CSS = `
   position: relative;
   width: min(460px, 100%);
   max-height: 100%;
-  background: #ffffff;
+  background: var(--theme-surface);
   overflow-y: auto;
   padding: 48px clamp(28px, 5vw, 56px) 48px;
   border-radius: 18px;
   box-shadow:
-    0 1px 0 rgba(14, 14, 12, 0.04),
-    0 28px 80px rgba(14, 14, 12, 0.32);
+    0 1px 0 rgb(var(--theme-shadow-rgb) / 0.08),
+    0 28px 80px rgb(var(--theme-shadow-rgb) / 0.42);
   animation: su-pop 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .su-close {
@@ -47,13 +47,13 @@ const CSS = `
   background: transparent;
   font-size: 26px;
   line-height: 1;
-  color: #0e0e0c;
+  color: var(--theme-text);
   cursor: pointer;
   border-radius: 999px;
   transition: background 180ms ease, color 180ms ease;
 }
 .su-close:hover {
-  background: rgba(14, 14, 12, 0.06);
+  background: var(--theme-surface-muted);
   color: var(--v6-accent);
 }
 .su-eyebrow {
@@ -81,7 +81,7 @@ const CSS = `
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
   line-height: 1.5;
-  color: #4d4d47;
+  color: var(--theme-text-muted);
   margin: 0 0 26px;
   max-width: 36ch;
   text-wrap: pretty;
@@ -102,21 +102,21 @@ const CSS = `
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: #6a6a64;
+  color: var(--theme-text-muted);
 }
 .su-input {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
   font-size: 15px;
   padding: 12px 14px;
-  border: 1px solid rgba(14, 14, 12, 0.2);
+  border: 1px solid var(--theme-border);
   border-radius: 8px;
-  background: #ffffff;
-  color: #0e0e0c;
+  background: var(--theme-surface-raised);
+  color: var(--theme-text);
   width: 100%;
   transition: border-color 160ms var(--v6-ease, ease), background 160ms var(--v6-ease, ease);
 }
-.su-input::placeholder { color: rgba(14, 14, 12, 0.45); }
+.su-input::placeholder { color: color-mix(in srgb, var(--theme-text) 45%, transparent); }
 .su-input:focus {
   outline: none;
   border-color: var(--v6-accent);
@@ -130,7 +130,7 @@ const CSS = `
   font-family: 'Outfit', sans-serif;
   font-size: 13px;
   line-height: 1.45;
-  color: #4d4d47;
+  color: var(--theme-text-muted);
   cursor: pointer;
 }
 .su-consent input[type="checkbox"] {
@@ -156,21 +156,21 @@ const CSS = `
   border-radius: 999px;
   border: 1px solid transparent;
   background: var(--v6-accent);
-  color: #ffffff;
+  color: var(--theme-accent-contrast);
   cursor: pointer;
   margin-top: 6px;
   transition: background 160ms ease, transform 120ms ease;
 }
 .su-btn:hover { filter: brightness(0.92); }
 .su-btn:disabled {
-  background: rgba(14, 14, 12, 0.18);
+  background: var(--theme-border);
   cursor: not-allowed;
 }
 .su-foot {
   margin-top: 22px;
   font-family: 'Outfit', sans-serif;
   font-size: 13px;
-  color: #6a6a64;
+  color: var(--theme-text-muted);
   text-align: center;
 }
 .su-error {

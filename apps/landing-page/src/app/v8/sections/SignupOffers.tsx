@@ -209,7 +209,7 @@ const CSS = `
   min-width: 0;
 }
 .bl-offers-divider {
-  background: rgba(10, 10, 10, 0.18);
+  background: color-mix(in srgb, var(--bl-footer-fg) 18%, transparent);
   width: 1px;
   align-self: stretch;
 }
@@ -274,7 +274,7 @@ const CSS = `
   font-family: var(--bl-font-body);
   font-size: 15.5px;
   line-height: 1.6;
-  color: rgba(10, 10, 10, 0.74);
+  color: color-mix(in srgb, var(--bl-footer-fg) 74%, transparent);
   margin: 0;
   max-width: 46ch;
   text-wrap: pretty;
@@ -341,7 +341,7 @@ const CSS = `
 .bl-offers-wave {
   flex: 1;
   height: 48px;
-  fill: rgba(10, 10, 10, 0.4);
+  fill: color-mix(in srgb, var(--bl-footer-fg) 40%, transparent);
   display: block;
 }
 .bl-offers-play {
@@ -368,7 +368,7 @@ const CSS = `
   align-items: center;
   gap: 12px;
   background: var(--bl-accent);
-  color: var(--bl-paper-bg);
+  color: var(--theme-accent-contrast);
   padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
@@ -383,11 +383,11 @@ const CSS = `
   background: transparent;
   color: var(--bl-footer-fg);
   box-shadow: none;
-  border: 1px solid rgba(10, 10, 10, 0.55);
+  border: 1px solid color-mix(in srgb, var(--bl-footer-fg) 55%, transparent);
 }
 .bl-offers-cta-ghost:hover {
-  background: rgba(10, 10, 10, 0.06);
-  border-color: rgba(10, 10, 10, 0.85);
+  background: color-mix(in srgb, var(--bl-footer-fg) 6%, transparent);
+  border-color: color-mix(in srgb, var(--bl-footer-fg) 85%, transparent);
   box-shadow: none;
 }
 .bl-offers-cta-arrow {

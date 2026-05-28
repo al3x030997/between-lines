@@ -11,6 +11,7 @@ import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
 import { SignInButton } from '@/components/SignInButton';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -21,29 +22,30 @@ const BANNER_MESSAGES: Record<string, string> = {
 
 const V11_CSS = `
 .v11-root {
-  --v11-yellow: #FFE600;
-  --v11-yellow-strong: #f0d800;
-  --v11-ink: #1a1a1a;
-  --v11-ink-soft: #444;
-  --v11-divider: #e8e4dc;
-  --v11-accent: #0F6E56;
-  --v11-accent-strong: #1D9E75;
-  --v11-accent-soft: #E1F5EE;
+  --v11-yellow: var(--theme-yellow);
+  --v11-yellow-strong: var(--theme-yellow-strong);
+  --v11-ink: var(--theme-text);
+  --v11-ink-soft: var(--theme-text-soft);
+  --v11-divider: var(--theme-border);
+  --v11-accent: var(--theme-accent);
+  --v11-accent-strong: var(--theme-accent-strong);
+  --v11-accent-soft: var(--theme-accent-soft);
   --v6-accent: var(--v11-accent);
   --v6-accent-soft: var(--v11-accent-soft);
   --v6-text: var(--v11-ink);
   --v6-text-strong: var(--v11-ink);
-  --v6-text-muted: #14140f;
-  --v6-surface: var(--v11-yellow);
+  --v6-text-muted: var(--theme-text-muted);
+  --v6-surface: var(--theme-hero);
   --v6-divider: var(--v11-divider);
   --v6-ease: cubic-bezier(.22, 1, .36, 1);
   --bl-section-accent: var(--v11-accent);
   --bl-footer-accent: var(--v11-accent);
-  --bl-footer-bg: var(--v11-yellow);
+  --bl-footer-bg: var(--theme-footer-bg);
   min-height: 100vh;
-  background: #fff;
+  background: var(--theme-page);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: var(--v11-ink);
+  transition: background-color 220ms var(--v6-ease), color 220ms var(--v6-ease);
 }
 
 /* === Navbar (white) === */
@@ -51,7 +53,10 @@ const V11_CSS = `
   position: sticky;
   top: 0;
   z-index: 10;
-  background: #fff;
+  background: color-mix(in srgb, var(--theme-surface) 94%, transparent);
+  border-bottom: 1px solid var(--theme-border-subtle);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   width: 100%;
 }
 .v11-nav-inner {
@@ -107,7 +112,7 @@ const V11_CSS = `
   font-weight: 400;
 }
 .v11-nav-link:hover {
-  background: #f5f0e8;
+  background: var(--theme-surface-muted);
   color: var(--v11-ink);
 }
 .v11-nav-link.active {
@@ -137,7 +142,7 @@ const V11_CSS = `
 .v11-btn-join {
   font-size: 13px;
   font-weight: 800;
-  color: var(--v11-ink);
+  color: var(--theme-on-yellow);
   background: var(--v11-yellow);
   padding: 8px 18px;
   border-radius: 6px;
@@ -156,18 +161,18 @@ const V11_CSS = `
   background: transparent;
   padding: 7px 13px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--theme-border);
   cursor: pointer;
   transition: background 0.15s;
   white-space: nowrap;
   font-family: inherit;
   text-decoration: none;
 }
-.v11-btn-signin:hover { background: #f5f3ef; }
+.v11-btn-signin:hover { background: var(--theme-surface-muted); }
 .v11-nav-divider {
   width: 1px;
   height: 20px;
-  background: #e0ddd5;
+  background: var(--theme-border);
   margin: 0 2px;
 }
 
@@ -181,7 +186,7 @@ const V11_CSS = `
 
 /* === Hero (yellow, full screen) === */
 .v11-hero {
-  background: var(--v11-yellow);
+  background: var(--theme-hero);
   padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px);
   text-align: center;
   display: flex;
@@ -203,7 +208,7 @@ const V11_CSS = `
   align-items: stretch;
   padding-top: 0;
   padding-bottom: 0;
-  background: #fff;
+  background: var(--theme-page);
 }
 .v11-hero-inner {
   max-width: 980px;
@@ -233,7 +238,7 @@ const V11_CSS = `
   font-size: clamp(44px, 7.5vw, 82px);
   font-weight: 900;
   line-height: 1.0;
-  color: var(--v11-ink);
+  color: var(--theme-hero-text);
   letter-spacing: -2px;
   max-width: 960px;
   text-wrap: balance;
@@ -247,7 +252,7 @@ const V11_CSS = `
   text-decoration: underline;
   text-decoration-thickness: 0.08em;
   text-underline-offset: 0.08em;
-  text-decoration-color: rgba(15, 110, 86, 0.75);
+  text-decoration-color: color-mix(in srgb, var(--v11-accent) 75%, transparent);
 }
 
 .v11-proof-strip {
@@ -262,10 +267,10 @@ const V11_CSS = `
   align-items: center;
   min-height: 30px;
   padding: 6px 12px;
-  border: 1.5px solid rgba(26, 26, 26, 0.48);
+  border: 1.5px solid color-mix(in srgb, var(--theme-hero-text) 48%, transparent);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.32);
-  color: rgba(26, 26, 26, 0.72);
+  background: var(--theme-hero-subtle);
+  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -288,7 +293,7 @@ const V11_CSS = `
   justify-content: space-between;
   gap: 18px;
   color: var(--v11-ink);
-  background: rgba(255, 255, 255, 0.78);
+  background: rgb(var(--theme-surface-rgb) / 0.78);
   border: 2px solid var(--v11-ink);
   border-radius: 0;
   padding: 18px 20px 16px;
@@ -318,7 +323,7 @@ const V11_CSS = `
   font-weight: 900;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(26, 26, 26, 0.62);
+  color: color-mix(in srgb, var(--v11-ink) 62%, transparent);
 }
 .v11-cta-main {
   max-width: 9ch;
@@ -330,7 +335,7 @@ const V11_CSS = `
 }
 .v11-cta:hover,
 .v11-cta:focus-visible {
-  background: #fff;
+  background: var(--theme-surface);
   color: var(--v11-accent);
   box-shadow: 11px 11px 0 var(--v11-ink);
   transform: translate(-2px, -2px);
@@ -345,16 +350,16 @@ const V11_CSS = `
   transition-duration: 80ms;
 }
 .v11-cta.reader {
-  background: var(--v11-ink);
-  color: var(--v11-yellow);
+  background: var(--theme-strong-cta-bg);
+  color: var(--theme-strong-cta-fg);
 }
 .v11-cta.reader .v11-cta-kicker {
-  color: rgba(255, 230, 0, 0.72);
+  color: color-mix(in srgb, var(--theme-strong-cta-fg) 72%, transparent);
 }
 .v11-cta.reader:hover,
 .v11-cta.reader:focus-visible {
-  background: #000;
-  color: #fff27a;
+  background: var(--theme-strong-cta-hover-bg);
+  color: var(--theme-strong-cta-fg);
 }
 
 /* Banner reused */
@@ -481,14 +486,6 @@ export default function V11Page() {
     openWaitlist(eyebrow);
   };
 
-  useEffect(() => {
-    const prev = document.body.style.background;
-    document.body.style.background = '#ffffff';
-    return () => {
-      document.body.style.background = prev;
-    };
-  }, []);
-
   const open = (region: Region) => {
     if (phase !== 'choose') return;
     setSelectedRegion(region);
@@ -526,6 +523,7 @@ export default function V11Page() {
             <Link className="v11-nav-link support" href="/about">Support Us</Link>
           </div>
           <div className="v11-nav-right">
+            <ThemeToggle className="v11-theme-toggle" />
             <button
               type="button"
               className="v11-btn-join"

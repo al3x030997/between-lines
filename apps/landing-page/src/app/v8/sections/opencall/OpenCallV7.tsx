@@ -193,7 +193,7 @@ const STYLES = `
 .bl-betweenchars {
   position: relative;
   padding: clamp(72px, 9vh, 104px) clamp(24px, 5vw, 80px);
-  background: #ffffff;
+  background: var(--theme-page);
   color: var(--bl-ink);
   overflow: hidden;
 }
@@ -288,8 +288,8 @@ const STYLES = `
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  border: 1.5px solid rgba(14, 14, 12, 0.18);
-  background: #ffffff;
+  border: 1.5px solid var(--theme-border);
+  background: var(--theme-surface);
   border-radius: 999px;
   padding: 8px 14px;
   font-family: var(--bl-font-body);
@@ -313,7 +313,7 @@ const STYLES = `
 }
 .bl-betweenchars-mood-btn.is-active {
   background: var(--bl-ink);
-  color: #ffffff;
+  color: var(--theme-page);
   border-color: var(--bl-ink);
   padding-left: 10px;
   transform: translateY(-2px) scale(1.04);
@@ -470,8 +470,8 @@ const STYLES = `
 }
 .bl-betweenchars-nav-btn {
   appearance: none;
-  border: 1.5px solid rgba(14, 14, 12, 0.18);
-  background: #ffffff;
+  border: 1.5px solid var(--theme-border);
+  background: var(--theme-surface);
   border-radius: 8px;
   width: 36px;
   height: 36px;
@@ -484,7 +484,7 @@ const STYLES = `
   transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
 .bl-betweenchars-nav-btn:hover {
-  background: #f8f5ee;
+  background: var(--theme-surface-muted);
   border-color: var(--bl-accent);
   color: var(--bl-accent);
   transform: translateY(-1px);
@@ -498,8 +498,8 @@ const STYLES = `
   margin-top: 4px;
 }
 .bl-betweenchars-pick {
-  background: #ffffff;
-  border: 0.5px solid #e8e4dc;
+  background: var(--theme-surface);
+  border: 0.5px solid var(--theme-border-subtle);
   border-radius: 12px;
   padding: 14px 16px;
   display: flex;
@@ -519,7 +519,7 @@ const STYLES = `
   text-transform: uppercase;
   padding: 3px 9px;
   border-radius: 999px;
-  background: rgba(14, 14, 12, 0.06);
+  background: var(--theme-surface-muted);
   color: var(--bl-ink);
 }
 .bl-betweenchars-pick-quote {
@@ -540,8 +540,8 @@ const STYLES = `
 }
 .bl-betweenchars-pick-add {
   cursor: pointer;
-  border: 1px dashed rgba(14, 14, 12, 0.3);
-  background: #fafafa;
+  border: 1px dashed var(--theme-border-strong);
+  background: var(--theme-surface-subtle);
   display: flex;
   flex-direction: column;
   justify-content: center;

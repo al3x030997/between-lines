@@ -183,7 +183,7 @@ export const INTAKE_CSS = `
   padding: 11px 18px;
   border-radius: 999px;
   border: 1px solid var(--v6-divider);
-  background: rgba(14, 14, 12, 0.05);
+  background: var(--theme-surface-muted);
   color: var(--v6-text-strong);
   cursor: pointer;
   transition: background 180ms var(--v6-ease), border-color 180ms var(--v6-ease), color 180ms var(--v6-ease), transform 180ms var(--v6-ease), opacity 180ms var(--v6-ease);
@@ -197,7 +197,7 @@ export const INTAKE_CSS = `
 }
 .v8-chip.is-selected {
   background: var(--v6-accent);
-  color: #fff;
+  color: var(--theme-accent-contrast);
   border-color: var(--v6-accent);
 }
 .v8-root.is-palette-forest .v8-chip.is-selected { color: #F5EDE0; }
@@ -284,7 +284,7 @@ export const INTAKE_CSS = `
 .v8-toggle-chip.is-on .v8-toggle-chip-box {
   background: var(--v6-accent);
   border-color: var(--v6-accent);
-  color: #fff;
+  color: var(--theme-accent-contrast);
 }
 .v8-root.is-palette-forest .v8-toggle-chip.is-on .v8-toggle-chip-box { color: #F5EDE0; }
 .v8-toggle-chip.is-on .v8-toggle-chip-tick {
@@ -405,7 +405,7 @@ export const INTAKE_CSS = `
 }
 .v8-cta-primary {
   background: var(--v6-accent);
-  color: #fff;
+  color: var(--theme-accent-contrast);
   border: 1px solid var(--v6-accent);
 }
 .v8-root.is-palette-forest .v8-cta-primary { color: #F5EDE0; }
