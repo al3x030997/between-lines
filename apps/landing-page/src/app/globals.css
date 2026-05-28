@@ -388,14 +388,15 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-nav-brand strong { color: var(--v11-ink); font-weight: 600; }
 .br-nav-links {
   display: flex;
-  gap: clamp(1rem, 2vw, 1.75rem);
+  gap: clamp(1.25rem, 2vw, 2rem);
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex: 1;
   min-width: 0;
+  margin-left: 2rem;
 }
 .br-nav-link {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--v11-ink-mute);
   letter-spacing: 0.02em;
   transition: color 0.15s;
@@ -652,7 +653,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-tabs::-webkit-scrollbar { display: none; }
 .br-tab {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   padding: 1rem 1.25rem;
   border: none;
@@ -1026,10 +1027,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   margin-bottom: 2.5rem;
 }
 
-/* Discover header — large Playfair heading + sort/filter actions */
+/* Discover header — large Playfair heading + sort/filter actions.
+   Spans full width (no max-width centering) so it aligns with the tabs row. */
 .br-discover-head {
-  max-width: 1100px;
-  margin: 0 auto;
   width: 100%;
   padding: 1.75rem 2rem 1.25rem;
   display: flex;
