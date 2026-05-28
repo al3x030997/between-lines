@@ -1656,11 +1656,10 @@ body[data-quiet="true"] .br-progress { display: none; }
   pointer-events: auto;
 }
 .br-community-quote {
-  font-family: var(--br-font-display);
-  font-size: 19px;
-  line-height: 1.5;
+  font-family: var(--br-font-serif);
+  font-size: 17px;
+  line-height: 1.7;
   color: var(--v11-ink);
-  font-style: italic;
   font-weight: 400;
   margin-bottom: 0.85rem;
 }
@@ -1708,7 +1707,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   transform: scale(1.25);
 }
 @media (max-width: 640px) {
-  .br-community-quote { font-size: 17px; }
+  .br-community-quote { font-size: 16px; }
   .br-community-stage { min-height: 180px; }
 }
 .br-chapters {
