@@ -31,9 +31,13 @@ export function ReaderNav() {
     <nav className="br-nav" aria-label="Reader navigation">
       <button
         type="button"
-        className="br-nav-brand"
-        onClick={() => router.push('/read')}
-        aria-label="BetweenReads home"
+        className={`br-nav-brand ${pathname === '/gallery' ? 'is-active' : ''}`}
+        onClick={() => {
+          setCurrentTarget('/gallery');
+          router.push('/gallery');
+        }}
+        aria-label="Open BetweenReads gallery"
+        aria-current={pathname === '/gallery' ? 'page' : undefined}
       >
         Between<strong>Reads</strong>
       </button>
