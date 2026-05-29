@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { getBook } from '@/lib/mock-books';
 import { writerSlugForHandle } from '@/lib/mock-writers';
+import { ChapterList } from '@/components/ChapterList';
 import { CommunityVoices } from '@/components/CommunityVoices';
 import { TipWriterButton } from '@/components/TipWriterButton';
 
@@ -150,42 +151,7 @@ export default function BookPage({ params }: PageProps) {
 
       <div className="br-chapters">
         <div className="br-chapters-label br-sec-title">Chapters</div>
-        <ul style={{ listStyle: 'none' }}>
-          {book.chapters.map((c) => {
-            const isReadable = c.access.type === 'free' || (c.access.type === 'rc' && c.body);
-            const href = isReadable ? `/read/${book.slug}/${c.slug}` : undefined;
-            const row = (
-              <>
-                <span className="br-ch-num">{c.num}</span>
-                <span className="br-ch-row-title">{c.title}</span>
-                <span className="br-ch-row-words">{c.words.toLocaleString()} w</span>
-                {c.access.type === 'free' ? (
-                  <span className="br-ch-row-status br-ch-status-free">Free</span>
-                ) : c.access.type === 'rc' ? (
-                  <span className="br-ch-row-status br-ch-status-lock">
-                    🔒 <span className="br-ch-status-rc">{c.access.cost} RC</span>
-                  </span>
-                ) : (
-                  <span className="br-ch-row-status br-ch-status-sub">Subscribe</span>
-                )}
-              </>
-            );
-            return (
-              <li className="br-ch-row" key={c.slug}>
-                {href ? (
-                  <Link
-                    href={href}
-                    style={{ display: 'contents', color: 'inherit' }}
-                  >
-                    {row}
-                  </Link>
-                ) : (
-                  row
-                )}
-              </li>
-            );
-          })}
-        </ul>
+        <ChapterList bookSlug={book.slug} bookTitle={book.title} chapters={book.chapters} />
       </div>
 
       {!isClassic ? (
