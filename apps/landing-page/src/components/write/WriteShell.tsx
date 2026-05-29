@@ -3,7 +3,14 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { getBook, type Chapter } from '@/lib/mock-books';
-import { getWriterLibraryWorks, getWriterWorks, type WorkSummary, type WriterLibraryWork } from '@/lib/mock-writers';
+import {
+  getWriterLibraryWorks,
+  getWriterReaderSignals,
+  getWriterWorks,
+  type ReaderSignal,
+  type WorkSummary,
+  type WriterLibraryWork,
+} from '@/lib/mock-writers';
 import { useMockSession } from '@/lib/useMockSession';
 import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
@@ -12,9 +19,11 @@ import { ChapterSidebar } from './ChapterSidebar';
 import { WriteTab } from './WriteTab';
 import { ChapterSettingsTab } from './ChapterSettingsTab';
 import { NovelSettingsTab } from './NovelSettingsTab';
-import { WriterLibrary, makeDraftWork } from './WriterLibrary';
-import { WriterSidebar, type LibraryStatusFilter } from './WriterSidebar';
+import { WriterLibrary, makeDraftWork, type LibraryStatusFilter } from './WriterLibrary';
+import { WriterSidebar } from './WriterSidebar';
 import { AgentReadyStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
+import { ContinueWritingStrip } from './ContinueWritingStrip';
+import { WriterSearch } from './WriterSearch';
 
 type TopTab = 'library' | 'write' | 'storefront' | 'agentready' | 'community';
 type EditorSubTab = 'write' | 'chsettings' | 'novelsettings';
@@ -26,14 +35,6 @@ const TOP_TABS: TabDef<TopTab>[] = [
   { id: 'agentready', label: 'Agent Ready' },
   { id: 'community', label: 'Community' },
 ];
-
-const HEAD_COPY: Record<TopTab, { title: string; sub: string }> = {
-  library: { title: 'Your library', sub: 'Book status, reader access, and storefront setup before you enter the writing room.' },
-  write: { title: 'Writing room', sub: 'Draft, revise, and publish. Your sentences, your pace.' },
-  storefront: { title: 'Personal storefront', sub: 'A page that is entirely yours — covers, pricing, and direct revenue.' },
-  agentready: { title: 'Agent ready', sub: 'Workshop the query, track outreach, and give agents private read links.' },
-  community: { title: 'Community', sub: 'Readers, beta partners, and writing rooms — built around your work.' },
-};
 
 function isTopTab(value: string | null): value is TopTab {
   return value === 'library' || value === 'write' || value === 'storefront' || value === 'agentready' || value === 'community';
@@ -52,6 +53,11 @@ export function WriteShell() {
   const libraryWorks: WriterLibraryWork[] = useMemo(() => {
     if (!session) return [];
     return getWriterLibraryWorks(session.handle);
+  }, [session]);
+
+  const signals: ReaderSignal[] = useMemo(() => {
+    if (!session) return [];
+    return getWriterReaderSignals(session.handle);
   }, [session]);
 
   const [workId, setWorkId] = useState<string>('');
@@ -98,6 +104,7 @@ export function WriteShell() {
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<LibraryStatusFilter>('all');
   const [drafts, setDrafts] = useState<WriterLibraryWork[]>([]);
+  const [writerQuery, setWriterQuery] = useState('');
 
   const addWork = () => {
     setDrafts((current) => [...current, makeDraftWork(current.length + 1)]);
@@ -162,9 +169,20 @@ export function WriteShell() {
   const mergedLibraryWorks = useMemo(() => [...libraryWorks, ...drafts], [libraryWorks, drafts]);
 
   const filteredLibraryWorks = useMemo(() => {
-    if (statusFilter === 'all') return mergedLibraryWorks;
-    return mergedLibraryWorks.filter((w) => w.status === statusFilter);
-  }, [mergedLibraryWorks, statusFilter]);
+    let result = mergedLibraryWorks;
+    if (statusFilter !== 'all') {
+      result = result.filter((w) => w.status === statusFilter);
+    }
+    const q = writerQuery.trim().toLowerCase();
+    if (q) {
+      result = result.filter((w) =>
+        w.title.toLowerCase().includes(q)
+        || (w.pitch?.toLowerCase().includes(q) ?? false)
+        || w.meta.toLowerCase().includes(q),
+      );
+    }
+    return result;
+  }, [mergedLibraryWorks, statusFilter, writerQuery]);
 
   const libraryCounts = useMemo<Record<LibraryStatusFilter, number>>(() => {
     const base: Record<LibraryStatusFilter, number> = { all: mergedLibraryWorks.length, Published: 0, Drafting: 0, Editing: 0, Private: 0 };
@@ -173,7 +191,7 @@ export function WriteShell() {
   }, [mergedLibraryWorks]);
 
   const lastWork = libraryWorks[0];
-  const continueLabel = lastWork ? `${lastWork.title} · ch. ${lastWork.publishedChapters + 1}` : 'Pick a work';
+  const activeWorkCount = (libraryCounts.Drafting ?? 0) + (libraryCounts.Editing ?? 0);
 
   if (!ready) {
     return (
@@ -198,19 +216,29 @@ export function WriteShell() {
     );
   }
 
-  const head = HEAD_COPY[topTab];
-
   // Editor mode keeps its own dedicated chrome (chapter sidebar + editor body).
-  // The top StoreTabs row stays so the writer can navigate back out.
+  // The top-level writer tabs are dropped — a back button takes the writer
+  // back to the library instead.
   if (topTab === 'write') {
     return (
       <div className="br-write-shell br-write-shell-editor">
-        <StoreTabs<TopTab>
-          tabs={TOP_TABS}
-          active={topTab}
-          onChange={changeTopTab}
-          ariaLabel="Writer sections"
-        />
+        <div className="br-write-editor-topbar">
+          <button
+            type="button"
+            className="br-write-back"
+            onClick={() => changeTopTab('library')}
+            aria-label="Back to your library"
+          >
+            <span className="br-write-back-arrow" aria-hidden="true">←</span>
+            <span>Back to library</span>
+          </button>
+          {activeWork ? (
+            <span className="br-write-editor-work" aria-label="Active work">
+              <span className="br-write-editor-work-title">{activeWork.title}</span>
+              <span className="br-write-editor-work-meta">{activeWork.meta}</span>
+            </span>
+          ) : null}
+        </div>
         <div className="br-write-editor-subbar">
           <button
             type="button"
@@ -284,47 +312,44 @@ export function WriteShell() {
   return (
     <div className="br-write-shell br-write-shell-discover br-discover-scope">
       <header className="br-discover-head br-write-head">
-        <ProfileBlock />
-        <div className="br-discover-head-title">
-          <h1 className="br-discover-h1">{head.title}</h1>
-          <p className="br-discover-sub">{head.sub}</p>
+        <div className="br-discover-profile-col">
+          <ProfileBlock />
         </div>
-        <div className="br-discover-actions">
-          {topTab === 'library' ? (
-            <button
-              type="button"
-              className="br-write-lib-add"
-              onClick={addWork}
-            >
-              + Add work
-            </button>
-          ) : null}
-        </div>
-      </header>
-      <div className="br-discover">
-        <WriterSidebar
-          statusFilter={statusFilter}
-          onStatusChange={setStatusFilter}
-          counts={libraryCounts}
-          todayWords={1240}
-          dailyTarget={2000}
-          streakDays={12}
-          continueLabel={continueLabel}
-          onContinue={() => openEditorForWork(lastWork?.id ?? workId, 'write')}
-          inbox={{ betaRequests: 3, readerNotes: 12, agentInvites: 1 }}
-        />
-        <div className="br-discover-main">
+        <div className="br-discover-head-right">
+          <ContinueWritingStrip
+            work={lastWork}
+            authorName={session.user}
+            onContinue={() => openEditorForWork(lastWork?.id ?? workId, 'write')}
+            onStart={addWork}
+            onSeeAll={() => changeTopTab('library')}
+            totalActive={activeWorkCount}
+          />
+          <WriterSearch query={writerQuery} onChange={setWriterQuery} />
           <StoreTabs<TopTab>
             tabs={TOP_TABS}
             active={topTab}
             onChange={changeTopTab}
             ariaLabel="Writer sections"
           />
+        </div>
+      </header>
+      <div className="br-discover">
+        <WriterSidebar
+          todayWords={1240}
+          dailyTarget={2000}
+          streakDays={12}
+          signals={signals}
+          inbox={{ betaRequests: 3, readerNotes: 12, agentInvites: 1 }}
+        />
+        <div className="br-discover-main">
           <div className="br-stage">
             {topTab === 'library' ? (
               <WriterLibrary
                 works={filteredLibraryWorks}
                 allWorks={mergedLibraryWorks}
+                statusFilter={statusFilter}
+                onStatusChange={setStatusFilter}
+                counts={libraryCounts}
                 onAddWork={addWork}
                 onOpenEditor={(id) => openEditorForWork(id, 'write')}
                 onOpenSettings={(id) => openEditorForWork(id, 'novelsettings')}

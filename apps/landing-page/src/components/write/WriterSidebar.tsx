@@ -1,36 +1,20 @@
 'use client';
 
-export type LibraryStatusFilter = 'all' | 'Published' | 'Drafting' | 'Editing' | 'Private';
+import type { ReaderSignal } from '@/lib/mock-writers';
 
 type Props = {
-  statusFilter: LibraryStatusFilter;
-  onStatusChange: (next: LibraryStatusFilter) => void;
-  counts: Record<LibraryStatusFilter, number>;
   todayWords: number;
   dailyTarget: number;
   streakDays: number;
-  continueLabel: string;
-  onContinue: () => void;
+  signals: ReaderSignal[];
   inbox: { betaRequests: number; readerNotes: number; agentInvites: number };
 };
 
-const STATUS_PILLS: { id: LibraryStatusFilter; emoji: string; label: string }[] = [
-  { id: 'all', emoji: '📚', label: 'All' },
-  { id: 'Published', emoji: '🌿', label: 'Published' },
-  { id: 'Drafting', emoji: '✍️', label: 'Drafting' },
-  { id: 'Editing', emoji: '🪶', label: 'Editing' },
-  { id: 'Private', emoji: '🔒', label: 'Private' },
-];
-
 export function WriterSidebar({
-  statusFilter,
-  onStatusChange,
-  counts,
   todayWords,
   dailyTarget,
   streakDays,
-  continueLabel,
-  onContinue,
+  signals,
   inbox,
 }: Props) {
   const progress = Math.min(100, Math.round((todayWords / dailyTarget) * 100));
@@ -48,33 +32,23 @@ export function WriterSidebar({
             <span style={{ width: `${progress}%` }} />
           </div>
           <div className="br-write-side-streak">🔥 Day {streakDays} streak</div>
-          <button type="button" className="br-write-side-continue" onClick={onContinue}>
-            Continue · {continueLabel}
-          </button>
         </div>
       </section>
 
-      <section className="br-fs-section">
-        <div className="br-fs-label">Library</div>
-        <div className="br-fs-pills">
-          {STATUS_PILLS.map((pill) => {
-            const on = statusFilter === pill.id;
-            const count = counts[pill.id] ?? 0;
-            return (
-              <button
-                key={pill.id}
-                type="button"
-                className={`br-fs-pill ${on ? 'is-on' : ''}`}
-                onClick={() => onStatusChange(pill.id)}
-                aria-pressed={on}
-              >
-                <span aria-hidden="true">{pill.emoji}</span> {pill.label}
-                <span className="br-fs-pill-count">{count}</span>
-              </button>
-            );
-          })}
-        </div>
-      </section>
+      {signals.length > 0 ? (
+        <section className="br-fs-section">
+          <div className="br-fs-label">Reader signals</div>
+          <ul className="br-write-signals">
+            {signals.map((s) => (
+              <li className="br-write-signal" key={s.workId}>
+                <div className="br-write-signal-title">{s.workTitle}</div>
+                <div className="br-write-signal-line">{s.line}</div>
+                <div className="br-write-signal-sub">{s.sub}</div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="br-fs-section">
         <div className="br-fs-label">Inbox</div>

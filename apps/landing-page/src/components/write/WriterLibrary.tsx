@@ -2,15 +2,28 @@
 
 import type { WriterLibraryStatus, WriterLibraryWork } from '@/lib/mock-writers';
 
+export type LibraryStatusFilter = 'all' | WriterLibraryStatus;
+
 type Props = {
   works: WriterLibraryWork[];
   allWorks: WriterLibraryWork[];
+  statusFilter: LibraryStatusFilter;
+  onStatusChange: (next: LibraryStatusFilter) => void;
+  counts: Record<LibraryStatusFilter, number>;
   onAddWork: () => void;
   onOpenEditor: (id: string) => void;
   onOpenSettings: (id: string) => void;
   onOpenStorefront: (id: string) => void;
   onPreview: (work: WriterLibraryWork) => void;
 };
+
+const STATUS_PILLS: { id: LibraryStatusFilter; emoji: string; label: string }[] = [
+  { id: 'all', emoji: '📚', label: 'All' },
+  { id: 'Published', emoji: '🌿', label: 'Published' },
+  { id: 'Drafting', emoji: '✍️', label: 'Drafting' },
+  { id: 'Editing', emoji: '🪶', label: 'Editing' },
+  { id: 'Private', emoji: '🔒', label: 'Private' },
+];
 
 const statusClass: Record<WriterLibraryStatus, string> = {
   Published: 'is-published',
@@ -211,13 +224,38 @@ function SummaryStat({ value, label }: { value: string; label: string }) {
   );
 }
 
-export function WriterLibrary({ works, allWorks, onAddWork, onOpenEditor, onOpenSettings, onOpenStorefront, onPreview }: Props) {
+export function WriterLibrary({ works, allWorks, statusFilter, onStatusChange, counts, onAddWork, onOpenEditor, onOpenSettings, onOpenStorefront, onPreview }: Props) {
   const publishedCount = allWorks.filter((w) => w.status === 'Published').length;
   const chapterCount = allWorks.reduce((sum, w) => sum + w.publishedChapters, 0);
   const reads = allWorks.reduce((sum, w) => sum + w.activity.reads, 0);
 
   return (
     <div className="br-write-library">
+      <div className="br-write-lib-filterbar">
+        <div className="br-write-lib-filters" role="tablist" aria-label="Filter by status">
+          {STATUS_PILLS.map((pill) => {
+            const on = statusFilter === pill.id;
+            const count = counts[pill.id] ?? 0;
+            return (
+              <button
+                key={pill.id}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                className={`br-write-lib-filter ${on ? 'is-on' : ''}`}
+                onClick={() => onStatusChange(pill.id)}
+              >
+                <span aria-hidden="true">{pill.emoji}</span> {pill.label}
+                <span className="br-write-lib-filter-count">{count}</span>
+              </button>
+            );
+          })}
+        </div>
+        <button type="button" className="br-write-lib-add" onClick={onAddWork}>
+          + Add work
+        </button>
+      </div>
+
       <div className="br-write-lib-summary" aria-label="Writing library summary">
         <SummaryStat value={publishedCount.toString()} label="published" />
         <SummaryStat value={chapterCount.toString()} label="chapters live" />

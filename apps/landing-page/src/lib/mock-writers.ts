@@ -1040,6 +1040,54 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
   },
 };
 
+// ============================================================
+// READER SIGNALS — mock telemetry on the writer's published work,
+// shown in the writer sidebar.
+// ============================================================
+export type ReaderSignal = {
+  workId: string;
+  workTitle: string;
+  line: string;
+  sub: string;
+};
+
+const SARAH_SIGNALS: ReaderSignal[] = [
+  {
+    workId: 'salt-letters',
+    workTitle: 'The Salt Letters',
+    line: '+18 reads this week ↗',
+    sub: '4 new highlights',
+  },
+  {
+    workId: 'first-frost',
+    workTitle: 'First Frost',
+    line: 'Ch 1 · 92% finish rate',
+    sub: '2 new beta notes',
+  },
+];
+
+const MIDNIGHT_SIGNALS: ReaderSignal[] = [
+  {
+    workId: 'quiet-hours',
+    workTitle: 'The Quiet Hours',
+    line: '+126 reads this week ↗',
+    sub: '12 new highlights · 3 reader picks',
+  },
+  {
+    workId: 'the-empty-chair',
+    workTitle: 'The Empty Chair',
+    line: '88% finish rate',
+    sub: '4 new reader notes',
+  },
+];
+
+export function getWriterReaderSignals(handle: string): ReaderSignal[] {
+  const lower = handle.toLowerCase();
+  if (lower === 'midnightdraftsman') return MIDNIGHT_SIGNALS;
+  if (lower === 'sarah-m') return SARAH_SIGNALS;
+  return [];
+}
+
 export function getWriterLibraryWorks(handle: string): WriterLibraryWork[] {
   return getWriterWorks(handle).map((work) => {
     const book = work.bookSlug ? getBook(work.bookSlug) : undefined;
