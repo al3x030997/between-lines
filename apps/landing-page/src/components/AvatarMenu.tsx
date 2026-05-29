@@ -59,12 +59,12 @@ export function AvatarMenu() {
         </div>
         <div className="br-am-wallet" aria-label="Account balances">
           <div className="br-am-rc">
-            <span className="br-am-rc-lbl">Reading Coins</span>
+            <span className="br-am-rc-lbl">Reading Credits</span>
             <span className="br-am-rc-val">{session.rc}</span>
           </div>
           {isWriter ? (
             <div className="br-am-rc is-swap">
-              <span className="br-am-rc-lbl">Swap Coins</span>
+              <span className="br-am-rc-lbl">Swap Credits</span>
               <span className="br-am-rc-val">{session.sc}</span>
             </div>
           ) : null}

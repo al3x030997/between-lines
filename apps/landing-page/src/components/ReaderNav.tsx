@@ -66,14 +66,14 @@ export function ReaderNav() {
 
       <div className="br-nav-right">
         <ThemeToggle />
-        <Link href="/account" className="br-rc-badge" aria-label={`${session?.rc ?? 0} Reading Coins`}>
+        <Link href="/account" className="br-rc-badge" aria-label={`${session?.rc ?? 0} Reading Credits`}>
           <span className="br-rc-num">{session?.rc ?? 0}</span>
-          <span className="br-rc-lbl">Reading Coins</span>
+          <span className="br-rc-lbl">Reading Credits</span>
         </Link>
         {isWriter ? (
-          <Link href="/write" className="br-sc-badge" aria-label={`${session?.sc ?? 0} Swap Coins`}>
+          <Link href="/write" className="br-sc-badge" aria-label={`${session?.sc ?? 0} Swap Credits`}>
             <span className="br-sc-num">{session?.sc ?? 0}</span>
-            <span className="br-sc-lbl">Swap Coins</span>
+            <span className="br-sc-lbl">Swap Credits</span>
           </Link>
         ) : null}
         <AvatarMenu />

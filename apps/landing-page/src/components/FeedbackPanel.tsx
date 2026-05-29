@@ -132,8 +132,7 @@ export function FeedbackPanel() {
             className={`br-fp-tab ${tab === t ? 'is-active' : ''}`}
             onClick={() => setTab(t)}
           >
-            {t === 'react' ? 'React' : t === 'quick' ? 'Quick Comment' : 'Deep Thoughts'}{' '}
-            <small>+{TAB_RC[t]} RC</small>
+            {t === 'react' ? 'React' : t === 'quick' ? 'Quick Comment' : 'Deep Thoughts'}
           </button>
         ))}
       </div>
