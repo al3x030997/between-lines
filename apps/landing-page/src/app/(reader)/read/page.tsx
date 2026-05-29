@@ -1,41 +1,31 @@
 'use client';
 
-import {
-  Suspense,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  type CSSProperties,
-  type ReactNode,
-} from 'react';
+import { Suspense, useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
-  FilterSidebar,
-  type FilterState,
-  type SidebarShelfId,
   hasActiveFilters,
   matchesFilters,
+  type FilterState,
+  type SidebarShelfId,
 } from '@/components/FilterSidebar';
-import { ProductCard, type CardVariant } from '@/components/ProductCard';
-import { AccountSwitcher } from '@/components/AccountSwitcher';
-import { ContinueReadingHero } from '@/components/ContinueReadingHero';
-import { FeaturedCarousel } from '@/components/FeaturedCarousel';
-import { ProfileBlock } from '@/components/ProfileBlock';
-import { StoreTabs, type TabDef } from '@/components/StoreTabs';
-import { useMockSession } from '@/lib/useMockSession';
+import { BookPoster } from '@/components/gallery/BookPoster';
+import { GalleryRail } from '@/components/gallery/GalleryRail';
+import { ContinueGalleryHero } from '@/components/read/ContinueGalleryHero';
+import { DiscoverBar } from '@/components/read/DiscoverBar';
+import { ShelfChips } from '@/components/read/ShelfChips';
+import type { TabDef } from '@/components/StoreTabs';
 import { getBetaReadingRequests } from '@/lib/mock-beta-reading';
 import {
+  getAllBooks,
   getBetweenLinesInviteCount,
   getBooksBySection,
   getFinishedBooks,
   getInProgressBooks,
-  getInProgressCount,
   getReadingListBooks,
   sections,
-  type Section,
   type Book,
+  type Section,
 } from '@/lib/mock-books';
 
 type TopReadTabId =
@@ -66,6 +56,17 @@ const visibility: Record<SidebarShelfId, Section['id'][]> = {
 
 const PERSONAL_SHELVES = new Set<SidebarShelfId>(['continue', 'readinglist', 'finished']);
 
+const SHELF_LABELS: Record<SidebarShelfId, string> = {
+  all: 'All',
+  foryou: 'For You',
+  readerpicks: 'Reader Picks',
+  memberpicks: 'Member Picks',
+  new: 'New This Week',
+  continue: 'Continue',
+  readinglist: 'Reading List',
+  finished: 'Finished',
+};
+
 const betweenCharacterQuotes = [
   {
     tag: 'Feel-good',
@@ -85,46 +86,14 @@ const betweenCharacterQuotes = [
 ];
 
 const betweenLinesComparison = [
-  {
-    feature: 'Reading profile',
-    free: 'BetweenPages reader profile',
-    premium: 'Everything in EmergingReader',
-  },
-  {
-    feature: 'Stories',
-    free: 'Public content and free chapters',
-    premium: 'Unlimited premium chapters',
-  },
-  {
-    feature: 'BetweenLines journal',
-    free: 'Not included',
-    premium: 'All issues',
-  },
-  {
-    feature: 'Reader Pods',
-    free: 'Not included',
-    premium: 'Join writer inner circles',
-  },
-  {
-    feature: 'Beta reading',
-    free: 'Basic access',
-    premium: 'Priority beta reader matching',
-  },
-  {
-    feature: 'Discovery',
-    free: 'Standard mood filters',
-    premium: 'Mood-based discovery - full access',
-  },
-  {
-    feature: 'New content',
-    free: 'Standard release timing',
-    premium: 'Early access',
-  },
-  {
-    feature: 'BetweenCharacters',
-    free: 'Read and submit quotes',
-    premium: 'Featured rotation eligible',
-  },
+  { feature: 'Reading profile', free: 'BetweenPages reader profile', premium: 'Everything in EmergingReader' },
+  { feature: 'Stories', free: 'Public content and free chapters', premium: 'Unlimited premium chapters' },
+  { feature: 'BetweenLines journal', free: 'Not included', premium: 'All issues' },
+  { feature: 'Reader Pods', free: 'Not included', premium: 'Join writer inner circles' },
+  { feature: 'Beta reading', free: 'Basic access', premium: 'Priority beta reader matching' },
+  { feature: 'Discovery', free: 'Standard mood filters', premium: 'Mood-based discovery - full access' },
+  { feature: 'New content', free: 'Standard release timing', premium: 'Early access' },
+  { feature: 'BetweenCharacters', free: 'Read and submit quotes', premium: 'Featured rotation eligible' },
 ];
 
 const betaReadingPosts = getBetaReadingRequests();
@@ -167,29 +136,25 @@ function bookMatchesShelf(book: Book, shelf: SidebarShelfId): boolean {
   return visibility[shelf].includes(book.section);
 }
 
-function bookToCard(b: Book, variant: CardVariant = 'default'): ReactNode {
-  const primaryBadge = b.badges[0];
-  return (
-    <ProductCard
-      key={b.slug}
-      kind="book"
-      variant={variant}
-      href={`/read/${b.slug}`}
-      title={b.title}
-      author={b.author}
-      blurb={b.blurb}
-      cover={b.cover}
-      coverIsDark={b.coverIsDark}
-      badge={primaryBadge ? { kind: primaryBadge.kind, label: primaryBadge.label } : undefined}
-      format={b.format}
-      access={b.access}
-    />
-  );
+function matchesQuery(book: Book, q: string): boolean {
+  if (!q) return true;
+  const needle = q.trim().toLowerCase();
+  if (!needle) return true;
+  return book.title.toLowerCase().includes(needle) || book.author.toLowerCase().includes(needle);
+}
+
+function hasBadge(book: Book, kind: string): boolean {
+  return book.badges.some((badge) => badge.kind === kind);
+}
+
+function uniqueBooks(books: Book[]): Book[] {
+  const seen = new Set<string>();
+  return books.filter((b) => (seen.has(b.slug) ? false : (seen.add(b.slug), true)));
 }
 
 function BetaReadingPanel() {
   return (
-    <section className="br-beta-read" aria-labelledby="br-sec-beta-reading">
+    <section className="br-beta-read br-beta-read-gallery" aria-labelledby="br-sec-beta-reading">
       <div className="br-sec-head">
         <div>
           <h2 id="br-sec-beta-reading" className="br-sec-label">Beta Reading</h2>
@@ -241,7 +206,7 @@ function BetaReadingPanel() {
 
 function BetweenLinesLockedPanel() {
   return (
-    <section className="br-blines-lock" aria-labelledby="br-sec-betweenlines">
+    <section className="br-blines-lock br-blines-lock-gallery" aria-labelledby="br-sec-betweenlines">
       <div className="br-sec-head br-blines-lock-head">
         <div>
           <h2 id="br-sec-betweenlines" className="br-sec-label">BetweenLines Journal</h2>
@@ -305,179 +270,6 @@ function BetweenLinesLockedPanel() {
   );
 }
 
-function matchesQuery(book: Book, q: string): boolean {
-  if (!q) return true;
-  const needle = q.trim().toLowerCase();
-  if (!needle) return true;
-  return (
-    book.title.toLowerCase().includes(needle) ||
-    book.author.toLowerCase().includes(needle)
-  );
-}
-
-function ReaderSnapshot() {
-  const { session } = useMockSession();
-  const firstName = (session?.user ?? 'reader').split(/\s+/)[0] ?? 'reader';
-  const inProgress = getInProgressCount();
-  const invites = getBetweenLinesInviteCount();
-  const parts: string[] = [];
-  if (inProgress > 0) parts.push(`${inProgress} in progress`);
-  if (invites > 0) parts.push(`${invites} BetweenLines invite${invites === 1 ? '' : 's'}`);
-  return (
-    <span className="br-discover-snapshot">
-      <span className="br-discover-snapshot-greet">Welcome back, {firstName}</span>
-      {parts.length > 0 ? <span className="br-discover-snapshot-meta">{parts.join(' · ')}</span> : null}
-    </span>
-  );
-}
-
-function DiscoverSearch({
-  query,
-  onChange,
-  activeMoods,
-}: {
-  query: string;
-  onChange: (next: string) => void;
-  activeMoods: string[];
-}) {
-  const placeholder =
-    activeMoods.length > 0
-      ? `Search ${activeMoods[0]!.toLowerCase()} stories`
-      : 'Search by title, author, or mood';
-  return (
-    <div className="br-discover-search">
-      <svg
-        className="br-discover-search-icon"
-        viewBox="0 0 20 20"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-        <line x1="13.5" y1="13.5" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-      <input
-        type="search"
-        className="br-discover-search-input"
-        value={query}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        aria-label="Search stories"
-      />
-      {query ? (
-        <button
-          type="button"
-          className="br-discover-search-clear"
-          onClick={() => onChange('')}
-          aria-label="Clear search"
-        >
-          ×
-        </button>
-      ) : null}
-    </div>
-  );
-}
-
-function ContinueReadingShelf({
-  items,
-  onBrowse,
-}: {
-  items: { book: Book; progress: number }[];
-  onBrowse: () => void;
-}) {
-  if (items.length === 0) {
-    return (
-      <section className="br-personal-shelf" aria-labelledby="br-sec-continue">
-        <div className="br-sec-head">
-          <h2 id="br-sec-continue" className="br-sec-label">Continue reading</h2>
-        </div>
-        <PersonalEmpty
-          line="Nothing started yet — open a book and BetweenReads will remember where you left off."
-          onBrowse={onBrowse}
-        />
-      </section>
-    );
-  }
-  return (
-    <section className="br-personal-shelf" aria-labelledby="br-sec-continue">
-      <div className="br-sec-head">
-        <h2 id="br-sec-continue" className="br-sec-label">Continue reading</h2>
-        <span className="br-sec-meta">{items.length} in progress</span>
-      </div>
-      <ul className="br-continue-list">
-        {items.map(({ book, progress }) => {
-          const coverStyle: CSSProperties = { background: book.cover };
-          const isDark = book.coverIsDark === true;
-          return (
-            <li key={book.slug} className="br-continue-list-item">
-              <Link href={`/read/${book.slug}`} className="br-continue-list-link">
-                <div className="br-continue-list-cover" style={coverStyle} aria-hidden="true">
-                  <div className="br-cover-inner">
-                    <div className={`br-cover-title ${isDark ? 'is-dark' : ''}`}>{book.title}</div>
-                    <div className={`br-cover-rule ${isDark ? 'is-dark' : ''}`} />
-                    <div className={`br-cover-author ${isDark ? 'is-dark' : ''}`}>{book.author}</div>
-                  </div>
-                </div>
-                <div className="br-continue-list-body">
-                  <div className="br-continue-list-title">{book.title}</div>
-                  <div className="br-continue-list-author">{book.author}</div>
-                  <div className="br-continue-list-progress">
-                    <div className="br-continue-bar" aria-hidden="true">
-                      <div className="br-continue-bar-fill" style={{ width: `${progress}%` }} />
-                    </div>
-                    <span className="br-continue-list-pct">{progress}%</span>
-                  </div>
-                </div>
-                <span className="br-continue-list-cta">Continue →</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
-
-function PersonalShelf({
-  title,
-  emptyHint,
-  books,
-  bookToCard,
-  onBrowse,
-}: {
-  title: string;
-  emptyHint: string;
-  books: Book[];
-  bookToCard: (b: Book) => ReactNode;
-  onBrowse: () => void;
-}) {
-  return (
-    <section className="br-personal-shelf" aria-label={title}>
-      <div className="br-sec-head">
-        <h2 className="br-sec-label">{title}</h2>
-        {books.length > 0 ? (
-          <span className="br-sec-meta">{books.length} books</span>
-        ) : null}
-      </div>
-      {books.length === 0 ? (
-        <PersonalEmpty line={emptyHint} onBrowse={onBrowse} />
-      ) : (
-        <div className="br-recommended-row">{books.map((b) => bookToCard(b))}</div>
-      )}
-    </section>
-  );
-}
-
-function PersonalEmpty({ line, onBrowse }: { line: string; onBrowse: () => void }) {
-  return (
-    <div className="br-personal-empty">
-      <p>{line}</p>
-      <button type="button" className="br-btn br-btn-ghost" onClick={onBrowse}>
-        Browse all books →
-      </button>
-    </div>
-  );
-}
-
 function DiscoverContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -485,19 +277,8 @@ function DiscoverContent() {
   const [activeShelf, setActiveShelf] = useState<SidebarShelfId>('all');
   const [filters, setFilters] = useState<FilterState>({});
   const [query, setQuery] = useState('');
-  const visible = new Set<Section['id']>(visibility[activeShelf]);
   const filtersActive = hasActiveFilters(filters) || query.trim().length > 0;
-  const activeMoods = useMemo(
-    () =>
-      Object.keys(filters)
-        .filter((k) => filters[k] && k.startsWith('Mood:'))
-        .map((k) => k.slice('Mood:'.length)),
-    [filters],
-  );
-  const showFeaturedLayout = active === 'betweenreads' && activeShelf === 'all' && !filtersActive;
-  const showCommunity = active === 'community' && !filtersActive;
-  const showLockedBetweenLines = active === 'betweenlines';
-  const showBetaReading = active === 'betareading';
+  const visible = useMemo(() => new Set<Section['id']>(visibility[activeShelf]), [activeShelf]);
 
   useEffect(() => {
     const tab = searchParams.get('tab');
@@ -534,6 +315,51 @@ function DiscoverContent() {
     [router],
   );
 
+  const inProgressBooks = useMemo(() => getInProgressBooks(), []);
+  const inProgressMap = useMemo(
+    () => Object.fromEntries(inProgressBooks.map((p) => [p.book.slug, p.progress])),
+    [inProgressBooks],
+  );
+  const readingListBooks = useMemo(() => getReadingListBooks(), []);
+  const finishedBooks = useMemo(() => getFinishedBooks(), []);
+
+  const heroPick = inProgressBooks[0];
+
+  const allBooks = useMemo(() => getAllBooks(), []);
+
+  const betweenLinesBooks = useMemo(
+    () => uniqueBooks(allBooks.filter((b) => b.section === 'bl' || hasBadge(b, 'bl'))),
+    [allBooks],
+  );
+  const readerFavorites = useMemo(
+    () =>
+      uniqueBooks(
+        allBooks
+          .filter((b) => hasBadge(b, 'rp') || (b.readerPicks ?? 0) >= 35)
+          .filter((b) => b.slug !== heroPick?.book.slug),
+      ).slice(0, 8),
+    [allBooks, heroPick],
+  );
+  const recommendedBooks = useMemo(
+    () =>
+      uniqueBooks([
+        ...getBooksBySection('foryou'),
+        ...getBooksBySection('new'),
+        ...getBooksBySection('classics'),
+      ]).slice(0, 8),
+    [],
+  );
+  const midnightShelf = useMemo(
+    () =>
+      uniqueBooks(
+        allBooks.filter((b) =>
+          b.tags.some((tag) => ['Reflective', 'Quiet', 'Gothic', 'Mystery'].includes(tag)),
+        ),
+      ).slice(0, 8),
+    [allBooks],
+  );
+  const newThisWeek = useMemo(() => getBooksBySection('new'), []);
+
   const filteredBooks = useMemo(() => {
     return sections
       .filter((s) => visible.has(s.id))
@@ -543,163 +369,276 @@ function DiscoverContent() {
       .filter((b) => matchesQuery(b, query));
   }, [activeShelf, filters, query, visible]);
 
-  const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
-  const recommendedBooks = useMemo(
-    () => [
-      ...getBooksBySection('foryou'),
-      ...getBooksBySection('new'),
-      ...getBooksBySection('classics'),
-    ],
-    [],
-  );
-
-  const inProgressBooks = useMemo(() => getInProgressBooks(), []);
-  const readingListBooks = useMemo(() => getReadingListBooks(), []);
-  const finishedBooks = useMemo(() => getFinishedBooks(), []);
   const isPersonalShelf = PERSONAL_SHELVES.has(activeShelf);
+  const showFeaturedLayout =
+    active === 'betweenreads' && activeShelf === 'all' && !filtersActive;
+  const showCommunity = active === 'community' && !filtersActive;
+  const showLockedBetweenLines = active === 'betweenlines';
+  const showBetaReading = active === 'betareading';
+  const showFiltered = active === 'betweenreads' && filtersActive && !isPersonalShelf;
 
   return (
-    <>
-      <header className="br-discover-head">
-        <div className="br-discover-profile-col">
-          <ProfileBlock />
-          <AccountSwitcher />
-        </div>
-        <div className="br-discover-head-right">
-          <div className="br-discover-head-eyebrow">
-            <ReaderSnapshot />
-          </div>
+    <main className="br-gallery-page br-read-gallery">
+      <DiscoverBar<TopReadTabId>
+        tabs={tabs}
+        active={active}
+        onChange={changeTab}
+        query={query}
+        onQueryChange={setQuery}
+        filters={filters}
+        onFilterToggle={toggle}
+        onFiltersClear={clearFilters}
+      />
 
-          <ContinueReadingHero
-            onSeeAll={() => changeShelf('continue')}
-            totalInProgress={inProgressBooks.length}
-          />
+      {active === 'betweenreads' ? (
+        <ShelfChips active={activeShelf} onChange={changeShelf} />
+      ) : null}
 
-          <div className="br-read-tools-row">
-            <button type="button" className="br-sort" aria-disabled="true">
-              Sort <span aria-hidden="true">▾</span>
-            </button>
-            <button
-              type="button"
-              className="br-btn br-btn-ghost br-discover-filters"
-              aria-disabled="true"
-            >
-              Filters
-            </button>
-          </div>
-
-          <DiscoverSearch query={query} onChange={setQuery} activeMoods={activeMoods} />
-
-          <StoreTabs<TopReadTabId>
-            tabs={tabs}
-            active={active}
-            onChange={changeTab}
-            ariaLabel="Discover sections"
-          />
-        </div>
-      </header>
-      <div className="br-discover">
-        <FilterSidebar
-          filters={filters}
-          onToggle={toggle}
-          selectedShelf={activeShelf}
-          onShelfChange={changeShelf}
+      {active === 'betweenreads' && !filtersActive && !isPersonalShelf && heroPick ? (
+        <ContinueGalleryHero
+          book={heroPick.book}
+          progress={heroPick.progress}
+          totalInProgress={inProgressBooks.length}
+          invites={getBetweenLinesInviteCount()}
         />
-        <div className="br-discover-main">
-        <div className="br-stage">
-          {active === 'betweenreads' && filtersActive && !showLockedBetweenLines && (
-            <div className="br-filter-status" role="status" aria-live="polite">
-              <span>
-                {filteredBooks.length === 0
-                  ? 'No books match your filters.'
-                  : `${filteredBooks.length} book${filteredBooks.length === 1 ? '' : 's'} match your filters.`}
-              </span>
-              <button type="button" className="br-filter-clear" onClick={clearFilters}>
-                Clear filters
-              </button>
-            </div>
-          )}
+      ) : null}
 
-          {showLockedBetweenLines ? (
-            <BetweenLinesLockedPanel />
-          ) : showBetaReading ? (
-            <BetaReadingPanel />
-          ) : active === 'betweenreads' && isPersonalShelf ? (
-            activeShelf === 'continue' ? (
-              <ContinueReadingShelf
-                items={inProgressBooks}
-                onBrowse={() => changeShelf('all')}
-              />
-            ) : activeShelf === 'readinglist' ? (
-              <PersonalShelf
-                title="Reading List"
-                emptyHint="Save books you want to come back to. They'll show up here."
-                books={readingListBooks}
-                bookToCard={bookToCard}
+      <div className="br-read-gallery-body">
+        {showLockedBetweenLines ? (
+          <BetweenLinesLockedPanel />
+        ) : showBetaReading ? (
+          <BetaReadingPanel />
+        ) : active === 'audio' ? (
+          <section className="br-read-placeholder br-read-placeholder-gallery" aria-labelledby="read-placeholder-audio">
+            <span className="br-continue-eyebrow">Coming soon</span>
+            <h2 id="read-placeholder-audio">Audio</h2>
+            <p>Audiobook shelves and narrated samples will live here.</p>
+          </section>
+        ) : showCommunity ? (
+          <section className="br-read-community" aria-labelledby="br-sec-characters">
+            <div className="br-gallery-rail-head">
+              <div>
+                <p className="br-gallery-kicker">BetweenCharacters</p>
+                <h2 id="br-sec-characters">Community quotes</h2>
+              </div>
+            </div>
+            <div className="br-character-grid">
+              {betweenCharacterQuotes.map((item) => (
+                <article key={item.source} className="br-character-card">
+                  <div className="br-character-tag">{item.tag}</div>
+                  <p className="br-character-quote">&ldquo;{item.quote}&rdquo;</p>
+                  <div className="br-character-source">— {item.source}</div>
+                </article>
+              ))}
+            </div>
+          </section>
+        ) : active === 'betweenreads' && isPersonalShelf ? (
+          activeShelf === 'continue' ? (
+            inProgressBooks.length === 0 ? (
+              <ShelfEmpty
+                title="Nothing in progress"
+                line="Open a book and BetweenReads will remember the line you stopped on."
                 onBrowse={() => changeShelf('all')}
               />
             ) : (
-              <PersonalShelf
-                title="Finished"
-                emptyHint="Books you've finished will appear here. Mark one as read when you reach the last chapter."
-                books={finishedBooks}
-                bookToCard={bookToCard}
-                onBrowse={() => changeShelf('all')}
+              <GalleryRail
+                title="Continue reading"
+                kicker={`${inProgressBooks.length} in progress`}
+                books={inProgressBooks.map((p) => p.book)}
+                inProgressMap={inProgressMap}
+                action={null}
               />
             )
-          ) : showCommunity ? (
-            <section aria-labelledby="br-sec-characters">
-              <div className="br-sec-head">
-                <h2 id="br-sec-characters" className="br-sec-label">Community</h2>
-                <a className="br-sec-link">See all</a>
+          ) : activeShelf === 'readinglist' ? (
+            readingListBooks.length === 0 ? (
+              <ShelfEmpty
+                title="Reading list is empty"
+                line="Save books to come back to. They'll show up here."
+                onBrowse={() => changeShelf('all')}
+              />
+            ) : (
+              <GalleryRail
+                title="Reading list"
+                kicker={`${readingListBooks.length} saved`}
+                books={readingListBooks}
+                action={null}
+              />
+            )
+          ) : finishedBooks.length === 0 ? (
+            <ShelfEmpty
+              title="No finished books yet"
+              line="Mark a book as read when you finish — it'll appear here."
+              onBrowse={() => changeShelf('all')}
+            />
+          ) : (
+            <GalleryRail
+              title="Finished"
+              kicker={`${finishedBooks.length} complete`}
+              books={finishedBooks}
+              action={null}
+            />
+          )
+        ) : showFiltered ? (
+          <section className="br-gallery-rail" aria-label="Filtered books">
+            <div className="br-gallery-rail-head">
+              <div>
+                <p className="br-gallery-kicker">{SHELF_LABELS[activeShelf]}</p>
+                <h2>
+                  {filteredBooks.length === 0
+                    ? 'No matches'
+                    : `${filteredBooks.length} match${filteredBooks.length === 1 ? '' : 'es'}`}
+                </h2>
               </div>
-              <div className="br-character-grid">
-                {betweenCharacterQuotes.map((item) => (
-                  <article key={item.source} className="br-character-card">
-                    <div className="br-character-tag">{item.tag}</div>
-                    <p className="br-character-quote">“{item.quote}”</p>
-                    <div className="br-character-source">— {item.source}</div>
-                  </article>
+              <button type="button" className="br-gallery-rail-link" onClick={clearFilters}>
+                Clear filters
+              </button>
+            </div>
+            {filteredBooks.length === 0 ? (
+              <p className="br-read-filter-empty">
+                Nothing matches. Try removing a mood or genre.
+              </p>
+            ) : (
+              <div className="br-read-grid">
+                {filteredBooks.map((b) => (
+                  <BookPoster key={b.slug} book={b} progress={inProgressMap[b.slug]} />
                 ))}
               </div>
-            </section>
-          ) : active === 'audio' ? (
-            <section className="br-read-placeholder" aria-labelledby="read-placeholder-audio">
-              <span className="br-continue-eyebrow">Coming soon</span>
-              <h2 id="read-placeholder-audio">Audio</h2>
-              <p>Audiobook shelves and narrated samples will live here.</p>
-            </section>
-          ) : showFeaturedLayout ? (
-            <>
-              <section aria-labelledby="br-sec-featured">
-                <div className="br-sec-head">
-                  <h2 id="br-sec-featured" className="br-sec-label">Featured this week</h2>
-                  <a className="br-sec-link">View all</a>
-                </div>
-                <FeaturedCarousel books={featuredBooks} />
-              </section>
+            )}
+          </section>
+        ) : showFeaturedLayout ? (
+          <>
+            {inProgressBooks.length > 1 ? (
+              <GalleryRail
+                title="Keep reading"
+                kicker={`${inProgressBooks.length} in progress`}
+                books={inProgressBooks.map((p) => p.book)}
+                inProgressMap={inProgressMap}
+                action={
+                  <button
+                    type="button"
+                    className="br-gallery-rail-link"
+                    onClick={() => changeShelf('continue')}
+                  >
+                    View all
+                  </button>
+                }
+              />
+            ) : null}
 
-              <section aria-labelledby="br-sec-recommended">
-                <div className="br-sec-head">
-                  <h2 id="br-sec-recommended" className="br-sec-label">Recommended for you</h2>
-                  <a className="br-sec-link">View all</a>
-                </div>
-                <div className="br-recommended-row br-read-asym">
-                  {recommendedBooks.map((b) => bookToCard(b))}
-                </div>
-              </section>
-            </>
-          ) : (
-            <section aria-label="Filtered books">
-              <div className="br-recommended-row">
-                {filteredBooks.map((b) => bookToCard(b))}
+            <GalleryRail
+              title="BetweenLines premieres"
+              kicker="Journal-first fiction"
+              books={betweenLinesBooks}
+              ranked
+              action={
+                <button
+                  type="button"
+                  className="br-gallery-rail-link"
+                  onClick={() => changeTab('betweenlines')}
+                >
+                  Inside BetweenLines
+                </button>
+              }
+            />
+
+            <GalleryRail
+              title="Recommended for you"
+              kicker="Based on your reading"
+              books={recommendedBooks}
+              action={
+                <button
+                  type="button"
+                  className="br-gallery-rail-link"
+                  onClick={() => changeShelf('foryou')}
+                >
+                  See For You shelf
+                </button>
+              }
+            />
+
+            <GalleryRail
+              title="Reader favorites"
+              kicker="Most-shelved by readers"
+              books={readerFavorites}
+              ranked
+              action={
+                <button
+                  type="button"
+                  className="br-gallery-rail-link"
+                  onClick={() => changeShelf('readerpicks')}
+                >
+                  All reader picks
+                </button>
+              }
+            />
+
+            <GalleryRail
+              title="Quiet rooms after dark"
+              kicker="Atmospheric discoveries"
+              books={midnightShelf}
+            />
+
+            {readingListBooks.length > 0 ? (
+              <GalleryRail
+                title="From your reading list"
+                kicker={`${readingListBooks.length} saved`}
+                books={readingListBooks}
+                action={
+                  <button
+                    type="button"
+                    className="br-gallery-rail-link"
+                    onClick={() => changeShelf('readinglist')}
+                  >
+                    Open list
+                  </button>
+                }
+              />
+            ) : null}
+
+            <GalleryRail
+              title="New this week"
+              kicker="Fresh on BetweenReads"
+              books={newThisWeek}
+              action={
+                <button
+                  type="button"
+                  className="br-gallery-rail-link"
+                  onClick={() => changeShelf('new')}
+                >
+                  See all new
+                </button>
+              }
+            />
+          </>
+        ) : (
+          <section className="br-gallery-rail" aria-label="Shelf">
+            <div className="br-gallery-rail-head">
+              <div>
+                <p className="br-gallery-kicker">{SHELF_LABELS[activeShelf]}</p>
+                <h2>{filteredBooks.length} book{filteredBooks.length === 1 ? '' : 's'}</h2>
               </div>
-            </section>
-          )}
-        </div>
+            </div>
+            <div className="br-read-grid">
+              {filteredBooks.map((b) => (
+                <BookPoster key={b.slug} book={b} progress={inProgressMap[b.slug]} />
+              ))}
+            </div>
+          </section>
+        )}
       </div>
-    </div>
-    </>
+    </main>
+  );
+}
+
+function ShelfEmpty({ title, line, onBrowse }: { title: string; line: string; onBrowse: () => void }) {
+  return (
+    <section className="br-read-shelf-empty" aria-label={title}>
+      <h2>{title}</h2>
+      <p>{line}</p>
+      <button type="button" className="br-gallery-secondary" onClick={onBrowse}>
+        Browse the gallery →
+      </button>
+    </section>
   );
 }
 

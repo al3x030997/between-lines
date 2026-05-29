@@ -1,11 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  getAllBooks,
-  getBook,
-  getBooksBySection,
-  type Book,
-} from '@/lib/mock-books';
+import { GalleryRail } from '@/components/gallery/GalleryRail';
+import { getAllBooks, getBook, getBooksBySection, type Book } from '@/lib/mock-books';
 
 export const metadata: Metadata = {
   title: 'Gallery - BetweenReads',
@@ -23,68 +19,6 @@ function uniqueBooks(books: Book[]): Book[] {
     seen.add(book.slug);
     return true;
   });
-}
-
-function bookMeta(book: Book): string {
-  const readerPicks = book.readerPicks ? `${book.readerPicks} Reader Picks` : null;
-  return [book.category, readerPicks ?? book.estRead].filter(Boolean).join(' / ');
-}
-
-function BookPoster({ book, rank }: { book: Book; rank?: number }) {
-  const badge = hasBadge(book, 'bl')
-    ? 'BetweenLines Pick'
-    : hasBadge(book, 'rp')
-      ? 'Reader Pick'
-      : hasBadge(book, 'mp')
-        ? 'Member Pick'
-        : 'Featured';
-
-  return (
-    <Link className="br-gallery-poster" href={`/read/${book.slug}`}>
-      <span className="br-gallery-poster-cover" style={{ background: book.cover }}>
-        {rank ? <span className="br-gallery-rank">{rank}</span> : null}
-        <span className="br-gallery-poster-badge">{badge}</span>
-      </span>
-      <span className="br-gallery-poster-body">
-        <span className="br-gallery-poster-title">{book.title}</span>
-        <span className="br-gallery-poster-author">{book.author}</span>
-        <span className="br-gallery-poster-meta">{bookMeta(book)}</span>
-      </span>
-    </Link>
-  );
-}
-
-function GalleryRail({
-  title,
-  kicker,
-  books,
-  ranked = false,
-}: {
-  title: string;
-  kicker: string;
-  books: Book[];
-  ranked?: boolean;
-}) {
-  if (books.length === 0) return null;
-
-  return (
-    <section className="br-gallery-rail" aria-labelledby={`gallery-${title.replace(/\s+/g, '-').toLowerCase()}`}>
-      <div className="br-gallery-rail-head">
-        <div>
-          <p className="br-gallery-kicker">{kicker}</p>
-          <h2 id={`gallery-${title.replace(/\s+/g, '-').toLowerCase()}`}>{title}</h2>
-        </div>
-        <Link href={`/read/${books[0]!.slug}`} className="br-gallery-rail-link">
-          Open first
-        </Link>
-      </div>
-      <div className="br-gallery-track">
-        {books.map((book, index) => (
-          <BookPoster key={book.slug} book={book} rank={ranked ? index + 1 : undefined} />
-        ))}
-      </div>
-    </section>
-  );
 }
 
 export default function GalleryPage() {
