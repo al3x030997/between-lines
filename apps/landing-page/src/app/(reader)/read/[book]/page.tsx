@@ -91,11 +91,6 @@ export default function BookPage({ params }: PageProps) {
           <Link href={readHref} className="br-btn br-btn-primary br-btn-lg">
             Read now — free
           </Link>
-          {!isClassic && book.price ? (
-            <button type="button" className="br-btn br-btn-accent br-btn-lg">
-              Buy — {book.price}
-            </button>
-          ) : null}
           <button type="button" className="br-btn br-btn-ghost br-btn-lg">
             {isClassic ? '🔖 Save' : 'Follow writer'}
           </button>
