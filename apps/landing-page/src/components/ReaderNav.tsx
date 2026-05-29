@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AvatarMenu } from './AvatarMenu';
-import { ThemeToggle } from './ThemeToggle';
 import { useMockSession } from '@/lib/useMockSession';
 
 type NavLink = { href: string; label: string; requiresWriter?: boolean };
@@ -13,7 +12,6 @@ const links: NavLink[] = [
   { href: '/read', label: 'Read' },
   { href: '/write', label: 'Write' },
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal' },
-  { href: '/read?tab=betareading', label: 'Beta Reading' },
 ];
 
 export function ReaderNav() {
@@ -71,17 +69,6 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
-        <ThemeToggle />
-        <Link href="/account" className="br-rc-badge" aria-label={`${session?.rc ?? 0} Reading Credits`}>
-          <span className="br-rc-num">{session?.rc ?? 0}</span>
-          <span className="br-rc-lbl">Reading Credits</span>
-        </Link>
-        {isWriter ? (
-          <Link href="/write" className="br-sc-badge" aria-label={`${session?.sc ?? 0} Swap Credits`}>
-            <span className="br-sc-num">{session?.sc ?? 0}</span>
-            <span className="br-sc-lbl">Swap Credits</span>
-          </Link>
-        ) : null}
         <AvatarMenu />
       </div>
     </nav>

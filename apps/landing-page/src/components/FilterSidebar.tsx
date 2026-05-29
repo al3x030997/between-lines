@@ -2,7 +2,7 @@
 
 type FilterDef = {
   label: FilterGroup;
-  items: { emoji: string; label: string }[];
+  items: { label: string }[];
 };
 
 export type FilterGroup = 'Mood' | 'Genre' | 'Type';
@@ -17,56 +17,56 @@ export type SidebarShelfId =
   | 'readinglist'
   | 'finished';
 
-const SHELF_FILTERS: { id: SidebarShelfId; label: string; meta: string }[] = [
-  { id: 'all', label: 'All', meta: 'Full shelf' },
-  { id: 'foryou', label: 'For You', meta: 'Matched' },
-  { id: 'continue', label: 'Continue Reading', meta: 'In progress' },
-  { id: 'readinglist', label: 'Reading List', meta: 'Saved' },
-  { id: 'finished', label: 'Finished', meta: 'Completed' },
-  { id: 'readerpicks', label: 'Reader Picks', meta: 'Community' },
-  { id: 'memberpicks', label: 'Member Picks', meta: 'Co-op' },
-  { id: 'new', label: 'New This Week', meta: 'Fresh' },
+const SHELF_FILTERS: { id: SidebarShelfId; label: string }[] = [
+  { id: 'all', label: 'All' },
+  { id: 'foryou', label: 'For You' },
+  { id: 'continue', label: 'Continue Reading' },
+  { id: 'readinglist', label: 'Reading List' },
+  { id: 'finished', label: 'Finished' },
+  { id: 'readerpicks', label: 'Reader Picks' },
+  { id: 'memberpicks', label: 'Member Picks' },
+  { id: 'new', label: 'New This Week' },
 ];
 
 const FILTERS: FilterDef[] = [
   {
     label: 'Mood',
     items: [
-      { emoji: '🌿', label: 'Calming' },
-      { emoji: '🌍', label: 'Escapist' },
-      { emoji: '😊', label: 'Feel-good' },
-      { emoji: '😂', label: 'Funny' },
-      { emoji: '🔥', label: 'Intense' },
-      { emoji: '💭', label: 'Reflective' },
-      { emoji: '😨', label: 'Scary' },
-      { emoji: '🕯️', label: 'Slow Burn' },
-      { emoji: '🎲', label: 'Surprise Me' },
+      { label: 'Calming' },
+      { label: 'Escapist' },
+      { label: 'Feel-good' },
+      { label: 'Funny' },
+      { label: 'Intense' },
+      { label: 'Reflective' },
+      { label: 'Scary' },
+      { label: 'Slow Burn' },
+      { label: 'Surprise Me' },
     ],
   },
   {
     label: 'Genre',
     items: [
-      { emoji: '🔮', label: 'Fantasy' },
-      { emoji: '🏛️', label: 'Historical' },
-      { emoji: '👻', label: 'Horror' },
-      { emoji: '📖', label: 'Literary Fiction' },
-      { emoji: '🔍', label: 'Mystery' },
-      { emoji: '💕', label: 'Romance' },
-      { emoji: '🪐', label: 'Sci-fi' },
-      { emoji: '⚡', label: 'Thriller' },
-      { emoji: '🧒', label: 'Young Adult' },
+      { label: 'Fantasy' },
+      { label: 'Historical' },
+      { label: 'Horror' },
+      { label: 'Literary Fiction' },
+      { label: 'Mystery' },
+      { label: 'Romance' },
+      { label: 'Sci-fi' },
+      { label: 'Thriller' },
+      { label: 'Young Adult' },
     ],
   },
   {
     label: 'Type',
     items: [
-      { emoji: '⚡', label: 'Flash Fiction' },
-      { emoji: '📄', label: 'Short Story' },
-      { emoji: '📝', label: 'Novelette' },
-      { emoji: '📘', label: 'Novella' },
-      { emoji: '📗', label: 'Novel' },
-      { emoji: '📚', label: 'Classic' },
-      { emoji: '🌸', label: 'Poetry' },
+      { label: 'Flash Fiction' },
+      { label: 'Short Story' },
+      { label: 'Novelette' },
+      { label: 'Novella' },
+      { label: 'Novel' },
+      { label: 'Classic' },
+      { label: 'Poetry' },
     ],
   },
 ];
@@ -147,7 +147,6 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
                 onClick={() => onShelfChange(item.id)}
               >
                 <span>{item.label}</span>
-                <em>{item.meta}</em>
               </button>
             );
           })}
@@ -173,7 +172,6 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
                       aria-pressed={on}
                       onClick={() => onToggle(key)}
                     >
-                      <span aria-hidden="true">{it.emoji}</span>
                       <span>{it.label}</span>
                     </button>
                   );
@@ -191,7 +189,6 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
                     aria-pressed={on}
                     onClick={() => onToggle(key)}
                   >
-                    <span className="br-fs-row-emoji" aria-hidden="true">{it.emoji}</span>
                     <span className="br-fs-row-label">{it.label}</span>
                     {showCount ? (
                       <span className="br-fs-count">{GENRE_COUNTS[it.label]}</span>
@@ -212,11 +209,9 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
       <div className="br-fs-saved">
         <div className="br-fs-saved-head">
           <span className="br-fs-label">Saved filters</span>
-          <span className="br-fs-saved-gear" aria-hidden="true">⚙</span>
         </div>
         {SAVED_FILTERS.map((s) => (
           <button key={s.label} type="button" className="br-fs-saved-item">
-            <span className="br-fs-saved-bookmark" aria-hidden="true">🔖</span>
             <span className="br-fs-saved-body">
               <span className="br-fs-saved-title">{s.label}</span>
               <span className="br-fs-saved-meta">{s.meta}</span>

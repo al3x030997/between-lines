@@ -20,7 +20,7 @@ import {
 } from '@/components/FilterSidebar';
 import { ProductCard, type CardVariant } from '@/components/ProductCard';
 import { AccountSwitcher } from '@/components/AccountSwitcher';
-import { ContinueReadingStrip } from '@/components/ContinueReadingHero';
+import { ContinueReadingHero } from '@/components/ContinueReadingHero';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
@@ -43,7 +43,6 @@ type TopReadTabId =
   | 'betweenlines'
   | 'betareading'
   | 'audio'
-  | 'magazine'
   | 'community';
 
 const tabs: TabDef<TopReadTabId>[] = [
@@ -51,7 +50,6 @@ const tabs: TabDef<TopReadTabId>[] = [
   { id: 'betweenlines', label: 'BetweenLines' },
   { id: 'betareading', label: 'Beta Reading' },
   { id: 'audio', label: 'Audio' },
-  { id: 'magazine', label: 'Magazine' },
   { id: 'community', label: 'Community' },
 ];
 
@@ -151,6 +149,7 @@ function isSidebarShelfId(value: string | null): value is SidebarShelfId {
 function tabToTopTab(value: string | null): TopReadTabId {
   if (value === 'betapicks') return 'betareading';
   if (value === 'betweencharacters') return 'community';
+  if (value === 'magazine') return 'betweenreads';
   return isTopReadTabId(value) ? value : 'betweenreads';
 }
 
@@ -236,16 +235,6 @@ function BetaReadingPanel() {
           );
         })}
       </div>
-    </section>
-  );
-}
-
-function ReadPlaceholderPanel({ title, body }: { title: string; body: string }) {
-  return (
-    <section className="br-read-placeholder" aria-labelledby={`read-placeholder-${title}`}>
-      <span className="br-continue-eyebrow">Coming soon</span>
-      <h2 id={`read-placeholder-${title}`}>{title}</h2>
-      <p>{body}</p>
     </section>
   );
 }
@@ -337,7 +326,6 @@ function ReaderSnapshot() {
   return (
     <span className="br-discover-snapshot">
       <span className="br-discover-snapshot-greet">Welcome back, {firstName}</span>
-      {parts.length > 0 ? <span className="br-discover-snapshot-sep" aria-hidden="true">—</span> : null}
       {parts.length > 0 ? <span className="br-discover-snapshot-meta">{parts.join(' · ')}</span> : null}
     </span>
   );
@@ -354,8 +342,8 @@ function DiscoverSearch({
 }) {
   const placeholder =
     activeMoods.length > 0
-      ? `Search ${activeMoods[0]!.toLowerCase()} stories, authors, or moods…`
-      : 'Search stories, authors, or try "reflective short fiction"…';
+      ? `Search ${activeMoods[0]!.toLowerCase()} stories`
+      : 'Search by title, author, or mood';
   return (
     <div className="br-discover-search">
       <svg
@@ -580,24 +568,25 @@ function DiscoverContent() {
         <div className="br-discover-head-right">
           <div className="br-discover-head-eyebrow">
             <ReaderSnapshot />
-            <div className="br-discover-actions">
-              <button type="button" className="br-sort" aria-disabled="true">
-                <span aria-hidden="true">↕</span> Sort <span aria-hidden="true">▾</span>
-              </button>
-              <button
-                type="button"
-                className="br-btn br-btn-ghost br-discover-filters"
-                aria-disabled="true"
-              >
-                <span aria-hidden="true">⚙</span> Filters
-              </button>
-            </div>
           </div>
 
-          <ContinueReadingStrip
+          <ContinueReadingHero
             onSeeAll={() => changeShelf('continue')}
             totalInProgress={inProgressBooks.length}
           />
+
+          <div className="br-read-tools-row">
+            <button type="button" className="br-sort" aria-disabled="true">
+              Sort <span aria-hidden="true">▾</span>
+            </button>
+            <button
+              type="button"
+              className="br-btn br-btn-ghost br-discover-filters"
+              aria-disabled="true"
+            >
+              Filters
+            </button>
+          </div>
 
           <DiscoverSearch query={query} onChange={setQuery} activeMoods={activeMoods} />
 
@@ -675,15 +664,11 @@ function DiscoverContent() {
               </div>
             </section>
           ) : active === 'audio' ? (
-            <ReadPlaceholderPanel
-              title="Audio"
-              body="Audiobook shelves and narrated samples will live here."
-            />
-          ) : active === 'magazine' ? (
-            <ReadPlaceholderPanel
-              title="Magazine"
-              body="Magazine issues, interviews, and culture notes will live here."
-            />
+            <section className="br-read-placeholder" aria-labelledby="read-placeholder-audio">
+              <span className="br-continue-eyebrow">Coming soon</span>
+              <h2 id="read-placeholder-audio">Audio</h2>
+              <p>Audiobook shelves and narrated samples will live here.</p>
+            </section>
           ) : showFeaturedLayout ? (
             <>
               <section aria-labelledby="br-sec-featured">
@@ -699,7 +684,7 @@ function DiscoverContent() {
                   <h2 id="br-sec-recommended" className="br-sec-label">Recommended for you</h2>
                   <a className="br-sec-link">View all</a>
                 </div>
-                <div className="br-recommended-row">
+                <div className="br-recommended-row br-read-asym">
                   {recommendedBooks.map((b) => bookToCard(b))}
                 </div>
               </section>

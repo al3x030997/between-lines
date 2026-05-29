@@ -30,18 +30,6 @@ export function ProfileBlock() {
           {isMember ? <span className="br-pb-tier-tag">Member</span> : null}
           <span className="br-pb-role">{roleLine}</span>
         </div>
-        <div className="br-pb-wallet" aria-label="Balances">
-          <span className="br-pb-rc" aria-label={`${session.rc} Reading Credits`}>
-            <span className="br-pb-rc-num">{session.rc}</span>
-            <span className="br-pb-rc-lbl">Reading Credits</span>
-          </span>
-          {isWriter ? (
-            <span className="br-pb-sc" aria-label={`${session.sc} Swap Credits`}>
-              <span className="br-pb-sc-num">{session.sc}</span>
-              <span className="br-pb-sc-lbl">Swap Credits</span>
-            </span>
-          ) : null}
-        </div>
         <div className="br-pb-social" aria-label="Social">
           <span className="br-pb-social-item">
             <span className="br-pb-social-num">{compact(session.followers)}</span>

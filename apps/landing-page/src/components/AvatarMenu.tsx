@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { clearMockSession } from '@/lib/mock-session';
 import { useMockSession } from '@/lib/useMockSession';
+import { ThemeToggle } from './ThemeToggle';
 
 export function AvatarMenu() {
   const { session } = useMockSession();
@@ -100,9 +101,9 @@ export function AvatarMenu() {
           <span className="br-am-item-label">Notifications</span>
           <span className="br-am-item-meta">Reader pods and replies</span>
         </div>
-        <div className="br-am-item" role="menuitem">
-          <span className="br-am-item-label">Preferences</span>
-          <span className="br-am-item-meta">Theme, privacy, quiet mode</span>
+        <div className="br-am-item br-am-theme">
+          <span className="br-am-item-label">Theme</span>
+          <ThemeToggle className="br-am-theme-btn" />
         </div>
         <div className="br-am-div" />
         <button
