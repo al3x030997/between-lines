@@ -11,18 +11,15 @@ import {
 
 const NEXT_THEME: Record<ThemeSetting, ThemeSetting> = {
   dark: 'light',
-  light: 'system',
-  system: 'dark',
+  light: 'dark',
 };
 
 const THEME_ICON: Record<ThemeSetting, string> = {
-  system: '◐',
   dark: '☾',
   light: '☀',
 };
 
 const THEME_LABEL: Record<ThemeSetting, string> = {
-  system: 'System theme',
   dark: 'Dark theme',
   light: 'Light theme',
 };
@@ -41,15 +38,6 @@ export function ThemeToggle({ className = '' }: Props) {
     setSetting(initial);
     setResolved(applyTheme(initial));
   }, []);
-
-  useEffect(() => {
-    if (setting !== 'system') return;
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const onSystemChange = () => setResolved(applyTheme('system'));
-
-    media.addEventListener('change', onSystemChange);
-    return () => media.removeEventListener('change', onSystemChange);
-  }, [setting]);
 
   const next = NEXT_THEME[setting];
   const label = useMemo(

@@ -23,12 +23,10 @@ const THEME_INIT_SCRIPT = `
       return;
     }
     var stored = window.localStorage.getItem(key);
-    var setting = stored === 'light' || stored === 'dark' || stored === 'system' ? stored : 'dark';
-    var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var resolved = setting === 'system' ? (systemDark ? 'dark' : 'light') : setting;
-    root.dataset.theme = resolved;
+    var setting = stored === 'light' || stored === 'dark' ? stored : 'dark';
+    root.dataset.theme = setting;
     root.dataset.themePreference = setting;
-    root.style.colorScheme = resolved;
+    root.style.colorScheme = setting;
   } catch (_) {
     document.documentElement.dataset.theme = 'light';
     document.documentElement.dataset.themePreference = 'light';
