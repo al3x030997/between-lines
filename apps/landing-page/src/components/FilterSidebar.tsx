@@ -124,7 +124,6 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
   return (
     <aside className="br-fsidebar" aria-label="Filter books">
       <div className="br-fs-section br-fs-section-shelf">
-        <span className="br-fs-label">BetweenReads</span>
         <div className="br-fs-shelf-grid">
           {SHELF_FILTERS.map((item) => {
             const on = selectedShelf === item.id;

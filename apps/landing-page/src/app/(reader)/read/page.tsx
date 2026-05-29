@@ -23,6 +23,7 @@ import { ContinueReadingHero } from '@/components/ContinueReadingHero';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
+import { getBetaReadingRequests } from '@/lib/mock-beta-reading';
 import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
 
 type TopReadTabId =
@@ -68,120 +69,50 @@ const betweenCharacterQuotes = [
   },
 ];
 
-const betweenLinesPremiumBenefits = [
-  'All BetweenLines issues',
-  'Unlimited premium chapters',
-  'Reader Pods',
-  'Early access',
-];
-
-const betweenLinesLockedPieces = [
+const betweenLinesComparison = [
   {
-    kind: 'Fiction',
-    issue: 'Issue 01',
-    title: 'A Room That Remembered Rain',
-    author: 'Mara Venn',
-    deck: 'A woman returns to a hotel where every room keeps the weather from its last guest.',
-    length: '18 min read',
-    accent: 'green',
+    feature: 'Reading profile',
+    free: 'BetweenPages reader profile',
+    premium: 'Everything in EmergingReader',
   },
   {
-    kind: 'Essay',
-    issue: 'Issue 01',
-    title: 'On Reading Slowly in Public',
-    author: 'Theo March',
-    deck: 'A defense of the visible reader, the borrowed hour, and the cafe table as desk.',
-    length: '9 min read',
-    accent: 'ink',
+    feature: 'Stories',
+    free: 'Public content and free chapters',
+    premium: 'Unlimited premium chapters',
   },
   {
-    kind: 'Poetry',
-    issue: 'Issue 01',
-    title: 'Six Notes Left Under a Door',
-    author: 'Inez Cora',
-    deck: 'A sequence about apartments, grief, and the tiny documents people leave behind.',
-    length: '7 min read',
-    accent: 'gold',
+    feature: 'BetweenLines journal',
+    free: 'Not included',
+    premium: 'All issues',
   },
   {
-    kind: 'Illustration',
-    issue: 'Issue 01',
-    title: 'The Night Shelf',
-    author: 'Amara Diallo',
-    deck: 'Four quiet interiors, drawn for readers who leave a lamp on after the last page.',
-    length: 'Gallery',
-    accent: 'blue',
+    feature: 'Reader Pods',
+    free: 'Not included',
+    premium: 'Join writer inner circles',
   },
   {
-    kind: 'Short Story',
-    issue: 'Issue 02',
-    title: 'The Cartographer of Lost Kitchens',
-    author: 'Nadia Bell',
-    deck: 'A mapmaker charts family recipes by the rooms where no one speaks of them anymore.',
-    length: '22 min read',
-    accent: 'red',
+    feature: 'Beta reading',
+    free: 'Basic access',
+    premium: 'Priority beta reader matching',
   },
   {
-    kind: 'Conversation',
-    issue: 'Issue 02',
-    title: 'The First Reader Was Right',
-    author: 'BetweenLines Desk',
-    deck: 'Editors unpack how one reader note changed the ending of a launch issue story.',
-    length: '12 min read',
-    accent: 'paper',
+    feature: 'Discovery',
+    free: 'Standard mood filters',
+    premium: 'Mood-based discovery - full access',
+  },
+  {
+    feature: 'New content',
+    free: 'Standard release timing',
+    premium: 'Early access',
+  },
+  {
+    feature: 'BetweenCharacters',
+    free: 'Read and submit quotes',
+    premium: 'Featured rotation eligible',
   },
 ];
 
-const betaCover = (filename: string) =>
-  `linear-gradient(180deg, rgba(8, 8, 8, 0.08) 0%, rgba(8, 8, 8, 0.34) 58%, rgba(8, 8, 8, 0.62) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
-
-const betaReadingPosts = [
-  {
-    title: 'The Orchard Map',
-    author: 'Mina Calder',
-    cover: betaCover('ember-and-the-cartographer'),
-    type: 'Novel',
-    words: 68200,
-    genre: 'Fantasy',
-    mood: 'Escapist',
-  },
-  {
-    title: 'Northbound After Midnight',
-    author: 'Jon Bellamy',
-    cover: betaCover('the-glass-meridian'),
-    type: 'Novel',
-    words: 74500,
-    genre: 'Thriller',
-    mood: 'Intense',
-  },
-  {
-    title: 'Every House Has Weather',
-    author: 'Clara Vale',
-    cover: betaCover('the-quiet-hours'),
-    type: 'Novel',
-    words: 59100,
-    genre: 'Literary Fiction',
-    mood: 'Reflective',
-  },
-  {
-    title: 'The Salt Letters',
-    author: 'Owen Marr',
-    cover: betaCover('salt-and-the-sea-between'),
-    type: 'Novel',
-    words: 81200,
-    genre: 'Historical',
-    mood: 'Slow Burn',
-  },
-  {
-    title: 'A Manual for Vanishing',
-    author: 'Leah Sato',
-    cover: betaCover('the-archivist-of-small-things'),
-    type: 'Novel',
-    words: 63800,
-    genre: 'Mystery',
-    mood: 'Calming',
-  },
-];
+const betaReadingPosts = getBetaReadingRequests();
 
 function isTopReadTabId(value: string | null): value is TopReadTabId {
   return tabs.some((t) => t.id === value);
@@ -272,9 +203,9 @@ function BetaReadingPanel() {
                 <span>slots open</span>
               </div>
 
-              <button type="button" className="br-btn br-btn-primary br-beta-cta">
+              <Link href={`/read/beta/${post.slug}`} className="br-btn br-btn-primary br-beta-cta">
                 Gain 25 Swap Credits
-              </button>
+              </Link>
             </article>
           );
         })}
@@ -304,68 +235,55 @@ function BetweenLinesLockedPanel() {
         <span className="br-blines-lock-pill">PowerReader</span>
       </div>
 
-      <div className="br-blines-lock-frame">
-        <div className="br-blines-locked-grid" aria-hidden="true">
-          {betweenLinesLockedPieces.map((piece) => (
-            <article className={`br-blines-piece is-${piece.accent}`} key={piece.title}>
-              <div className="br-blines-piece-cover">
-                <span>{piece.issue}</span>
-                <strong>{piece.kind}</strong>
-              </div>
-              <div className="br-blines-piece-body">
-                <div className="br-blines-piece-meta">
-                  <span>{piece.kind}</span>
-                  <span>{piece.length}</span>
-                </div>
-                <h3>{piece.title}</h3>
-                <p className="br-blines-piece-author">by {piece.author}</p>
-                <p>{piece.deck}</p>
-              </div>
-            </article>
+      <div className="br-blines-offer" role="region" aria-label="Upgrade to read BetweenLines">
+        <div className="br-blines-offer-top">
+          <div>
+          <div className="br-blines-upgrade-mark" aria-hidden="true">BL</div>
+          <p className="br-blines-upgrade-eyebrow">Premium reading experience</p>
+            <h3>Read every BetweenLines issue with PowerReader</h3>
+          <p className="br-blines-upgrade-copy">
+              Get the journal, unlimited premium chapters, Reader Pods, early access,
+              priority beta reader matching, and full mood-based discovery.
+          </p>
+            </div>
+
+          <div className="br-blines-price-card" aria-label="PowerReader pricing">
+            <span className="br-blines-price-label">PowerReader</span>
+            <strong>$10</strong>
+            <span>per month</span>
+            <em>or $100/year - save $20</em>
+            <small>14-day free trial</small>
+          </div>
+        </div>
+
+        <div className="br-blines-compare" aria-label="Free and PowerReader benefits comparison">
+          <div className="br-blines-compare-row is-head">
+            <span>Benefit</span>
+            <span>Free</span>
+            <span>PowerReader</span>
+          </div>
+          {betweenLinesComparison.map((row) => (
+            <div className="br-blines-compare-row" key={row.feature}>
+              <span>{row.feature}</span>
+              <span>{row.free}</span>
+              <span>{row.premium}</span>
+            </div>
           ))}
         </div>
 
-        <div className="br-blines-upgrade" role="region" aria-label="Upgrade to read BetweenLines">
-          <div className="br-blines-upgrade-mark" aria-hidden="true">BL</div>
-          <p className="br-blines-upgrade-eyebrow">Premium reading experience</p>
-          <h3>Upgrade to read curated picks from our journal.</h3>
-          <p className="br-blines-upgrade-copy">
-            PowerReader unlocks every BetweenLines issue, unlimited premium chapters,
-            Reader Pods, early access, priority beta reader matching, and full mood-based discovery.
-          </p>
-          <div className="br-blines-price-row" aria-label="PowerReader pricing">
-            <div>
-              <strong>$100</strong>
-              <span>per year</span>
-            </div>
-            <div>
-              <strong>14 days</strong>
-              <span>free trial</span>
-            </div>
-            <div>
-              <strong>$20</strong>
-              <span>annual saving</span>
-            </div>
-          </div>
-          <div className="br-blines-benefits" aria-label="Included with PowerReader">
-            {betweenLinesPremiumBenefits.map((benefit) => (
-              <span key={benefit}>{benefit}</span>
-            ))}
-          </div>
-          <div className="br-blines-actions">
-            <Link
-              className="br-btn br-btn-premium br-btn-lg"
-              href="/checkout?plan=powerreader&billing=annual&source=betweenlines"
-            >
-              Upgrade to PowerReader
-            </Link>
-            <Link
-              className="br-blines-monthly"
-              href="/checkout?plan=powerreader&billing=monthly&source=betweenlines"
-            >
-              or $10/month
-            </Link>
-          </div>
+        <div className="br-blines-actions">
+          <Link
+            className="br-btn br-btn-premium br-btn-lg"
+            href="/checkout?plan=powerreader&billing=monthly&source=betweenlines"
+          >
+            Upgrade to PowerReader
+          </Link>
+          <Link
+            className="br-blines-monthly"
+            href="/checkout?plan=powerreader&billing=annual&source=betweenlines"
+          >
+            Choose annual billing
+          </Link>
         </div>
       </div>
     </section>
