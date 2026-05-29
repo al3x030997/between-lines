@@ -22,6 +22,8 @@ export default function ChapterPage({ params }: PageProps) {
     <ReaderShell
       bookSlug={book.slug}
       bookTitle={book.title}
+      authorName={book.author}
+      authorHandle={book.authorHandle}
       chapterNumber={chapter.num}
       chapterTitle={chapter.title}
       chapterBody={body}

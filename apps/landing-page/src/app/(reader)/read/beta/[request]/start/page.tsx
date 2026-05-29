@@ -14,6 +14,7 @@ export default function StartBetaReadingPage({ params }: PageProps) {
     <ReaderShell
       bookSlug={`beta/${request.slug}`}
       bookTitle={request.title}
+      authorName={request.author}
       chapterNumber={1}
       chapterTitle={request.openingTitle}
       chapterBody={request.openingBody}

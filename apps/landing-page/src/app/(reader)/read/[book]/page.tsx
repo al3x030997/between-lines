@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getBook } from '@/lib/mock-books';
 import { writerSlugForHandle } from '@/lib/mock-writers';
 import { CommunityVoices } from '@/components/CommunityVoices';
+import { TipWriterButton } from '@/components/TipWriterButton';
 
 type PageProps = {
   params: { book: string };
@@ -97,6 +98,13 @@ export default function BookPage({ params }: PageProps) {
           <button type="button" className="br-btn br-btn-ghost br-btn-lg">
             {isClassic ? '🔖 Save' : 'Follow writer'}
           </button>
+          {!isClassic ? (
+            <TipWriterButton
+              authorName={book.author}
+              authorHandle={book.authorHandle}
+              size="lg"
+            />
+          ) : null}
         </div>
 
         {book.alsoOn && book.alsoOn.length > 0 ? (

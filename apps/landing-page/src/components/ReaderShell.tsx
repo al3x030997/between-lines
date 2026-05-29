@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { FeedbackPanel } from './FeedbackPanel';
 import { QuietOverlay } from './QuietOverlay';
+import { TipWriterButton } from './TipWriterButton';
 
 const MIN_FONT = 14;
 const MAX_FONT = 24;
@@ -12,6 +13,8 @@ const WIDE_KEY = 'br-reader-wide';
 type Props = {
   bookSlug: string;
   bookTitle: string;
+  authorName: string;
+  authorHandle?: string;
   chapterNumber: number;
   chapterTitle: string;
   chapterBody: string;
@@ -24,6 +27,8 @@ type Props = {
 export function ReaderShell({
   bookSlug,
   bookTitle,
+  authorName,
+  authorHandle,
   chapterNumber,
   chapterTitle,
   chapterBody,
@@ -179,6 +184,20 @@ export function ReaderShell({
           style={{ fontSize: `${fontSize}px` }}
           dangerouslySetInnerHTML={{ __html: chapterBody }}
         />
+
+        <div className="br-tip-author-row">
+          <div className="br-tip-author-copy">
+            <div className="br-tip-author-eyebrow">Enjoyed this chapter?</div>
+            <div className="br-tip-author-line">
+              Send {authorName.split(' ')[0]} a few Reading Credits as a thank-you.
+            </div>
+          </div>
+          <TipWriterButton
+            authorName={authorName}
+            authorHandle={authorHandle}
+            label="Tip author"
+          />
+        </div>
 
         <FeedbackPanel />
 
