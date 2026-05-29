@@ -19,12 +19,20 @@ import {
   matchesFilters,
 } from '@/components/FilterSidebar';
 import { ProductCard, type CardVariant } from '@/components/ProductCard';
-import { ContinueReadingHero } from '@/components/ContinueReadingHero';
+import { ContinueReadingStrip } from '@/components/ContinueReadingHero';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
+import { useMockSession } from '@/lib/useMockSession';
 import { getBetaReadingRequests } from '@/lib/mock-beta-reading';
-import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
+import {
+  getBetweenLinesInviteCount,
+  getBooksBySection,
+  getInProgressCount,
+  sections,
+  type Section,
+  type Book,
+} from '@/lib/mock-books';
 
 type TopReadTabId =
   | 'betweenreads'
@@ -290,14 +298,148 @@ function BetweenLinesLockedPanel() {
   );
 }
 
+function matchesQuery(book: Book, q: string): boolean {
+  if (!q) return true;
+  const needle = q.trim().toLowerCase();
+  if (!needle) return true;
+  return (
+    book.title.toLowerCase().includes(needle) ||
+    book.author.toLowerCase().includes(needle)
+  );
+}
+
+function focusMoodRail() {
+  if (typeof document === 'undefined') return;
+  const el = document.querySelector<HTMLElement>('[data-mood-rail]');
+  el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function ReaderSnapshot() {
+  const { session } = useMockSession();
+  const firstName = (session?.user ?? 'reader').split(/\s+/)[0] ?? 'reader';
+  const inProgress = getInProgressCount();
+  const invites = getBetweenLinesInviteCount();
+  const parts: string[] = [];
+  if (inProgress > 0) parts.push(`${inProgress} in progress`);
+  if (invites > 0) parts.push(`${invites} BetweenLines invite${invites === 1 ? '' : 's'}`);
+  return (
+    <span className="br-discover-snapshot">
+      <span className="br-discover-snapshot-greet">Welcome back, {firstName}</span>
+      {parts.length > 0 ? <span className="br-discover-snapshot-sep" aria-hidden="true">—</span> : null}
+      {parts.length > 0 ? <span className="br-discover-snapshot-meta">{parts.join(' · ')}</span> : null}
+    </span>
+  );
+}
+
+function DiscoverTitle({
+  activeMoods,
+  onClear,
+}: {
+  activeMoods: string[];
+  onClear: () => void;
+}) {
+  let title = 'Discover';
+  let sub = 'Stories matched to your current mood';
+  if (activeMoods.length === 1) {
+    const m = activeMoods[0]!;
+    title = `${m} tonight`;
+    sub = `Stories matched to a ${m.toLowerCase()} mood`;
+  } else if (activeMoods.length >= 2) {
+    const first = activeMoods[0]!;
+    const rest = activeMoods.length - 1;
+    title = `${first} & ${rest} more`;
+    sub = `Mix of ${activeMoods.length} moods from your sidebar`;
+  }
+  return (
+    <div className="br-discover-title-row">
+      <div className="br-discover-title-text">
+        <h1 className="br-discover-h1">{title}</h1>
+        <p className="br-discover-sub">{sub}</p>
+      </div>
+      {activeMoods.length > 0 ? (
+        <div className="br-discover-title-actions">
+          <button
+            type="button"
+            className="br-discover-change-mood"
+            onClick={focusMoodRail}
+          >
+            change ↓
+          </button>
+          <button
+            type="button"
+            className="br-discover-change-mood is-clear"
+            onClick={onClear}
+          >
+            clear
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function DiscoverSearch({
+  query,
+  onChange,
+  activeMoods,
+}: {
+  query: string;
+  onChange: (next: string) => void;
+  activeMoods: string[];
+}) {
+  const placeholder =
+    activeMoods.length > 0
+      ? `Search ${activeMoods[0]!.toLowerCase()} stories, authors, or moods…`
+      : 'Search stories, authors, or try "reflective short fiction"…';
+  return (
+    <div className="br-discover-search">
+      <svg
+        className="br-discover-search-icon"
+        viewBox="0 0 20 20"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <circle cx="9" cy="9" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+        <line x1="13.5" y1="13.5" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      <input
+        type="search"
+        className="br-discover-search-input"
+        value={query}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        aria-label="Search stories"
+      />
+      {query ? (
+        <button
+          type="button"
+          className="br-discover-search-clear"
+          onClick={() => onChange('')}
+          aria-label="Clear search"
+        >
+          ×
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
 function DiscoverContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [active, setActive] = useState<TopReadTabId>('betweenreads');
   const [activeShelf, setActiveShelf] = useState<SidebarShelfId>('all');
   const [filters, setFilters] = useState<FilterState>({});
+  const [query, setQuery] = useState('');
   const visible = new Set<Section['id']>(visibility[activeShelf]);
-  const filtersActive = hasActiveFilters(filters);
+  const filtersActive = hasActiveFilters(filters) || query.trim().length > 0;
+  const activeMoods = useMemo(
+    () =>
+      Object.keys(filters)
+        .filter((k) => filters[k] && k.startsWith('Mood:'))
+        .map((k) => k.slice('Mood:'.length)),
+    [filters],
+  );
   const showFeaturedLayout = active === 'betweenreads' && activeShelf === 'all' && !filtersActive;
   const showCommunity = active === 'community' && !filtersActive;
   const showLockedBetweenLines = active === 'betweenlines';
@@ -343,8 +485,9 @@ function DiscoverContent() {
       .filter((s) => visible.has(s.id))
       .flatMap((s) => getBooksBySection(s.id))
       .filter((b) => bookMatchesShelf(b, activeShelf))
-      .filter((b) => matchesFilters(b.tags, filters));
-  }, [activeShelf, filters, visible]);
+      .filter((b) => matchesFilters(b.tags, filters))
+      .filter((b) => matchesQuery(b, query));
+  }, [activeShelf, filters, query, visible]);
 
   const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
   const recommendedBooks = useMemo(
@@ -360,17 +503,35 @@ function DiscoverContent() {
     <>
       <header className="br-discover-head">
         <ProfileBlock />
-        <div className="br-discover-head-title">
-          <h1 className="br-discover-h1">Discover</h1>
-          <p className="br-discover-sub">Stories matched to your current mood</p>
-        </div>
-        <div className="br-discover-actions">
-          <button type="button" className="br-sort" aria-disabled="true">
-            <span aria-hidden="true">↕</span> Sort: Relevance <span aria-hidden="true">▾</span>
-          </button>
-          <button type="button" className="br-btn br-btn-ghost br-discover-filters" aria-disabled="true">
-            <span aria-hidden="true">⚙</span> Filters
-          </button>
+        <div className="br-discover-head-right">
+          <div className="br-discover-head-eyebrow">
+            <ReaderSnapshot />
+            <div className="br-discover-actions">
+              <button type="button" className="br-sort" aria-disabled="true">
+                <span aria-hidden="true">↕</span> Sort <span aria-hidden="true">▾</span>
+              </button>
+              <button
+                type="button"
+                className="br-btn br-btn-ghost br-discover-filters"
+                aria-disabled="true"
+              >
+                <span aria-hidden="true">⚙</span> Filters
+              </button>
+            </div>
+          </div>
+
+          <DiscoverTitle activeMoods={activeMoods} onClear={clearFilters} />
+
+          {active === 'betweenreads' ? <ContinueReadingStrip /> : null}
+
+          <DiscoverSearch query={query} onChange={setQuery} activeMoods={activeMoods} />
+
+          <StoreTabs<TopReadTabId>
+            tabs={tabs}
+            active={active}
+            onChange={changeTab}
+            ariaLabel="Discover sections"
+          />
         </div>
       </header>
       <div className="br-discover">
@@ -381,16 +542,7 @@ function DiscoverContent() {
           onShelfChange={changeShelf}
         />
         <div className="br-discover-main">
-          <StoreTabs<TopReadTabId>
-            tabs={tabs}
-            active={active}
-            onChange={changeTab}
-            ariaLabel="Discover sections"
-          />
-
         <div className="br-stage">
-          {active === 'betweenreads' ? <ContinueReadingHero /> : null}
-
           {active === 'betweenreads' && filtersActive && !showLockedBetweenLines && (
             <div className="br-filter-status" role="status" aria-live="polite">
               <span>

@@ -146,8 +146,10 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
       {FILTERS.map((group) => {
         const isPillGrid = group.label === 'Mood';
         const showCount = group.label === 'Genre';
+        const sectionProps =
+          group.label === 'Mood' ? { 'data-mood-rail': true } : {};
         return (
-          <div className="br-fs-section" key={group.label}>
+          <div className="br-fs-section" key={group.label} {...sectionProps}>
             <span className="br-fs-label">{group.label}</span>
             {isPillGrid ? (
               <div className="br-fs-pills">

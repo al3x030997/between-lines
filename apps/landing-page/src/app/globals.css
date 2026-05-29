@@ -1283,24 +1283,20 @@ body[data-quiet="true"] .br-progress { display: none; }
   margin-bottom: 2.5rem;
 }
 
-/* Discover header — ProfileBlock (240px left slot) + Discover h1/sub + sort/filter actions.
-   The 240px ProfileBlock matches the sidebar width below it; the title group
-   pads left by (2rem + 1.25rem) so the h1 still aligns with the first tab ("All").
-   ::before draws a continuous divider at the sidebar's right edge so the
-   vertical line runs from the nav bottom down through the header. */
+/* Discover header — ProfileBlock (240px left slot) + a stacked right column:
+   eyebrow snapshot + Sort/Filters · mood-echo title · Continue strip · search ·
+   store tabs. The 240px ProfileBlock matches the sidebar width below it; the
+   right column pads left by (2rem + 1.25rem) so its first column aligns past
+   the divider. ::before draws a continuous divider at the sidebar's right edge
+   so the vertical line runs from the nav bottom down through the header. */
 .br-discover-head {
   width: 100%;
-  padding: 1.75rem 2rem 1.25rem 0;
+  padding: 1.5rem 2rem 0 0;
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr) auto;
-  align-items: center;
+  grid-template-columns: 240px minmax(0, 1fr);
+  align-items: stretch;
   gap: 0;
   position: relative;
-}
-.br-discover-head-title {
-  min-width: 0;
-  padding-left: calc(2rem + 1.25rem);
-  align-self: flex-end;
 }
 .br-discover-head::before {
   content: '';
@@ -1312,23 +1308,90 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: var(--v11-divider);
   pointer-events: none;
 }
+.br-discover-head-right {
+  min-width: 0;
+  padding-left: calc(2rem + 1.25rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+.br-discover-head-eyebrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  min-height: 22px;
+}
+.br-discover-snapshot {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--v11-ink-mute);
+}
+.br-discover-snapshot-greet {
+  color: var(--v11-ink-soft);
+  font-weight: 600;
+}
+.br-discover-snapshot-sep { color: var(--v11-ink-trace); }
+.br-discover-snapshot-meta { color: var(--v11-ink-mute); }
+
+.br-discover-title-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.br-discover-title-text { min-width: 0; }
+.br-discover-title-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+}
+.br-discover-change-mood {
+  font-family: var(--br-font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--v11-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: color 0.15s, text-decoration-color 0.15s;
+  text-decoration: underline transparent;
+  text-underline-offset: 3px;
+}
+.br-discover-change-mood:hover {
+  color: var(--v11-ink);
+  text-decoration-color: currentColor;
+}
+.br-discover-change-mood.is-clear { color: var(--v11-ink-mute); }
+.br-discover-change-mood.is-clear:hover { color: var(--v11-ink); }
+
 .br-discover-h1 {
   font-family: var(--br-font-display);
   font-weight: 600;
-  font-size: 36px;
-  line-height: 1.1;
+  font-size: 28px;
+  line-height: 1.15;
   color: var(--v11-ink);
   letter-spacing: -0.01em;
 }
 .br-discover-sub {
-  margin-top: 4px;
+  margin-top: 3px;
   font-size: 13px;
   color: var(--v11-ink-mute);
 }
 .br-discover-actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
 }
 .br-sort {
@@ -1342,7 +1405,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: var(--br-panel-bg);
   border: 0.5px solid var(--br-border-warm);
   border-radius: 8px;
-  padding: 8px 14px;
+  padding: 6px 12px;
   cursor: pointer;
   transition: background 0.15s, color 0.15s;
 }
@@ -1352,11 +1415,153 @@ body[data-quiet="true"] .br-progress { display: none; }
   letter-spacing: 0;
   font-size: 12px;
   font-weight: 500;
+  padding: 6px 12px;
+}
+
+/* Continue Reading — slim strip variant rendered inside the header. */
+.br-continue-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.625rem 0.875rem 0.625rem 0.625rem;
+  background: var(--br-panel-bg);
+  border: 0.5px solid var(--br-border-warm);
+  border-radius: 10px;
+  min-height: 64px;
+}
+.br-continue-strip.is-empty {
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+}
+.br-continue-strip-empty-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--v11-accent);
+  text-decoration: none;
+}
+.br-continue-strip-empty-link:hover { text-decoration: underline; }
+.br-continue-strip-cover {
+  width: 40px;
+  height: 52px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.br-continue-strip-cover .br-cover-inner {
+  padding: 0.25rem;
+  transform: scale(0.34);
+}
+.br-continue-strip-meta {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.br-continue-strip-meta .br-continue-eyebrow {
+  margin: 0;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+.br-continue-strip-title {
+  font-family: var(--br-font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--v11-ink);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.br-continue-strip-progress {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.br-continue-strip-progress .br-continue-bar {
+  flex: 1;
+  height: 4px;
+}
+.br-continue-strip-pct {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--v11-ink-soft);
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+}
+.br-continue-strip-cta {
+  flex-shrink: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: 600;
   padding: 8px 14px;
 }
 
+/* Search input in the header strip. */
+.br-discover-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: var(--br-panel-bg);
+  border: 0.5px solid var(--br-border-warm);
+  border-radius: 10px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.br-discover-search:focus-within {
+  border-color: var(--v11-accent);
+  box-shadow: 0 0 0 3px var(--v11-accent-soft);
+}
+.br-discover-search-icon {
+  width: 16px;
+  height: 16px;
+  margin-left: 12px;
+  color: var(--v11-ink-trace);
+  flex-shrink: 0;
+}
+.br-discover-search-input {
+  flex: 1;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--br-font-sans);
+  font-size: 13px;
+  color: var(--v11-ink);
+  padding: 10px 12px;
+}
+.br-discover-search-input::placeholder { color: var(--v11-ink-trace); }
+.br-discover-search-input::-webkit-search-cancel-button { display: none; }
+.br-discover-search-clear {
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--v11-ink-mute);
+  cursor: pointer;
+  padding: 6px 12px 6px 4px;
+  transition: color 0.15s;
+}
+.br-discover-search-clear:hover { color: var(--v11-ink); }
+
+/* StoreTabs inside the header — drop its own sticky positioning and let the
+   header own its placement. The base .br-tabs styling still applies. */
+.br-discover-head .br-tabs {
+  position: static;
+  top: auto;
+  padding-left: 0;
+  padding-right: 0;
+  background: transparent;
+  margin-top: 0.25rem;
+}
+
 /* Scoped: teal underline for discover tabs only — store tabs unaffected */
-.br-discover .br-tab.is-active { border-bottom-color: var(--v11-accent); }
+.br-discover .br-tab.is-active,
+.br-discover-head .br-tab.is-active { border-bottom-color: var(--v11-accent); }
 
 .br-character-grid {
   display: grid;
@@ -2064,11 +2269,23 @@ body[data-quiet="true"] .br-progress { display: none; }
   .br-discover-head {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     padding-left: 2rem;
   }
   .br-discover-head::before { display: none; }
-  .br-discover-head-title { padding-left: 0; }
+  .br-discover-head-right { padding-left: 0; }
+  .br-discover-head-eyebrow {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .br-discover-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .br-discover-title-actions { padding-bottom: 0; }
+  .br-continue-strip { flex-wrap: wrap; }
+  .br-continue-strip-cta { width: 100%; }
   .br-pb {
     width: 100%;
     margin: 0 0 1rem;

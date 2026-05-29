@@ -1,3 +1,5 @@
+import { exampleCoverArt, requireExampleBookMetadata } from './example-book-library';
+
 export type Tier = 'free' | 'rc' | 'subscribe';
 
 export type ChapterAccess =
@@ -44,8 +46,16 @@ export type Book = {
   section: 'bl' | 'foryou' | 'new' | 'classics';
 };
 
-const coverArt = (filename: string) =>
-  `linear-gradient(180deg, rgba(8, 8, 8, 0.05) 0%, rgba(8, 8, 8, 0.34) 58%, rgba(8, 8, 8, 0.58) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
+const coverArt = exampleCoverArt;
+
+function bookFromLibrary(slug: string, chapters: Chapter[]): Book {
+  const { cover, storeBadge: _storeBadge, storeBlurb: _storeBlurb, ...book } = requireExampleBookMetadata(slug);
+  return {
+    ...book,
+    cover: coverArt(cover.filename),
+    chapters,
+  };
+}
 
 // ============================================================
 // THE QUIET HOURS — full chapter 1 text
@@ -252,6 +262,21 @@ const books: Book[] = [
     ],
     section: 'foryou',
   },
+  bookFromLibrary('the-empty-chair', [
+    { num: 1, slug: 'a-house-with-one-light-on', title: 'A House With One Light On', words: 2100, access: { type: 'free' } },
+    { num: 2, slug: 'what-the-desk-kept', title: 'What the Desk Kept', words: 1800, access: { type: 'free' } },
+    { num: 3, slug: 'the-empty-chair', title: 'The Empty Chair', words: 1700, access: { type: 'rc', cost: 5 } },
+  ]),
+  bookFromLibrary('the-margin-notes', [
+    { num: 1, slug: 'a-copy-of-middlemarch', title: 'A Copy of Middlemarch', words: 2600, access: { type: 'free' } },
+    { num: 2, slug: 'pencil-answers', title: 'Pencil Answers', words: 2400, access: { type: 'free' } },
+    { num: 3, slug: 'the-return-shelf', title: 'The Return Shelf', words: 2500, access: { type: 'rc', cost: 5 } },
+  ]),
+  bookFromLibrary('ink-and-wander', [
+    { num: 1, slug: 'mile-one', title: 'Mile One', words: 1800, access: { type: 'free' } },
+    { num: 2, slug: 'rain-in-the-crosswalk', title: 'Rain in the Crosswalk', words: 1400, access: { type: 'free' } },
+    { num: 3, slug: 'the-map-is-a-habit', title: 'The Map Is a Habit', words: 1650, access: { type: 'rc', cost: 5 } },
+  ]),
   {
     slug: 'the-archivist-of-small-things',
     title: 'The Archivist of Small Things',
@@ -351,6 +376,17 @@ export function getBooksBySection(id: Section['id']): Book[] {
 
 export function getAllBooks(): Book[] {
   return books;
+}
+
+// Mock counts for the Discover header eyebrow. The mock data doesn't yet
+// carry per-book reading progress, so this stays a single hardcoded book
+// (The Quiet Hours) until that lands.
+export function getInProgressCount(): number {
+  return 1;
+}
+
+export function getBetweenLinesInviteCount(): number {
+  return 2;
 }
 
 export function getChapter(bookSlug: string, chapterSlug: string): { book: Book; chapter: Chapter; next?: Chapter } | undefined {
