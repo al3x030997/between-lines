@@ -15,6 +15,7 @@ const THEME_INIT_SCRIPT = `
     var isReader = readerPrefixes.some(function (p) {
       return path === p || path.indexOf(p + '/') === 0 || path.indexOf(p + '?') === 0;
     });
+    var isGallery = path === '/gallery' || path.indexOf('/gallery/') === 0 || path.indexOf('/gallery?') === 0;
     var root = document.documentElement;
     if (!isReader) {
       root.dataset.theme = 'light';
@@ -23,7 +24,7 @@ const THEME_INIT_SCRIPT = `
       return;
     }
     var stored = window.localStorage.getItem(key);
-    var setting = stored === 'light' || stored === 'dark' ? stored : 'dark';
+    var setting = isGallery ? 'dark' : (stored === 'light' || stored === 'dark' ? stored : 'dark');
     root.dataset.theme = setting;
     root.dataset.themePreference = setting;
     root.style.colorScheme = setting;

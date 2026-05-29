@@ -2819,36 +2819,35 @@ body[data-quiet="true"] .br-progress { display: none; }
    STANDALONE GALLERY
    ============================================================ */
 .br-gallery-page {
-  --gallery-bg: #f4f3ee;
-  --gallery-ink: #1e211e;
-  --gallery-soft: rgba(30, 33, 30, 0.72);
-  --gallery-muted: rgba(30, 33, 30, 0.54);
-  --gallery-faint: rgba(30, 33, 30, 0.24);
-  --gallery-line: rgba(30, 33, 30, 0.14);
-  --gallery-surface: rgba(255, 255, 255, 0.58);
-  --gallery-surface-strong: rgba(255, 255, 255, 0.76);
-  --gallery-accent: #4f5f56;
-  --gallery-accent-strong: #303b35;
-  --gallery-accent-soft: rgba(79, 95, 86, 0.12);
-  --gallery-accent-line: rgba(79, 95, 86, 0.34);
-  --gallery-primary-fg: #f8f7f2;
-  --gallery-on-media: #f8f5eb;
-  --gallery-on-media-soft: rgba(248, 245, 235, 0.76);
-  --gallery-on-media-muted: rgba(248, 245, 235, 0.58);
-  --gallery-on-media-accent: #dce5df;
-  --gallery-media-line: rgba(248, 245, 235, 0.24);
-  --gallery-media-glass: rgba(15, 16, 15, 0.62);
+  --gallery-bg: #070708;
+  --gallery-ink: #fff7e8;
+  --gallery-soft: rgba(255, 247, 232, 0.72);
+  --gallery-muted: rgba(255, 247, 232, 0.5);
+  --gallery-faint: rgba(255, 247, 232, 0.26);
+  --gallery-line: rgba(255, 247, 232, 0.16);
+  --gallery-surface: rgba(255, 247, 232, 0.08);
+  --gallery-surface-strong: rgba(255, 247, 232, 0.13);
+  --gallery-accent: #f0d45e;
+  --gallery-accent-strong: #f0d45e;
+  --gallery-accent-soft: rgba(240, 212, 94, 0.18);
+  --gallery-accent-line: rgba(240, 212, 94, 0.45);
+  --gallery-primary-fg: #10100e;
+  --gallery-on-media: #fff7e8;
+  --gallery-on-media-soft: rgba(255, 247, 232, 0.76);
+  --gallery-on-media-muted: rgba(255, 247, 232, 0.58);
+  --gallery-on-media-accent: #f0d45e;
+  --gallery-media-line: rgba(255, 247, 232, 0.2);
+  --gallery-media-glass: rgba(10, 10, 10, 0.56);
   --gallery-page-gradient:
-    radial-gradient(circle at 18% 0%, rgba(79, 95, 86, 0.16), transparent 31%),
-    radial-gradient(circle at 86% 18%, rgba(174, 168, 156, 0.16), transparent 36%),
-    linear-gradient(180deg, #f7f6f1 0%, #eeede8 48%, #e7e8e2 100%);
+    linear-gradient(90deg, rgba(190, 63, 79, 0.12), transparent 28%, rgba(111, 181, 141, 0.12) 66%, rgba(240, 212, 94, 0.08)),
+    linear-gradient(180deg, #101010 0%, #070708 44%, #030304 100%);
   --gallery-vignette:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.54), transparent 30%, rgba(79, 95, 86, 0.08) 62%, transparent 76%),
-    linear-gradient(180deg, transparent 0%, rgba(232, 232, 226, 0.32) 70%, rgba(218, 218, 211, 0.82) 100%);
-  --gallery-grid-line: rgba(30, 33, 30, 0.05);
-  --gallery-grid-line-soft: rgba(30, 33, 30, 0.035);
-  --gallery-shadow: rgba(38, 40, 36, 0.2);
-  --gallery-shadow-strong: rgba(38, 40, 36, 0.32);
+    linear-gradient(125deg, rgba(255, 255, 255, 0.1), transparent 24%, rgba(111, 181, 141, 0.13) 55%, transparent 72%),
+    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.45) 72%, rgba(0, 0, 0, 0.92) 100%);
+  --gallery-grid-line: rgba(255, 247, 232, 0.035);
+  --gallery-grid-line-soft: rgba(255, 247, 232, 0.025);
+  --gallery-shadow: rgba(0, 0, 0, 0.42);
+  --gallery-shadow-strong: rgba(0, 0, 0, 0.58);
   position: relative;
   min-height: calc(100vh - 62px);
   padding-bottom: 5rem;
@@ -2856,30 +2855,6 @@ body[data-quiet="true"] .br-progress { display: none; }
   isolation: isolate;
   color: var(--gallery-ink);
   background: var(--gallery-page-gradient);
-}
-html[data-theme='dark'] .br-gallery-page {
-  --gallery-bg: #1b1c1b;
-  --gallery-ink: #f1efe9;
-  --gallery-soft: rgba(241, 239, 233, 0.72);
-  --gallery-muted: rgba(241, 239, 233, 0.52);
-  --gallery-faint: rgba(241, 239, 233, 0.25);
-  --gallery-line: rgba(241, 239, 233, 0.14);
-  --gallery-surface: rgba(241, 239, 233, 0.07);
-  --gallery-surface-strong: rgba(241, 239, 233, 0.11);
-  --gallery-accent: #c3c7c1;
-  --gallery-accent-strong: #e3e4df;
-  --gallery-accent-soft: rgba(195, 199, 193, 0.13);
-  --gallery-accent-line: rgba(195, 199, 193, 0.36);
-  --gallery-primary-fg: #171817;
-  --gallery-page-gradient:
-    linear-gradient(180deg, #242524 0%, #1d1e1d 48%, #171817 100%);
-  --gallery-vignette:
-    linear-gradient(125deg, rgba(255, 255, 255, 0.065), transparent 32%, rgba(255, 255, 255, 0.03) 64%, transparent 78%),
-    linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.28) 72%, rgba(0, 0, 0, 0.66) 100%);
-  --gallery-grid-line: rgba(241, 239, 233, 0.032);
-  --gallery-grid-line-soft: rgba(241, 239, 233, 0.022);
-  --gallery-shadow: rgba(0, 0, 0, 0.34);
-  --gallery-shadow-strong: rgba(0, 0, 0, 0.48);
 }
 .br-gallery-page::before {
   content: "";

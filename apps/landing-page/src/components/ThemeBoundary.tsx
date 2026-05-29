@@ -14,7 +14,9 @@ export function ThemeBoundary() {
   const pathname = usePathname() ?? '';
 
   useEffect(() => {
-    if (isReaderPath(pathname)) {
+    if (pathname === '/gallery' || pathname.startsWith('/gallery/')) {
+      applyTheme('dark');
+    } else if (isReaderPath(pathname)) {
       applyTheme(readerDefaultSetting());
     } else {
       applyLightTheme();
