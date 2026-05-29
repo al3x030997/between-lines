@@ -10,7 +10,7 @@ export default function ChapterPage({ params }: PageProps) {
   const found = getChapter(params.book, params.chapter);
   if (!found) notFound();
 
-  const { book, chapter, next } = found;
+  const { book, chapter, prev, next } = found;
 
   // For chapters without body content (locked or not written yet),
   // show a placeholder so the route still resolves.
@@ -26,6 +26,7 @@ export default function ChapterPage({ params }: PageProps) {
       chapterTitle={chapter.title}
       chapterBody={body}
       chapterCount={book.chapterCount}
+      prev={prev ? { slug: prev.slug, title: prev.title } : undefined}
       next={next ? { slug: next.slug, title: next.title } : undefined}
     />
   );

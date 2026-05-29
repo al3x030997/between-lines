@@ -426,7 +426,7 @@ export function getBetweenLinesInviteCount(): number {
   return 2;
 }
 
-export function getChapter(bookSlug: string, chapterSlug: string): { book: Book; chapter: Chapter; next?: Chapter } | undefined {
+export function getChapter(bookSlug: string, chapterSlug: string): { book: Book; chapter: Chapter; prev?: Chapter; next?: Chapter } | undefined {
   const book = getBook(bookSlug);
   if (!book) return undefined;
   const idx = book.chapters.findIndex((c) => c.slug === chapterSlug);
@@ -434,6 +434,7 @@ export function getChapter(bookSlug: string, chapterSlug: string): { book: Book;
   return {
     book,
     chapter: book.chapters[idx]!,
+    prev: idx > 0 ? book.chapters[idx - 1] : undefined,
     next: book.chapters[idx + 1],
   };
 }

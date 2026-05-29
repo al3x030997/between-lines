@@ -2980,6 +2980,22 @@ body[data-quiet="true"] .br-progress { display: none; }
   letter-spacing: 0.04em;
 }
 .br-rctrl-btn:hover { background: var(--br-quiet-bg); color: var(--v11-yellow); border-color: var(--br-quiet-bg); }
+.br-width-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.br-width-toggle-icon { width: 16px; height: 11px; flex-shrink: 0; }
+.br-rctrl-btn.is-on {
+  background: var(--v11-accent-soft);
+  color: var(--v11-ink);
+  border-color: var(--v11-accent);
+}
+.br-rctrl-btn.is-on:hover {
+  background: var(--v11-accent-soft);
+  color: var(--v11-ink);
+  border-color: var(--v11-accent);
+}
 .br-progress {
   height: 2px;
   background: var(--br-border-hair);
@@ -2997,7 +3013,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   max-width: 640px;
   margin: 0 auto;
   padding: 3.5rem 2rem 4rem;
+  transition: max-width 0.25s ease;
 }
+.br-read-wrap.is-wide { max-width: 960px; }
 .br-chapter-eyebrow {
   font-size: 11px;
   letter-spacing: 0.18em;
@@ -3189,6 +3207,46 @@ body[data-quiet="true"] .br-progress { display: none; }
   font-family: var(--br-font-serif);
   font-style: italic;
 }
+
+/* ============================================================
+   PREVIOUS CHAPTER (above the chapter text)
+   ============================================================ */
+.br-prev-ch {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.4rem 1.75rem;
+  background: var(--br-panel-bg);
+  border-radius: var(--br-radius-md);
+  border: 0.5px solid var(--v11-divider);
+  cursor: pointer;
+  margin-bottom: 3rem;
+  transition: border-color 0.15s, transform 0.15s, background 0.15s;
+}
+.br-prev-ch:hover {
+  border-color: var(--v11-ink);
+  transform: translateY(-2px);
+}
+.br-prev-ch-lbl {
+  font-size: 10px;
+  color: var(--v11-ink-trace);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+.br-prev-ch-title {
+  font-family: var(--br-font-display);
+  font-size: 20px;
+  color: var(--v11-ink);
+}
+.br-prev-arrow {
+  color: var(--v11-ink-trace);
+  font-size: 22px;
+  transition: transform 0.18s, color 0.18s;
+  flex-shrink: 0;
+}
+.br-prev-ch:hover .br-prev-arrow { transform: translateX(-6px); color: var(--v11-ink); }
 
 /* ============================================================
    NEXT CHAPTER
