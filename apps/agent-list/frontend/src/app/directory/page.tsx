@@ -121,7 +121,7 @@ function GenreChip({
       onClick={onClick}
       className={`px-3 py-1 rounded-full text-xs border transition-colors ${
         active
-          ? 'bg-accent text-white border-accent'
+          ? 'bg-accent text-stone-900 border-accent'
           : 'border-border text-muted hover:text-text hover:border-muted'
       }`}
     >

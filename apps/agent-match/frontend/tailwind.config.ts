@@ -10,8 +10,8 @@ const config: Config = {
         border: '#44403c',    // stone-700
         muted: '#a8a29e',     // stone-400
         text: '#fafaf9',      // stone-50
-        accent: '#d6336c',    // magenta brand
-        'accent-hover': '#b91d5c', // magenta hover (deeper)
+        accent: '#f3d84a',    // brand yellow
+        'accent-hover': '#d4aa18', // yellow hover (deeper)
       },
     },
   },
