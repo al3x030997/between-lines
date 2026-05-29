@@ -7,11 +7,22 @@ type FilterDef = {
 
 export type FilterGroup = 'Mood' | 'Genre' | 'Type';
 export type FilterState = Record<string, boolean>;
-export type SidebarShelfId = 'all' | 'foryou' | 'readerpicks' | 'memberpicks' | 'new';
+export type SidebarShelfId =
+  | 'all'
+  | 'foryou'
+  | 'readerpicks'
+  | 'memberpicks'
+  | 'new'
+  | 'continue'
+  | 'readinglist'
+  | 'finished';
 
 const SHELF_FILTERS: { id: SidebarShelfId; label: string; meta: string }[] = [
   { id: 'all', label: 'All', meta: 'Full shelf' },
   { id: 'foryou', label: 'For You', meta: 'Matched' },
+  { id: 'continue', label: 'Continue Reading', meta: 'In progress' },
+  { id: 'readinglist', label: 'Reading List', meta: 'Saved' },
+  { id: 'finished', label: 'Finished', meta: 'Completed' },
   { id: 'readerpicks', label: 'Reader Picks', meta: 'Community' },
   { id: 'memberpicks', label: 'Member Picks', meta: 'Co-op' },
   { id: 'new', label: 'New This Week', meta: 'Fresh' },

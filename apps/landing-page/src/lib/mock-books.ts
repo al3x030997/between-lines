@@ -415,11 +415,46 @@ export function getAllBooks(): Book[] {
   return books;
 }
 
-// Mock counts for the Discover header eyebrow. The mock data doesn't yet
-// carry per-book reading progress, so this stays a single hardcoded book
-// (The Quiet Hours) until that lands.
+// Mock personal-shelf data. Until the app has real reading state per user,
+// these arrays are the source of truth for who's been read / saved / finished.
+const IN_PROGRESS: { slug: string; progress: number }[] = [
+  { slug: 'the-quiet-hours', progress: 38 },
+  { slug: 'the-glass-meridian', progress: 12 },
+  { slug: 'salt-and-the-sea-between', progress: 64 },
+];
+
+const READING_LIST_SLUGS: string[] = [
+  'three-tuesdays',
+  'before-the-frost',
+  'the-archivist-of-small-things',
+  'what-the-river-keeps',
+];
+
+const FINISHED_SLUGS: string[] = ['the-empty-chair', 'ink-and-wander'];
+
+export function getInProgressBooks(): { book: Book; progress: number }[] {
+  return IN_PROGRESS.flatMap((p) => {
+    const book = getBook(p.slug);
+    return book ? [{ book, progress: p.progress }] : [];
+  });
+}
+
+export function getReadingListBooks(): Book[] {
+  return READING_LIST_SLUGS.flatMap((s) => {
+    const book = getBook(s);
+    return book ? [book] : [];
+  });
+}
+
+export function getFinishedBooks(): Book[] {
+  return FINISHED_SLUGS.flatMap((s) => {
+    const book = getBook(s);
+    return book ? [book] : [];
+  });
+}
+
 export function getInProgressCount(): number {
-  return 1;
+  return IN_PROGRESS.length;
 }
 
 export function getBetweenLinesInviteCount(): number {

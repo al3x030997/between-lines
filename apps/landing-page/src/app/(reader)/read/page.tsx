@@ -29,7 +29,10 @@ import { getBetaReadingRequests } from '@/lib/mock-beta-reading';
 import {
   getBetweenLinesInviteCount,
   getBooksBySection,
+  getFinishedBooks,
+  getInProgressBooks,
   getInProgressCount,
+  getReadingListBooks,
   sections,
   type Section,
   type Book,
@@ -58,7 +61,12 @@ const visibility: Record<SidebarShelfId, Section['id'][]> = {
   readerpicks: ['bl', 'foryou', 'new', 'classics'],
   memberpicks: ['bl', 'foryou', 'new', 'classics'],
   new: ['new'],
+  continue: ['bl', 'foryou', 'new', 'classics'],
+  readinglist: ['bl', 'foryou', 'new', 'classics'],
+  finished: ['bl', 'foryou', 'new', 'classics'],
 };
+
+const PERSONAL_SHELVES = new Set<SidebarShelfId>(['continue', 'readinglist', 'finished']);
 
 const betweenCharacterQuotes = [
   {
@@ -128,7 +136,16 @@ function isTopReadTabId(value: string | null): value is TopReadTabId {
 }
 
 function isSidebarShelfId(value: string | null): value is SidebarShelfId {
-  return value === 'all' || value === 'foryou' || value === 'readerpicks' || value === 'memberpicks' || value === 'new';
+  return (
+    value === 'all' ||
+    value === 'foryou' ||
+    value === 'readerpicks' ||
+    value === 'memberpicks' ||
+    value === 'new' ||
+    value === 'continue' ||
+    value === 'readinglist' ||
+    value === 'finished'
+  );
 }
 
 function tabToTopTab(value: string | null): TopReadTabId {
@@ -372,6 +389,107 @@ function DiscoverSearch({
   );
 }
 
+function ContinueReadingShelf({
+  items,
+  onBrowse,
+}: {
+  items: { book: Book; progress: number }[];
+  onBrowse: () => void;
+}) {
+  if (items.length === 0) {
+    return (
+      <section className="br-personal-shelf" aria-labelledby="br-sec-continue">
+        <div className="br-sec-head">
+          <h2 id="br-sec-continue" className="br-sec-label">Continue reading</h2>
+        </div>
+        <PersonalEmpty
+          line="Nothing started yet — open a book and BetweenReads will remember where you left off."
+          onBrowse={onBrowse}
+        />
+      </section>
+    );
+  }
+  return (
+    <section className="br-personal-shelf" aria-labelledby="br-sec-continue">
+      <div className="br-sec-head">
+        <h2 id="br-sec-continue" className="br-sec-label">Continue reading</h2>
+        <span className="br-sec-meta">{items.length} in progress</span>
+      </div>
+      <ul className="br-continue-list">
+        {items.map(({ book, progress }) => {
+          const coverStyle: CSSProperties = { background: book.cover };
+          const isDark = book.coverIsDark === true;
+          return (
+            <li key={book.slug} className="br-continue-list-item">
+              <Link href={`/read/${book.slug}`} className="br-continue-list-link">
+                <div className="br-continue-list-cover" style={coverStyle} aria-hidden="true">
+                  <div className="br-cover-inner">
+                    <div className={`br-cover-title ${isDark ? 'is-dark' : ''}`}>{book.title}</div>
+                    <div className={`br-cover-rule ${isDark ? 'is-dark' : ''}`} />
+                    <div className={`br-cover-author ${isDark ? 'is-dark' : ''}`}>{book.author}</div>
+                  </div>
+                </div>
+                <div className="br-continue-list-body">
+                  <div className="br-continue-list-title">{book.title}</div>
+                  <div className="br-continue-list-author">{book.author}</div>
+                  <div className="br-continue-list-progress">
+                    <div className="br-continue-bar" aria-hidden="true">
+                      <div className="br-continue-bar-fill" style={{ width: `${progress}%` }} />
+                    </div>
+                    <span className="br-continue-list-pct">{progress}%</span>
+                  </div>
+                </div>
+                <span className="br-continue-list-cta">Continue →</span>
+              </Link>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function PersonalShelf({
+  title,
+  emptyHint,
+  books,
+  bookToCard,
+  onBrowse,
+}: {
+  title: string;
+  emptyHint: string;
+  books: Book[];
+  bookToCard: (b: Book) => ReactNode;
+  onBrowse: () => void;
+}) {
+  return (
+    <section className="br-personal-shelf" aria-label={title}>
+      <div className="br-sec-head">
+        <h2 className="br-sec-label">{title}</h2>
+        {books.length > 0 ? (
+          <span className="br-sec-meta">{books.length} books</span>
+        ) : null}
+      </div>
+      {books.length === 0 ? (
+        <PersonalEmpty line={emptyHint} onBrowse={onBrowse} />
+      ) : (
+        <div className="br-recommended-row">{books.map((b) => bookToCard(b))}</div>
+      )}
+    </section>
+  );
+}
+
+function PersonalEmpty({ line, onBrowse }: { line: string; onBrowse: () => void }) {
+  return (
+    <div className="br-personal-empty">
+      <p>{line}</p>
+      <button type="button" className="br-btn br-btn-ghost" onClick={onBrowse}>
+        Browse all books →
+      </button>
+    </div>
+  );
+}
+
 function DiscoverContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -447,6 +565,11 @@ function DiscoverContent() {
     [],
   );
 
+  const inProgressBooks = useMemo(() => getInProgressBooks(), []);
+  const readingListBooks = useMemo(() => getReadingListBooks(), []);
+  const finishedBooks = useMemo(() => getFinishedBooks(), []);
+  const isPersonalShelf = PERSONAL_SHELVES.has(activeShelf);
+
   return (
     <>
       <header className="br-discover-head">
@@ -471,7 +594,10 @@ function DiscoverContent() {
             </div>
           </div>
 
-          {active === 'betweenreads' ? <ContinueReadingStrip /> : null}
+          <ContinueReadingStrip
+            onSeeAll={() => changeShelf('continue')}
+            totalInProgress={inProgressBooks.length}
+          />
 
           <DiscoverSearch query={query} onChange={setQuery} activeMoods={activeMoods} />
 
@@ -509,6 +635,29 @@ function DiscoverContent() {
             <BetweenLinesLockedPanel />
           ) : showBetaReading ? (
             <BetaReadingPanel />
+          ) : active === 'betweenreads' && isPersonalShelf ? (
+            activeShelf === 'continue' ? (
+              <ContinueReadingShelf
+                items={inProgressBooks}
+                onBrowse={() => changeShelf('all')}
+              />
+            ) : activeShelf === 'readinglist' ? (
+              <PersonalShelf
+                title="Reading List"
+                emptyHint="Save books you want to come back to. They'll show up here."
+                books={readingListBooks}
+                bookToCard={bookToCard}
+                onBrowse={() => changeShelf('all')}
+              />
+            ) : (
+              <PersonalShelf
+                title="Finished"
+                emptyHint="Books you've finished will appear here. Mark one as read when you reach the last chapter."
+                books={finishedBooks}
+                bookToCard={bookToCard}
+                onBrowse={() => changeShelf('all')}
+              />
+            )
           ) : showCommunity ? (
             <section aria-labelledby="br-sec-characters">
               <div className="br-sec-head">

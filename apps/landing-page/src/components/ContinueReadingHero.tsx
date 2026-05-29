@@ -9,7 +9,16 @@ const CONTINUE_PROGRESS = 38;
 
 type Variant = 'hero' | 'strip';
 
-export function ContinueReadingHero({ variant = 'hero' }: { variant?: Variant } = {}) {
+type Props = {
+  variant?: Variant;
+  /** Called when the reader clicks "View all". When provided, the strip
+   *  renders a small inline link next to the title showing the total count. */
+  onSeeAll?: () => void;
+  /** Total number of in-progress books — drives the "View all (N)" label. */
+  totalInProgress?: number;
+};
+
+export function ContinueReadingHero({ variant = 'hero', onSeeAll, totalInProgress }: Props = {}) {
   const router = useRouter();
   const book = getBook(CONTINUE_SLUG);
 
@@ -26,6 +35,7 @@ export function ContinueReadingHero({ variant = 'hero' }: { variant?: Variant } 
     }
     const coverStyle: React.CSSProperties = { background: book.cover };
     const isDark = book.coverIsDark === true;
+    const showAll = onSeeAll && (totalInProgress ?? 0) > 1;
     return (
       <div className="br-continue-strip" role="region" aria-label="Continue reading">
         <div className="br-continue-strip-cover" style={coverStyle} aria-hidden="true">
@@ -36,7 +46,18 @@ export function ContinueReadingHero({ variant = 'hero' }: { variant?: Variant } 
           </div>
         </div>
         <div className="br-continue-strip-meta">
-          <span className="br-continue-eyebrow">Continue · {book.author}</span>
+          <div className="br-continue-strip-eyebrow-row">
+            <span className="br-continue-eyebrow">Continue · {book.author}</span>
+            {showAll ? (
+              <button
+                type="button"
+                className="br-continue-strip-all"
+                onClick={onSeeAll}
+              >
+                View all {totalInProgress} →
+              </button>
+            ) : null}
+          </div>
           <div className="br-continue-strip-title">{book.title}</div>
           <div className="br-continue-strip-progress">
             <div className="br-continue-bar" aria-hidden="true">
@@ -96,6 +117,6 @@ export function ContinueReadingHero({ variant = 'hero' }: { variant?: Variant } 
   );
 }
 
-export function ContinueReadingStrip() {
-  return <ContinueReadingHero variant="strip" />;
+export function ContinueReadingStrip(props: { onSeeAll?: () => void; totalInProgress?: number } = {}) {
+  return <ContinueReadingHero variant="strip" {...props} />;
 }
