@@ -59,7 +59,7 @@ export default function Dropdown({ options, selected, onChange, max = 1, placeho
               }`}
             >
               <span className={`w-4 h-4 rounded border flex-shrink-0 flex items-center justify-center text-xs ${
-                selected.includes(opt) ? 'bg-accent border-accent text-stone-900' : 'border-muted'
+                selected.includes(opt) ? 'bg-accent border-accent text-white' : 'border-muted'
               }`}>
                 {selected.includes(opt) && '✓'}
               </span>

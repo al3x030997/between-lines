@@ -77,7 +77,7 @@ export default function TablePage() {
             <div className="flex justify-center gap-2">
               <Link
                 href="/"
-                className="px-3 py-1.5 rounded-md text-sm bg-accent text-stone-900 hover:bg-accent-hover"
+                className="px-3 py-1.5 rounded-md text-sm bg-accent text-white hover:bg-accent-hover"
               >
                 Import spreadsheet
               </Link>
@@ -306,7 +306,7 @@ function AddRecordRow({
           <button
             onClick={submit}
             disabled={!name.trim() || submitting}
-            className="px-2 py-0.5 rounded text-[11px] bg-accent text-stone-900 hover:bg-accent-hover disabled:opacity-40"
+            className="px-2 py-0.5 rounded text-[11px] bg-accent text-white hover:bg-accent-hover disabled:opacity-40"
           >
             Add
           </button>

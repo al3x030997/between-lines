@@ -18,7 +18,7 @@ Direct-to-source crawler + LLM extractor + matching engine for literary agents. 
 ## Frontend (apps/agent-match/frontend/)
 
 - Next.js 14 App Router + TypeScript + Tailwind.
-- Dark theme: stone-900 bg, amber-500 accent, Crimson Pro headings, DM Sans body.
+- Dark theme: stone-900 bg, magenta accent (`#d6336c`), Crimson Pro headings, DM Sans body.
 - State: FlowContext (useReducer) + AuthContext, SessionStorage persistence.
 - framer-motion for chat bubble & card animations.
 - JWT in localStorage, refresh on mount.
