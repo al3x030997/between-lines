@@ -7,15 +7,42 @@ type Props = {
   dailyTarget: number;
   streakDays: number;
   signals: ReaderSignal[];
-  inbox: { betaRequests: number; readerNotes: number; agentInvites: number };
 };
+
+export type WriterInboxCounts = {
+  betaRequests: number;
+  readerNotes: number;
+  agentInvites: number;
+};
+
+export function WriterInbox({ inbox }: { inbox: WriterInboxCounts }) {
+  return (
+    <section className="br-profile-inbox" aria-label="Inbox">
+      <div className="br-fs-label">Inbox</div>
+      <button type="button" className="br-fs-row is-on">
+        <span className="br-fs-row-emoji" aria-hidden="true">📨</span>
+        <span className="br-fs-row-label">Beta requests</span>
+        <span className="br-fs-count">{inbox.betaRequests}</span>
+      </button>
+      <button type="button" className="br-fs-row">
+        <span className="br-fs-row-emoji" aria-hidden="true">💬</span>
+        <span className="br-fs-row-label">Reader notes</span>
+        <span className="br-fs-count">{inbox.readerNotes}</span>
+      </button>
+      <button type="button" className="br-fs-row">
+        <span className="br-fs-row-emoji" aria-hidden="true">🪪</span>
+        <span className="br-fs-row-label">Agent invites</span>
+        <span className="br-fs-count">{inbox.agentInvites}</span>
+      </button>
+    </section>
+  );
+}
 
 export function WriterSidebar({
   todayWords,
   dailyTarget,
   streakDays,
   signals,
-  inbox,
 }: Props) {
   const progress = Math.min(100, Math.round((todayWords / dailyTarget) * 100));
 
@@ -50,24 +77,6 @@ export function WriterSidebar({
         </section>
       ) : null}
 
-      <section className="br-fs-section">
-        <div className="br-fs-label">Inbox</div>
-        <button type="button" className="br-fs-row">
-          <span className="br-fs-row-emoji" aria-hidden="true">📨</span>
-          <span className="br-fs-row-label">Beta requests</span>
-          <span className="br-fs-count">{inbox.betaRequests}</span>
-        </button>
-        <button type="button" className="br-fs-row">
-          <span className="br-fs-row-emoji" aria-hidden="true">💬</span>
-          <span className="br-fs-row-label">Reader notes</span>
-          <span className="br-fs-count">{inbox.readerNotes}</span>
-        </button>
-        <button type="button" className="br-fs-row">
-          <span className="br-fs-row-emoji" aria-hidden="true">🪪</span>
-          <span className="br-fs-row-label">Agent invites</span>
-          <span className="br-fs-count">{inbox.agentInvites}</span>
-        </button>
-      </section>
     </aside>
   );
 }

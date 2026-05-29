@@ -20,7 +20,7 @@ import { WriteTab } from './WriteTab';
 import { ChapterSettingsTab } from './ChapterSettingsTab';
 import { NovelSettingsTab } from './NovelSettingsTab';
 import { WriterLibrary, makeDraftWork, type LibraryStatusFilter } from './WriterLibrary';
-import { WriterSidebar } from './WriterSidebar';
+import { WriterInbox, WriterSidebar, type WriterInboxCounts } from './WriterSidebar';
 import { AgentReadyStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
 import { ContinueWritingStrip } from './ContinueWritingStrip';
 import { WriterSearch } from './WriterSearch';
@@ -35,6 +35,12 @@ const TOP_TABS: TabDef<TopTab>[] = [
   { id: 'agentready', label: 'Agent Ready' },
   { id: 'community', label: 'Community' },
 ];
+
+const WRITER_INBOX: WriterInboxCounts = {
+  betaRequests: 3,
+  readerNotes: 12,
+  agentInvites: 1,
+};
 
 function isTopTab(value: string | null): value is TopTab {
   return value === 'library' || value === 'write' || value === 'storefront' || value === 'agentready' || value === 'community';
@@ -314,6 +320,7 @@ export function WriteShell() {
       <header className="br-discover-head br-write-head">
         <div className="br-discover-profile-col">
           <ProfileBlock />
+          <WriterInbox inbox={WRITER_INBOX} />
         </div>
         <div className="br-discover-head-right">
           <ContinueWritingStrip
@@ -339,7 +346,6 @@ export function WriteShell() {
           dailyTarget={2000}
           streakDays={12}
           signals={signals}
-          inbox={{ betaRequests: 3, readerNotes: 12, agentInvites: 1 }}
         />
         <div className="br-discover-main">
           <div className="br-stage">

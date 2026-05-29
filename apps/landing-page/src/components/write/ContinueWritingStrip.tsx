@@ -34,9 +34,6 @@ export function ContinueWritingStrip({
   const coverStyle: CSSProperties = { background: work.cover };
   const isDark = work.coverIsDark === true;
   const showAll = onSeeAll && (totalActive ?? 0) > 1;
-  const progress = work.totalChapters > 0
-    ? Math.min(100, Math.round((work.publishedChapters / work.totalChapters) * 100))
-    : 0;
   const chapterLine = work.totalChapters > 0
     ? `Ch ${Math.min(work.publishedChapters + 1, work.totalChapters)} of ${work.totalChapters}`
     : 'New chapter';
@@ -64,12 +61,6 @@ export function ContinueWritingStrip({
           ) : null}
         </div>
         <div className="br-write-continue-strip-title">{work.title}</div>
-        <div className="br-write-continue-strip-progress">
-          <div className="br-continue-bar" aria-hidden="true">
-            <div className="br-continue-bar-fill" style={{ width: `${progress}%` }} />
-          </div>
-          <span className="br-write-continue-strip-pct">{progress}%</span>
-        </div>
       </div>
       <button
         type="button"
