@@ -194,8 +194,8 @@ function RcOption({
         </div>
         <div className="br-paywall-option-sub">
           {enough
-            ? `Unlocks this chapter only. You have ${balance} RC.`
-            : `You have ${balance ?? 0} RC. Top up to spend ${cost} RC on this chapter.`}
+            ? `Unlocks this chapter only. You have ${balance} Reading Credits.`
+            : `You have ${balance ?? 0} Reading Credits. Top up to spend ${cost} Reading Credits on this chapter.`}
         </div>
       </div>
       <div className="br-paywall-option-cta">{enough ? 'Use →' : 'Top up'}</div>

@@ -131,7 +131,7 @@ export function ProductCard(props: ProductCardProps) {
             <>
               <div className="br-card-prices">
                 <div className="br-card-price">{props.price}</div>
-                {props.rc ? <div className="br-card-rc">or {props.rc} RC</div> : null}
+                {props.rc ? <div className="br-card-rc">or {props.rc} Reading Credits</div> : null}
                 {props.memberPrice ? <div className="br-card-member">✦ Members {props.memberPrice}</div> : null}
               </div>
               <button type="button" className="br-btn-add" onClick={handleAdd}>

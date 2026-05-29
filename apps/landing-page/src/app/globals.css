@@ -212,7 +212,7 @@ input:focus, textarea:focus { outline: none; }
   --br-border-warm: var(--theme-border);
   --br-border-hair: var(--theme-border-subtle);
 
-  /* ReadCredits — currency gold */
+  /* Reading Credits — currency gold */
   --br-rc-gold: #c8960a;
   --br-rc-gold-strong: #a87a05;
   --br-rc-gold-soft: #fff8ee;
@@ -254,7 +254,7 @@ input:focus, textarea:focus { outline: none; }
   --br-writer-border: #d9ccf7;
   --br-writer-ink: #2a1a5a;
 
-  /* SwapCredits — writer currency, sage green */
+  /* Swap Credits — writer currency, sage green */
   --br-sc-green: #085041;
   --br-sc-green-strong: #053a2f;
   --br-sc-green-soft: #f0faf4;
@@ -998,7 +998,8 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-pb-wallet {
   display: flex;
   align-items: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 5px 8px;
   margin-top: 6px;
 }
 .br-pb-rc,
@@ -1014,20 +1015,20 @@ body[data-quiet="true"] .br-progress { display: none; }
   color: var(--br-rc-gold);
 }
 .br-pb-rc-lbl {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 600;
   color: var(--br-rc-gold-strong);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
 }
 .br-pb-sc-num {
   font-weight: 700;
   color: var(--br-sc-green);
 }
 .br-pb-sc-lbl {
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 600;
   color: var(--br-sc-green-strong);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
 }
 .br-pb-social {
   display: flex;
@@ -4859,7 +4860,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 
 /* ============================================================
-   SC BADGE (writer currency)
+   SWAP CREDITS BADGE (writer currency)
    ============================================================ */
 .br-sc-badge {
   display: inline-flex;

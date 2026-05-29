@@ -39,11 +39,11 @@ export default function WriterToggles({ startNum, value, onChange }: Props) {
         >
           Yes, add me to the beta-reader pool
           <span className="v8-toggle-chip-sub">
-            Beta-read others&rsquo; drafts and earn <strong>SwapCredits</strong>.
+            Beta-read others&rsquo; drafts and earn <strong>Swap Credits</strong>.
           </span>
         </ToggleChip>
         <p className="v8-intake-helper">
-          Writers earn SwapCredits by giving beta-reads &mdash; redeemable for beta-reads on your own manuscript. No cash required.
+          Writers earn Swap Credits by giving beta-reads &mdash; redeemable for beta-reads on your own manuscript. No cash required.
         </p>
       </Group>
 

@@ -37,7 +37,7 @@ export function FeedbackPanel() {
       <h2 id="br-fp-title" className="br-fp-title">
         Your thoughts on this chapter
       </h2>
-      <p className="br-fp-sub">Earn ReadCredits for every reaction and piece of feedback you leave.</p>
+      <p className="br-fp-sub">Earn Reading Credits for every reaction and piece of feedback you leave.</p>
 
       <div className="br-fp-emojis" role="group" aria-label="Quick emoji reactions">
         {EMOJIS.map((e) => (
@@ -165,7 +165,9 @@ export function FeedbackPanel() {
 
       <div className="br-fp-foot">
         <span className="br-fp-earn">
-          {submitted !== null ? `✓ +${submitted} RC earned!` : `Submit to earn +${TAB_RC[tab]} RC`}
+          {submitted !== null
+            ? `✓ +${submitted} Reading Credits earned!`
+            : `Submit to earn +${TAB_RC[tab]} Reading Credits`}
         </span>
         <button
           type="button"

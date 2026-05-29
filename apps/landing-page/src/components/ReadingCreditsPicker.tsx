@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { rcBundles } from '@/lib/mock-products';
 import { useCart } from '@/lib/cart';
 
-export function ReadCreditsPicker() {
+export function ReadingCreditsPicker() {
   const cart = useCart();
   const [active, setActive] = useState<string>('rc-reader');
 
@@ -13,7 +13,7 @@ export function ReadCreditsPicker() {
     if (!bundle) return;
     cart.add({
       id: bundle.id,
-      title: `${bundle.amount} ReadCredits`,
+      title: `${bundle.amount} Reading Credits`,
       price: bundle.price,
     });
   };
@@ -22,7 +22,7 @@ export function ReadCreditsPicker() {
     <section className="br-rc-section" aria-labelledby="br-rc-title">
       <div className="br-sec-head">
         <h2 id="br-rc-title" className="br-sec-title">
-          ⭐ Top up your ReadCredits
+          ⭐ Top up your Reading Credits
         </h2>
       </div>
       <div className="br-rc-grid">
@@ -36,21 +36,21 @@ export function ReadCreditsPicker() {
           >
             <div className="br-rc-card-lbl">{b.label}</div>
             <div className="br-rc-amount">{b.amount}</div>
-            <div className="br-rc-unit">ReadCredits</div>
+            <div className="br-rc-unit">Reading Credits</div>
             <div className="br-rc-price">{b.price}</div>
             <div className="br-rc-save">{b.save ?? ' '}</div>
           </button>
         ))}
       </div>
       <p className="br-rc-note">
-        <strong>ReadCredits never expire.</strong> Earn them, buy them, spend them whenever you're ready.
+        <strong>Reading Credits never expire.</strong> Earn them, buy them, spend them whenever you're ready.
       </p>
       <button type="button" className="br-rc-buy" onClick={handleBuy}>
-        Buy ReadCredits
+        Buy Reading Credits
       </button>
       <div className="br-upsell">
         <span className="br-upsell-text">
-          ✦ <strong>BetweenReads Members</strong> get 100 RC welcome bonus + 20% off all store purchases. At $50/year the membership pays for itself.
+          ✦ <strong>BetweenReads Members</strong> get 100 Reading Credits welcome bonus + 20% off all store purchases. At $50/year the membership pays for itself.
         </span>
         <button type="button" className="br-upsell-cta">Join for $50/yr</button>
       </div>

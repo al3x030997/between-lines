@@ -158,11 +158,11 @@ export default function BookPage({ params }: PageProps) {
         <div className="br-unlock-nudge">
           <div className="br-unlock-text">
             <div className="br-unlock-title">Unlock all {book.chapterCount} chapters</div>
-            <div className="br-unlock-sub">Subscribe for $10/month · or use ReadCredits</div>
+            <div className="br-unlock-sub">Subscribe for $10/month · or use Reading Credits</div>
           </div>
           <div className="br-unlock-actions">
             <button type="button" className="br-btn br-btn-ghost">
-              Use 5 RC
+              Use 5 Reading Credits
             </button>
             <button type="button" className="br-btn br-btn-premium">
               Subscribe

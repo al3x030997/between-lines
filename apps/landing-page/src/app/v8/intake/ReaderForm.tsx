@@ -233,7 +233,7 @@ export default function ReaderForm({ answers, onChange, onSubmit }: Props) {
         >
           Yes, add me to the beta-reader pool
           <span className="v8-toggle-chip-sub">
-            Read writers&rsquo; drafts before publication and earn <strong>SwapCredits</strong>.
+            Read writers&rsquo; drafts before publication and earn <strong>Swap Credits</strong>.
           </span>
         </ToggleChip>
         <p className="v8-intake-helper">

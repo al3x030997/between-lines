@@ -7,8 +7,8 @@ type Props = {
   className?: string;
   children?: React.ReactNode;
   /**
-   * Mock user identity to hand off. Defaults to "Sarah M." with 142 RC,
-   * 75 SC, both reader + writer roles for preview purposes.
+   * Mock user identity to hand off. Defaults to "Sarah M." with 142 Reading Credits,
+   * 75 Swap Credits, both reader + writer roles for preview purposes.
    */
   user?: string;
   handle?: string;

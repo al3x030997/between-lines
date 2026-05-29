@@ -967,7 +967,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
       'A housekeeper in a crumbling country house discovers a box of letters that reframes everything she thought she knew about the family she served for thirty years.',
     storefront: {
       state: 'Listed',
-      price: '$4.99 · 100 RC',
+      price: '$4.99 · 100 Reading Credits',
       options: ['BetweenReads storefront', 'Amazon', 'Kobo'],
       note: 'Storefront is live',
     },
@@ -994,7 +994,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
       "Linked stories set in the same small town across three decades. Each told by a different narrator who doesn't know they share a secret.",
     storefront: {
       state: 'Not listed',
-      price: '$5.99 · 120 RC',
+      price: '$5.99 · 120 Reading Credits',
       options: ['Storefront draft saved'],
       note: 'List when the collection is complete',
     },
@@ -1027,7 +1027,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
       'A widower learns to set the table for one — and discovers a daughter doing the same in a city three trains away.',
     storefront: {
       state: 'Listed',
-      price: '$1.99 · 40 RC',
+      price: '$1.99 · 40 Reading Credits',
       options: ['BetweenReads storefront'],
       note: 'Eligible for magazine pool',
     },

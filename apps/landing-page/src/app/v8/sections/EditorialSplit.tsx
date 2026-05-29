@@ -29,7 +29,7 @@ const FEATURES: Record<Side, Feature[]> = {
     },
     {
       title: "AgentReady — research and submit in one place",
-      body: "Build your agent list beyond QueryTracker. Generate tailored query letters, synopses, and pitches. Track every submission and every open window. Free to start; Pro is paid or unlocked with SwapCredits.",
+      body: "Build your agent list beyond QueryTracker. Generate tailored query letters, synopses, and pitches. Track every submission and every open window. Free to start; Pro is paid or unlocked with Swap Credits.",
     },
   ],
   reader: [
@@ -43,7 +43,7 @@ const FEATURES: Record<Side, Feature[]> = {
     },
     {
       title: "Earn your way in — no subscription required",
-      body: "Read 3 pieces free every month. Earn ReadCredits with every reaction, comment, or beta read. Spend them on more chapters, journal months, or Reader Pod invitations. Credits never expire.",
+      body: "Read 3 pieces free every month. Earn Reading Credits with every reaction, comment, or beta read. Spend them on more chapters, journal months, or Reader Pod invitations. Credits never expire.",
     },
   ],
 };

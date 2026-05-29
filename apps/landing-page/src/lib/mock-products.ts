@@ -18,7 +18,7 @@ export const storeTabs: StoreTab[] = [
   { id: 'illustrations', label: 'Illustrations', emoji: '🎨' },
   { id: 'betweenlines', label: 'BetweenLines', emoji: '📰' },
   { id: 'volume', label: 'Volume', emoji: '🎧' },
-  { id: 'credits', label: 'ReadCredits', emoji: '⭐' },
+  { id: 'credits', label: 'Reading Credits', emoji: '⭐' },
   { id: 'merch', label: 'Merch', emoji: '👕' },
   { id: 'gifts', label: 'Gift', emoji: '🎁' },
 ];

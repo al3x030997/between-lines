@@ -910,8 +910,8 @@ const FAQS: { q: string; a: string }[] = [
     a: 'Yes. Many members are both. Your profile shows both identities. You can hold a PowerReader and PowerCreator plan simultaneously, and your membership discount applies to both. Writers are supposed to read — we encourage it.',
   },
   {
-    q: 'What are ReadCredits?',
-    a: 'ReadCredits are earned by reading, reviewing, adding quotes to the Wall, maintaining your streak, and completing beta reads. They can be used to unlock premium content, tip writers, or access special features. Members receive a 100 RC welcome bonus on joining. Co-op members earn 2× credits on all activity.',
+    q: 'What are Reading Credits?',
+    a: 'Reading Credits are earned by reading, reviewing, adding quotes to the Wall, maintaining your streak, and completing beta reads. They can be used to unlock premium content, tip writers, or access special features. Members receive a 100 Reading Credits welcome bonus on joining. Co-op members earn 2× credits on all activity.',
   },
   {
     q: 'What is SecureBetaReads?',
@@ -1009,14 +1009,14 @@ export default function PricingPage() {
             <div className="pricing-member-badge">✦ BetweenReads Membership</div>
             <h2 className="pricing-member-title">The co-op membership that pays for itself</h2>
             <p className="pricing-member-sub">
-              One annual membership. Every plan on the platform gets 10% off. ReadCredits welcome bonus. Vote for Member Reading Picks.
+              One annual membership. Every plan on the platform gets 10% off. Reading Credits welcome bonus. Vote for Member Reading Picks.
             </p>
             <div className="pricing-member-benefits">
               <span className="pricing-mbenefit">10% off PowerReader, PowerCreator, AgentReadyPro &amp; Kids</span>
               <span className="pricing-mbenefit">20% off store purchases</span>
               <span className="pricing-mbenefit">20% off Volume plans</span>
-              <span className="pricing-mbenefit">2× ReadCredits on all activity</span>
-              <span className="pricing-mbenefit">100 RC welcome bonus</span>
+              <span className="pricing-mbenefit">2× Reading Credits on all activity</span>
+              <span className="pricing-mbenefit">100 Reading Credits welcome bonus</span>
               <span className="pricing-mbenefit">Early access to new content</span>
               <span className="pricing-mbenefit">BetweenLines Inaugural Issue free</span>
               <span className="pricing-mbenefit">Member badge on profile</span>
@@ -1061,7 +1061,7 @@ export default function PricingPage() {
               <li>BetweenPages reader profile</li>
               <li>BetweenCharacters Wall — read and submit quotes</li>
               <li>Public content and free chapters</li>
-              <li>Reading streak and ReadCredits</li>
+              <li>Reading streak and Reading Credits</li>
               <li>Join Reader&apos;s Clubs</li>
               <li>Daily 150-word public domain excerpts</li>
               <li className="no">Premium chapters and exclusive content</li>
@@ -1331,7 +1331,7 @@ export default function PricingPage() {
               <div className="pricing-scenario-row"><span>PowerReader annual</span><span>$100</span></div>
               <div className="pricing-scenario-row"><span>Membership</span><span>$50</span></div>
               <div className="pricing-scenario-row is-saving"><span>10% off PowerReader</span><span>−$10</span></div>
-              <div className="pricing-scenario-row is-saving"><span>2× RC earned (est. value)</span><span>−$10</span></div>
+              <div className="pricing-scenario-row is-saving"><span>2× Reading Credits earned (est. value)</span><span>−$10</span></div>
               <div className="pricing-scenario-row is-saving"><span>20% off store (est. $30)</span><span>−$6</span></div>
               <div className="pricing-scenario-row is-total"><span>Net cost of membership</span><span>$24</span></div>
               <div className="pricing-payback">Pays back in month 5</div>
@@ -1341,7 +1341,7 @@ export default function PricingPage() {
               <div className="pricing-scenario-row"><span>PowerCreator annual</span><span>$100</span></div>
               <div className="pricing-scenario-row"><span>Membership</span><span>$50</span></div>
               <div className="pricing-scenario-row is-saving"><span>10% off PowerCreator</span><span>−$10</span></div>
-              <div className="pricing-scenario-row is-saving"><span>100 RC welcome bonus</span><span>~−$10</span></div>
+              <div className="pricing-scenario-row is-saving"><span>100 Reading Credits welcome bonus</span><span>~−$10</span></div>
               <div className="pricing-scenario-row is-saving"><span>20% off store (est. $30)</span><span>−$6</span></div>
               <div className="pricing-scenario-row is-total"><span>Net cost of membership</span><span>$24</span></div>
               <div className="pricing-payback">Pays back in month 5</div>

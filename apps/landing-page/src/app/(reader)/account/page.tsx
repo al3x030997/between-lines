@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { useMockSession } from '@/lib/useMockSession';
 
 const activity = [
-  { date: 'Today', body: 'Finished Chapter 1 of', highlight: 'The Quiet Hours', rc: '+10 RC' },
-  { date: 'Yesterday', body: 'Left a Quick Comment on', highlight: 'Three Tuesdays in November', rc: '+5 RC' },
+  { date: 'Today', body: 'Finished Chapter 1 of', highlight: 'The Quiet Hours', rc: '+10 Reading Credits' },
+  { date: 'Yesterday', body: 'Left a Quick Comment on', highlight: 'Three Tuesdays in November', rc: '+5 Reading Credits' },
   { date: 'Sunday', body: 'Picked up Chapter 1 of', highlight: 'The Count of Monte Cristo', rc: undefined as string | undefined },
   { date: 'Last week', body: 'Joined the BetweenLines Inaugural reader pod for', highlight: 'Ink and Wander', rc: undefined as string | undefined },
 ];
@@ -25,7 +25,7 @@ export default function AccountPage() {
       <div className="br-stat-strip">
         <div className="br-stat">
           <div className="br-stat-num">{session?.rc ?? 0}</div>
-          <div className="br-stat-lbl">ReadCredits</div>
+          <div className="br-stat-lbl">Reading Credits</div>
         </div>
         <div className="br-stat">
           <div className="br-stat-num">4</div>

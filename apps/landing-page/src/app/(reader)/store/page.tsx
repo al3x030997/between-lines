@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ProductCard } from '@/components/ProductCard';
-import { ReadCreditsPicker } from '@/components/ReadCreditsPicker';
+import { ReadingCreditsPicker } from '@/components/ReadingCreditsPicker';
 import { StoreHero } from '@/components/StoreHero';
 import { StoreTabs } from '@/components/StoreTabs';
 import { CartBar } from '@/components/CartBar';
@@ -106,7 +106,7 @@ function BetweenLinesPane() {
         <div className="br-store-panel-aside">
           <div className="br-store-panel-price">$10</div>
           <div className="br-store-panel-pricesub">per issue · published monthly</div>
-          <div className="br-store-panel-pricesub" style={{ marginTop: 6, opacity: 0.7 }}>or 200 RC</div>
+          <div className="br-store-panel-pricesub" style={{ marginTop: 6, opacity: 0.7 }}>or 200 Reading Credits</div>
         </div>
       </div>
       <div className="br-sec-head">
@@ -212,7 +212,7 @@ function GiftsPane() {
       <div className="br-gift-intro">
         <div className="br-gift-icon">🎁</div>
         <h2 className="br-gift-title">Give someone a read</h2>
-        <p className="br-gift-sub">Gift an ebook, a BetweenLines issue, a ReadCredits bundle, or a full plan.</p>
+        <p className="br-gift-sub">Gift an ebook, a BetweenLines issue, a Reading Credits bundle, or a full plan.</p>
         <div className="br-gift-opts">
           <div className="br-gift-opt">
             <div className="br-gift-opt-icon">📖</div>
@@ -226,8 +226,8 @@ function GiftsPane() {
           </div>
           <div className="br-gift-opt">
             <div className="br-gift-opt-icon">⭐</div>
-            <div className="br-gift-opt-title">Gift ReadCredits</div>
-            <div className="br-gift-opt-sub">100, 300 or 600 RC</div>
+            <div className="br-gift-opt-title">Gift Reading Credits</div>
+            <div className="br-gift-opt-sub">100, 300 or 600 Reading Credits</div>
           </div>
         </div>
       </div>
@@ -309,7 +309,7 @@ function GiftsPane() {
           <div className="br-gift-membership-eyebrow">✦ Gift a Membership</div>
           <div className="br-gift-membership-title">BetweenReads Co-op Membership</div>
           <div className="br-gift-membership-body">
-            20% off the store · 100 RC welcome bonus · Member badge · Vote for Member Picks.
+            20% off the store · 100 Reading Credits welcome bonus · Member badge · Vote for Member Picks.
           </div>
         </div>
         <div className="br-gift-membership-aside">
@@ -340,7 +340,7 @@ export default function StorePage() {
         {active === 'illustrations' && <IllustrationsPane />}
         {active === 'betweenlines' && <BetweenLinesPane />}
         {active === 'volume' && <VolumePane />}
-        {active === 'credits' && <ReadCreditsPicker />}
+        {active === 'credits' && <ReadingCreditsPicker />}
         {active === 'merch' && <MerchPane />}
         {active === 'gifts' && <GiftsPane />}
       </div>

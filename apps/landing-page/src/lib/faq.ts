@@ -41,7 +41,7 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'What makes BetweenReads different?',
-        a: 'BetweenReads is built on a simple belief — that readers deserve quality writing and serious writers deserve real readers. We also believe in a wholesome reading experience. The platform is driven by curation and reader participation. No advertising. No chasing algorithms. Just writing worth reading and readers worth writing for.\n\nAs readers and writers, we prize the experience and cherish our memories of physical book reading, the joy of discovery, staff picks, and quality content. We aim to replicate a quality browsing experience for readers.\n\nWhat makes BetweenReads distinctive:\n\nCurated Reading — We highlight Reader Picks and BetweenReads team picks to offer readers choice based on their reading interests.\n\nQuietReading Mode — We offer a distraction-free reading mode. When selected, we hold platform nudges, notifications, and new content from popping onto your radar. They await your return, silently, in notifications.\n\nVirtual Reading Club — Readers can host reading clubs for their favourite genre, author, or book and include any book — published, self-published, or emerging. Readers earn badges and are invited to recommend writers on the platform for Reader Picks.\n\nReader Pods — Writers invite up to 6 readers into an exclusive pod for deeper, more intimate conversation around their work. Not a public feed. A trusted inner circle.\n\nWriter Pods — Writers may form small groups of up to 4 writers. Kept deliberately small for meaningful craft conversations and peer support.\n\nSecureBetaReads — Manuscripts are protected on upload with watermarks and disabled copy. We never train AI on your content. We match readers to writers based on shared interests. Writers control exactly who reads their work and can revoke access at any time. Beta readers can only access your work on the platform. Beta readers who violate confidentiality and the terms of their agreement may be banned from the platform.\n\nSwapCredits — Readers earn credits by giving feedback. Writers earn credits by reading others. Credits unlock more of the platform — no cash required.\n\nEarly Discoverer — Readers who beta read a writer before they are published are permanently credited on that writer’s author page. Recognition that cannot be bought. Only earned.\n\nAgentReady — One place to build your agent list, generate tailored query letters, track submissions, and prepare for publication. Free to start. No tool-hopping.\n\nAuthor Page — Every writer on BetweenReads gets a generated author page with custom themes and templates. You can showcase all your works, self-published titles, and writing portfolio in one place. You can highlight your best writing for agents to find. You can build agent-ready bios for easy uploads to social media. You can list your book for sale. It is free and yours to customise.\n\nReader Page — Every reader on BetweenReads gets a generated reader page with custom themes and templates. You can showcase all your reading shelves, build reading lists — read and to be read — for published, unpublished, and self-published titles, list your favourite authors from any platform including newsletter writers, and manage your reading shelf in one place. It is free and yours to customise.\n\nIllustrator Page — Every illustrator on BetweenReads gets a dedicated page with full quality art display, style tags, commission availability, and storefront. Illustrated art is a first-class content category on BetweenReads — not a footnote to fiction. Standalone works, story illustrations, and journal submissions all have a home here.\n\nBetweenLines Journal — Each month the BetweenLines Journal curates the finest writing on the platform — reader picks, distinct voices, diverse genres — a wholesome literary magazine made for a quiet hour and a good cup of coffee. Readers encounter a variety of voices across genres, and writers may submit their work for consideration. Early Discoverer readers and Deep Thoughts readers may be invited to help screen selections before each issue.\n\nAudio — We offer audiobooks as well and provide authors services to turn their manuscripts into audiobooks.',
+        a: 'BetweenReads is built on a simple belief — that readers deserve quality writing and serious writers deserve real readers. We also believe in a wholesome reading experience. The platform is driven by curation and reader participation. No advertising. No chasing algorithms. Just writing worth reading and readers worth writing for.\n\nAs readers and writers, we prize the experience and cherish our memories of physical book reading, the joy of discovery, staff picks, and quality content. We aim to replicate a quality browsing experience for readers.\n\nWhat makes BetweenReads distinctive:\n\nCurated Reading — We highlight Reader Picks and BetweenReads team picks to offer readers choice based on their reading interests.\n\nQuietReading Mode — We offer a distraction-free reading mode. When selected, we hold platform nudges, notifications, and new content from popping onto your radar. They await your return, silently, in notifications.\n\nVirtual Reading Club — Readers can host reading clubs for their favourite genre, author, or book and include any book — published, self-published, or emerging. Readers earn badges and are invited to recommend writers on the platform for Reader Picks.\n\nReader Pods — Writers invite up to 6 readers into an exclusive pod for deeper, more intimate conversation around their work. Not a public feed. A trusted inner circle.\n\nWriter Pods — Writers may form small groups of up to 4 writers. Kept deliberately small for meaningful craft conversations and peer support.\n\nSecureBetaReads — Manuscripts are protected on upload with watermarks and disabled copy. We never train AI on your content. We match readers to writers based on shared interests. Writers control exactly who reads their work and can revoke access at any time. Beta readers can only access your work on the platform. Beta readers who violate confidentiality and the terms of their agreement may be banned from the platform.\n\nSwap Credits — Readers earn credits by giving feedback. Writers earn credits by reading others. Credits unlock more of the platform — no cash required.\n\nEarly Discoverer — Readers who beta read a writer before they are published are permanently credited on that writer’s author page. Recognition that cannot be bought. Only earned.\n\nAgentReady — One place to build your agent list, generate tailored query letters, track submissions, and prepare for publication. Free to start. No tool-hopping.\n\nAuthor Page — Every writer on BetweenReads gets a generated author page with custom themes and templates. You can showcase all your works, self-published titles, and writing portfolio in one place. You can highlight your best writing for agents to find. You can build agent-ready bios for easy uploads to social media. You can list your book for sale. It is free and yours to customise.\n\nReader Page — Every reader on BetweenReads gets a generated reader page with custom themes and templates. You can showcase all your reading shelves, build reading lists — read and to be read — for published, unpublished, and self-published titles, list your favourite authors from any platform including newsletter writers, and manage your reading shelf in one place. It is free and yours to customise.\n\nIllustrator Page — Every illustrator on BetweenReads gets a dedicated page with full quality art display, style tags, commission availability, and storefront. Illustrated art is a first-class content category on BetweenReads — not a footnote to fiction. Standalone works, story illustrations, and journal submissions all have a home here.\n\nBetweenLines Journal — Each month the BetweenLines Journal curates the finest writing on the platform — reader picks, distinct voices, diverse genres — a wholesome literary magazine made for a quiet hour and a good cup of coffee. Readers encounter a variety of voices across genres, and writers may submit their work for consideration. Early Discoverer readers and Deep Thoughts readers may be invited to help screen selections before each issue.\n\nAudio — We offer audiobooks as well and provide authors services to turn their manuscripts into audiobooks.',
       },
       {
         q: 'When does the Inaugral issue launch?',
@@ -64,15 +64,15 @@ export const FAQ: FaqCategory[] = [
     questions: [
       {
         q: 'Do I have to pay to read?',
-        a: 'No. Reading is free. Every reader can read 3 pieces per month at no cost — one piece is one chapter, short story, poem, or illustration. For any single writer the first 3 pieces are free. Beyond that earn ReadCredits through feedback and beta reading to unlock more, or subscribe for $10 per month or $100 per year for unlimited reading which includes access to the monthly BetweenLines Journal.',
+        a: 'No. Reading is free. Every reader can read 3 pieces per month at no cost — one piece is one chapter, short story, poem, or illustration. For any single writer the first 3 pieces are free. Beyond that earn Reading Credits through feedback and beta reading to unlock more, or subscribe for $10 per month or $100 per year for unlimited reading which includes access to the monthly BetweenLines Journal.',
       },
       {
         q: 'What can I read for free?',
-        a: '3 pieces per month across the platform. One chapter, one short story, one poem, or one illustration counts as one piece. Earn ReadCredits to unlock more or subscribe for unlimited access.',
+        a: '3 pieces per month across the platform. One chapter, one short story, one poem, or one illustration counts as one piece. Earn Reading Credits to unlock more or subscribe for unlimited access.',
       },
       {
         q: 'How do I read more?',
-        a: 'You can earn ReadCredits by giving feedback — reacting, leaving quick comments, or writing deep thoughts on works you read. Credits never expire and can be spent to unlock more chapters of any work at a time.',
+        a: 'You can earn Reading Credits by giving feedback — reacting, leaving quick comments, or writing deep thoughts on works you read. Credits never expire and can be spent to unlock more chapters of any work at a time.',
       },
       {
         q: 'What is the BetweenLines Journal Subscription?',
@@ -80,7 +80,7 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'Can I use credits instead of paying?',
-        a: 'Yes. ReadCredits earned through participation can be used to unlock chapters, beta reader access, and monthly features.',
+        a: 'Yes. Reading Credits earned through participation can be used to unlock chapters, beta reader access, and monthly features.',
       },
       {
         q: 'What kind of fiction is on BetweenReads?',
@@ -96,7 +96,7 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'What is a Beta Reader?',
-        a: 'Beta Readers opt in to read full manuscripts or chapters from writers seeking feedback before publication. They agree to provide in-depth feedback to a writer and become eligible to be invited to a writer’s Reader Pod. Beta Reading is free and earns you the most SwapCredits.',
+        a: 'Beta Readers opt in to read full manuscripts or chapters from writers seeking feedback before publication. They agree to provide in-depth feedback to a writer and become eligible to be invited to a writer’s Reader Pod. Beta Reading is free and earns you the most Swap Credits.',
       },
       {
         q: 'What is Early Discoverer status?',
@@ -146,10 +146,10 @@ export const FAQ: FaqCategory[] = [
         a: 'No. There are no ads anywhere on BetweenReads — for any age group. Ever.',
       },
       {
-        q: 'How do I earn ReadCredits?',
+        q: 'How do I earn Reading Credits?',
         a: '',
         table: {
-          headers: ['Action', 'ReadCredits'],
+          headers: ['Action', 'Reading Credits'],
           rows: [
             ['React to a piece', '2 credits'],
             ['Quick comment', '5 credits'],
@@ -160,10 +160,10 @@ export const FAQ: FaqCategory[] = [
         },
       },
       {
-        q: 'How do I spend ReadCredits?',
+        q: 'How do I spend Reading Credits?',
         a: '',
         table: {
-          headers: ['Feature', 'ReadCredits'],
+          headers: ['Feature', 'Reading Credits'],
           rows: [
             ['Unlock 1 more piece', '5 credits'],
             ['1 month Journal Subscription', '50 credits'],
@@ -191,7 +191,7 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'Is beta reading free?',
-        a: 'Yes. Beta reading is free. You earn SwapCredits for every piece of feedback you give — credits that unlock more reading on the platform.',
+        a: 'Yes. Beta reading is free. You earn Swap Credits for every piece of feedback you give — credits that unlock more reading on the platform.',
       },
       {
         q: 'How do I become a beta reader?',
@@ -214,8 +214,8 @@ export const FAQ: FaqCategory[] = [
         a: 'If you beta read a writer whose work goes on to be agented, shortlisted for a prize, or traditionally published — you are permanently credited as an Early Discoverer on that writer’s author page. It cannot be bought. Only earned.',
       },
       {
-        q: 'How do SwapCredits work — can I exchange beta-reads?',
-        a: 'Yes. Every time you give a beta-read on the platform you earn SwapCredits. Readers earn them too — and so do writers who read other writers’ drafts.\n\nCredits never expire. You can spend them on getting a beta-read of your own manuscript, on a month of the Journal subscription, or on AgentReady Pro time. The whole point is that active participation funds your own progress — no cash required.\n\nThe loop is simple: read someone else’s work carefully, leave the kind of feedback you’d want yourself, and the credits land in your account. When you’re ready to send your draft into the room, those credits unlock the readers you need.',
+        q: 'How do Swap Credits work — can I exchange beta-reads?',
+        a: 'Yes. Every time you give a beta-read on the platform you earn Swap Credits. Readers earn them too — and so do writers who read other writers’ drafts.\n\nCredits never expire. You can spend them on getting a beta-read of your own manuscript, on a month of the Journal subscription, or on AgentReady Pro time. The whole point is that active participation funds your own progress — no cash required.\n\nThe loop is simple: read someone else’s work carefully, leave the kind of feedback you’d want yourself, and the credits land in your account. When you’re ready to send your draft into the room, those credits unlock the readers you need.',
       },
       {
         q: 'Am I committing to read the whole manuscript?',
@@ -230,11 +230,11 @@ export const FAQ: FaqCategory[] = [
   {
     slug: 'writers',
     title: 'For Writers',
-    blurb: 'Upload, copyright, AgentReady, SwapCredits',
+    blurb: 'Upload, copyright, AgentReady, Swap Credits',
     questions: [
       {
         q: 'Do I have to pay to write?',
-        a: 'No. Writing is free. You can write or upload your work in any format and genre enabled on the platform — from microstories to novels. We ask that you upload the minimum length for your chosen genre and format to enable a quality reading experience.\n\nFor novelettes, novellas, and novels, your work becomes visible to readers once you have uploaded a minimum of 5,000 words. Writers also get 3 free reads per month — each read is the first 3 chapters of any work available as a free read. Writers who upload a minimum of 5,000 words unlock 2 additional free reads per month.\n\nYou can earn SwapCredits through feedback and beta reading to unlock more chapters without ever paying. If your work is selected for the journal you receive that month’s issue free. You can also order a print copy of the BetweenLines Journal on demand at an additional cost.',
+        a: 'No. Writing is free. You can write or upload your work in any format and genre enabled on the platform — from microstories to novels. We ask that you upload the minimum length for your chosen genre and format to enable a quality reading experience.\n\nFor novelettes, novellas, and novels, your work becomes visible to readers once you have uploaded a minimum of 5,000 words. Writers also get 3 free reads per month — each read is the first 3 chapters of any work available as a free read. Writers who upload a minimum of 5,000 words unlock 2 additional free reads per month.\n\nYou can earn Swap Credits through feedback and beta reading to unlock more chapters without ever paying. If your work is selected for the journal you receive that month’s issue free. You can also order a print copy of the BetweenLines Journal on demand at an additional cost.',
       },
       {
         q: 'Is it free to upload my work?',
@@ -290,15 +290,15 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'What is SecureBetaReads?',
-        a: 'SecureBetaReads is our manuscript protection and beta reading feature. Your work is protected when uploaded. You are matched with human beta readers. You receive structured feedback — from emoji reactions to deep thoughts. Beta reading of your first three chapters is free. For additional chapters, upgrade to a SecureBetaReads plan or use SwapCredits.',
+        a: 'SecureBetaReads is our manuscript protection and beta reading feature. Your work is protected when uploaded. You are matched with human beta readers. You receive structured feedback — from emoji reactions to deep thoughts. Beta reading of your first three chapters is free. For additional chapters, upgrade to a SecureBetaReads plan or use Swap Credits.',
       },
       {
         q: 'Do I pay as a writer?',
-        a: 'Your first three chapters of beta reading are free. For full manuscript beta reading you can either upgrade to a SecureBetaReads plan or use SwapCredits earned through reading and giving feedback on other writers’ work. SwapCredits never expire and can be accumulated over time — meaning active readers and writers can access full beta reading at no cash cost. AgentReady is free to start — build your agent list, track queries, and access standard templates at no cost. AgentReady Pro is a paid upgrade for writers ready to use AI-powered matching, query generation, and full submission workflow.',
+        a: 'Your first three chapters of beta reading are free. For full manuscript beta reading you can either upgrade to a SecureBetaReads plan or use Swap Credits earned through reading and giving feedback on other writers’ work. Swap Credits never expire and can be accumulated over time — meaning active readers and writers can access full beta reading at no cash cost. AgentReady is free to start — build your agent list, track queries, and access standard templates at no cost. AgentReady Pro is a paid upgrade for writers ready to use AI-powered matching, query generation, and full submission workflow.',
       },
       {
-        q: 'What are SwapCredits for writers?',
-        a: 'Writers earn SwapCredits by beta reading other writers’ work through AuthorSwap. Credits can be used to unlock AgentReady Pro, weWrite, or additional beta reader slots. Credits never expire.',
+        q: 'What are Swap Credits for writers?',
+        a: 'Writers earn Swap Credits by beta reading other writers’ work through AuthorSwap. Credits can be used to unlock AgentReady Pro, weWrite, or additional beta reader slots. Credits never expire.',
       },
       {
         q: 'What happens to beta feedback I receive?',
@@ -353,13 +353,13 @@ export const FAQ: FaqCategory[] = [
       },
       {
         q: 'How can I earn as a writer?',
-        a: 'You earn SwapCredits by beta reading other writers’ work. Credits can be spent on AgentReady Pro, weWrite, and other platform features to reduce your costs. Credits never expire.',
+        a: 'You earn Swap Credits by beta reading other writers’ work. Credits can be spent on AgentReady Pro, weWrite, and other platform features to reduce your costs. Credits never expire.',
       },
       {
-        q: 'How do I earn SwapCredits?',
+        q: 'How do I earn Swap Credits?',
         a: '',
         table: {
-          headers: ['Action', 'SwapCredits'],
+          headers: ['Action', 'Swap Credits'],
           rows: [
             ['Beta read partial manuscript', '25 credits'],
             ['Beta read full manuscript', '50 credits'],
@@ -367,10 +367,10 @@ export const FAQ: FaqCategory[] = [
         },
       },
       {
-        q: 'How do I spend SwapCredits?',
+        q: 'How do I spend Swap Credits?',
         a: '',
         table: {
-          headers: ['Feature', 'SwapCredits'],
+          headers: ['Feature', 'Swap Credits'],
           rows: [
             ['1 month Journal Subscription', '50 credits'],
             ['1 month AgentReady Pro', '100 credits'],
