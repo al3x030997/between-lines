@@ -2276,6 +2276,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-featured-slide.is-active {
   opacity: 1;
   pointer-events: auto;
+  cursor: pointer;
 }
 .br-featured-cover {
   flex: 0 0 42%;

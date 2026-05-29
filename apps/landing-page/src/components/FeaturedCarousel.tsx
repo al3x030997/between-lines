@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import type { Book } from '@/lib/mock-books';
 
 const AUTO_ADVANCE_MS = 10_000;
@@ -11,7 +11,6 @@ type Props = {
 };
 
 export function FeaturedCarousel({ books }: Props) {
-  const router = useRouter();
   const [active, setActive] = useState(0);
   const count = books.length;
 
@@ -38,12 +37,14 @@ export function FeaturedCarousel({ books }: Props) {
           const isDark = b.coverIsDark === true;
           const eyebrow = b.badges[0]?.label ?? 'Featured';
           return (
-            <article
+            <Link
               key={b.slug}
+              href={`/read/${b.slug}`}
               className={`br-featured-slide${isActive ? ' is-active' : ''}`}
               aria-hidden={!isActive}
               aria-roledescription="slide"
-              aria-label={`${i + 1} of ${count}: ${b.title}`}
+              aria-label={`Open ${b.title}, slide ${i + 1} of ${count}`}
+              tabIndex={isActive ? 0 : -1}
             >
               <div className="br-featured-cover" style={{ background: b.cover }}>
                 <div className="br-cover-inner">
@@ -59,17 +60,12 @@ export function FeaturedCarousel({ books }: Props) {
                 <p className="br-featured-blurb">{b.blurb}</p>
                 <div className="br-featured-foot">
                   <span className="br-featured-meta">{b.format}</span>
-                  <button
-                    type="button"
-                    className="br-btn br-btn-primary br-featured-cta"
-                    tabIndex={isActive ? 0 : -1}
-                    onClick={() => router.push(`/read/${b.slug}`)}
-                  >
+                  <span className="br-btn br-btn-primary br-featured-cta">
                     Start reading →
-                  </button>
+                  </span>
                 </div>
               </div>
-            </article>
+            </Link>
           );
         })}
       </div>
