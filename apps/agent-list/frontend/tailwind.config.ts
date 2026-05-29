@@ -5,11 +5,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: '#1c1917',
-        surface: '#292524',
-        border: '#44403c',
-        muted: '#a8a29e',
-        text: '#fafaf9',
+        bg: '#18181b',
+        surface: '#27272a',
+        border: '#3f3f46',
+        muted: '#a1a1aa',
+        text: '#fafafa',
         accent: '#f3d84a',
         'accent-hover': '#d4aa18',
       },
