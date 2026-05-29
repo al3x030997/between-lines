@@ -21,6 +21,9 @@ export default function BookPage({ params }: PageProps) {
 
   const isClassic = book.category.toLowerCase().includes('classic');
   const writerSlug = writerSlugForHandle(book.authorHandle);
+  const communityRating = isClassic
+    ? 4.9
+    : Math.min(4.9, 4.4 + (book.readerPicks ?? 24) / 160);
 
   return (
     <div>
@@ -142,7 +145,10 @@ export default function BookPage({ params }: PageProps) {
         ) : null}
       </div>
 
-      <CommunityVoices />
+      <CommunityVoices
+        rating={communityRating}
+        addCommentHref={`${readHref}#br-fp-title`}
+      />
 
       <div className="br-chapters">
         <div className="br-chapters-label br-sec-title">Chapters</div>

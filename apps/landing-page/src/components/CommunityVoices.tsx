@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useCallback, useEffect, useState } from 'react';
 
 type Voice = {
@@ -49,9 +50,15 @@ const VOICES: Voice[] = [
 
 const AUTO_ADVANCE_MS = 12_000;
 
-export function CommunityVoices() {
+type CommunityVoicesProps = {
+  rating?: number;
+  addCommentHref?: string;
+};
+
+export function CommunityVoices({ rating = 4.7, addCommentHref }: CommunityVoicesProps) {
   const [active, setActive] = useState(0);
   const count = VOICES.length;
+  const ratingLabel = rating.toFixed(1);
 
   useEffect(() => {
     if (count <= 1) return;
@@ -69,7 +76,18 @@ export function CommunityVoices() {
   return (
     <section className="br-community" aria-label="What the community says">
       <div className="br-community-head">
-        <span className="br-sec-label">What the community says</span>
+        <div className="br-community-titleline">
+          <span className="br-sec-label">What the community says</span>
+          <span
+            className="br-community-rating"
+            aria-label={`Average reader rating ${ratingLabel} out of 5`}
+          >
+            <span className="br-community-rating-star" aria-hidden="true">
+              ★
+            </span>
+            <span>{ratingLabel}</span>
+          </span>
+        </div>
         <div className="br-community-nav">
           <button
             type="button"
@@ -110,18 +128,29 @@ export function CommunityVoices() {
         ))}
       </div>
 
-      <div className="br-community-dots" role="tablist" aria-label="Choose voice">
-        {VOICES.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            role="tab"
-            aria-selected={i === active}
-            aria-label={`Voice ${i + 1}`}
-            className={`br-community-dot${i === active ? ' is-active' : ''}`}
-            onClick={() => setActive(i)}
-          />
-        ))}
+      <div className="br-community-foot">
+        <div className="br-community-dots" role="tablist" aria-label="Choose voice">
+          {VOICES.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              role="tab"
+              aria-selected={i === active}
+              aria-label={`Voice ${i + 1}`}
+              className={`br-community-dot${i === active ? ' is-active' : ''}`}
+              onClick={() => setActive(i)}
+            />
+          ))}
+        </div>
+        {addCommentHref ? (
+          <Link href={addCommentHref} className="br-community-add">
+            Add comment
+          </Link>
+        ) : (
+          <button type="button" className="br-community-add">
+            Add comment
+          </button>
+        )}
       </div>
     </section>
   );
