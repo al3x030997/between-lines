@@ -238,14 +238,14 @@ function BetweenLinesLockedPanel() {
       <div className="br-blines-offer" role="region" aria-label="Upgrade to read BetweenLines">
         <div className="br-blines-offer-top">
           <div>
-          <div className="br-blines-upgrade-mark" aria-hidden="true">BL</div>
-          <p className="br-blines-upgrade-eyebrow">Premium reading experience</p>
+            <div className="br-blines-upgrade-mark" aria-hidden="true">BL</div>
+            <p className="br-blines-upgrade-eyebrow">Premium reading experience</p>
             <h3>Read every BetweenLines issue with PowerReader</h3>
-          <p className="br-blines-upgrade-copy">
+            <p className="br-blines-upgrade-copy">
               Get the journal, unlimited premium chapters, Reader Pods, early access,
               priority beta reader matching, and full mood-based discovery.
-          </p>
-            </div>
+            </p>
+          </div>
 
           <div className="br-blines-price-card" aria-label="PowerReader pricing">
             <span className="br-blines-price-label">PowerReader</span>
