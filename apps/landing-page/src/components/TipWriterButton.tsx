@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 
-const AMOUNTS = [5, 10, 25, 50] as const;
+const AMOUNTS = [1, 3, 5, 10] as const;
 
 type Props = {
   authorName: string;
@@ -16,7 +16,7 @@ type Props = {
 export function TipWriterButton({ authorName, authorHandle, size = 'sm', label = 'Tip writer' }: Props) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
-  const [amount, setAmount] = useState<number>(10);
+  const [amount, setAmount] = useState<number>(3);
   const [message, setMessage] = useState('');
   const [sent, setSent] = useState<number | null>(null);
 
@@ -44,7 +44,7 @@ export function TipWriterButton({ authorName, authorHandle, size = 'sm', label =
     setTimeout(() => {
       setSent(null);
       setMessage('');
-      setAmount(10);
+      setAmount(3);
     }, 250);
   }
 
@@ -91,11 +91,11 @@ export function TipWriterButton({ authorName, authorHandle, size = 'sm', label =
             </h2>
             {handleLine ? <div className="br-tip-handle">{handleLine}</div> : null}
             <p className="br-tip-sub">
-              Reading Credits go straight to the writer. Pick an amount and add a note if
-              you&rsquo;d like.
+              Tips go straight to the writer. Pick an amount and add a note if you&rsquo;d
+              like.
             </p>
 
-            <div className="br-tip-amounts" role="radiogroup" aria-label="Tip amount in Reading Credits">
+            <div className="br-tip-amounts" role="radiogroup" aria-label="Tip amount in US dollars">
               {AMOUNTS.map((n) => (
                 <button
                   key={n}
@@ -105,8 +105,8 @@ export function TipWriterButton({ authorName, authorHandle, size = 'sm', label =
                   className={`br-tip-amount ${amount === n ? 'is-on' : ''}`}
                   onClick={() => setAmount(n)}
                 >
-                  <span className="br-tip-amount-num">{n}</span>
-                  <span className="br-tip-amount-lbl">RC</span>
+                  <span className="br-tip-amount-num">${n}</span>
+                  <span className="br-tip-amount-lbl">USD</span>
                 </button>
               ))}
             </div>
@@ -130,18 +130,17 @@ export function TipWriterButton({ authorName, authorHandle, size = 'sm', label =
                 Cancel
               </button>
               <button type="button" className="br-btn br-btn-primary" onClick={submit}>
-                Send {amount} RC →
+                Send ${amount} →
               </button>
             </div>
-            <p className="br-tip-fine">This is a preview — no Credits are charged yet.</p>
+            <p className="br-tip-fine">Preview only — no card is charged yet.</p>
           </>
         ) : (
           <div className="br-tip-confirm">
             <div className="br-tip-confirm-mark" aria-hidden="true">✓</div>
             <h2 className="br-tip-headline">Tip on its way</h2>
             <p className="br-tip-sub">
-              {sent} Reading Credit{sent === 1 ? '' : 's'} sent to {authorName}. They&rsquo;ll see
-              your note next time they log in.
+              ${sent} sent to {authorName}. They&rsquo;ll see your note next time they log in.
             </p>
             <button type="button" className="br-btn br-btn-primary" onClick={close}>
               Done

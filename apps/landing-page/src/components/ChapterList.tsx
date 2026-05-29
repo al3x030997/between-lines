@@ -7,6 +7,12 @@ import { useRouter } from 'next/navigation';
 import { addRC, getMockSession } from '@/lib/mock-session';
 import type { Chapter } from '@/lib/mock-books';
 
+const DEFAULT_RC_COST = 5;
+
+function rcCostFor(ch: Chapter): number {
+  return ch.access.type === 'rc' ? ch.access.cost : DEFAULT_RC_COST;
+}
+
 type Props = {
   bookSlug: string;
   bookTitle: string;
@@ -40,8 +46,8 @@ export function ChapterList({ bookSlug, bookTitle, chapters }: Props) {
   }, [pending]);
 
   function useRc(ch: Chapter) {
-    if (ch.access.type !== 'rc') return;
-    addRC(-ch.access.cost);
+    if (ch.access.type === 'free') return;
+    addRC(-rcCostFor(ch));
     setPending(null);
     router.push(`/read/${bookSlug}/${ch.slug}`);
   }
@@ -57,12 +63,13 @@ export function ChapterList({ bookSlug, bookTitle, chapters }: Props) {
               <span className="br-ch-row-words">{c.words.toLocaleString()} w</span>
               {c.access.type === 'free' ? (
                 <span className="br-ch-row-status br-ch-status-free">Free</span>
-              ) : c.access.type === 'rc' ? (
-                <span className="br-ch-row-status br-ch-status-lock">
-                  🔒 <span className="br-ch-status-rc">{c.access.cost} RC</span>
-                </span>
               ) : (
-                <span className="br-ch-row-status br-ch-status-sub">Subscribe</span>
+                <span
+                  className="br-ch-row-status br-ch-status-lock"
+                  aria-label="Locked — unlock with credits or subscription"
+                >
+                  🔒
+                </span>
               )}
             </>
           );
@@ -122,13 +129,11 @@ export function ChapterList({ bookSlug, bookTitle, chapters }: Props) {
                 </p>
 
                 <div className="br-paywall-options">
-                  {pending.access.type === 'rc' ? (
-                    <RcOption
-                      ch={pending}
-                      balance={rcBalance}
-                      onUse={() => useRc(pending)}
-                    />
-                  ) : null}
+                  <RcOption
+                    ch={pending}
+                    balance={rcBalance}
+                    onUse={() => useRc(pending)}
+                  />
 
                   <Link
                     href="/checkout?plan=powerreader&billing=monthly&source=chapter"
@@ -173,7 +178,7 @@ function RcOption({
   balance: number | null;
   onUse: () => void;
 }) {
-  const cost = ch.access.type === 'rc' ? ch.access.cost : 0;
+  const cost = rcCostFor(ch);
   const enough = balance !== null && balance >= cost;
   return (
     <button

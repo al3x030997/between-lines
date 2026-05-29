@@ -189,7 +189,7 @@ export function ReaderShell({
           <div className="br-tip-author-copy">
             <div className="br-tip-author-eyebrow">Enjoyed this chapter?</div>
             <div className="br-tip-author-line">
-              Send {authorName.split(' ')[0]} a few Reading Credits as a thank-you.
+              Send {authorName.split(' ')[0]} a tip as a thank-you.
             </div>
           </div>
           <TipWriterButton
