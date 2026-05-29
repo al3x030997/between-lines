@@ -18,9 +18,9 @@ type Props = {
 };
 
 /**
- * Mock sign-in button. Navigates to /auth/handoff in the same app — same
- * origin, so localStorage works without any deployment plumbing. Swap this
- * out for a real auth call when ready.
+ * Mock sign-in button. Navigates to the account preview handoff in the same
+ * app — same origin, so localStorage works without any deployment plumbing.
+ * Swap this out for a real auth call when ready.
  */
 export function SignInButton({
   className = 'v11-btn-signin',

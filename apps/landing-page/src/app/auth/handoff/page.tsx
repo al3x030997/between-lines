@@ -1,17 +1,23 @@
 'use client';
 
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { setMockSession, type Role } from '@/lib/mock-session';
+import { AccountProfilePicker } from '@/components/AccountProfilePicker';
+import {
+  ACCOUNT_PROFILES,
+  sessionForAccountProfile,
+  type AccountProfile,
+} from '@/lib/account-profiles';
+import { setMockSession } from '@/lib/mock-session';
 
-function Splash({ message }: { message: string }) {
+function Splash() {
   return (
     <main className="br-handoff">
       <div className="br-handoff-wordmark">
         <span>Between</span>Reads
       </div>
       <div className="br-handoff-rule" />
-      <div className="br-handoff-msg br-handoff-dots">{message}</div>
+      <div className="br-handoff-msg br-handoff-dots">Opening your accounts</div>
     </main>
   );
 }
@@ -19,38 +25,30 @@ function Splash({ message }: { message: string }) {
 function HandoffInner() {
   const router = useRouter();
   const params = useSearchParams();
+  const currentUser = params.get('u') ?? ACCOUNT_PROFILES[0]?.user ?? null;
 
-  useEffect(() => {
-    const user = params.get('u') ?? 'Sarah M.';
-    const handle = params.get('h') ?? undefined;
-    const rc = Number.parseInt(params.get('rc') ?? '142', 10) || 142;
-    const sc = Number.parseInt(params.get('sc') ?? '75', 10) || 75;
-    const tierParam = params.get('tier');
-    const tier = tierParam === 'Member' ? 'Member' : 'Reader';
-
-    const rolesParam = params.get('roles');
-    let roles: Role[] = ['reader', 'writer'];
-    if (rolesParam) {
-      const parts = rolesParam.split(',').map((s) => s.trim());
-      const next: Role[] = [];
-      for (const p of parts) {
-        if ((p === 'reader' || p === 'writer') && !next.includes(p)) next.push(p);
-      }
-      if (next.length > 0) roles = next;
-    } else if (params.get('writer') === '0') {
-      roles = ['reader'];
-    }
-
-    setMockSession({ user, handle, rc, sc, tier, roles });
+  function openReaderApp(profile: AccountProfile) {
+    setMockSession(sessionForAccountProfile(profile));
     router.replace('/read');
-  }, [params, router]);
+  }
 
-  return <Splash message="Signing you in" />;
+  return (
+    <main className="br-acct-page">
+      <div className="br-acct-backdrop" aria-hidden="true" />
+      <AccountProfilePicker
+        currentUser={currentUser}
+        headingAs="h1"
+        onAddAccount={() => router.replace('/')}
+        onManageProfiles={() => router.replace('/')}
+        onSelectProfile={openReaderApp}
+      />
+    </main>
+  );
 }
 
 export default function HandoffPage() {
   return (
-    <Suspense fallback={<Splash message="Opening your reading" />}>
+    <Suspense fallback={<Splash />}>
       <HandoffInner />
     </Suspense>
   );
