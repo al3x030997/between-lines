@@ -62,15 +62,6 @@ export function makeDraftWork(index: number): WriterLibraryWork {
   };
 }
 
-function Metric({ value, label }: { value: string; label: string }) {
-  return (
-    <span className="br-write-lib-metric">
-      <strong>{value}</strong>
-      <span>{label}</span>
-    </span>
-  );
-}
-
 function WriterLibraryRow({
   work,
   canOpen,
@@ -88,80 +79,135 @@ function WriterLibraryRow({
 }) {
   const progress = pct(work);
   const actionTitle = canOpen ? undefined : 'This preview work is not connected to the editor yet';
+  const isPublished = work.status === 'Published';
+  const isListed = work.storefront.state === 'Listed';
+  const totalActivity =
+    work.activity.reads + work.activity.readerPicks + work.activity.betaRequests + work.activity.coins;
+  const showActivity = isPublished && totalActivity > 0;
 
   return (
-    <article className={`br-write-lib-row ${work.status === 'Published' ? 'is-live' : ''}`}>
-      <div className="br-write-lib-cover" style={{ background: work.cover }} aria-hidden="true">
-        <div className="br-write-lib-cover-inner">
+    <article
+      className={`br-write-card ${isPublished ? 'is-live' : ''}`}
+      data-status={statusClass[work.status]}
+      role="listitem"
+    >
+      <div className="br-write-card-cover" style={{ background: work.cover }} aria-hidden="true">
+        <div className="br-write-card-cover-spine" />
+        <div className="br-write-card-cover-inner">
           <span>{work.title}</span>
         </div>
       </div>
 
-      <div className="br-write-lib-body">
-        <div className="br-write-lib-titleline">
-          <div>
-            <div className="br-write-lib-kicker">{work.meta}</div>
-            <h2>{work.title}</h2>
+      <div className="br-write-card-body">
+        <header className="br-write-card-head">
+          <div className="br-write-card-titleblock">
+            <div className="br-write-card-kicker">{work.meta}</div>
+            <h2 className="br-write-card-title">{work.title}</h2>
+            {work.pitch ? <p className="br-write-card-pitch">{work.pitch}</p> : null}
           </div>
-          <span className={`br-write-lib-status ${statusClass[work.status]}`}>{work.status}</span>
-        </div>
+          <div className="br-write-card-stamp">
+            <span className={`br-write-card-status ${statusClass[work.status]}`}>{work.status}</span>
+            <span className="br-write-card-readiness">{work.readiness}</span>
+          </div>
+        </header>
 
-        <div className="br-write-lib-grid">
-          <section>
-            <div className="br-write-lib-label">Published chapters</div>
-            <div className="br-write-lib-mainstat">
-              {work.publishedChapters}/{work.totalChapters}
+        {(work.genre || (work.moods && work.moods.length) || (work.audienceTags && work.audienceTags.length)) ? (
+          <div className="br-write-card-tags" aria-label="Novel settings">
+            {work.genre ? (
+              <span className="br-write-card-tag is-genre">
+                <span aria-hidden="true">{work.genre.icon}</span>
+                <span>{work.genre.label}</span>
+              </span>
+            ) : null}
+            {(work.moods ?? []).map((mood) => (
+              <span key={mood.label} className="br-write-card-tag is-mood">
+                <span aria-hidden="true">{mood.icon}</span>
+                <span>{mood.label}</span>
+              </span>
+            ))}
+            <span className="br-write-card-tag-sep" aria-hidden="true" />
+            {(work.audienceTags ?? []).map((aud) => (
+              <span key={aud.label} className="br-write-card-tag is-audience">
+                <span aria-hidden="true">{aud.icon}</span>
+                <span>{aud.label}</span>
+              </span>
+            ))}
+          </div>
+        ) : null}
+
+        <div className="br-write-card-vitals">
+          <div className="br-write-card-vital">
+            <div className="br-write-card-vital-num">
+              {work.publishedChapters}
+              <span className="br-write-card-vital-of">/{work.totalChapters}</span>
             </div>
-            <div className="br-write-lib-progress" aria-hidden="true">
+            <div className="br-write-card-vital-lbl">
+              {work.totalChapters === 1 ? 'chapter' : 'chapters'} live
+            </div>
+            <div className="br-write-card-progress" aria-hidden="true">
               <span style={{ width: `${progress}%` }} />
             </div>
-            <p>{work.wordsLabel} words · {work.lastUpdated}</p>
-          </section>
-
-          <section>
-            <div className="br-write-lib-label">Readiness</div>
-            <div className="br-write-lib-mainstat">{work.readiness}</div>
-            <p>{work.audience}</p>
-          </section>
-
-          <section>
-            <div className="br-write-lib-label">Storefront</div>
-            <div className="br-write-lib-mainstat">{work.storefront.state}</div>
-            <p>{work.storefront.price}</p>
-            <div className="br-write-lib-options">
-              {work.storefront.options.slice(0, 3).map((option) => (
-                <span key={option}>{option}</span>
-              ))}
+          </div>
+          <div className="br-write-card-vital">
+            <div className="br-write-card-vital-num">{work.wordsLabel}</div>
+            <div className="br-write-card-vital-lbl">words · {work.lastUpdated.toLowerCase()}</div>
+          </div>
+          <div className="br-write-card-vital">
+            <div className="br-write-card-vital-num is-text">{work.storefront.state}</div>
+            <div className="br-write-card-vital-lbl">
+              {isListed ? work.storefront.price : work.storefront.options[0] ?? 'Not listed'}
             </div>
-          </section>
-
-          <section className="br-write-lib-activity">
-            <div className="br-write-lib-label">Activity</div>
-            <div className="br-write-lib-metrics">
-              <Metric value={compact(work.activity.reads)} label="reads" />
-              <Metric value={compact(work.activity.readerPicks)} label="picks" />
-              <Metric value={compact(work.activity.betaRequests)} label="beta" />
-              <Metric value={compact(work.activity.coins)} label="coins" />
+          </div>
+          {showActivity ? (
+            <div className="br-write-card-vital is-activity">
+              <div className="br-write-card-activity">
+                <span><strong>{compact(work.activity.reads)}</strong> reads</span>
+                <span><strong>{compact(work.activity.readerPicks)}</strong> picks</span>
+                <span><strong>{compact(work.activity.betaRequests)}</strong> beta</span>
+                <span><strong>{compact(work.activity.coins)}</strong> coins</span>
+              </div>
+              <div className="br-write-card-vital-lbl">activity to date</div>
             </div>
-          </section>
+          ) : (
+            <div className="br-write-card-vital is-quiet">
+              <div className="br-write-card-vital-num is-text">{isPublished ? 'Awaiting readers' : 'Not live yet'}</div>
+              <div className="br-write-card-vital-lbl">{work.audience}</div>
+            </div>
+          )}
         </div>
 
-        <div className="br-write-lib-actions" aria-label={`${work.title} actions`}>
-          <button type="button" onClick={() => onOpenEditor(work.id)} disabled={!canOpen} title={actionTitle}>
-            Open editor
-          </button>
-          <button type="button" onClick={() => onPreview(work)} disabled={!canOpen} title={actionTitle}>
-            Preview
-          </button>
-          <button type="button" onClick={() => onOpenStorefront(work.id)} disabled={!canOpen} title={actionTitle}>
-            Storefront
-          </button>
-          <button type="button" onClick={() => onOpenSettings(work.id)} disabled={!canOpen} title={actionTitle}>
-            Settings
-          </button>
-        </div>
+        <footer className="br-write-card-foot">
+          <div className="br-write-card-meta-inline">
+            {work.storefront.options.slice(0, isListed ? 2 : 1).map((option) => (
+              <span key={option} className="br-write-card-chip">{option}</span>
+            ))}
+          </div>
+          <div className="br-write-card-actions" aria-label={`${work.title} actions`}>
+            <button type="button" className="br-write-card-btn is-primary" onClick={() => onOpenEditor(work.id)} disabled={!canOpen} title={actionTitle}>
+              Open editor
+            </button>
+            <button type="button" className="br-write-card-btn" onClick={() => onPreview(work)} disabled={!canOpen} title={actionTitle}>
+              Preview
+            </button>
+            <button type="button" className="br-write-card-btn" onClick={() => onOpenStorefront(work.id)} disabled={!canOpen} title={actionTitle}>
+              Storefront
+            </button>
+            <button type="button" className="br-write-card-btn" onClick={() => onOpenSettings(work.id)} disabled={!canOpen} title={actionTitle}>
+              Settings
+            </button>
+          </div>
+        </footer>
       </div>
     </article>
+  );
+}
+
+function SummaryStat({ value, label }: { value: string; label: string }) {
+  return (
+    <span className="br-write-lib-metric">
+      <strong>{value}</strong>
+      <span>{label}</span>
+    </span>
   );
 }
 
@@ -173,10 +219,10 @@ export function WriterLibrary({ works, allWorks, onAddWork, onOpenEditor, onOpen
   return (
     <div className="br-write-library">
       <div className="br-write-lib-summary" aria-label="Writing library summary">
-        <Metric value={publishedCount.toString()} label="published" />
-        <Metric value={chapterCount.toString()} label="chapters live" />
-        <Metric value={compact(reads)} label="total reads" />
-        <Metric value={works.length.toString()} label="shown" />
+        <SummaryStat value={publishedCount.toString()} label="published" />
+        <SummaryStat value={chapterCount.toString()} label="chapters live" />
+        <SummaryStat value={compact(reads)} label="total reads" />
+        <SummaryStat value={works.length.toString()} label="shown" />
       </div>
 
       <div className="br-write-lib-table" role="list" aria-label="Writer works">

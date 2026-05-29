@@ -784,6 +784,11 @@ export type WriterLibraryWork = WorkSummary & {
   wordsLabel: string;
   audience: string;
   lastUpdated: string;
+  /** Surfaced from Novel Settings — relevant when scanning the library */
+  genre?: { icon: string; label: string };
+  moods?: Array<{ icon: string; label: string }>;
+  audienceTags?: Array<{ icon: string; label: string }>;
+  pitch?: string;
   storefront: {
     state: StorefrontState;
     price: string;
@@ -881,6 +886,18 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     wordsLabel: '2,180',
     audience: 'Public readers',
     lastUpdated: 'Today',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🌿', label: 'Calming' },
+      { icon: '🕯️', label: 'Slow Burn' },
+    ],
+    audienceTags: [
+      { icon: '🔒', label: 'Beta' },
+      { icon: '👁️', label: 'PowerReaders' },
+    ],
+    pitch:
+      'Sisters trading letters across a seven-year silence. What goes unsaid takes the shape of weather, of seasons, of the salt on a coastline that refuses to forget.',
     storefront: {
       state: 'Listed',
       price: 'Free to start',
@@ -907,6 +924,13 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     wordsLabel: '3,200',
     audience: 'Private draft',
     lastUpdated: 'Yesterday',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🕯️', label: 'Slow Burn' },
+    ],
+    audienceTags: [{ icon: '🔒', label: 'Private draft' }],
+    pitch: 'A grandmother folding linen on the first cold morning of November.',
     storefront: {
       state: 'Setup needed',
       price: 'Not priced',
@@ -926,6 +950,18 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     readiness: 'Ready',
     audience: 'Public + beta readers',
     lastUpdated: '2 days ago',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🌿', label: 'Calming' },
+      { icon: '🔥', label: 'Intense' },
+    ],
+    audienceTags: [
+      { icon: '🔒', label: 'Beta' },
+      { icon: '👁️', label: 'PowerReaders' },
+    ],
+    pitch:
+      'A housekeeper in a crumbling country house discovers a box of letters that reframes everything she thought she knew about the family she served for thirty years.',
     storefront: {
       state: 'Listed',
       price: '$4.99 · 100 RC',
@@ -945,6 +981,14 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     readiness: 'Needs chapters',
     audience: 'Private draft',
     lastUpdated: '5 days ago',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🕯️', label: 'Slow Burn' },
+    ],
+    audienceTags: [{ icon: '✍️', label: 'Writer Pod' }],
+    pitch:
+      "Linked stories set in the same small town across three decades. Each told by a different narrator who doesn't know they share a secret.",
     storefront: {
       state: 'Not listed',
       price: '$5.99 · 120 RC',
@@ -971,6 +1015,14 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     wordsLabel: '4,600',
     audience: 'Public readers',
     lastUpdated: 'Last month',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '😊', label: 'Feel-good' },
+    ],
+    audienceTags: [{ icon: '📖', label: 'Reader Pod' }],
+    pitch:
+      'A widower learns to set the table for one — and discovers a daughter doing the same in a city three trains away.',
     storefront: {
       state: 'Listed',
       price: '$1.99 · 40 RC',
@@ -1009,6 +1061,10 @@ export function getWriterLibraryWorks(handle: string): WriterLibraryWork[] {
       wordsLabel: override.wordsLabel ?? book?.wordsLabel ?? formatCount(words),
       audience: override.audience ?? 'Private draft',
       lastUpdated: override.lastUpdated ?? 'This week',
+      genre: override.genre,
+      moods: override.moods,
+      audienceTags: override.audienceTags,
+      pitch: override.pitch,
       storefront: override.storefront ?? {
         state: 'Not listed',
         price: book?.price ?? 'Not priced',
