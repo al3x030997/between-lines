@@ -1315,37 +1315,61 @@ body[data-quiet="true"] .br-progress { display: none; }
   flex-direction: column;
   gap: 0.875rem;
 }
+/* Profile column in the Discover header — one tall card that holds the
+   ProfileBlock at the top and the Switch Account row pinned to the bottom.
+   Border + background + radius move onto the column so the inner ProfileBlock
+   visually merges into the same card. */
 .br-discover-profile-col {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
   align-self: stretch;
-  padding-bottom: 1rem;
+  margin: 0 0.5rem;
+  width: calc(100% - 1rem);
+  min-height: 380px;
+  background: var(--br-panel-bg);
+  border: 0.5px solid var(--br-border-warm);
+  border-radius: var(--br-radius-lg);
+  overflow: hidden;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
-.br-discover-profile-col .br-pb { margin-bottom: 0; }
+.br-discover-profile-col:hover { border-color: var(--v11-accent); box-shadow: var(--br-shadow-soft); }
+.br-discover-profile-col .br-pb {
+  width: 100%;
+  margin: 0;
+  padding: 18px 18px 20px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.br-discover-profile-col .br-pb:hover {
+  background: var(--br-panel-warm);
+  border-color: transparent;
+  transform: none;
+  box-shadow: none;
+}
 .br-pb-switch {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  align-self: stretch;
+  gap: 10px;
+  margin-top: auto;
+  padding: 14px 18px;
   background: transparent;
-  border: 0.5px dashed var(--br-border-warm);
-  border-radius: var(--br-radius-lg);
-  padding: 10px 14px;
-  margin: auto 0.5rem 0;
+  border: none;
+  border-top: 0.5px solid var(--br-border-warm);
+  border-radius: 0;
   font-family: var(--br-font-sans);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   color: var(--v11-ink-mute);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s, background 0.15s;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
 }
 .br-pb-switch:hover {
   color: var(--v11-ink);
-  border-color: var(--v11-accent);
   background: var(--br-panel-warm);
+  border-top-color: var(--v11-accent);
 }
 .br-pb-switch-icon { width: 16px; height: 16px; flex-shrink: 0; }
 .br-discover-head-eyebrow {
