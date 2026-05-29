@@ -19,6 +19,7 @@ import {
   matchesFilters,
 } from '@/components/FilterSidebar';
 import { ProductCard, type CardVariant } from '@/components/ProductCard';
+import { AccountSwitcher } from '@/components/AccountSwitcher';
 import { ContinueReadingStrip } from '@/components/ContinueReadingHero';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import { ProfileBlock } from '@/components/ProfileBlock';
@@ -308,12 +309,6 @@ function matchesQuery(book: Book, q: string): boolean {
   );
 }
 
-function focusMoodRail() {
-  if (typeof document === 'undefined') return;
-  const el = document.querySelector<HTMLElement>('[data-mood-rail]');
-  el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
-
 function ReaderSnapshot() {
   const { session } = useMockSession();
   const firstName = (session?.user ?? 'reader').split(/\s+/)[0] ?? 'reader';
@@ -328,53 +323,6 @@ function ReaderSnapshot() {
       {parts.length > 0 ? <span className="br-discover-snapshot-sep" aria-hidden="true">—</span> : null}
       {parts.length > 0 ? <span className="br-discover-snapshot-meta">{parts.join(' · ')}</span> : null}
     </span>
-  );
-}
-
-function DiscoverTitle({
-  activeMoods,
-  onClear,
-}: {
-  activeMoods: string[];
-  onClear: () => void;
-}) {
-  let title = 'Discover';
-  let sub = 'Stories matched to your current mood';
-  if (activeMoods.length === 1) {
-    const m = activeMoods[0]!;
-    title = `${m} tonight`;
-    sub = `Stories matched to a ${m.toLowerCase()} mood`;
-  } else if (activeMoods.length >= 2) {
-    const first = activeMoods[0]!;
-    const rest = activeMoods.length - 1;
-    title = `${first} & ${rest} more`;
-    sub = `Mix of ${activeMoods.length} moods from your sidebar`;
-  }
-  return (
-    <div className="br-discover-title-row">
-      <div className="br-discover-title-text">
-        <h1 className="br-discover-h1">{title}</h1>
-        <p className="br-discover-sub">{sub}</p>
-      </div>
-      {activeMoods.length > 0 ? (
-        <div className="br-discover-title-actions">
-          <button
-            type="button"
-            className="br-discover-change-mood"
-            onClick={focusMoodRail}
-          >
-            change ↓
-          </button>
-          <button
-            type="button"
-            className="br-discover-change-mood is-clear"
-            onClick={onClear}
-          >
-            clear
-          </button>
-        </div>
-      ) : null}
-    </div>
   );
 }
 
@@ -502,7 +450,10 @@ function DiscoverContent() {
   return (
     <>
       <header className="br-discover-head">
-        <ProfileBlock />
+        <div className="br-discover-profile-col">
+          <ProfileBlock />
+          <AccountSwitcher />
+        </div>
         <div className="br-discover-head-right">
           <div className="br-discover-head-eyebrow">
             <ReaderSnapshot />
@@ -519,8 +470,6 @@ function DiscoverContent() {
               </button>
             </div>
           </div>
-
-          <DiscoverTitle activeMoods={activeMoods} onClear={clearFilters} />
 
           {active === 'betweenreads' ? <ContinueReadingStrip /> : null}
 
