@@ -48,12 +48,39 @@ export type Book = {
 
 const coverArt = exampleCoverArt;
 
-function bookFromLibrary(slug: string, chapters: Chapter[]): Book {
-  const { cover, storeBadge: _storeBadge, storeBlurb: _storeBlurb, ...book } = requireExampleBookMetadata(slug);
+function libraryChapterSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function libraryChapterAccess(access: 'free' | 'rc' | 'subscribe'): ChapterAccess {
+  if (access === 'rc') return { type: 'rc', cost: 5 };
+  return { type: access };
+}
+
+function bookFromLibrary(slug: string, chapters?: Chapter[]): Book {
+  const {
+    cover,
+    storeBadge: _storeBadge,
+    storeBlurb: _storeBlurb,
+    chapters: libraryChapters,
+    readerQuotes: _readerQuotes,
+    ...book
+  } = requireExampleBookMetadata(slug);
   return {
     ...book,
     cover: coverArt(cover.filename),
-    chapters,
+    chapters:
+      chapters ??
+      (libraryChapters ?? []).map((chapter, index) => ({
+        num: index + 1,
+        slug: libraryChapterSlug(chapter.title),
+        title: chapter.title,
+        words: chapter.words,
+        access: libraryChapterAccess(chapter.access),
+      })),
   };
 }
 
@@ -352,6 +379,16 @@ const books: Book[] = [
     alsoOn: [{ label: 'Project Gutenberg', href: 'https://www.gutenberg.org/ebooks/1184' }],
     section: 'classics',
   },
+  bookFromLibrary('the-lantern-orchard'),
+  bookFromLibrary('a-map-of-quiet-rooms'),
+  bookFromLibrary('weather-for-borrowed-houses'),
+  bookFromLibrary('the-ninth-harbor'),
+  bookFromLibrary('small-fires-soft-rain'),
+  bookFromLibrary('the-museum-of-last-requests'),
+  bookFromLibrary('red-thread-under-snow'),
+  bookFromLibrary('the-choir-at-the-end-of-august'),
+  bookFromLibrary('where-the-blue-letters-go'),
+  bookFromLibrary('the-clockmakers-daughter'),
 ];
 
 export type Section = {
