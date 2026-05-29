@@ -2704,7 +2704,6 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-gallery-hero-copy,
 .br-gallery-hero-feature,
-.br-gallery-journal,
 .br-gallery-rail {
   position: relative;
   z-index: 1;
@@ -2747,7 +2746,6 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-gallery-primary,
 .br-gallery-secondary,
-.br-gallery-journal-plan a,
 .br-gallery-rail-link {
   display: inline-flex;
   align-items: center;
@@ -2776,7 +2774,6 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-gallery-primary:hover,
 .br-gallery-secondary:hover,
-.br-gallery-journal-plan a:hover,
 .br-gallery-rail-link:hover {
   transform: translateY(-2px);
 }
@@ -2870,69 +2867,6 @@ body[data-quiet="true"] .br-progress { display: none; }
   font-size: 13px;
   line-height: 1.45;
   color: var(--gallery-soft);
-}
-.br-gallery-journal {
-  width: min(1340px, calc(100% - 4rem));
-  margin: 0 auto 2.5rem;
-  padding: 1.35rem;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(230px, 290px);
-  gap: 1.5rem;
-  align-items: center;
-  border-top: 1px solid rgba(240, 212, 94, 0.36);
-  border-bottom: 1px solid rgba(111, 181, 141, 0.24);
-  background: linear-gradient(90deg, rgba(255, 247, 232, 0.08), rgba(255, 247, 232, 0.035));
-  backdrop-filter: blur(20px);
-}
-.br-gallery-journal h2 {
-  margin: 0.35rem 0 0.55rem;
-  font-family: 'Bodoni Moda', var(--br-font-display);
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: 0;
-}
-.br-gallery-journal p {
-  max-width: 70ch;
-  margin: 0;
-  color: var(--gallery-soft);
-  font-size: 14px;
-  line-height: 1.65;
-}
-.br-gallery-journal-plan {
-  padding: 1rem;
-  border: 1px solid var(--gallery-line);
-  border-radius: 16px;
-  background: rgba(0, 0, 0, 0.32);
-}
-.br-gallery-journal-plan span {
-  display: block;
-  color: var(--gallery-green);
-  font-family: 'Bricolage Grotesque', var(--br-font-sans);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-.br-gallery-journal-plan strong {
-  display: block;
-  margin-top: 0.35rem;
-  font-family: 'Bodoni Moda', var(--br-font-display);
-  font-size: 52px;
-  line-height: 1;
-}
-.br-gallery-journal-plan em {
-  display: block;
-  margin: 0.3rem 0 0.9rem;
-  color: var(--gallery-muted);
-  font-size: 12px;
-  font-style: normal;
-}
-.br-gallery-journal-plan a {
-  width: 100%;
-  min-height: 38px;
-  color: #10100e;
-  background: var(--gallery-green);
 }
 .br-gallery-rail {
   width: min(1480px, 100%);
@@ -3103,9 +3037,6 @@ body[data-quiet="true"] .br-progress { display: none; }
     transform: none;
   }
   .br-gallery-feature-art { min-height: 500px; }
-  .br-gallery-journal {
-    grid-template-columns: 1fr;
-  }
 }
 @media (max-width: 680px) {
   .br-gallery-page { padding-bottom: 3.5rem; }
@@ -3147,14 +3078,6 @@ body[data-quiet="true"] .br-progress { display: none; }
   }
   .br-gallery-feature-blurb {
     -webkit-line-clamp: 3;
-  }
-  .br-gallery-journal {
-    width: calc(100% - 2rem);
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-  }
-  .br-gallery-journal h2 {
-    font-size: 28px;
   }
   .br-gallery-rail {
     padding-left: 1rem;

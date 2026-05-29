@@ -163,25 +163,6 @@ export default function GalleryPage() {
         </Link>
       </section>
 
-      <section className="br-gallery-journal" aria-labelledby="br-gallery-journal-title">
-        <div>
-          <p className="br-gallery-kicker">Current issue</p>
-          <h2 id="br-gallery-journal-title">BetweenLines is the front room.</h2>
-          <p>
-            Browse the gallery freely, then keep the full journal shelf, premium chapters,
-            early-access drops, and curated reader paths with PowerReader.
-          </p>
-        </div>
-        <div className="br-gallery-journal-plan">
-          <span>PowerReader</span>
-          <strong>$10</strong>
-          <em>per month / 14-day trial</em>
-          <Link href="/checkout?plan=powerreader&billing=monthly&source=gallery">
-            Open the journal shelf
-          </Link>
-        </div>
-      </section>
-
       <GalleryRail
         title="BetweenLines premieres"
         kicker="Journal-first fiction"
