@@ -14,13 +14,16 @@ type MiniBook = {
   coverFg: 'light' | 'dark';
 };
 
+const offerCover = (filename: string) =>
+  `linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.38) 56%, rgba(8, 8, 8, 0.66) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
+
 const MINI_BOOKS: MiniBook[] = [
   {
     title: 'Hollow Latitude',
     italicWords: [1],
     authorMono: 'M. OSEI',
     publisher: 'ISSUE №01',
-    coverBg: '#1F7A3E',
+    coverBg: offerCover('hollow-latitude'),
     coverFg: 'light',
   },
   {
@@ -28,15 +31,15 @@ const MINI_BOOKS: MiniBook[] = [
     italicWords: [2],
     authorMono: 'P. NAIR',
     publisher: 'ISSUE №01',
-    coverBg: '#F3EFE6',
-    coverFg: 'dark',
+    coverBg: offerCover('ash-and-anise'),
+    coverFg: 'light',
   },
   {
     title: 'The Undertow Hours',
     italicWords: [1],
     authorMono: 'J.T. CALLOWAY',
     publisher: 'ISSUE №01',
-    coverBg: '#1F3A8A',
+    coverBg: offerCover('the-undertow-hours'),
     coverFg: 'light',
   },
 ];

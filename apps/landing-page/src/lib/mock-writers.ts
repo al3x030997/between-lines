@@ -13,6 +13,7 @@ import type {
   Toggle,
   WishCard,
 } from './profile-shared';
+import { exampleCoverArt } from './example-book-library';
 import { getBook } from './mock-books';
 
 export type WipCard = {
@@ -868,6 +869,8 @@ function writerCover(theme: 'salt' | 'frost' | 'chair') {
   ].join(', ');
 }
 
+const coverArt = exampleCoverArt;
+
 function formatCount(n: number) {
   return n.toLocaleString('en-US');
 }
@@ -878,7 +881,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     format: 'Novel · 3 chapters live',
     status: 'Published',
     readiness: 'Ready',
-    cover: writerCover('salt'),
+    cover: coverArt('the-salt-letters'),
     coverIsDark: true,
     publishedChapters: 3,
     totalChapters: 3,
@@ -916,7 +919,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     format: 'Short Story · 1 chapter',
     status: 'Editing',
     readiness: 'Needs cover',
-    cover: writerCover('frost'),
+    cover: coverArt('first-frost'),
     coverIsDark: true,
     publishedChapters: 0,
     totalChapters: 1,
@@ -1007,8 +1010,7 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
     format: 'Short Story · Public',
     status: 'Published',
     readiness: 'Ready',
-    cover: writerCover('chair'),
-    coverIsDark: true,
+    cover: coverArt('the-empty-chair'),
     publishedChapters: 1,
     totalChapters: 1,
     words: 4600,

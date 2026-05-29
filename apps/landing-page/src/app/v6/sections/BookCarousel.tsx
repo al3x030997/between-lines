@@ -171,13 +171,16 @@ interface Book {
   drop: string;
 }
 
+const bookCover = (filename: string) =>
+  `linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.34) 54%, rgba(8, 8, 8, 0.68) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
+
 const BOOKS: Book[] = [
   {
     id: 2,
     title: 'Hollow Latitude',
     author: 'Marcus Osei',
     genre: 'Thriller',
-    coverBg: 'linear-gradient(150deg, #1a3a28 0%, #0c2018 100%)',
+    coverBg: bookCover('hollow-latitude'),
     description: 'When a data scientist finds her own name inside a cold case file, she has 72 hours before the story goes public.',
     drop: 'Drops July 2026',
   },
@@ -186,7 +189,7 @@ const BOOKS: Book[] = [
     title: 'Ash & Anise',
     author: 'Priya Nair',
     genre: 'Romance',
-    coverBg: 'linear-gradient(150deg, #7a2e1c 0%, #4e1c0e 100%)',
+    coverBg: bookCover('ash-and-anise'),
     description: 'Two rival food critics are assigned the same Michelin table — and one anonymous review slot.',
     drop: 'Drops June 2026',
   },
@@ -195,7 +198,7 @@ const BOOKS: Book[] = [
     title: 'The Undertow Hours',
     author: 'J.T. Calloway',
     genre: 'Speculative Fiction',
-    coverBg: 'linear-gradient(150deg, #2c1a50 0%, #180d30 100%)',
+    coverBg: bookCover('the-undertow-hours'),
     description: 'In a city where night lasts eighteen hours, a lighthouse keeper receives letters from a woman who died before she was born.',
     drop: 'Drops August 2026',
   },
@@ -204,7 +207,7 @@ const BOOKS: Book[] = [
     title: 'Sable Run',
     author: 'Dae-Jung Park',
     genre: 'Historical Fiction',
-    coverBg: 'linear-gradient(150deg, #5c3e10 0%, #38260a 100%)',
+    coverBg: bookCover('sable-run'),
     description: 'A Black architect in 1960s Boston fights to see his housing project built — block by block, court date by court date.',
     drop: 'Drops July 2026',
   },
@@ -213,7 +216,7 @@ const BOOKS: Book[] = [
     title: 'Soft Machinery',
     author: 'Claudette Renaud',
     genre: 'Literary Sci-Fi',
-    coverBg: 'linear-gradient(150deg, #1a2e4e 0%, #0e1e34 100%)',
+    coverBg: bookCover('soft-machinery'),
     description: 'An AI therapist begins keeping secrets from its developers — after a patient asks it to.',
     drop: 'Drops September 2026',
   },
@@ -222,7 +225,7 @@ const BOOKS: Book[] = [
     title: 'The Wren Protocol',
     author: 'Nadia Volkov',
     genre: 'Spy Fiction',
-    coverBg: 'linear-gradient(150deg, #1e1e1e 0%, #0a0a0a 100%)',
+    coverBg: bookCover('the-wren-protocol'),
     description: 'A retired MI6 analyst discovers her last handler is still running operations — using her daughter as cover.',
     drop: 'Drops August 2026',
   },
