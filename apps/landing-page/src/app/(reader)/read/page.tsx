@@ -4,6 +4,7 @@ import { Suspense, useCallback, useEffect, useMemo, useState, type CSSProperties
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
+  FilterSidebar,
   hasActiveFilters,
   matchesFilters,
   type FilterState,
@@ -275,6 +276,7 @@ function DiscoverContent() {
   const searchParams = useSearchParams();
   const [active, setActive] = useState<TopReadTabId>('betweenreads');
   const [activeShelf, setActiveShelf] = useState<SidebarShelfId>('all');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>({});
   const [query, setQuery] = useState('');
   const filtersActive = hasActiveFilters(filters) || query.trim().length > 0;
@@ -286,6 +288,15 @@ function DiscoverContent() {
     setActive(tabToTopTab(tab));
     setActiveShelf(isSidebarShelfId(shelf) ? shelf : tabToShelf(tab));
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!sidebarOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSidebarOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [sidebarOpen]);
 
   const toggle = useCallback((key: string) => {
     setFilters((prev) => {
@@ -379,6 +390,51 @@ function DiscoverContent() {
 
   return (
     <main className="br-gallery-page br-read-gallery">
+      <button
+        type="button"
+        className={`br-read-sidebar-toggle${sidebarOpen ? ' is-open' : ''}`}
+        onClick={() => setSidebarOpen((open) => !open)}
+        aria-label={sidebarOpen ? 'Hide reader sidebar' : 'Show reader sidebar'}
+        aria-expanded={sidebarOpen}
+        aria-controls="br-read-sidebar-panel"
+      >
+        <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+          <path
+            d="M4 6h12M7 10h9M4 14h7"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+          />
+        </svg>
+      </button>
+
+      {sidebarOpen ? (
+        <div
+          id="br-read-sidebar-panel"
+          className="br-read-sidebar-panel"
+          aria-label="Reader sidebar"
+        >
+          <div className="br-read-sidebar-head">
+            <span>Browse</span>
+            <button
+              type="button"
+              className="br-read-sidebar-close"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Hide reader sidebar"
+            >
+              ×
+            </button>
+          </div>
+          <FilterSidebar
+            filters={filters}
+            onToggle={toggle}
+            selectedShelf={activeShelf}
+            onShelfChange={changeShelf}
+          />
+        </div>
+      ) : null}
+
       <DiscoverBar<TopReadTabId>
         tabs={tabs}
         active={active}
