@@ -514,6 +514,7 @@ export default function V11Page() {
           <div className="v11-nav-links">
             <Link className="v11-nav-link active" href="/readers">Read</Link>
             <Link className="v11-nav-link" href="/creators">Create</Link>
+            <Link className="v11-nav-link" href="/betweenlines">BetweenLines</Link>
             <Link className="v11-nav-link" href="/creators/agent-readiness">AgentReady</Link>
             <Link className="v11-nav-link" href="/creators/upload-illustrations">Submit</Link>
             <Link className="v11-nav-link" href="/pricing">Pricing</Link>
