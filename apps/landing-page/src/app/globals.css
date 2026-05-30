@@ -9143,11 +9143,11 @@ body:has(.br-read-gallery) .br-avatar {
    progress, active tab indicator. Scoped to /read via .br-discover.
    ============================================================ */
 .br-discover {
-  --read-accent: #e94b36;
-  --read-accent-strong: #ff6b54;
-  --read-accent-soft: rgba(233, 75, 54, 0.16);
-  --read-accent-line: rgba(233, 75, 54, 0.42);
-  --read-accent-glow: rgba(233, 75, 54, 0.30);
+  --read-accent: #ee4a5a;
+  --read-accent-strong: #ff6f7c;
+  --read-accent-soft: rgba(238, 74, 90, 0.16);
+  --read-accent-line: rgba(238, 74, 90, 0.42);
+  --read-accent-glow: rgba(238, 74, 90, 0.30);
 
   /* Neutral tiered chrome — no red tint anywhere in the grey */
   --read-chrome: #000000;       /* top nav: pure black */
