@@ -9233,7 +9233,8 @@ body:has(.br-discover) .br-avatar:hover {
 }
 .br-discover .br-fs-toggle {
   font-family: var(--read-font);
-  color: rgba(255, 255, 255, 0.58);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
   border-right-color: var(--read-on-line);
 }
 .br-discover .br-fs-toggle:hover,
@@ -9243,13 +9244,15 @@ body:has(.br-discover) .br-avatar:hover {
 }
 .br-discover .br-discover-tabsbar .br-tab {
   font-family: var(--read-font);
-  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.72);
 }
 .br-discover .br-discover-tabsbar .br-tab:hover {
-  color: rgba(255, 255, 255, 0.88);
+  color: #ffffff;
 }
 .br-discover .br-discover-tabsbar .br-tab.is-active {
   color: #ffffff;
+  font-weight: 700;
   border-bottom-color: var(--read-accent);
 }
 
