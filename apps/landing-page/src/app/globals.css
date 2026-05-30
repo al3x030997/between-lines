@@ -1309,6 +1309,8 @@ body[data-quiet="true"] .br-progress { display: none; }
   z-index: 40;
   display: flex;
   align-items: stretch;
+  width: min(1480px, 100%);
+  margin: 0 auto;
   background: var(--br-panel-bg);
   border-bottom: 0.5px solid var(--br-border-warm);
 }
@@ -1362,8 +1364,9 @@ body[data-quiet="true"] .br-progress { display: none; }
    CONTINUE READING — contained box sits between tabs and rails
    ============================================================ */
 .br-continue-wrap {
+  width: min(1480px, 100%);
+  margin: 0 auto;
   padding: 1.5rem 2.5rem 0.25rem;
-  width: 100%;
 }
 
 /* ============================================================
@@ -1372,8 +1375,9 @@ body[data-quiet="true"] .br-progress { display: none; }
    shared FeaturedCarousel matches the gallery rails aesthetic.
    ============================================================ */
 .br-discover-featured {
+  width: min(1480px, 100%);
+  margin: 0 auto;
   padding: 1.75rem 2.5rem 0.5rem;
-  width: 100%;
   background: #070708;
   color: #fff7e8;
 }
@@ -1467,10 +1471,12 @@ body[data-quiet="true"] .br-progress { display: none; }
   color: var(--gallery-ink);
   flex: 1;
 }
-/* Tighter padding for sidebar-constrained width */
+/* Centered, gallery-style max-width for /read rails so the page doesn't
+   sprawl on ultra-wide displays. Matches .br-gallery-rail (1480px). */
 .br-discover-rails .br-gallery-rail {
+  width: min(1480px, 100%);
+  margin: 0 auto;
   padding: 1.5rem 2.5rem 0.5rem;
-  width: 100%;
 }
 .br-discover-rails .br-gallery-rail + .br-gallery-rail {
   margin-top: 0.5rem;
