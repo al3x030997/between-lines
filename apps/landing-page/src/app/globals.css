@@ -1483,7 +1483,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-discover-rails .br-gallery-track {
   padding: 0.25rem 0 1.25rem;
-  grid-auto-columns: minmax(230px, 260px);
+  grid-auto-columns: minmax(300px, 340px);
 }
 
 /* Discover header — ProfileBlock (240px left slot) + a stacked right column:
@@ -3377,82 +3377,104 @@ body[data-quiet="true"] .br-progress { display: none; }
   font-weight: 800;
   backdrop-filter: blur(12px);
 }
-.br-gallery-poster-badge {
+/* Netflix-style keyword strip overlaid on the bottom of the cover.
+   Three short descriptors replace the old single "PICK" badge — the
+   section header already signals the picker (BetweenLines, Reader, etc.) */
+.br-gallery-poster-keywords {
   position: absolute;
-  left: 0.65rem;
-  right: 0.65rem;
-  bottom: 0.65rem;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.6rem;
   z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.br-gallery-poster-keyword {
   display: inline-flex;
-  justify-content: center;
-  min-height: 26px;
-  padding: 0.42rem 0.55rem;
-  border: 1px solid var(--gallery-media-line);
+  align-items: center;
+  padding: 4px 9px;
+  border: 1px solid rgba(255, 247, 232, 0.22);
   border-radius: 999px;
-  background: var(--gallery-media-glass);
-  color: var(--gallery-on-media);
-  font-family: 'Bricolage Grotesque', var(--br-font-sans);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  background: rgba(10, 10, 10, 0.62);
+  color: #fff7e8;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1;
   backdrop-filter: blur(14px);
 }
 .br-gallery-poster-body {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  padding-top: 0.8rem;
+  gap: 0.4rem;
+  padding-top: 0.9rem;
 }
 .br-gallery-poster-title {
   display: -webkit-box;
-  min-height: 2.5em;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
-  font-family: 'Bodoni Moda', var(--br-font-display);
-  font-size: 19px;
-  font-weight: 700;
-  line-height: 1.22;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.12;
   letter-spacing: 0;
+  color: var(--gallery-ink);
 }
 .br-gallery-poster-author {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-family: 'Bricolage Grotesque', var(--br-font-sans);
+  font-family: var(--br-font-sans);
   color: var(--gallery-soft);
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 .br-gallery-poster-blurb {
   display: -webkit-box;
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
-  font-family: 'Cormorant Garamond', var(--br-font-serif);
-  font-size: 14px;
-  line-height: 1.42;
-  color: var(--gallery-muted);
-  margin-top: 0.15rem;
+  font-family: var(--br-font-sans);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--gallery-soft);
+  margin-top: 0.2rem;
 }
-.br-gallery-poster-meta {
+.br-gallery-poster-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.45rem;
+}
+.br-gallery-poster-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-family: 'Bricolage Grotesque', var(--br-font-sans);
-  color: var(--gallery-faint);
+  padding: 3px 9px;
+  border: 1px solid var(--gallery-line);
+  border-radius: 6px;
+  background: var(--gallery-surface);
+  color: var(--gallery-soft);
+  font-family: var(--br-font-sans);
   font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 0.35rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.br-gallery-poster-dot { color: var(--gallery-faint); opacity: 0.7; }
+.br-gallery-poster-tag.is-free {
+  border-color: var(--gallery-accent-line);
+  background: var(--gallery-accent-soft);
+  color: var(--gallery-accent);
+}
+.br-gallery-poster-tag.is-rc {
+  border-color: rgba(240, 212, 94, 0.32);
+  color: var(--gallery-accent);
+}
 
 @media (max-width: 980px) {
   .br-gallery-hero {

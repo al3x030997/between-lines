@@ -58,21 +58,36 @@ const sectionKickers: Record<Section['id'], string> = {
 };
 
 function RailPoster({ book, rank }: { book: Book; rank?: number }) {
-  const badge = book.badges[0];
+  const keywords = book.tags.slice(0, 3);
+  const wordCount = book.words
+    ? `${book.words.toLocaleString('en-US')} words`
+    : null;
   return (
     <Link className="br-gallery-poster" href={`/read/${book.slug}`}>
       <span className="br-gallery-poster-cover" style={{ background: book.cover }}>
         {rank != null ? <span className="br-gallery-rank">{rank}</span> : null}
-        {badge ? <span className="br-gallery-poster-badge">{badge.label}</span> : null}
+        {keywords.length > 0 ? (
+          <span className="br-gallery-poster-keywords" aria-hidden="true">
+            {keywords.map((kw) => (
+              <span key={kw} className="br-gallery-poster-keyword">
+                {kw}
+              </span>
+            ))}
+          </span>
+        ) : null}
       </span>
       <span className="br-gallery-poster-body">
         <span className="br-gallery-poster-title">{book.title}</span>
         <span className="br-gallery-poster-author">{book.author}</span>
         <span className="br-gallery-poster-blurb">{book.blurb}</span>
-        <span className="br-gallery-poster-meta">
-          <span>{book.format}</span>
-          <span className="br-gallery-poster-dot" aria-hidden="true">·</span>
-          <span>{book.access.label}</span>
+        <span className="br-gallery-poster-tags">
+          <span className="br-gallery-poster-tag">{book.format}</span>
+          {wordCount ? <span className="br-gallery-poster-tag">{wordCount}</span> : null}
+          <span
+            className={`br-gallery-poster-tag is-${book.access.type === 'free' ? 'free' : 'rc'}`}
+          >
+            {book.access.label}
+          </span>
         </span>
       </span>
     </Link>
