@@ -9,6 +9,7 @@ import {
   type SidebarShelfId,
 } from '@/components/FilterSidebar';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
+import { DiscoverSearch } from '@/components/read/DiscoverSearch';
 import {
   getBooksBySection,
   getInProgressBooks,
@@ -161,7 +162,21 @@ export default function DiscoverPage() {
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const visible = new Set<Section['id']>(visibility[active]);
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const matchesQuery = useCallback(
+    (book: Book) => {
+      if (!normalizedQuery) return true;
+      return (
+        book.title.toLowerCase().includes(normalizedQuery)
+        || book.author.toLowerCase().includes(normalizedQuery)
+        || book.blurb.toLowerCase().includes(normalizedQuery)
+        || book.tags.some((t) => t.toLowerCase().includes(normalizedQuery))
+      );
+    },
+    [normalizedQuery],
+  );
   const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
   const showFeatured = active === 'foryou' || active === 'betweenlines';
   const showContinue = session && (active === 'foryou' || active === 'betweenlines');
@@ -197,6 +212,7 @@ export default function DiscoverPage() {
               <span />
             </span>
           </button>
+          <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
           <StoreTabs<DiscoverTabId>
             tabs={tabs}
             active={active}
@@ -224,22 +240,34 @@ export default function DiscoverPage() {
             <p className="br-discover-stub-body">{stub.body}</p>
           </div>
         ) : (
-          <div className="br-discover-rails">
-            {sections.map((s) => {
-              if (!visible.has(s.id)) return null;
-              const books = getBooksBySection(s.id);
-              if (books.length === 0) return null;
+          (() => {
+            const renderedRails = sections
+              .filter((s) => visible.has(s.id))
+              .map((s) => {
+                const books = getBooksBySection(s.id).filter(matchesQuery);
+                if (books.length === 0) return null;
+                return (
+                  <Rail
+                    key={s.id}
+                    section={s}
+                    kicker={sectionKickers[s.id]}
+                    books={books}
+                    showRank={s.id === 'bl'}
+                  />
+                );
+              })
+              .filter(Boolean);
+            if (renderedRails.length === 0 && normalizedQuery) {
               return (
-                <Rail
-                  key={s.id}
-                  section={s}
-                  kicker={sectionKickers[s.id]}
-                  books={books}
-                  showRank={s.id === 'bl'}
-                />
+                <div className="br-discover-stub" role="status">
+                  <p className="br-discover-stub-kicker">No matches</p>
+                  <h2 className="br-discover-stub-title">Nothing here for “{searchQuery}”</h2>
+                  <p className="br-discover-stub-body">Try a different title, author, or tag.</p>
+                </div>
               );
-            })}
-          </div>
+            }
+            return <div className="br-discover-rails">{renderedRails}</div>;
+          })()
         )}
       </div>
     </div>
