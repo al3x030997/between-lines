@@ -19,20 +19,29 @@ import { NovelSettingsTab } from './NovelSettingsTab';
 import { WriterLibrary, makeDraftWork, type LibraryStatusFilter } from './WriterLibrary';
 import { AgentReadyStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
 import { WriterSearch } from './WriterSearch';
+import { AnalyticsDashboard } from './AnalyticsDashboard';
 
-type TopTab = 'library' | 'write' | 'storefront' | 'agentready' | 'community';
+type TopTab = 'library' | 'write' | 'analytics' | 'storefront' | 'agentready' | 'community';
 type EditorSubTab = 'write' | 'chsettings' | 'novelsettings';
 
 const TOP_TABS: TabDef<TopTab>[] = [
   { id: 'library', label: 'Your Library' },
   { id: 'write', label: 'Write' },
+  { id: 'analytics', label: 'Analytics' },
   { id: 'storefront', label: 'Personal Storefront' },
   { id: 'agentready', label: 'Agent Ready' },
   { id: 'community', label: 'Community' },
 ];
 
 function isTopTab(value: string | null): value is TopTab {
-  return value === 'library' || value === 'write' || value === 'storefront' || value === 'agentready' || value === 'community';
+  return (
+    value === 'library' ||
+    value === 'write' ||
+    value === 'analytics' ||
+    value === 'storefront' ||
+    value === 'agentready' ||
+    value === 'community'
+  );
 }
 
 export function WriteShell() {
@@ -322,6 +331,7 @@ export function WriteShell() {
             onPreview={previewWork}
           />
         ) : null}
+        {topTab === 'analytics' ? <AnalyticsDashboard works={mergedLibraryWorks} /> : null}
         {topTab === 'storefront' ? <PersonalStorefrontStub /> : null}
         {topTab === 'agentready' ? <AgentReadyStub /> : null}
         {topTab === 'community' ? <CommunityStub /> : null}

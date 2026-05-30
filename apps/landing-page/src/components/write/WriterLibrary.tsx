@@ -129,8 +129,10 @@ function WriterLibraryRow({
             </div>
           </div>
           <div className="br-write-card-vital">
-            <div className="br-write-card-vital-num">{work.wordsLabel}</div>
-            <div className="br-write-card-vital-lbl">words · {work.lastUpdated.toLowerCase()}</div>
+            <div className="br-write-card-vital-num">{compact(work.activity.reads)}</div>
+            <div className="br-write-card-vital-lbl">
+              readers · {compact(work.activity.readsLast24h ?? Math.round(work.activity.reads * 0.03))} last 24h
+            </div>
           </div>
         </div>
 

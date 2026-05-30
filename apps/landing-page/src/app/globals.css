@@ -9868,9 +9868,21 @@ body:has(.br-write-page) .br-nav {
   font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
   z-index: 200;
 }
-body:has(.br-write-page) .br-nav-brand,
+body:has(.br-write-page) .br-nav-brand {
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #ffffff;
+}
 body:has(.br-write-page) .br-nav-brand strong { color: #ffffff; font-weight: 700; }
-body:has(.br-write-page) .br-nav-link { color: rgba(255, 255, 255, 0.94); }
+body:has(.br-write-page) .br-nav-link {
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.94);
+}
 body:has(.br-write-page) .br-nav-link.is-active {
   background: rgba(255, 255, 255, 0.16);
   color: #ffffff;
@@ -9905,8 +9917,6 @@ body:has(.br-write-page) .br-nav-link.is-active {
   font-family: var(--wpg-font);
   font-weight: 500;
   color: var(--wpg-on-mute);
-  padding: 0.85rem 0.85rem 0.95rem;
-  font-size: 13px;
 }
 .br-write-tabsbar .br-tab:hover { color: var(--wpg-on); }
 .br-write-tabsbar .br-tab.is-active {
@@ -10500,4 +10510,236 @@ html[data-theme='light'] .br-write-preview-bar .br-write-btn-sm {
 }
 html[data-theme='light'] .br-write-preview-bar .br-write-btn-sm:hover {
   background: rgba(10, 10, 10, 0.12);
+}
+
+/* ============================================================
+   WRITER ANALYTICS DASHBOARD
+   Scoped under .br-write-page so it inherits the dark Netflix
+   tokens (or the neutral light tokens when [data-theme='light']).
+   ============================================================ */
+.br-write-page .br-write-analytics {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0.5rem 0 2rem;
+}
+.br-write-page .br-write-analytics-head {
+  margin-bottom: 1.75rem;
+}
+.br-write-page .br-write-analytics-kicker {
+  margin: 0 0 0.4rem;
+  font-family: var(--wpg-font);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wpg-accent-strong);
+}
+.br-write-page .br-write-analytics-title {
+  margin: 0 0 0.4rem;
+  font-family: var(--wpg-display);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--wpg-on);
+  line-height: 1.1;
+}
+.br-write-page .br-write-analytics-sub {
+  margin: 0;
+  color: var(--wpg-on-mute);
+  font-family: var(--wpg-font);
+  font-size: 14px;
+}
+.br-write-page .br-write-analytics-kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 2rem;
+}
+.br-write-page .br-write-analytics-kpi {
+  padding: 1.1rem 1.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--wpg-on-line);
+  font-family: var(--wpg-font);
+}
+.br-write-page .br-write-analytics-kpi.is-highlight {
+  background: var(--wpg-accent-soft);
+  border-color: var(--wpg-accent-line);
+}
+.br-write-page .br-write-analytics-kpi-num {
+  font-family: var(--wpg-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--wpg-on);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+.br-write-page .br-write-analytics-kpi.is-highlight .br-write-analytics-kpi-num {
+  color: var(--wpg-accent-strong);
+}
+.br-write-page .br-write-analytics-kpi-lbl {
+  margin-top: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--wpg-on-mute);
+}
+.br-write-page .br-write-analytics-kpi-trend {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--wpg-accent-strong);
+}
+.br-write-page .br-write-analytics-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 0.5px solid var(--wpg-on-line);
+}
+.br-write-page .br-write-analytics-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.br-write-page .br-write-analytics-section-head h3 {
+  margin: 0;
+  font-family: var(--wpg-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wpg-on);
+}
+.br-write-page .br-write-analytics-section-sub {
+  font-family: var(--wpg-font);
+  font-size: 12px;
+  color: var(--wpg-on-mute);
+}
+/* 7-day sparkline */
+.br-write-page .br-write-analytics-spark {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: end;
+  gap: 12px;
+  height: 180px;
+  padding: 0 0.25rem;
+}
+.br-write-page .br-write-analytics-spark-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 8px;
+  position: relative;
+}
+.br-write-page .br-write-analytics-spark-val {
+  font-family: var(--wpg-font);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--wpg-on-mute);
+}
+.br-write-page .br-write-analytics-spark-col.is-now .br-write-analytics-spark-val {
+  color: var(--wpg-accent-strong);
+}
+.br-write-page .br-write-analytics-spark-bar {
+  width: 100%;
+  max-width: 56px;
+  border-radius: 6px 6px 2px 2px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.08) 100%);
+  transition: background 0.2s;
+}
+.br-write-page .br-write-analytics-spark-col.is-now .br-write-analytics-spark-bar {
+  background: linear-gradient(180deg, var(--wpg-accent-strong) 0%, var(--wpg-accent) 100%);
+  box-shadow: 0 8px 24px var(--wpg-accent-glow);
+}
+.br-write-page .br-write-analytics-spark-day {
+  font-family: var(--wpg-font);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--wpg-on-faint);
+}
+/* By-work rows */
+.br-write-page .br-write-analytics-empty {
+  margin: 0;
+  font-family: var(--wpg-font);
+  font-size: 14px;
+  color: var(--wpg-on-mute);
+  font-style: italic;
+}
+.br-write-page .br-write-analytics-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.br-write-page .br-write-analytics-row {
+  padding: 1rem 1.1rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 0.5px solid var(--wpg-on-line);
+}
+.br-write-page .br-write-analytics-row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.6rem;
+}
+.br-write-page .br-write-analytics-row-title {
+  font-family: var(--wpg-display);
+  font-weight: 700;
+  color: var(--wpg-on);
+  font-size: 15px;
+}
+.br-write-page .br-write-analytics-row-status {
+  font-family: var(--wpg-font);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--wpg-on-mute);
+}
+.br-write-page .br-write-analytics-row-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  margin-bottom: 0.65rem;
+}
+.br-write-page .br-write-analytics-row-bar > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--wpg-accent) 0%, var(--wpg-accent-strong) 100%);
+  border-radius: 999px;
+}
+.br-write-page .br-write-analytics-row-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  font-family: var(--wpg-font);
+  font-size: 12px;
+  color: var(--wpg-on-mute);
+}
+.br-write-page .br-write-analytics-row-stats strong {
+  color: var(--wpg-on);
+  font-weight: 700;
+}
+
+/* Light-mode overrides for analytics — soft glass cards, black-based text */
+html[data-theme='light'] .br-write-page .br-write-analytics-kpi,
+html[data-theme='light'] .br-write-page .br-write-analytics-section,
+html[data-theme='light'] .br-write-page .br-write-analytics-row {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-write-page .br-write-analytics-spark-bar {
+  background: linear-gradient(180deg, rgba(10, 10, 10, 0.16) 0%, rgba(10, 10, 10, 0.06) 100%);
+}
+html[data-theme='light'] .br-write-page .br-write-analytics-row-bar {
+  background: rgba(10, 10, 10, 0.08);
 }

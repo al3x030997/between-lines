@@ -798,6 +798,8 @@ export type WriterLibraryWork = WorkSummary & {
   };
   activity: {
     reads: number;
+    /** Readers in the last 24 hours — falls back to ~3% of total reads when omitted */
+    readsLast24h?: number;
     readerPicks: number;
     betaRequests: number;
     coins: number;
