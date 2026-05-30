@@ -26,7 +26,7 @@ export default function BookPage({ params }: PageProps) {
     : Math.min(4.9, 4.4 + (book.readerPicks ?? 24) / 160);
 
   return (
-    <div>
+    <div className="br-book-page">
       <Link href="/read" className="br-book-back">
         ← Back to discover
       </Link>

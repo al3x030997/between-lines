@@ -9606,6 +9606,201 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-fs-saved-gear { color: var(--read-on-mute); }
 
 /* ============================================================
+   BOOK DETAIL · NETFLIX-STYLE CHROME
+   Mirrors the /read aesthetic on /read/[book] so the book-detail
+   landing page stops contradicting the dark canvas (no more teal
+   author links, yellow blurb borders, yellow CTAs, yellow stars).
+   Scoped via .br-book-page wrapper so other surfaces that share
+   .br-book-*, .br-community-* etc. are untouched.
+   ============================================================ */
+.br-book-page {
+  --bp-accent: #f0405a;
+  --bp-accent-strong: #ff5f78;
+  --bp-accent-soft: rgba(240, 64, 90, 0.16);
+  --bp-accent-line: rgba(240, 64, 90, 0.42);
+  --bp-accent-glow: rgba(240, 64, 90, 0.30);
+  --bp-chrome: #000000;
+  --bp-chrome-2: #0d0d0d;
+  --bp-canvas: #141414;
+  --bp-on: #ffffff;
+  --bp-on-soft: rgba(255, 255, 255, 0.92);
+  --bp-on-mute: rgba(255, 255, 255, 0.78);
+  --bp-on-faint: rgba(255, 255, 255, 0.50);
+  --bp-on-line: rgba(255, 255, 255, 0.10);
+  --bp-on-line-strong: rgba(255, 255, 255, 0.18);
+  --bp-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  --bp-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+}
+body:has(.br-book-page) { background: #141414; }
+body:has(.br-book-page) .br-nav {
+  background-color: #000000;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  padding: 0.85rem 2rem;
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  z-index: 200;
+}
+body:has(.br-book-page) .br-nav-brand,
+body:has(.br-book-page) .br-nav-brand strong { color: #ffffff; font-weight: 700; }
+body:has(.br-book-page) .br-nav-link { color: rgba(255, 255, 255, 0.94); }
+body:has(.br-book-page) .br-nav-link.is-active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Back link */
+.br-book-page .br-book-back {
+  color: var(--bp-on-mute);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-book-back:hover { color: var(--bp-on); }
+
+/* Hero header */
+.br-book-page .br-book-eyebrow {
+  color: var(--bp-accent-strong);
+  font-family: var(--bp-font);
+  letter-spacing: 0.16em;
+}
+.br-book-page .br-book-title {
+  color: var(--bp-on);
+}
+.br-book-page .br-book-author {
+  color: var(--bp-on-mute);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-book-author a {
+  color: var(--bp-accent-strong);
+}
+.br-book-page .br-book-author .br-sep { color: var(--bp-on-faint); }
+
+/* Blurb (synopsis with left accent rule) */
+.br-book-page .br-book-blurb {
+  color: var(--bp-on-soft);
+  border-left-color: var(--bp-accent);
+}
+
+/* Buttons inside hero actions */
+.br-book-page .br-btn-primary {
+  background: var(--bp-accent);
+  color: #ffffff;
+  box-shadow: 0 8px 24px var(--bp-accent-glow);
+}
+.br-book-page .br-btn-primary:hover:not(:disabled) {
+  background: var(--bp-accent-strong);
+}
+.br-book-page .br-btn-ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+  color: var(--bp-on-soft);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-btn-ghost:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--bp-on);
+}
+.br-book-page .br-btn-premium {
+  background: var(--bp-accent);
+  color: #ffffff;
+}
+.br-book-page .br-btn-premium:hover:not(:disabled) {
+  background: var(--bp-accent-strong);
+}
+
+/* "Also available on" pills */
+.br-book-page .br-book-also { color: var(--bp-on-mute); font-family: var(--bp-font); }
+.br-book-page .br-also-link {
+  color: var(--bp-on-soft);
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+}
+.br-book-page .br-also-link:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--bp-on);
+}
+
+/* Tag pills under badges */
+.br-book-page .br-tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 0.5px solid var(--bp-on-line);
+  color: var(--bp-on-soft);
+}
+
+/* Stats row */
+.br-book-page .br-book-stats {
+  color: var(--bp-on-mute);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-bs-num { color: var(--bp-on); font-family: var(--bp-font); }
+.br-book-page .br-bs-lbl { color: var(--bp-on-mute); }
+.br-book-page .br-bs-item + .br-bs-item::before { color: var(--bp-on-faint); }
+
+/* Community Voices card */
+.br-book-page .br-community {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+}
+.br-book-page .br-community .br-sec-label {
+  color: var(--bp-on-mute);
+  font-family: var(--bp-font);
+  letter-spacing: 0.16em;
+}
+.br-book-page .br-community-rating {
+  background: var(--bp-accent-soft);
+  border-color: var(--bp-accent-line);
+  color: var(--bp-on);
+}
+.br-book-page .br-community-rating-star { color: var(--bp-accent-strong); }
+.br-book-page .br-community-arrow {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+  color: var(--bp-on-soft);
+}
+.br-book-page .br-community-arrow:hover {
+  background: var(--bp-accent-soft);
+  border-color: var(--bp-accent-line);
+  color: var(--bp-accent-strong);
+}
+.br-book-page .br-community-quote {
+  color: var(--bp-on-soft);
+}
+.br-book-page .br-community-attr { color: var(--bp-on-mute); font-family: var(--bp-font); }
+.br-book-page .br-community-name { color: var(--bp-on); }
+.br-book-page .br-community-mood { color: var(--bp-accent-strong); }
+.br-book-page .br-community-sep { color: var(--bp-on-faint); }
+.br-book-page .br-community-dot { background: var(--bp-on-faint); }
+.br-book-page .br-community-dot.is-active { background: var(--bp-accent); }
+.br-book-page .br-community-add {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+  color: var(--bp-on-soft);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-community-add:hover {
+  background: var(--bp-accent-soft);
+  border-color: var(--bp-accent-line);
+  color: var(--bp-accent-strong);
+}
+
+/* Chapters section header */
+.br-book-page .br-chapters-label {
+  color: var(--bp-on);
+  font-family: var(--bp-display);
+}
+
+/* Unlock-all nudge */
+.br-book-page .br-unlock-nudge {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--bp-on-line);
+}
+.br-book-page .br-unlock-title {
+  color: var(--bp-on);
+  font-family: var(--bp-font);
+}
+.br-book-page .br-unlock-sub { color: var(--bp-accent-strong); }
+
+/* ============================================================
    READER (chapter view) · NETFLIX-STYLE CHROME
    Mirrors the /read discover aesthetic on the chapter reading page:
    pure-black sticky topbar, dark canvas, Manrope chrome, Sora title,
