@@ -44,7 +44,7 @@ export function PreviewOverlay({ open, onClose, mode, onModeChange, eyebrow, tit
                 __html:
                   bodyHtml && bodyHtml.trim().length > 0
                     ? bodyHtml
-                    : '<p style="color:#ccc;font-style:italic">Nothing written yet.</p>',
+                    : '<p style="color:rgba(255,255,255,0.50);font-style:italic">Nothing written yet.</p>',
               }}
             />
           </div>

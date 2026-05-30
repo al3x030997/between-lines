@@ -8003,12 +8003,29 @@ body[data-quiet="true"] .br-progress { display: none; }
   font-style: italic;
 }
 
-/* Preview overlay */
+/* Preview overlay — mirrors /read's dark Netflix chrome so writers
+   see their work inside the BetweenReads platform shell. Scoped
+   entirely under .br-write-preview so it doesn't leak into the rest
+   of the writer UI or into /read. Tokens are local copies of the
+   --read-* values used in .br-discover. */
 .br-write-preview {
+  --wp-chrome: #000000;
+  --wp-canvas: #141414;
+  --wp-card: rgba(255, 255, 255, 0.04);
+  --wp-accent: #f0405a;
+  --wp-accent-strong: #ff5f78;
+  --wp-accent-glow: rgba(240, 64, 90, 0.30);
+  --wp-on: #ffffff;
+  --wp-on-soft: rgba(255, 255, 255, 0.92);
+  --wp-on-mute: rgba(255, 255, 255, 0.74);
+  --wp-on-line: rgba(255, 255, 255, 0.12);
+  --wp-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  --wp-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+
   display: none;
   position: absolute;
   inset: 0;
-  background: var(--br-panel-warm);
+  background: var(--wp-canvas);
   z-index: 10;
   flex-direction: column;
 }
@@ -8018,32 +8035,60 @@ body[data-quiet="true"] .br-progress { display: none; }
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem 2rem;
-  background: var(--theme-surface);
-  border-bottom: 0.5px solid var(--br-border-warm);
+  background: var(--wp-chrome);
+  border-bottom: none;
+  font-family: var(--wp-font);
   flex-shrink: 0;
+}
+.br-write-preview-bar .br-write-preview-eyebrow {
+  font-family: var(--wp-font);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wp-accent-strong);
+  font-weight: 700;
+  margin: 0;
 }
 .br-write-preview-modetab {
   display: flex;
   gap: 4px;
-  background: var(--br-panel-warm);
-  border: 0.5px solid var(--br-border-warm);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 0.5px solid var(--wp-on-line);
+  border-radius: 999px;
   padding: 3px;
 }
 .br-write-preview-modebtn {
+  font-family: var(--wp-font);
   font-size: 11px;
   font-weight: 600;
-  padding: 5px 16px;
-  border-radius: 5px;
+  padding: 6px 16px;
+  border-radius: 999px;
   border: none;
   background: none;
-  color: var(--v11-ink-trace);
+  color: var(--wp-on-mute);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
 }
+.br-write-preview-modebtn:hover { color: var(--wp-on); }
 .br-write-preview-modebtn.is-on {
-  background: var(--theme-strong-cta-bg);
-  color: var(--theme-strong-cta-fg);
+  background: var(--wp-accent);
+  color: #ffffff;
+  box-shadow: 0 6px 18px var(--wp-accent-glow);
+}
+.br-write-preview-bar .br-write-btn-sm {
+  font-family: var(--wp-font);
+  font-weight: 600;
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid var(--wp-on-line);
+  color: var(--wp-on-soft);
+  transition: background 0.15s, color 0.15s;
+}
+.br-write-preview-bar .br-write-btn-sm:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--wp-on);
 }
 .br-write-preview-scroll { flex: 1; overflow-y: auto; padding: 2.5rem 2rem; }
 .br-write-preview-inner {
@@ -8052,43 +8097,57 @@ body[data-quiet="true"] .br-progress { display: none; }
   max-width: 680px;
 }
 .br-write-preview-frame {
-  background: var(--theme-surface);
-  border-radius: 12px;
-  border: 0.5px solid var(--br-border-warm);
+  background: var(--wp-card);
+  border-radius: 14px;
+  border: 0.5px solid var(--wp-on-line);
   padding: 3rem 3.5rem;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
 }
 .br-write-preview-inner.is-mobile { max-width: 390px; }
 .br-write-preview-inner.is-mobile .br-write-preview-frame {
   padding: 1.5rem;
   border-radius: 32px;
-  border: 8px solid var(--v11-ink);
-  box-shadow: 0 0 0 2px var(--br-border-hair);
+  border: 8px solid #000000;
+  box-shadow: 0 0 0 2px var(--wp-on-line);
 }
-.br-write-preview-eyebrow {
-  font-size: 10px;
+.br-write-preview-frame .br-write-preview-eyebrow {
+  font-family: var(--wp-font);
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--v11-ink-trace);
-  margin-bottom: 0.5rem;
+  color: var(--wp-accent-strong);
+  margin-bottom: 0.6rem;
 }
 .br-write-preview-title {
-  font-family: var(--br-font-display);
-  font-size: 28px;
-  font-weight: 400;
-  color: var(--v11-ink);
+  font-family: var(--wp-display);
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--wp-on);
   margin-bottom: 2rem;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 .br-write-preview-body {
-  font-family: var(--br-font-serif);
-  font-size: 17px;
-  line-height: 1.95;
-  color: var(--v11-ink);
+  font-family: 'Cormorant Garamond', var(--br-font-serif);
+  font-size: 18px;
+  line-height: 2;
+  color: var(--wp-on-soft);
 }
-.br-write-preview-body p { margin-bottom: 1.25rem; }
-.br-write-preview-inner.is-mobile .br-write-preview-title { font-size: 22px; }
-.br-write-preview-inner.is-mobile .br-write-preview-body { font-size: 15px; }
+.br-write-preview-body p { margin-bottom: 1.5rem; }
+.br-write-preview-body p:first-of-type::first-letter {
+  font-family: var(--wp-display);
+  font-size: 4.2em;
+  float: left;
+  line-height: 0.85;
+  padding-right: 8px;
+  padding-top: 6px;
+  font-weight: 700;
+  color: var(--wp-accent-strong);
+}
+.br-write-preview-body em { font-style: italic; }
+.br-write-preview-inner.is-mobile .br-write-preview-title { font-size: 24px; }
+.br-write-preview-inner.is-mobile .br-write-preview-body { font-size: 16px; }
 
 /* Settings tab */
 .br-write-settings { flex: 1; overflow-y: auto; padding: 1.75rem 2rem; }
