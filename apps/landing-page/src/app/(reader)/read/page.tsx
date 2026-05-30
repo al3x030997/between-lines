@@ -59,9 +59,11 @@ const sectionKickers: Record<Section['id'], string> = {
 
 function RailPoster({ book, rank }: { book: Book; rank?: number }) {
   const keywords = book.tags.slice(0, 3);
-  const wordCount = book.words
-    ? `${book.words.toLocaleString('en-US')} words`
-    : null;
+  const formatHasWords = /\d/.test(book.format);
+  const wordCount =
+    !formatHasWords && book.words
+      ? `${book.words.toLocaleString('en-US')} words`
+      : null;
   return (
     <Link className="br-gallery-poster" href={`/read/${book.slug}`}>
       <span className="br-gallery-poster-cover" style={{ background: book.cover }}>
