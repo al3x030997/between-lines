@@ -11,8 +11,6 @@ import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import {
   getBooksBySection,
   getInProgressBooks,
-  getInProgressCount,
-  getBetweenLinesInviteCount,
   sections,
   type Section,
   type Book,
@@ -74,73 +72,45 @@ function RailPoster({ book, rank }: { book: Book; rank?: number }) {
   );
 }
 
-function ContinueReadingHero({ userName }: { userName: string }) {
+function ContinueReadingBox() {
   const inProgress = getInProgressBooks();
   const current = inProgress[0];
   if (!current) return null;
 
   const { book, progress } = current;
-  const chapterIdx = Math.min(
-    Math.max(0, Math.floor((progress / 100) * book.chapters.length) - 1),
-    book.chapters.length - 1,
-  );
-  const activeChapter = book.chapters[chapterIdx];
-  const chaptersLeft = Math.max(1, book.chapterCount - Math.ceil((progress / 100) * book.chapterCount));
-  const totalInProgress = getInProgressCount();
-  const invites = getBetweenLinesInviteCount();
-  const firstName = userName.split(' ')[0] ?? userName;
+  const isDark = book.coverIsDark === true;
 
   return (
-    <div className="br-cr-hero">
-      <div className="br-cr-inner">
-        <div className="br-cr-copy">
-          <p className="br-cr-eyebrow">Continue reading · Welcome back, {firstName}</p>
-          <h2 className="br-cr-title">{book.title}</h2>
-          {activeChapter && (
-            <p className="br-cr-chapter">
-              Chapter {activeChapter.num} — {activeChapter.title}
-            </p>
-          )}
-          <p className="br-cr-excerpt">{book.blurb}</p>
-          <div className="br-cr-progress-row">
-            <div className="br-cr-bar">
-              <div className="br-cr-fill" style={{ width: `${progress}%` }} />
-            </div>
-            <span className="br-cr-pct">{progress}% · {chaptersLeft} chapters left</span>
-          </div>
-          <div className="br-cr-ctas">
-            <Link href={`/read/${book.slug}`} className="br-cr-btn-primary">
-              Continue reading →
-            </Link>
-            <button type="button" className="br-cr-btn-secondary">
-              View all {totalInProgress} in progress
-            </button>
+    <div className="br-continue-wrap">
+      <div className="br-continue" role="region" aria-label="Continue reading">
+        <div className="br-continue-cover" style={{ background: book.cover }}>
+          <div className="br-cover-inner">
+            <div className={`br-cover-title ${isDark ? 'is-dark' : ''}`}>{book.title}</div>
+            <div className={`br-cover-rule ${isDark ? 'is-dark' : ''}`} />
+            <div className={`br-cover-author ${isDark ? 'is-dark' : ''}`}>{book.author}</div>
           </div>
         </div>
 
-        <div className="br-cr-cover-wrap">
-          <div className="br-cr-cover" style={{ background: book.cover }}>
-            <div className="br-cr-cover-glass">
-              <p className="br-cr-cover-label">Currently reading</p>
-              <p className="br-cr-cover-title">{book.title}</p>
-              <p className="br-cr-cover-author">by {book.author}</p>
-              {activeChapter && (
-                <p className="br-cr-cover-ch">
-                  Chapter {activeChapter.num} of {book.chapterCount} · {activeChapter.title}
-                </p>
-              )}
-            </div>
+        <div className="br-continue-body">
+          <span className="br-continue-eyebrow">Continue reading</span>
+          <h3 className="br-continue-title">{book.title}</h3>
+          <div className="br-continue-author">{book.author}</div>
+          <div className="br-continue-meta">{book.format}</div>
+        </div>
+
+        <div className="br-continue-progress">
+          <div className="br-continue-percent">{progress}% complete</div>
+          <div className="br-continue-bar" aria-hidden="true">
+            <div className="br-continue-bar-fill" style={{ width: `${progress}%` }} />
           </div>
         </div>
-      </div>
 
-      <div className="br-cr-stats">
-        <span><strong>{totalInProgress}</strong> <em>in progress</em></span>
-        <span><strong>{invites}</strong> <em>BetweenLines invites</em></span>
-        <span>
-          <strong>by {book.author.split(' ').slice(-1)[0] ?? book.author}</strong>
-          <em>now reading</em>
-        </span>
+        <Link
+          href={`/read/${book.slug}`}
+          className="br-btn br-btn-primary br-continue-cta"
+        >
+          Continue reading →
+        </Link>
       </div>
     </div>
   );
@@ -151,6 +121,7 @@ export default function DiscoverPage() {
   const [active, setActive] = useState<DiscoverTabId>('all');
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const visible = new Set<Section['id']>(visibility[active]);
 
   const handleToggle = (key: string) => {
@@ -159,21 +130,39 @@ export default function DiscoverPage() {
 
   return (
     <div className="br-discover">
-      <FilterSidebar
-        filters={filters}
-        onToggle={handleToggle}
-        selectedShelf={selectedShelf}
-        onShelfChange={setSelectedShelf}
-      />
-      <div className="br-discover-main">
-        <StoreTabs<DiscoverTabId>
-          tabs={tabs}
-          active={active}
-          onChange={setActive}
-          ariaLabel="Discover sections"
+      {sidebarOpen && (
+        <FilterSidebar
+          filters={filters}
+          onToggle={handleToggle}
+          selectedShelf={selectedShelf}
+          onShelfChange={setSelectedShelf}
         />
+      )}
+      <div className="br-discover-main">
+        <div className="br-discover-tabsbar">
+          <button
+            type="button"
+            className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
+            aria-pressed={sidebarOpen}
+            aria-expanded={sidebarOpen}
+            onClick={() => setSidebarOpen((s) => !s)}
+          >
+            <span className="br-fs-toggle-icon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+            <span>{sidebarOpen ? 'Hide filters' : 'Filters'}</span>
+          </button>
+          <StoreTabs<DiscoverTabId>
+            tabs={tabs}
+            active={active}
+            onChange={setActive}
+            ariaLabel="Discover sections"
+          />
+        </div>
 
-        {session && <ContinueReadingHero userName={session.user} />}
+        {session && <ContinueReadingBox />}
 
         <div className="br-discover-rails">
           {sections.map((s) => {
