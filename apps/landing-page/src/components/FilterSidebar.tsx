@@ -11,6 +11,7 @@ export type SidebarShelfId =
   | 'all'
   | 'foryou'
   | 'readerpicks'
+  | 'betapicks'
   | 'memberpicks'
   | 'new'
   | 'continue'
@@ -24,6 +25,7 @@ const SHELF_FILTERS: { id: SidebarShelfId; label: string }[] = [
   { id: 'readinglist', label: 'Reading List' },
   { id: 'finished', label: 'Finished' },
   { id: 'readerpicks', label: 'Reader Picks' },
+  { id: 'betapicks', label: 'Beta Picks' },
   { id: 'memberpicks', label: 'Member Picks' },
   { id: 'new', label: 'New This Week' },
 ];

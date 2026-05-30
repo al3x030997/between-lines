@@ -19,35 +19,50 @@ import {
 import { useMockSession } from '@/lib/useMockSession';
 
 type DiscoverTabId =
-  | 'all'
   | 'foryou'
-  | 'readerpicks'
-  | 'betapicks'
-  | 'memberpicks'
   | 'betweenlines'
+  | 'betareading'
+  | 'audio'
   | 'magazine'
-  | 'new';
+  | 'community';
 
 const tabs: TabDef<DiscoverTabId>[] = [
-  { id: 'all', label: 'All' },
   { id: 'foryou', label: 'For You' },
-  { id: 'readerpicks', label: 'Reader Picks' },
-  { id: 'betapicks', label: 'Beta Picks' },
-  { id: 'memberpicks', label: 'Member Picks' },
   { id: 'betweenlines', label: 'BetweenLines' },
+  { id: 'betareading', label: 'Beta Reading' },
+  { id: 'audio', label: 'Audio' },
   { id: 'magazine', label: 'Magazine' },
-  { id: 'new', label: 'New this week' },
+  { id: 'community', label: 'Community' },
 ];
 
 const visibility: Record<DiscoverTabId, Section['id'][]> = {
-  all: ['bl', 'foryou', 'new', 'classics'],
-  foryou: ['foryou'],
-  readerpicks: ['foryou'],
-  betapicks: ['foryou'],
-  memberpicks: ['foryou'],
+  foryou: ['foryou', 'new', 'bl', 'classics'],
   betweenlines: ['bl'],
-  magazine: ['bl'],
-  new: ['new'],
+  betareading: [],
+  audio: [],
+  magazine: [],
+  community: [],
+};
+
+const stubContent: Record<DiscoverTabId, { title: string; body: string } | null> = {
+  foryou: null,
+  betweenlines: null,
+  betareading: {
+    title: 'Beta Reading',
+    body: 'Read full manuscripts before they publish and earn Swap Credits for feedback. Coming soon.',
+  },
+  audio: {
+    title: 'Audio',
+    body: 'Listen to stories and journal pieces narrated by their writers. Coming soon.',
+  },
+  magazine: {
+    title: 'Magazine',
+    body: 'Long-form essays and interviews from the BetweenLines editorial team. Coming soon.',
+  },
+  community: {
+    title: 'Community',
+    body: 'Reading clubs, writer Q&As, and the BetweenReads activity feed. Coming soon.',
+  },
 };
 
 const sectionKickers: Record<Section['id'], string> = {
@@ -142,13 +157,15 @@ function ContinueReadingBox() {
 
 export default function DiscoverPage() {
   const { session } = useMockSession();
-  const [active, setActive] = useState<DiscoverTabId>('all');
+  const [active, setActive] = useState<DiscoverTabId>('foryou');
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const visible = new Set<Section['id']>(visibility[active]);
   const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
-  const showFeatured = active === 'all' || active === 'betweenlines';
+  const showFeatured = active === 'foryou' || active === 'betweenlines';
+  const showContinue = session && (active === 'foryou' || active === 'betweenlines');
+  const stub = stubContent[active];
 
   const handleToggle = (key: string) => {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -188,7 +205,7 @@ export default function DiscoverPage() {
           />
         </div>
 
-        {session && <ContinueReadingBox />}
+        {showContinue && <ContinueReadingBox />}
 
         {showFeatured && (
           <div className="br-discover-featured">
@@ -200,22 +217,30 @@ export default function DiscoverPage() {
           </div>
         )}
 
-        <div className="br-discover-rails">
-          {sections.map((s) => {
-            if (!visible.has(s.id)) return null;
-            const books = getBooksBySection(s.id);
-            if (books.length === 0) return null;
-            return (
-              <Rail
-                key={s.id}
-                section={s}
-                kicker={sectionKickers[s.id]}
-                books={books}
-                showRank={s.id === 'bl'}
-              />
-            );
-          })}
-        </div>
+        {stub ? (
+          <div className="br-discover-stub" role="status">
+            <p className="br-discover-stub-kicker">Coming soon</p>
+            <h2 className="br-discover-stub-title">{stub.title}</h2>
+            <p className="br-discover-stub-body">{stub.body}</p>
+          </div>
+        ) : (
+          <div className="br-discover-rails">
+            {sections.map((s) => {
+              if (!visible.has(s.id)) return null;
+              const books = getBooksBySection(s.id);
+              if (books.length === 0) return null;
+              return (
+                <Rail
+                  key={s.id}
+                  section={s}
+                  kicker={sectionKickers[s.id]}
+                  books={books}
+                  showRank={s.id === 'bl'}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
