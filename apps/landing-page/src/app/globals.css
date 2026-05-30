@@ -9154,12 +9154,12 @@ body:has(.br-read-gallery) .br-avatar {
   --read-chrome-2: #0d0d0d;     /* tabs bar: one shade up from the top */
   --read-canvas: #141414;       /* wide canvas: darker neutral grey */
 
-  --read-on: #f5f5f5;
-  --read-on-soft: rgba(245, 245, 245, 0.74);
-  --read-on-mute: rgba(245, 245, 245, 0.52);
-  --read-on-faint: rgba(245, 245, 245, 0.28);
-  --read-on-line: rgba(245, 245, 245, 0.10);
-  --read-on-line-strong: rgba(245, 245, 245, 0.18);
+  --read-on: #ffffff;
+  --read-on-soft: rgba(255, 255, 255, 0.92);
+  --read-on-mute: rgba(255, 255, 255, 0.78);
+  --read-on-faint: rgba(255, 255, 255, 0.50);
+  --read-on-line: rgba(255, 255, 255, 0.10);
+  --read-on-line-strong: rgba(255, 255, 255, 0.18);
 
   --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
   --read-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
@@ -9280,13 +9280,30 @@ body:has(.br-discover) .br-avatar:hover {
 }
 .br-discover .br-discover-featured .br-featured-dot.is-active { background: var(--read-accent); }
 
-/* --- Rails: rebind gallery accent tokens to violet --- */
+/* --- Rails: rebind gallery accent tokens to violet, and strengthen
+       greyed-out card text (author/blurb/meta) so titles stop reading
+       washed out against the dark canvas. --- */
 .br-discover .br-discover-rails {
   --gallery-accent: var(--read-accent);
   --gallery-accent-strong: var(--read-accent-strong);
   --gallery-accent-soft: var(--read-accent-soft);
   --gallery-accent-line: var(--read-accent-line);
   --gallery-on-media-accent: var(--read-accent-strong);
+  --gallery-soft: rgba(255, 247, 232, 0.92);
+  --gallery-on-media-soft: rgba(255, 247, 232, 0.92);
+  --gallery-on-media-muted: rgba(255, 247, 232, 0.78);
+}
+
+/* Strengthen featured-carousel author/blurb/meta inside /read so the
+   spotlight body copy lifts off the dark backdrop. */
+.br-discover .br-discover-featured .br-featured-author {
+  color: rgba(255, 247, 232, 0.94);
+}
+.br-discover .br-discover-featured .br-featured-blurb {
+  color: rgba(255, 247, 232, 0.90);
+}
+.br-discover .br-discover-featured .br-featured-meta {
+  color: rgba(255, 247, 232, 0.72);
 }
 
 /* --- Continue Reading: dark glass on neutral grey --- */
