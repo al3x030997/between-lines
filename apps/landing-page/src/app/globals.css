@@ -9143,11 +9143,11 @@ body:has(.br-read-gallery) .br-avatar {
    progress, active tab indicator. Scoped to /read via .br-discover.
    ============================================================ */
 .br-discover {
-  --read-accent: #ee4a5a;
-  --read-accent-strong: #ff6f7c;
-  --read-accent-soft: rgba(238, 74, 90, 0.16);
-  --read-accent-line: rgba(238, 74, 90, 0.42);
-  --read-accent-glow: rgba(238, 74, 90, 0.30);
+  --read-accent: #f0405a;
+  --read-accent-strong: #ff5f78;
+  --read-accent-soft: rgba(240, 64, 90, 0.16);
+  --read-accent-line: rgba(240, 64, 90, 0.42);
+  --read-accent-glow: rgba(240, 64, 90, 0.30);
 
   /* Neutral tiered chrome — no red tint anywhere in the grey */
   --read-chrome: #000000;       /* top nav: pure black */
@@ -9184,7 +9184,7 @@ body:has(.br-discover) .br-nav-brand {
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.92);
+  color: #ffffff;
 }
 body:has(.br-discover) .br-nav-brand strong {
   color: #ffffff;
@@ -9207,7 +9207,7 @@ body:has(.br-discover) .br-nav-link {
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.94);
   transition: background 0.15s ease, color 0.15s ease;
 }
 body:has(.br-discover) .br-nav-link::after { display: none; }
@@ -9245,7 +9245,7 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-fs-toggle {
   font-family: var(--read-font);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.94);
   border-right-color: var(--read-on-line);
 }
 .br-discover .br-fs-toggle:hover,
@@ -9256,7 +9256,7 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-discover-tabsbar .br-tab {
   font-family: var(--read-font);
   font-weight: 500;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.94);
 }
 .br-discover .br-discover-tabsbar .br-tab:hover {
   color: #ffffff;
