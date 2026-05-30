@@ -9136,36 +9136,37 @@ body:has(.br-read-gallery) .br-avatar {
 }
 
 /* ============================================================
-   READ · WORLD-CLASS REFINEMENT
-   Strong-black chrome, brass accent (replacing yellow), warm
-   dark-grey canvas. Scoped to /read via .br-discover; the top
+   READ · MODERN-TECH POP
+   Strong-black chrome, electric violet accent (replacing yellow),
+   cool dark canvas. Scoped to /read via .br-discover; the top
    nav switches via body:has() so /write / /gallery keep theirs.
    ============================================================ */
 .br-discover {
-  --read-brass: #d4b063;
-  --read-brass-strong: #ecca7e;
-  --read-brass-soft: rgba(212, 176, 99, 0.16);
-  --read-brass-line: rgba(212, 176, 99, 0.42);
+  --read-accent: #8b5cf6;
+  --read-accent-strong: #a78bfa;
+  --read-accent-soft: rgba(139, 92, 246, 0.16);
+  --read-accent-line: rgba(139, 92, 246, 0.42);
+  --read-accent-glow: rgba(139, 92, 246, 0.28);
 
-  --read-chrome: #0a0a0c;
-  --read-canvas: #16161a;
+  --read-chrome: #08080b;
+  --read-canvas: #0f0f14;
 
-  --read-on: #f3ecda;
-  --read-on-soft: rgba(243, 236, 218, 0.74);
-  --read-on-mute: rgba(243, 236, 218, 0.52);
-  --read-on-faint: rgba(243, 236, 218, 0.28);
-  --read-on-line: rgba(243, 236, 218, 0.10);
-  --read-on-line-strong: rgba(243, 236, 218, 0.18);
+  --read-on: #f3f1fb;
+  --read-on-soft: rgba(243, 241, 251, 0.74);
+  --read-on-mute: rgba(243, 241, 251, 0.52);
+  --read-on-faint: rgba(243, 241, 251, 0.28);
+  --read-on-line: rgba(243, 241, 251, 0.10);
+  --read-on-line-strong: rgba(243, 241, 251, 0.18);
 }
 
-/* --- Top nav: strong black, brass active underline --- */
+/* --- Top nav: strong black, violet active underline --- */
 body:has(.br-discover) .br-nav {
   background: var(--read-chrome);
-  border-bottom: 0.5px solid rgba(212, 176, 99, 0.22);
+  border-bottom: 0.5px solid rgba(139, 92, 246, 0.22);
 }
 body:has(.br-discover) .br-nav-brand,
 body:has(.br-discover) .br-nav-link {
-  color: rgba(243, 236, 218, 0.6);
+  color: rgba(243, 241, 251, 0.6);
 }
 body:has(.br-discover) .br-nav-brand strong,
 body:has(.br-discover) .br-nav-brand:hover,
@@ -9177,21 +9178,21 @@ body:has(.br-discover) .br-nav-link.is-active {
 body:has(.br-discover) .br-nav-brand.is-active::after,
 body:has(.br-discover) .br-nav-link::after,
 body:has(.br-discover) .br-nav-link.is-active::after {
-  background: var(--read-brass);
+  background: var(--read-accent);
 }
 body:has(.br-discover) .br-avatar {
-  background: rgba(212, 176, 99, 0.16);
-  border-color: rgba(212, 176, 99, 0.42);
-  color: var(--read-brass-strong);
+  background: var(--read-accent-soft);
+  border-color: var(--read-accent-line);
+  color: var(--read-accent-strong);
 }
 body:has(.br-discover) .br-avatar:hover {
-  box-shadow: 0 0 0 4px rgba(212, 176, 99, 0.12);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
 }
 
-/* --- Canvas: warm dark grey with a faint ambient halo --- */
+/* --- Canvas: cool dark with a faint violet halo --- */
 .br-discover .br-discover-main {
   background:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(212, 176, 99, 0.06), transparent 65%),
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(139, 92, 246, 0.10), transparent 65%),
     radial-gradient(ellipse 100% 70% at 50% 110%, rgba(0, 0, 0, 0.55), transparent 60%),
     var(--read-canvas);
 }
@@ -9199,69 +9200,69 @@ body:has(.br-discover) .br-avatar:hover {
 /* --- Tabs bar: fused with the black nav (one continuous header) --- */
 .br-discover .br-discover-tabsbar {
   background: var(--read-chrome);
-  border-bottom: 0.5px solid rgba(212, 176, 99, 0.18);
+  border-bottom: 0.5px solid rgba(139, 92, 246, 0.18);
 }
 .br-discover .br-fs-toggle {
-  color: rgba(243, 236, 218, 0.58);
+  color: rgba(243, 241, 251, 0.58);
   border-right-color: var(--read-on-line);
 }
 .br-discover .br-fs-toggle:hover,
 .br-discover .br-fs-toggle.is-on {
   color: var(--read-on);
-  background: rgba(243, 236, 218, 0.05);
+  background: rgba(243, 241, 251, 0.05);
 }
 .br-discover .br-discover-tabsbar .br-tab {
-  color: rgba(243, 236, 218, 0.48);
+  color: rgba(243, 241, 251, 0.48);
 }
 .br-discover .br-discover-tabsbar .br-tab:hover {
-  color: rgba(243, 236, 218, 0.85);
+  color: rgba(243, 241, 251, 0.85);
 }
 .br-discover .br-discover-tabsbar .br-tab.is-active {
   color: var(--read-on);
-  border-bottom-color: var(--read-brass);
+  border-bottom-color: var(--read-accent);
 }
 
-/* --- Featured carousel: brass replaces yellow --- */
+/* --- Featured carousel: violet replaces yellow --- */
 .br-discover .br-discover-featured-kicker,
-.br-discover .br-discover-featured .br-featured-eyebrow { color: var(--read-brass-strong); }
+.br-discover .br-discover-featured .br-featured-eyebrow { color: var(--read-accent-strong); }
 .br-discover .br-discover-featured .br-featured-cta {
-  background: var(--read-brass);
-  color: #161410;
-  box-shadow: 0 8px 24px rgba(212, 176, 99, 0.24);
+  background: var(--read-accent);
+  color: #ffffff;
+  box-shadow: 0 8px 24px var(--read-accent-glow);
 }
 .br-discover .br-discover-featured .br-featured-arrow:hover {
-  border-color: var(--read-brass-line);
+  border-color: var(--read-accent-line);
 }
-.br-discover .br-discover-featured .br-featured-dot.is-active { background: var(--read-brass); }
+.br-discover .br-discover-featured .br-featured-dot.is-active { background: var(--read-accent); }
 
-/* --- Rails: rebind gallery accent tokens to brass --- */
+/* --- Rails: rebind gallery accent tokens to violet --- */
 .br-discover .br-discover-rails {
-  --gallery-accent: var(--read-brass);
-  --gallery-accent-strong: var(--read-brass-strong);
-  --gallery-accent-soft: var(--read-brass-soft);
-  --gallery-accent-line: var(--read-brass-line);
-  --gallery-on-media-accent: var(--read-brass-strong);
+  --gallery-accent: var(--read-accent);
+  --gallery-accent-strong: var(--read-accent-strong);
+  --gallery-accent-soft: var(--read-accent-soft);
+  --gallery-accent-line: var(--read-accent-line);
+  --gallery-on-media-accent: var(--read-accent-strong);
 }
 
 /* --- Continue Reading: lift to dark glass instead of white card --- */
 .br-discover .br-continue {
-  background: rgba(243, 236, 218, 0.05);
-  border: 0.5px solid rgba(243, 236, 218, 0.14);
+  background: rgba(243, 241, 251, 0.05);
+  border: 0.5px solid rgba(243, 241, 251, 0.14);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
-.br-discover .br-continue-eyebrow { color: var(--read-brass-strong); }
+.br-discover .br-continue-eyebrow { color: var(--read-accent-strong); }
 .br-discover .br-continue-title { color: var(--read-on); }
 .br-discover .br-continue-author { color: var(--read-on-soft); }
 .br-discover .br-continue-meta,
 .br-discover .br-continue-percent { color: var(--read-on-mute); }
-.br-discover .br-continue-bar { background: rgba(243, 236, 218, 0.12); }
-.br-discover .br-continue-bar-fill { background: var(--read-brass); }
+.br-discover .br-continue-bar { background: rgba(243, 241, 251, 0.12); }
+.br-discover .br-continue-bar-fill { background: var(--read-accent); }
 .br-discover .br-continue-cta {
-  background: var(--read-brass);
-  color: #161410;
+  background: var(--read-accent);
+  color: #ffffff;
   border: none;
-  box-shadow: 0 8px 22px rgba(212, 176, 99, 0.24);
+  box-shadow: 0 8px 22px var(--read-accent-glow);
 }
-.br-discover .br-continue-cta:hover { background: var(--read-brass-strong); }
+.br-discover .br-continue-cta:hover { background: var(--read-accent-strong); }
