@@ -10242,3 +10242,262 @@ body:has(.br-reader-page) .br-nav-link.is-active {
 }
 .br-reader-page .br-fp-textarea:focus { border-color: var(--reader-accent-line); }
 .br-reader-page .br-fp-react-note { color: var(--reader-on-mute); }
+
+/* ============================================================
+   LIGHT MODE OVERRIDES · NEUTRAL (NOT WARM PARCHMENT)
+   The dark Netflix surfaces (.br-discover, .br-reader-page,
+   .br-book-page, .br-write-page, .br-write-preview) define their
+   tokens unconditionally above so dark is the default. These
+   blocks flip those tokens to neutral light equivalents — plain
+   whites + black-based on-tokens, NOT the warm cream/teal/yellow
+   parchment palette the marketing site uses.
+   ============================================================ */
+
+/* --- /read discover --- */
+html[data-theme='light'] .br-discover {
+  --read-accent: #f0405a;
+  --read-accent-strong: #d0344a;
+  --read-accent-soft: rgba(240, 64, 90, 0.10);
+  --read-accent-line: rgba(240, 64, 90, 0.42);
+  --read-accent-glow: rgba(240, 64, 90, 0.22);
+  --read-chrome: #ffffff;
+  --read-chrome-2: #f5f5f7;
+  --read-canvas: #fafafa;
+  --read-on: #0a0a0a;
+  --read-on-soft: rgba(10, 10, 10, 0.92);
+  --read-on-mute: rgba(10, 10, 10, 0.66);
+  --read-on-faint: rgba(10, 10, 10, 0.42);
+  --read-on-line: rgba(10, 10, 10, 0.10);
+  --read-on-line-strong: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] body:has(.br-discover) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-discover) .br-nav {
+  background-color: #ffffff;
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] body:has(.br-discover) .br-nav-brand,
+html[data-theme='light'] body:has(.br-discover) .br-nav-brand strong { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-discover) .br-nav-link { color: rgba(10, 10, 10, 0.70); }
+html[data-theme='light'] body:has(.br-discover) .br-nav-link.is-active {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0a0a0a;
+}
+/* Tabsbar + glass surfaces */
+html[data-theme='light'] .br-discover .br-discover-tabsbar {
+  background: var(--read-chrome-2);
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.08);
+}
+html[data-theme='light'] .br-discover .br-continue {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.10);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.08);
+}
+html[data-theme='light'] .br-discover .br-discover-stub {
+  background: rgba(10, 10, 10, 0.02);
+  border-color: rgba(10, 10, 10, 0.12);
+}
+/* Featured carousel author/blurb/meta — flip warm-off-white to black */
+html[data-theme='light'] .br-discover .br-discover-featured .br-featured-title { color: #0a0a0a; }
+html[data-theme='light'] .br-discover .br-discover-featured .br-featured-author {
+  color: rgba(10, 10, 10, 0.78);
+}
+html[data-theme='light'] .br-discover .br-discover-featured .br-featured-blurb {
+  color: rgba(10, 10, 10, 0.74);
+}
+html[data-theme='light'] .br-discover .br-discover-featured .br-featured-meta {
+  color: rgba(10, 10, 10, 0.55);
+}
+/* Gallery rail card text */
+html[data-theme='light'] .br-discover .br-discover-rails {
+  --gallery-soft: rgba(10, 10, 10, 0.74);
+  --gallery-on-media-soft: rgba(255, 255, 255, 0.92);
+  --gallery-on-media-muted: rgba(255, 255, 255, 0.74);
+}
+/* Filter sidebar */
+html[data-theme='light'] .br-discover .br-fsidebar {
+  background: var(--read-chrome-2);
+  border-right-color: rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-discover .br-fs-shelf-btn,
+html[data-theme='light'] .br-discover .br-fs-pill,
+html[data-theme='light'] .br-discover .br-fs-more {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-discover .br-fs-shelf-btn:hover,
+html[data-theme='light'] .br-discover .br-fs-pill:hover,
+html[data-theme='light'] .br-discover .br-fs-row:hover,
+html[data-theme='light'] .br-discover .br-fs-more:hover {
+  background: rgba(10, 10, 10, 0.06);
+  border-color: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] .br-discover .br-fs-saved-item {
+  background: rgba(10, 10, 10, 0.03);
+}
+
+/* --- /read chapter reader --- */
+html[data-theme='light'] .br-reader-page {
+  --reader-accent: #f0405a;
+  --reader-accent-strong: #d0344a;
+  --reader-accent-soft: rgba(240, 64, 90, 0.10);
+  --reader-accent-line: rgba(240, 64, 90, 0.42);
+  --reader-accent-glow: rgba(240, 64, 90, 0.22);
+  --reader-chrome: #ffffff;
+  --reader-chrome-2: #f5f5f7;
+  --reader-canvas: #fafafa;
+  --reader-on: #0a0a0a;
+  --reader-on-soft: rgba(10, 10, 10, 0.92);
+  --reader-on-mute: rgba(10, 10, 10, 0.66);
+  --reader-on-faint: rgba(10, 10, 10, 0.42);
+  --reader-on-line: rgba(10, 10, 10, 0.10);
+  --reader-on-line-strong: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] body:has(.br-reader-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-reader-page) .br-nav {
+  background-color: #ffffff;
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] body:has(.br-reader-page) .br-nav-brand,
+html[data-theme='light'] body:has(.br-reader-page) .br-nav-brand strong { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-reader-page) .br-nav-link { color: rgba(10, 10, 10, 0.70); }
+html[data-theme='light'] body:has(.br-reader-page) .br-nav-link.is-active {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0a0a0a;
+}
+html[data-theme='light'] .br-reader-page .br-progress { background: rgba(10, 10, 10, 0.08); }
+html[data-theme='light'] .br-reader-page .br-fc-btn,
+html[data-theme='light'] .br-reader-page .br-rctrl-btn,
+html[data-theme='light'] .br-reader-page .br-prev-ch,
+html[data-theme='light'] .br-reader-page .br-next-ch,
+html[data-theme='light'] .br-reader-page .br-tip-author-row,
+html[data-theme='light'] .br-reader-page .br-fp,
+html[data-theme='light'] .br-reader-page .br-fp-emoji,
+html[data-theme='light'] .br-reader-page .br-yn,
+html[data-theme='light'] .br-reader-page .br-fp-textarea {
+  background: rgba(10, 10, 10, 0.03);
+}
+html[data-theme='light'] .br-reader-page .br-fc-btn:hover,
+html[data-theme='light'] .br-reader-page .br-rctrl-btn:hover {
+  background: rgba(10, 10, 10, 0.06);
+}
+html[data-theme='light'] .br-reader-page .br-fp-stars { background: rgba(10, 10, 10, 0.02); }
+html[data-theme='light'] .br-reader-page .br-star { color: rgba(10, 10, 10, 0.20); }
+
+/* --- /read book detail --- */
+html[data-theme='light'] .br-book-page {
+  --bp-accent: #f0405a;
+  --bp-accent-strong: #d0344a;
+  --bp-accent-soft: rgba(240, 64, 90, 0.10);
+  --bp-accent-line: rgba(240, 64, 90, 0.42);
+  --bp-accent-glow: rgba(240, 64, 90, 0.22);
+  --bp-chrome: #ffffff;
+  --bp-chrome-2: #f5f5f7;
+  --bp-canvas: #fafafa;
+  --bp-on: #0a0a0a;
+  --bp-on-soft: rgba(10, 10, 10, 0.92);
+  --bp-on-mute: rgba(10, 10, 10, 0.66);
+  --bp-on-faint: rgba(10, 10, 10, 0.42);
+  --bp-on-line: rgba(10, 10, 10, 0.10);
+  --bp-on-line-strong: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] body:has(.br-book-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-book-page) .br-nav {
+  background-color: #ffffff;
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] body:has(.br-book-page) .br-nav-brand,
+html[data-theme='light'] body:has(.br-book-page) .br-nav-brand strong { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-book-page) .br-nav-link { color: rgba(10, 10, 10, 0.70); }
+html[data-theme='light'] body:has(.br-book-page) .br-nav-link.is-active {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0a0a0a;
+}
+html[data-theme='light'] .br-book-page .br-btn-ghost,
+html[data-theme='light'] .br-book-page .br-also-link,
+html[data-theme='light'] .br-book-page .br-tag,
+html[data-theme='light'] .br-book-page .br-community,
+html[data-theme='light'] .br-book-page .br-community-arrow,
+html[data-theme='light'] .br-book-page .br-community-add,
+html[data-theme='light'] .br-book-page .br-unlock-nudge {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.10);
+}
+
+/* --- /write landing --- */
+html[data-theme='light'] .br-write-page {
+  --wpg-accent: #f0405a;
+  --wpg-accent-strong: #d0344a;
+  --wpg-accent-soft: rgba(240, 64, 90, 0.10);
+  --wpg-accent-line: rgba(240, 64, 90, 0.42);
+  --wpg-accent-glow: rgba(240, 64, 90, 0.22);
+  --wpg-chrome: #ffffff;
+  --wpg-chrome-2: #f5f5f7;
+  --wpg-canvas: #fafafa;
+  --wpg-on: #0a0a0a;
+  --wpg-on-soft: rgba(10, 10, 10, 0.92);
+  --wpg-on-mute: rgba(10, 10, 10, 0.66);
+  --wpg-on-faint: rgba(10, 10, 10, 0.42);
+  --wpg-on-line: rgba(10, 10, 10, 0.10);
+  --wpg-on-line-strong: rgba(10, 10, 10, 0.18);
+
+  /* Re-rebind the global parchment tokens to NEUTRAL light, not warm
+     parchment, so writer cards / pills / metrics flip cleanly */
+  --theme-surface: #ffffff;
+  --theme-text-soft: rgba(10, 10, 10, 0.92);
+  --br-panel-bg: rgba(10, 10, 10, 0.03);
+  --br-panel-warm: rgba(10, 10, 10, 0.05);
+  --br-paper-bg: rgba(10, 10, 10, 0.03);
+  --br-border-warm: rgba(10, 10, 10, 0.12);
+  --br-border-hair: rgba(10, 10, 10, 0.08);
+  --v11-divider: rgba(10, 10, 10, 0.10);
+  --v11-ink: #0a0a0a;
+  --v11-ink-soft: rgba(10, 10, 10, 0.92);
+  --v11-ink-mute: rgba(10, 10, 10, 0.66);
+  --v11-ink-trace: rgba(10, 10, 10, 0.42);
+  --v11-accent: #f0405a;
+  --v11-accent-soft: rgba(240, 64, 90, 0.10);
+  --v11-yellow: #f0405a;
+  --theme-strong-cta-bg: #f0405a;
+  --theme-strong-cta-fg: #ffffff;
+  --theme-strong-cta-hover-bg: #d0344a;
+}
+html[data-theme='light'] body:has(.br-write-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-write-page) .br-nav {
+  background-color: #ffffff;
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] body:has(.br-write-page) .br-nav-brand,
+html[data-theme='light'] body:has(.br-write-page) .br-nav-brand strong { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-write-page) .br-nav-link { color: rgba(10, 10, 10, 0.70); }
+html[data-theme='light'] body:has(.br-write-page) .br-nav-link.is-active {
+  background: rgba(10, 10, 10, 0.08);
+  color: #0a0a0a;
+}
+
+/* --- Write preview overlay --- */
+html[data-theme='light'] .br-write-preview {
+  --wp-chrome: #ffffff;
+  --wp-canvas: #fafafa;
+  --wp-card: rgba(10, 10, 10, 0.03);
+  --wp-accent: #f0405a;
+  --wp-accent-strong: #d0344a;
+  --wp-accent-glow: rgba(240, 64, 90, 0.22);
+  --wp-on: #0a0a0a;
+  --wp-on-soft: rgba(10, 10, 10, 0.92);
+  --wp-on-mute: rgba(10, 10, 10, 0.66);
+  --wp-on-line: rgba(10, 10, 10, 0.12);
+}
+html[data-theme='light'] .br-write-preview-bar {
+  border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-write-preview-modetab {
+  background: rgba(10, 10, 10, 0.06);
+  border-color: rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-write-preview-bar .br-write-btn-sm {
+  background: rgba(10, 10, 10, 0.06);
+  border-color: rgba(10, 10, 10, 0.10);
+}
+html[data-theme='light'] .br-write-preview-bar .br-write-btn-sm:hover {
+  background: rgba(10, 10, 10, 0.12);
+}
