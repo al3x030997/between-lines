@@ -80,7 +80,7 @@ export function ReaderShell({
   }, []);
 
   return (
-    <>
+    <div className="br-reader-page">
       <div className="br-read-topbar">
         <Link href={`/read/${bookSlug}`} className="br-read-back">
           ← {bookTitle}
@@ -221,6 +221,6 @@ export function ReaderShell({
         bookTitle={bookTitle}
         body={chapterBody}
       />
-    </>
+    </div>
   );
 }

@@ -9535,3 +9535,235 @@ body:has(.br-discover) .br-avatar:hover {
   color: var(--read-on-soft);
   margin: 0;
 }
+
+/* ============================================================
+   READER (chapter view) · NETFLIX-STYLE CHROME
+   Mirrors the /read discover aesthetic on the chapter reading page:
+   pure-black sticky topbar, dark canvas, Manrope chrome, Sora title,
+   red kicker + drop cap. Body keeps Cormorant Garamond serif so
+   long-form prose retains its literary texture. Scoped to chapter
+   pages via .br-reader-page (wraps <ReaderShell />).
+   ============================================================ */
+.br-reader-page {
+  --reader-accent: #f0405a;
+  --reader-accent-strong: #ff5f78;
+  --reader-accent-soft: rgba(240, 64, 90, 0.16);
+  --reader-accent-line: rgba(240, 64, 90, 0.42);
+  --reader-accent-glow: rgba(240, 64, 90, 0.30);
+  --reader-chrome: #000000;
+  --reader-chrome-2: #0d0d0d;
+  --reader-canvas: #141414;
+  --reader-on: #ffffff;
+  --reader-on-soft: rgba(255, 255, 255, 0.92);
+  --reader-on-mute: rgba(255, 255, 255, 0.78);
+  --reader-on-faint: rgba(255, 255, 255, 0.50);
+  --reader-on-line: rgba(255, 255, 255, 0.10);
+  --reader-on-line-strong: rgba(255, 255, 255, 0.18);
+  --reader-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  --reader-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+}
+
+/* Make the page background and the nav itself match the dark canvas */
+body:has(.br-reader-page) {
+  background: #141414;
+}
+body:has(.br-reader-page) .br-nav {
+  background-color: #000000;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  padding: 0.85rem 2rem;
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  z-index: 200;
+}
+body:has(.br-reader-page) .br-nav-brand {
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  color: #ffffff;
+  font-weight: 700;
+}
+body:has(.br-reader-page) .br-nav-brand strong { color: #ffffff; font-weight: 700; }
+body:has(.br-reader-page) .br-nav-link {
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  color: rgba(255, 255, 255, 0.94);
+}
+body:has(.br-reader-page) .br-nav-link.is-active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Topbar (back / chapter title / font + width + quiet controls) */
+.br-reader-page .br-read-topbar {
+  background: var(--reader-chrome-2);
+  border-bottom: 0.5px solid var(--reader-on-line);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-read-back {
+  color: var(--reader-on-mute);
+  font-family: var(--reader-font);
+  font-weight: 500;
+}
+.br-reader-page .br-read-back:hover { color: var(--reader-on); }
+.br-reader-page .br-read-ch-title {
+  color: var(--reader-on-soft);
+  font-family: var(--reader-font);
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.br-reader-page .br-fc-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+  color: var(--reader-on-soft);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-fc-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--reader-on);
+}
+.br-reader-page .br-fc-num { color: var(--reader-on-mute); }
+.br-reader-page .br-rctrl-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+  color: var(--reader-on-soft);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-rctrl-btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: var(--reader-on);
+  border-color: var(--reader-on-line-strong);
+}
+.br-reader-page .br-rctrl-btn.is-on,
+.br-reader-page .br-rctrl-btn.is-on:hover {
+  background: var(--reader-accent-soft);
+  border-color: var(--reader-accent-line);
+  color: var(--reader-accent-strong);
+}
+
+/* Progress bar */
+.br-reader-page .br-progress { background: rgba(255, 255, 255, 0.06); }
+.br-reader-page .br-progress-fill { background: var(--reader-accent); }
+
+/* Chapter header + body */
+.br-reader-page .br-chapter-eyebrow {
+  color: var(--reader-accent-strong);
+  font-family: var(--reader-font);
+  letter-spacing: 0.16em;
+}
+.br-reader-page .br-chapter-title {
+  font-family: var(--reader-display);
+  font-weight: 700;
+  color: var(--reader-on);
+  letter-spacing: -0.01em;
+}
+.br-reader-page .br-chapter-meta {
+  color: var(--reader-on-mute);
+  font-family: var(--reader-font);
+  letter-spacing: 0.12em;
+}
+.br-reader-page .br-chapter-text {
+  font-family: 'Cormorant Garamond', var(--br-font-serif);
+  color: var(--reader-on-soft);
+}
+.br-reader-page .br-chapter-text p:first-of-type::first-letter {
+  font-family: var(--reader-display);
+  color: var(--reader-accent-strong);
+  font-weight: 700;
+}
+.br-reader-page .br-chapter-text em {
+  color: var(--reader-on);
+  font-style: italic;
+}
+
+/* Prev / next chapter blocks */
+.br-reader-page .br-prev-ch,
+.br-reader-page .br-next-ch {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+}
+.br-reader-page .br-prev-ch:hover,
+.br-reader-page .br-next-ch:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--reader-on-line-strong);
+}
+.br-reader-page .br-prev-ch-lbl,
+.br-reader-page .br-next-ch-lbl {
+  color: var(--reader-accent-strong);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-prev-ch-title,
+.br-reader-page .br-next-ch-title {
+  font-family: var(--reader-display);
+  color: var(--reader-on);
+  font-weight: 700;
+}
+.br-reader-page .br-prev-arrow,
+.br-reader-page .br-next-arrow { color: var(--reader-on-mute); }
+.br-reader-page .br-prev-ch:hover .br-prev-arrow,
+.br-reader-page .br-next-ch:hover .br-next-arrow { color: var(--reader-on); }
+
+/* Tip-author row */
+.br-reader-page .br-tip-author-row {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+  border-left: 3px solid var(--reader-accent);
+}
+.br-reader-page .br-tip-author-eyebrow {
+  color: var(--reader-accent-strong);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-tip-author-line {
+  color: var(--reader-on-soft);
+}
+
+/* Feedback panel */
+.br-reader-page .br-fp {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+}
+.br-reader-page .br-fp-eyebrow {
+  color: var(--reader-accent-strong);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-fp-title {
+  font-family: var(--reader-display);
+  font-weight: 700;
+  color: var(--reader-on);
+}
+.br-reader-page .br-fp-sub { color: var(--reader-on-mute); }
+.br-reader-page .br-fp-emoji {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+}
+.br-reader-page .br-fp-emoji:hover,
+.br-reader-page .br-fp-emoji.is-on {
+  background: var(--reader-accent-soft);
+  border-color: var(--reader-accent-line);
+}
+.br-reader-page .br-fp-stars {
+  background: rgba(255, 255, 255, 0.03);
+}
+.br-reader-page .br-fp-star-lbl,
+.br-reader-page .br-fp-yn-lbl { color: var(--reader-on-soft); }
+.br-reader-page .br-star { color: rgba(255, 255, 255, 0.22); }
+.br-reader-page .br-star.is-on { color: var(--reader-accent-strong); }
+.br-reader-page .br-yn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+  color: var(--reader-on-soft);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-fp-tabs { border-bottom-color: var(--reader-on-line); }
+.br-reader-page .br-fp-tab { color: var(--reader-on-mute); font-family: var(--reader-font); }
+.br-reader-page .br-fp-tab.is-active {
+  color: var(--reader-on);
+  border-bottom-color: var(--reader-accent);
+}
+.br-reader-page .br-fp-textarea {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--reader-on-line);
+  color: var(--reader-on);
+  font-family: var(--reader-font);
+}
+.br-reader-page .br-fp-textarea:focus { border-color: var(--reader-accent-line); }
+.br-reader-page .br-fp-react-note { color: var(--reader-on-mute); }
