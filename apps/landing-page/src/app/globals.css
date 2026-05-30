@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap');
 
 :root {
   color-scheme: light;
@@ -9136,10 +9136,11 @@ body:has(.br-read-gallery) .br-avatar {
 }
 
 /* ============================================================
-   READ · MODERN-TECH POP
-   Strong-black chrome, electric violet accent (replacing yellow),
-   cool dark canvas. Scoped to /read via .br-discover; the top
-   nav switches via body:has() so /write / /gallery keep theirs.
+   READ · NETFLIX-STYLE CHROME
+   Pure-black nav with pill hover/active (no underline), Manrope
+   font. Neutral dark-grey canvas (no violet tint). Electric
+   violet is reserved as accent only — CTAs, kickers, rank,
+   progress, active tab indicator. Scoped to /read via .br-discover.
    ============================================================ */
 .br-discover {
   --read-accent: #8b5cf6;
@@ -9148,38 +9149,68 @@ body:has(.br-read-gallery) .br-avatar {
   --read-accent-line: rgba(139, 92, 246, 0.42);
   --read-accent-glow: rgba(139, 92, 246, 0.28);
 
-  --read-chrome: #08080b;
-  --read-canvas: #0f0f14;
+  --read-chrome: #000000;
+  --read-canvas: #1c1c1c;
 
-  --read-on: #f3f1fb;
-  --read-on-soft: rgba(243, 241, 251, 0.74);
-  --read-on-mute: rgba(243, 241, 251, 0.52);
-  --read-on-faint: rgba(243, 241, 251, 0.28);
-  --read-on-line: rgba(243, 241, 251, 0.10);
-  --read-on-line-strong: rgba(243, 241, 251, 0.18);
+  --read-on: #f5f5f5;
+  --read-on-soft: rgba(245, 245, 245, 0.74);
+  --read-on-mute: rgba(245, 245, 245, 0.52);
+  --read-on-faint: rgba(245, 245, 245, 0.28);
+  --read-on-line: rgba(245, 245, 245, 0.10);
+  --read-on-line-strong: rgba(245, 245, 245, 0.18);
+
+  --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
 }
 
-/* --- Top nav: strong black, violet active underline --- */
+/* --- Top nav: pure black, Manrope, pill hover/active --- */
 body:has(.br-discover) .br-nav {
   background: var(--read-chrome);
-  border-bottom: 0.5px solid rgba(139, 92, 246, 0.22);
+  border-bottom: none;
+  padding: 0.85rem 2rem;
+  font-family: var(--read-font);
 }
-body:has(.br-discover) .br-nav-brand,
+body:has(.br-discover) .br-nav-brand {
+  font-family: var(--read-font);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.92);
+}
+body:has(.br-discover) .br-nav-brand strong {
+  color: #ffffff;
+  font-weight: 700;
+}
+body:has(.br-discover) .br-nav-brand:hover {
+  color: #ffffff;
+}
+body:has(.br-discover) .br-nav-brand.is-active::after { display: none; }
+
+body:has(.br-discover) .br-nav-links {
+  gap: 0.25rem;
+  margin-left: 1.5rem;
+}
 body:has(.br-discover) .br-nav-link {
-  color: rgba(243, 241, 251, 0.6);
+  position: relative;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-family: var(--read-font);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: rgba(255, 255, 255, 0.72);
+  transition: background 0.15s ease, color 0.15s ease;
 }
-body:has(.br-discover) .br-nav-brand strong,
-body:has(.br-discover) .br-nav-brand:hover,
-body:has(.br-discover) .br-nav-brand.is-active,
-body:has(.br-discover) .br-nav-link:hover,
+body:has(.br-discover) .br-nav-link::after { display: none; }
+body:has(.br-discover) .br-nav-link:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: #ffffff;
+}
 body:has(.br-discover) .br-nav-link.is-active {
-  color: var(--read-on);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-weight: 700;
 }
-body:has(.br-discover) .br-nav-brand.is-active::after,
-body:has(.br-discover) .br-nav-link::after,
-body:has(.br-discover) .br-nav-link.is-active::after {
-  background: var(--read-accent);
-}
+
 body:has(.br-discover) .br-avatar {
   background: var(--read-accent-soft);
   border-color: var(--read-accent-line);
@@ -9189,40 +9220,40 @@ body:has(.br-discover) .br-avatar:hover {
   box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
 }
 
-/* --- Canvas: cool dark with a faint violet halo --- */
+/* --- Canvas: neutral dark grey, no tint --- */
 .br-discover .br-discover-main {
-  background:
-    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(139, 92, 246, 0.10), transparent 65%),
-    radial-gradient(ellipse 100% 70% at 50% 110%, rgba(0, 0, 0, 0.55), transparent 60%),
-    var(--read-canvas);
+  background: var(--read-canvas);
 }
 
-/* --- Tabs bar: fused with the black nav (one continuous header) --- */
+/* --- Tabs bar: continuous with the black nav --- */
 .br-discover .br-discover-tabsbar {
   background: var(--read-chrome);
-  border-bottom: 0.5px solid rgba(139, 92, 246, 0.18);
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+  font-family: var(--read-font);
 }
 .br-discover .br-fs-toggle {
-  color: rgba(243, 241, 251, 0.58);
+  font-family: var(--read-font);
+  color: rgba(255, 255, 255, 0.58);
   border-right-color: var(--read-on-line);
 }
 .br-discover .br-fs-toggle:hover,
 .br-discover .br-fs-toggle.is-on {
-  color: var(--read-on);
-  background: rgba(243, 241, 251, 0.05);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.06);
 }
 .br-discover .br-discover-tabsbar .br-tab {
-  color: rgba(243, 241, 251, 0.48);
+  font-family: var(--read-font);
+  color: rgba(255, 255, 255, 0.5);
 }
 .br-discover .br-discover-tabsbar .br-tab:hover {
-  color: rgba(243, 241, 251, 0.85);
+  color: rgba(255, 255, 255, 0.88);
 }
 .br-discover .br-discover-tabsbar .br-tab.is-active {
-  color: var(--read-on);
+  color: #ffffff;
   border-bottom-color: var(--read-accent);
 }
 
-/* --- Featured carousel: violet replaces yellow --- */
+/* --- Featured carousel: violet accent on neutral grey --- */
 .br-discover .br-discover-featured-kicker,
 .br-discover .br-discover-featured .br-featured-eyebrow { color: var(--read-accent-strong); }
 .br-discover .br-discover-featured .br-featured-cta {
@@ -9244,20 +9275,20 @@ body:has(.br-discover) .br-avatar:hover {
   --gallery-on-media-accent: var(--read-accent-strong);
 }
 
-/* --- Continue Reading: lift to dark glass instead of white card --- */
+/* --- Continue Reading: dark glass on neutral grey --- */
 .br-discover .br-continue {
-  background: rgba(243, 241, 251, 0.05);
-  border: 0.5px solid rgba(243, 241, 251, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
 }
 .br-discover .br-continue-eyebrow { color: var(--read-accent-strong); }
-.br-discover .br-continue-title { color: var(--read-on); }
+.br-discover .br-continue-title { color: #ffffff; }
 .br-discover .br-continue-author { color: var(--read-on-soft); }
 .br-discover .br-continue-meta,
 .br-discover .br-continue-percent { color: var(--read-on-mute); }
-.br-discover .br-continue-bar { background: rgba(243, 241, 251, 0.12); }
+.br-discover .br-continue-bar { background: rgba(255, 255, 255, 0.10); }
 .br-discover .br-continue-bar-fill { background: var(--read-accent); }
 .br-discover .br-continue-cta {
   background: var(--read-accent);
