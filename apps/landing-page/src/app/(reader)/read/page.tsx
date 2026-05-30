@@ -188,14 +188,13 @@ export default function DiscoverPage() {
 
   return (
     <div className="br-discover">
-      {sidebarOpen && (
-        <FilterSidebar
-          filters={filters}
-          onToggle={handleToggle}
-          selectedShelf={selectedShelf}
-          onShelfChange={setSelectedShelf}
-        />
-      )}
+      <FilterSidebar
+        open={sidebarOpen}
+        filters={filters}
+        onToggle={handleToggle}
+        selectedShelf={selectedShelf}
+        onShelfChange={setSelectedShelf}
+      />
       <div className="br-discover-main">
         <div className="br-discover-tabsbar">
           <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />

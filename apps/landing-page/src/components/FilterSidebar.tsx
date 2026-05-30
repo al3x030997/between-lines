@@ -131,11 +131,17 @@ type FilterSidebarProps = {
   onToggle: (key: string) => void;
   selectedShelf: SidebarShelfId;
   onShelfChange: (id: SidebarShelfId) => void;
+  open?: boolean;
 };
 
-export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange }: FilterSidebarProps) {
+export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true }: FilterSidebarProps) {
   return (
-    <aside className="br-fsidebar" aria-label="Filter books">
+    <aside
+      className={`br-fsidebar ${open ? 'is-open' : 'is-closed'}`}
+      aria-label="Filter books"
+      aria-hidden={open ? undefined : true}
+    >
+      <div className="br-fsidebar-inner">
       <div className="br-fs-section br-fs-section-shelf">
         <div className="br-fs-shelf-grid">
           {SHELF_FILTERS.map((item) => {
@@ -221,6 +227,7 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange 
             <span className="br-fs-saved-count">{s.count}</span>
           </button>
         ))}
+      </div>
       </div>
     </aside>
   );
