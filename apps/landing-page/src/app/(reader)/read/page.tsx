@@ -160,7 +160,7 @@ export default function DiscoverPage() {
   const [active, setActive] = useState<DiscoverTabId>('foryou');
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const visible = new Set<Section['id']>(visibility[active]);
   const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
   const showFeatured = active === 'foryou' || active === 'betweenlines';
