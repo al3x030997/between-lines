@@ -9536,6 +9536,74 @@ body:has(.br-discover) .br-avatar:hover {
   margin: 0;
 }
 
+/* --- FilterSidebar inside /read: dark Netflix glass, Manrope,
+       red accent. Reskins the warm-parchment sidebar without
+       touching .br-fs-* usages on other surfaces. --- */
+.br-discover .br-fsidebar {
+  background: var(--read-chrome-2);
+  border-right: 0.5px solid var(--read-on-line);
+  font-family: var(--read-font);
+}
+.br-discover .br-fs-label {
+  font-family: var(--read-font);
+  font-variant-caps: normal;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--read-on-mute);
+}
+.br-discover .br-fs-section-shelf,
+.br-discover .br-fs-saved {
+  border-color: var(--read-on-line);
+}
+.br-discover .br-fs-shelf-btn,
+.br-discover .br-fs-pill,
+.br-discover .br-fs-more {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid var(--read-on-line);
+  color: var(--read-on-soft);
+  font-family: var(--read-font);
+}
+.br-discover .br-fs-row {
+  color: var(--read-on-soft);
+  font-family: var(--read-font);
+}
+.br-discover .br-fs-count { color: var(--read-on-mute); }
+.br-discover .br-fs-shelf-btn:hover,
+.br-discover .br-fs-pill:hover,
+.br-discover .br-fs-row:hover,
+.br-discover .br-fs-more:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--read-on);
+  border-color: var(--read-on-line-strong);
+}
+.br-discover .br-fs-shelf-btn.is-on,
+.br-discover .br-fs-pill.is-on,
+.br-discover .br-fs-row.is-on {
+  background: var(--read-accent-soft);
+  border-color: var(--read-accent-line);
+  color: var(--read-accent-strong);
+}
+.br-discover .br-fs-row.is-on .br-fs-count {
+  color: var(--read-accent-strong);
+}
+.br-discover .br-fs-saved-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid transparent;
+  font-family: var(--read-font);
+}
+.br-discover .br-fs-saved-item:hover {
+  border-color: var(--read-on-line-strong);
+}
+.br-discover .br-fs-saved-title { color: var(--read-on); }
+.br-discover .br-fs-saved-meta { color: var(--read-on-mute); }
+.br-discover .br-fs-saved-count {
+  background: var(--read-accent-soft);
+  color: var(--read-accent-strong);
+}
+.br-discover .br-fs-saved-gear { color: var(--read-on-mute); }
+
 /* ============================================================
    READER (chapter view) · NETFLIX-STYLE CHROME
    Mirrors the /read discover aesthetic on the chapter reading page:
