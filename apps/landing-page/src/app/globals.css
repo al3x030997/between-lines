@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700;800&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..600,0..100;1,9..144,300..600,0..100&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Caveat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700;1,900&display=swap');
 
 :root {
   color-scheme: light;
@@ -9162,6 +9162,7 @@ body:has(.br-read-gallery) .br-avatar {
   --read-on-line-strong: rgba(245, 245, 245, 0.18);
 
   --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  --read-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
 }
 
 /* --- Top nav: pure black, Manrope, pill hover/active.
@@ -9310,3 +9311,99 @@ body:has(.br-discover) .br-avatar:hover {
   box-shadow: 0 8px 22px var(--read-accent-glow);
 }
 .br-discover .br-continue-cta:hover { background: var(--read-accent-strong); }
+
+/* ============================================================
+   READ · TYPE SYSTEM
+   Manrope across everything, Sora as the adjacent display face
+   for the biggest headlines (rail titles, featured title,
+   continue-reading title, rank numerals). Replaces the previous
+   Cormorant Garamond / Bodoni Moda / Playfair Display serifs and
+   the Bricolage Grotesque eyebrows inside /read.
+   ============================================================ */
+
+/* Display tier — large geometric, tight, heavy */
+.br-discover .br-gallery-rail h2,
+.br-discover .br-discover-featured-head h2,
+.br-discover .br-discover-featured .br-featured-title,
+.br-discover .br-continue-title {
+  font-family: var(--read-display);
+  font-weight: 800;
+  letter-spacing: -0.022em;
+  line-height: 1.06;
+}
+
+/* Rank numerals — Sora 800 with tabular figures */
+.br-discover .br-gallery-rank {
+  font-family: var(--read-display);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Eyebrows / kickers — Manrope tracked uppercase */
+.br-discover .br-gallery-kicker,
+.br-discover .br-discover-featured-kicker,
+.br-discover .br-continue-eyebrow,
+.br-discover .br-discover-featured .br-featured-eyebrow {
+  font-family: var(--read-font);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Card titles — Sora 700 */
+.br-discover .br-gallery-poster-title {
+  font-family: var(--read-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Bylines (author / handle) — Manrope tracked caps */
+.br-discover .br-gallery-poster-author,
+.br-discover .br-discover-featured .br-featured-author,
+.br-discover .br-continue-author {
+  font-family: var(--read-font);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* Body copy / blurbs */
+.br-discover .br-gallery-poster-blurb,
+.br-discover .br-discover-featured .br-featured-blurb,
+.br-discover .br-gallery-feature-blurb,
+.br-discover .br-continue-meta {
+  font-family: var(--read-font);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+/* Keyword pills on covers (were Cormorant Garamond serif) */
+.br-discover .br-gallery-poster-keyword {
+  font-family: var(--read-font);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Metadata pills under cards */
+.br-discover .br-gallery-poster-tag,
+.br-discover .br-discover-featured .br-featured-meta {
+  font-family: var(--read-font);
+  font-weight: 500;
+}
+
+/* Continue-Reading body / CTA */
+.br-discover .br-continue-percent,
+.br-discover .br-continue-cta {
+  font-family: var(--read-font);
+  font-weight: 600;
+}
+
+/* See-all rail link */
+.br-discover .br-gallery-rail-link,
+.br-discover .br-discover-featured .br-featured-cta {
+  font-family: var(--read-font);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
