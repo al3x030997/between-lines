@@ -80,7 +80,6 @@ function WriterLibraryRow({
   canOpen,
   onOpenEditor,
   onOpenSettings,
-  onOpenStorefront,
   onPreview,
 }: {
   work: WriterLibraryWork;
@@ -93,10 +92,6 @@ function WriterLibraryRow({
   const progress = pct(work);
   const actionTitle = canOpen ? undefined : 'This preview work is not connected to the editor yet';
   const isPublished = work.status === 'Published';
-  const isListed = work.storefront.state === 'Listed';
-  const totalActivity =
-    work.activity.reads + work.activity.readerPicks + work.activity.betaRequests + work.activity.coins;
-  const showActivity = isPublished && totalActivity > 0;
 
   return (
     <article
@@ -116,37 +111,9 @@ function WriterLibraryRow({
           <div className="br-write-card-titleblock">
             <div className="br-write-card-kicker">{work.meta}</div>
             <h2 className="br-write-card-title">{work.title}</h2>
-            {work.pitch ? <p className="br-write-card-pitch">{work.pitch}</p> : null}
           </div>
-          <div className="br-write-card-stamp">
-            <span className={`br-write-card-status ${statusClass[work.status]}`}>{work.status}</span>
-            <span className="br-write-card-readiness">{work.readiness}</span>
-          </div>
+          <span className={`br-write-card-status ${statusClass[work.status]}`}>{work.status}</span>
         </header>
-
-        {(work.genre || (work.moods && work.moods.length) || (work.audienceTags && work.audienceTags.length)) ? (
-          <div className="br-write-card-tags" aria-label="Novel settings">
-            {work.genre ? (
-              <span className="br-write-card-tag is-genre">
-                <span aria-hidden="true">{work.genre.icon}</span>
-                <span>{work.genre.label}</span>
-              </span>
-            ) : null}
-            {(work.moods ?? []).map((mood) => (
-              <span key={mood.label} className="br-write-card-tag is-mood">
-                <span aria-hidden="true">{mood.icon}</span>
-                <span>{mood.label}</span>
-              </span>
-            ))}
-            <span className="br-write-card-tag-sep" aria-hidden="true" />
-            {(work.audienceTags ?? []).map((aud) => (
-              <span key={aud.label} className="br-write-card-tag is-audience">
-                <span aria-hidden="true">{aud.icon}</span>
-                <span>{aud.label}</span>
-              </span>
-            ))}
-          </div>
-        ) : null}
 
         <div className="br-write-card-vitals">
           <div className="br-write-card-vital">
@@ -165,45 +132,15 @@ function WriterLibraryRow({
             <div className="br-write-card-vital-num">{work.wordsLabel}</div>
             <div className="br-write-card-vital-lbl">words · {work.lastUpdated.toLowerCase()}</div>
           </div>
-          <div className="br-write-card-vital">
-            <div className="br-write-card-vital-num is-text">{work.storefront.state}</div>
-            <div className="br-write-card-vital-lbl">
-              {isListed ? work.storefront.price : work.storefront.options[0] ?? 'Not listed'}
-            </div>
-          </div>
-          {showActivity ? (
-            <div className="br-write-card-vital is-activity">
-              <div className="br-write-card-activity">
-                <span><strong>{compact(work.activity.reads)}</strong> reads</span>
-                <span><strong>{compact(work.activity.readerPicks)}</strong> picks</span>
-                <span><strong>{compact(work.activity.betaRequests)}</strong> beta</span>
-                <span><strong>{compact(work.activity.coins)}</strong> coins</span>
-              </div>
-              <div className="br-write-card-vital-lbl">activity to date</div>
-            </div>
-          ) : (
-            <div className="br-write-card-vital is-quiet">
-              <div className="br-write-card-vital-num is-text">{isPublished ? 'Awaiting readers' : 'Not live yet'}</div>
-              <div className="br-write-card-vital-lbl">{work.audience}</div>
-            </div>
-          )}
         </div>
 
         <footer className="br-write-card-foot">
-          <div className="br-write-card-meta-inline">
-            {work.storefront.options.slice(0, isListed ? 2 : 1).map((option) => (
-              <span key={option} className="br-write-card-chip">{option}</span>
-            ))}
-          </div>
           <div className="br-write-card-actions" aria-label={`${work.title} actions`}>
             <button type="button" className="br-write-card-btn is-primary" onClick={() => onOpenEditor(work.id)} disabled={!canOpen} title={actionTitle}>
               Open editor
             </button>
             <button type="button" className="br-write-card-btn" onClick={() => onPreview(work)} disabled={!canOpen} title={actionTitle}>
               Preview
-            </button>
-            <button type="button" className="br-write-card-btn" onClick={() => onOpenStorefront(work.id)} disabled={!canOpen} title={actionTitle}>
-              Storefront
             </button>
             <button type="button" className="br-write-card-btn" onClick={() => onOpenSettings(work.id)} disabled={!canOpen} title={actionTitle}>
               Settings

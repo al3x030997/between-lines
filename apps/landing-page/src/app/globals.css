@@ -9876,18 +9876,31 @@ body:has(.br-write-page) .br-nav-link.is-active {
   color: #ffffff;
 }
 
-/* Top tabsbar: hosts StoreTabs (left) + WriterSearch (right) */
+/* Top tabsbar: hosts StoreTabs (left) + WriterSearch (right).
+   Crucially, neutralizes the .br-tabs base styling (which paints its
+   own --br-panel-bg overlay and adds a sticky position) so the
+   wrapper's pure-dark background reads cleanly without a light strip
+   bleeding through. */
 .br-write-tabsbar {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 1rem;
   padding: 0 2rem;
   background: var(--wpg-chrome-2);
   border-bottom: 0.5px solid var(--wpg-on-line);
   font-family: var(--wpg-font);
+  position: sticky;
+  top: 65px;
+  z-index: 40;
 }
-
-/* Re-skin StoreTabs inside the writer tabsbar to match /read */
+.br-write-tabsbar .br-tabs {
+  background: transparent;
+  border-bottom: none;
+  padding: 0;
+  position: static;
+  top: auto;
+  z-index: auto;
+}
 .br-write-tabsbar .br-tab {
   font-family: var(--wpg-font);
   font-weight: 500;
@@ -9899,12 +9912,12 @@ body:has(.br-write-page) .br-nav-link.is-active {
 .br-write-tabsbar .br-tab.is-active {
   color: var(--wpg-on);
   font-weight: 700;
-  border-bottom-color: var(--wpg-accent);
+  border-bottom: 2px solid var(--wpg-accent);
+  margin-bottom: -0.5px;
 }
 
-/* Push search to the far right */
-.br-write-tabsbar :last-child:not(.br-tab):not([role]) { margin-left: auto; }
-.br-write-tabsbar > :last-child { margin-left: auto; }
+/* Push search input to the far right of the tabsbar */
+.br-write-tabsbar > :last-child:not(.br-tabs) { margin-left: auto; }
 
 /* Stage: full-width main content (replaces .br-discover-main + .br-stage) */
 .br-write-stage {
@@ -9978,6 +9991,25 @@ body:has(.br-write-page) .br-nav-link.is-active {
   font-family: var(--wpg-display);
   color: var(--wpg-on);
 }
+
+/* Tighter library card: smaller cover, less internal padding */
+.br-write-page .br-write-card {
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.1rem 1.25rem;
+}
+.br-write-page .br-write-card-cover {
+  width: 88px;
+}
+.br-write-page .br-write-card-cover-inner span {
+  font-size: 12px;
+}
+.br-write-page .br-write-card.is-live::before {
+  top: 1.1rem;
+  bottom: 1.1rem;
+}
+.br-write-page .br-write-card-body { gap: 0.65rem; }
+.br-write-page .br-write-card-pitch { display: none; }
 
 /* ============================================================
    READER (chapter view) · NETFLIX-STYLE CHROME
