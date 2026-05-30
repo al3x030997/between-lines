@@ -1367,6 +1367,79 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 
 /* ============================================================
+   FEATURED THIS WEEK — carousel band below Continue, above rails.
+   Dark-themed wrapper that re-skins .br-featured-* tokens so the
+   shared FeaturedCarousel matches the gallery rails aesthetic.
+   ============================================================ */
+.br-discover-featured {
+  padding: 1.75rem 2.5rem 0.5rem;
+  width: 100%;
+  background: #070708;
+  color: #fff7e8;
+}
+.br-discover-featured-head {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.br-discover-featured-kicker {
+  font-family: 'Bricolage Grotesque', var(--br-font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f0d45e;
+  margin: 0;
+}
+.br-discover-featured-head h2 {
+  font-family: 'Bodoni Moda', var(--br-font-display);
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: #fff7e8;
+}
+/* Re-skin the FeaturedCarousel inside the dark band */
+.br-discover-featured .br-featured-carousel {
+  background: rgba(255, 247, 232, 0.04);
+  border: 1px solid rgba(255, 247, 232, 0.12);
+  box-shadow: 0 28px 64px rgba(0, 0, 0, 0.55);
+  border-radius: 14px;
+}
+.br-discover-featured .br-featured-eyebrow { color: #f0d45e; }
+.br-discover-featured .br-featured-title { color: #fff7e8; }
+.br-discover-featured .br-featured-author { color: rgba(255, 247, 232, 0.72); }
+.br-discover-featured .br-featured-blurb {
+  color: rgba(255, 247, 232, 0.66);
+  font-family: 'Cormorant Garamond', var(--br-font-serif);
+  font-size: 16px;
+  line-height: 1.5;
+}
+.br-discover-featured .br-featured-meta { color: rgba(255, 247, 232, 0.5); }
+.br-discover-featured .br-featured-cta {
+  background: #f0d45e;
+  color: #10100e;
+  border: none;
+  box-shadow: 0 8px 24px rgba(240, 212, 94, 0.22);
+}
+.br-discover-featured .br-featured-arrow {
+  background: rgba(8, 8, 8, 0.62);
+  border-color: rgba(255, 247, 232, 0.18);
+  color: #fff7e8;
+  backdrop-filter: blur(12px);
+}
+.br-discover-featured .br-featured-arrow:hover {
+  background: rgba(8, 8, 8, 0.82);
+  border-color: rgba(240, 212, 94, 0.42);
+}
+.br-discover-featured .br-featured-dot {
+  background: rgba(255, 247, 232, 0.32);
+  opacity: 1;
+}
+.br-discover-featured .br-featured-dot.is-active { background: #f0d45e; }
+
+/* ============================================================
    DISCOVER RAILS — gallery-style section strips in /read
    ============================================================ */
 .br-discover-rails {
@@ -1407,6 +1480,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-discover-rails .br-gallery-track {
   padding: 0.25rem 0 1.25rem;
+  grid-auto-columns: minmax(230px, 260px);
 }
 
 /* Discover header — ProfileBlock (240px left slot) + a stacked right column:
@@ -3324,8 +3398,8 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-gallery-poster-body {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
-  padding-top: 0.7rem;
+  gap: 0.35rem;
+  padding-top: 0.8rem;
 }
 .br-gallery-poster-title {
   display: -webkit-box;
@@ -3339,22 +3413,43 @@ body[data-quiet="true"] .br-progress { display: none; }
   line-height: 1.22;
   letter-spacing: 0;
 }
-.br-gallery-poster-author,
-.br-gallery-poster-meta {
+.br-gallery-poster-author {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: 'Bricolage Grotesque', var(--br-font-sans);
-}
-.br-gallery-poster-author {
   color: var(--gallery-soft);
   font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.br-gallery-poster-blurb {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  font-family: 'Cormorant Garamond', var(--br-font-serif);
+  font-size: 14px;
+  line-height: 1.42;
+  color: var(--gallery-muted);
+  margin-top: 0.15rem;
 }
 .br-gallery-poster-meta {
-  color: var(--gallery-muted);
-  font-size: 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Bricolage Grotesque', var(--br-font-sans);
+  color: var(--gallery-faint);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.35rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
+.br-gallery-poster-dot { color: var(--gallery-faint); opacity: 0.7; }
 
 @media (max-width: 980px) {
   .br-gallery-hero {

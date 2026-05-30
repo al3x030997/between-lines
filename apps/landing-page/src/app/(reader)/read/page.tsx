@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
+import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import {
   FilterSidebar,
   type FilterState,
@@ -67,6 +68,12 @@ function RailPoster({ book, rank }: { book: Book; rank?: number }) {
       <span className="br-gallery-poster-body">
         <span className="br-gallery-poster-title">{book.title}</span>
         <span className="br-gallery-poster-author">{book.author}</span>
+        <span className="br-gallery-poster-blurb">{book.blurb}</span>
+        <span className="br-gallery-poster-meta">
+          <span>{book.format}</span>
+          <span className="br-gallery-poster-dot" aria-hidden="true">·</span>
+          <span>{book.access.label}</span>
+        </span>
       </span>
     </Link>
   );
@@ -123,6 +130,8 @@ export default function DiscoverPage() {
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const visible = new Set<Section['id']>(visibility[active]);
+  const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
+  const showFeatured = active === 'all' || active === 'betweenlines';
 
   const handleToggle = (key: string) => {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -163,6 +172,16 @@ export default function DiscoverPage() {
         </div>
 
         {session && <ContinueReadingBox />}
+
+        {showFeatured && (
+          <div className="br-discover-featured">
+            <div className="br-discover-featured-head">
+              <p className="br-discover-featured-kicker">Featured this week</p>
+              <h2>Editor's spotlight</h2>
+            </div>
+            <FeaturedCarousel books={featuredBooks} />
+          </div>
+        )}
 
         <div className="br-discover-rails">
           {sections.map((s) => {
