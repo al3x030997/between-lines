@@ -9801,6 +9801,185 @@ body:has(.br-book-page) .br-nav-link.is-active {
 .br-book-page .br-unlock-sub { color: var(--bp-accent-strong); }
 
 /* ============================================================
+   WRITE (landing) · NETFLIX-STYLE CHROME
+   Mirrors /read on the writer's library landing. Strategy: rebind
+   the warm-parchment tokens (--v11-*, --br-panel-*, --theme-*) to
+   dark equivalents on .br-write-page so every writer card / pill /
+   metric / stub inherits the new look without a per-class override.
+   Editor mode (.br-write-shell-editor) is excluded so the writing
+   surface itself stays warm parchment.
+   ============================================================ */
+.br-write-page {
+  /* Local Manrope/Sora tokens — used by tabsbar, stage, stub copy */
+  --wpg-accent: #f0405a;
+  --wpg-accent-strong: #ff5f78;
+  --wpg-accent-soft: rgba(240, 64, 90, 0.16);
+  --wpg-accent-line: rgba(240, 64, 90, 0.42);
+  --wpg-accent-glow: rgba(240, 64, 90, 0.30);
+  --wpg-chrome: #000000;
+  --wpg-chrome-2: #0d0d0d;
+  --wpg-canvas: #141414;
+  --wpg-on: #ffffff;
+  --wpg-on-soft: rgba(255, 255, 255, 0.92);
+  --wpg-on-mute: rgba(255, 255, 255, 0.78);
+  --wpg-on-faint: rgba(255, 255, 255, 0.50);
+  --wpg-on-line: rgba(255, 255, 255, 0.10);
+  --wpg-on-line-strong: rgba(255, 255, 255, 0.18);
+  --wpg-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  --wpg-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+
+  /* Rebind global parchment tokens to dark palette — cascades into
+     every writer card / pill / metric without per-class overrides */
+  --theme-surface: #0d0d0d;
+  --theme-text-soft: rgba(255, 255, 255, 0.92);
+  --br-panel-bg: rgba(255, 255, 255, 0.04);
+  --br-panel-warm: rgba(255, 255, 255, 0.08);
+  --br-paper-bg: rgba(255, 255, 255, 0.04);
+  --br-border-warm: rgba(255, 255, 255, 0.12);
+  --br-border-hair: rgba(255, 255, 255, 0.08);
+  --v11-divider: rgba(255, 255, 255, 0.10);
+  --v11-ink: #ffffff;
+  --v11-ink-soft: rgba(255, 255, 255, 0.92);
+  --v11-ink-mute: rgba(255, 255, 255, 0.78);
+  --v11-ink-trace: rgba(255, 255, 255, 0.50);
+  --v11-accent: #f0405a;
+  --v11-accent-soft: rgba(240, 64, 90, 0.16);
+  --v11-yellow: #f0405a;
+  --theme-strong-cta-bg: #f0405a;
+  --theme-strong-cta-fg: #ffffff;
+  --theme-strong-cta-hover-bg: #ff5f78;
+
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 65px);
+  background: var(--wpg-canvas);
+  font-family: var(--wpg-font);
+}
+
+/* Dark nav + body bg on /write landing (mirrors /read treatment) */
+body:has(.br-write-page) { background: #141414; }
+body:has(.br-write-page) .br-nav {
+  background-color: #000000;
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: none;
+  padding: 0.85rem 2rem;
+  font-family: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+  z-index: 200;
+}
+body:has(.br-write-page) .br-nav-brand,
+body:has(.br-write-page) .br-nav-brand strong { color: #ffffff; font-weight: 700; }
+body:has(.br-write-page) .br-nav-link { color: rgba(255, 255, 255, 0.94); }
+body:has(.br-write-page) .br-nav-link.is-active {
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+/* Top tabsbar: hosts StoreTabs (left) + WriterSearch (right) */
+.br-write-tabsbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 2rem;
+  background: var(--wpg-chrome-2);
+  border-bottom: 0.5px solid var(--wpg-on-line);
+  font-family: var(--wpg-font);
+}
+
+/* Re-skin StoreTabs inside the writer tabsbar to match /read */
+.br-write-tabsbar .br-tab {
+  font-family: var(--wpg-font);
+  font-weight: 500;
+  color: var(--wpg-on-mute);
+  padding: 0.85rem 0.85rem 0.95rem;
+  font-size: 13px;
+}
+.br-write-tabsbar .br-tab:hover { color: var(--wpg-on); }
+.br-write-tabsbar .br-tab.is-active {
+  color: var(--wpg-on);
+  font-weight: 700;
+  border-bottom-color: var(--wpg-accent);
+}
+
+/* Push search to the far right */
+.br-write-tabsbar :last-child:not(.br-tab):not([role]) { margin-left: auto; }
+.br-write-tabsbar > :last-child { margin-left: auto; }
+
+/* Stage: full-width main content (replaces .br-discover-main + .br-stage) */
+.br-write-stage {
+  flex: 1;
+  padding: 2rem 2rem 4rem;
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Status filter pills and "Add work" pick up the rebound tokens, but
+   nudge the active state so it reads as red glass not yellow-tinted */
+.br-write-page .br-fs-pill.is-on,
+.br-write-page .br-fs-shelf-btn.is-on,
+.br-write-page .br-fs-row.is-on {
+  background: var(--wpg-accent-soft);
+  border-color: var(--wpg-accent-line);
+  color: var(--wpg-accent-strong);
+}
+
+/* Library card hover — token rebinds already darken the base, this
+   just keeps hover lift readable on the dark canvas */
+.br-write-page .br-write-card:hover {
+  border-color: var(--wpg-accent-line);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+}
+.br-write-page .br-write-card.is-live::before {
+  background: var(--wpg-accent);
+}
+
+/* Card status chips — distinct hues kept (semantic) but harmonised
+   to the dark palette so they don't pop as warm parchment pastels */
+.br-write-page .br-write-card-status.is-published {
+  background: rgba(46, 204, 113, 0.18);
+  color: #6dd6a4;
+  border: 0.5px solid rgba(46, 204, 113, 0.42);
+}
+.br-write-page .br-write-card-status.is-drafting {
+  background: var(--wpg-accent-soft);
+  color: var(--wpg-accent-strong);
+  border: 0.5px solid var(--wpg-accent-line);
+}
+.br-write-page .br-write-card-status.is-editing {
+  background: rgba(240, 196, 25, 0.16);
+  color: #e9c97a;
+  border: 0.5px solid rgba(240, 196, 25, 0.38);
+}
+.br-write-page .br-write-card-status.is-private {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--wpg-on-mute);
+  border: 0.5px solid var(--wpg-on-line);
+}
+
+/* Card titles use the display serif globally — keep Sora here so it
+   tracks /read discover hierarchy */
+.br-write-page .br-write-card-title {
+  font-family: var(--wpg-display);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.br-write-page .br-write-card-kicker {
+  color: var(--wpg-accent-strong);
+  font-family: var(--wpg-font);
+  letter-spacing: 0.14em;
+}
+
+/* Section titles in stub views (Storefront / Agent Ready / Community) */
+.br-write-page .br-write-stub h1,
+.br-write-page .br-write-stub h2,
+.br-write-page .br-write-stub-title {
+  font-family: var(--wpg-display);
+  color: var(--wpg-on);
+}
+
+/* ============================================================
    READER (chapter view) · NETFLIX-STYLE CHROME
    Mirrors the /read discover aesthetic on the chapter reading page:
    pure-black sticky topbar, dark canvas, Manrope chrome, Sora title,

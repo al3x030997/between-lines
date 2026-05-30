@@ -5,9 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { getBook, type Chapter } from '@/lib/mock-books';
 import {
   getWriterLibraryWorks,
-  getWriterReaderSignals,
   getWriterWorks,
-  type ReaderSignal,
   type WorkSummary,
   type WriterLibraryWork,
 } from '@/lib/mock-writers';
@@ -19,9 +17,7 @@ import { WriteTab } from './WriteTab';
 import { ChapterSettingsTab } from './ChapterSettingsTab';
 import { NovelSettingsTab } from './NovelSettingsTab';
 import { WriterLibrary, makeDraftWork, type LibraryStatusFilter } from './WriterLibrary';
-import { WriterInbox, WriterSidebar, type WriterInboxCounts } from './WriterSidebar';
 import { AgentReadyStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
-import { ContinueWritingStrip } from './ContinueWritingStrip';
 import { WriterSearch } from './WriterSearch';
 
 type TopTab = 'library' | 'write' | 'storefront' | 'agentready' | 'community';
@@ -34,12 +30,6 @@ const TOP_TABS: TabDef<TopTab>[] = [
   { id: 'agentready', label: 'Agent Ready' },
   { id: 'community', label: 'Community' },
 ];
-
-const WRITER_INBOX: WriterInboxCounts = {
-  betaRequests: 3,
-  readerNotes: 12,
-  agentInvites: 1,
-};
 
 function isTopTab(value: string | null): value is TopTab {
   return value === 'library' || value === 'write' || value === 'storefront' || value === 'agentready' || value === 'community';
@@ -58,11 +48,6 @@ export function WriteShell() {
   const libraryWorks: WriterLibraryWork[] = useMemo(() => {
     if (!session) return [];
     return getWriterLibraryWorks(session.handle);
-  }, [session]);
-
-  const signals: ReaderSignal[] = useMemo(() => {
-    if (!session) return [];
-    return getWriterReaderSignals(session.handle);
   }, [session]);
 
   const [workId, setWorkId] = useState<string>('');
@@ -195,9 +180,6 @@ export function WriteShell() {
     return base;
   }, [mergedLibraryWorks]);
 
-  const lastWork = libraryWorks[0];
-  const activeWorkCount = (libraryCounts.Drafting ?? 0) + (libraryCounts.Editing ?? 0);
-
   if (!ready) {
     return (
       <main className="br-handoff">
@@ -315,57 +297,34 @@ export function WriteShell() {
   }
 
   return (
-    <div className="br-write-shell br-write-shell-discover br-discover-scope">
-      <header className="br-discover-head br-write-head">
-        <div className="br-discover-profile-col">
-          <WriterInbox inbox={WRITER_INBOX} />
-        </div>
-        <div className="br-discover-head-right">
-          <ContinueWritingStrip
-            work={lastWork}
-            authorName={session.user}
-            onContinue={() => openEditorForWork(lastWork?.id ?? workId, 'write')}
-            onStart={addWork}
-            onSeeAll={() => changeTopTab('library')}
-            totalActive={activeWorkCount}
-          />
-          <WriterSearch query={writerQuery} onChange={setWriterQuery} />
-          <StoreTabs<TopTab>
-            tabs={TOP_TABS}
-            active={topTab}
-            onChange={changeTopTab}
-            ariaLabel="Writer sections"
-          />
-        </div>
-      </header>
-      <div className="br-discover">
-        <WriterSidebar
-          todayWords={1240}
-          dailyTarget={2000}
-          streakDays={12}
-          signals={signals}
+    <div className="br-write-shell br-write-shell-discover br-write-page">
+      <div className="br-write-tabsbar">
+        <StoreTabs<TopTab>
+          tabs={TOP_TABS}
+          active={topTab}
+          onChange={changeTopTab}
+          ariaLabel="Writer sections"
         />
-        <div className="br-discover-main">
-          <div className="br-stage">
-            {topTab === 'library' ? (
-              <WriterLibrary
-                works={filteredLibraryWorks}
-                allWorks={mergedLibraryWorks}
-                statusFilter={statusFilter}
-                onStatusChange={setStatusFilter}
-                counts={libraryCounts}
-                onAddWork={addWork}
-                onOpenEditor={(id) => openEditorForWork(id, 'write')}
-                onOpenSettings={(id) => openEditorForWork(id, 'novelsettings')}
-                onOpenStorefront={(id) => openEditorForWork(id, 'novelsettings')}
-                onPreview={previewWork}
-              />
-            ) : null}
-            {topTab === 'storefront' ? <PersonalStorefrontStub /> : null}
-            {topTab === 'agentready' ? <AgentReadyStub /> : null}
-            {topTab === 'community' ? <CommunityStub /> : null}
-          </div>
-        </div>
+        <WriterSearch query={writerQuery} onChange={setWriterQuery} />
+      </div>
+      <div className="br-write-stage">
+        {topTab === 'library' ? (
+          <WriterLibrary
+            works={filteredLibraryWorks}
+            allWorks={mergedLibraryWorks}
+            statusFilter={statusFilter}
+            onStatusChange={setStatusFilter}
+            counts={libraryCounts}
+            onAddWork={addWork}
+            onOpenEditor={(id) => openEditorForWork(id, 'write')}
+            onOpenSettings={(id) => openEditorForWork(id, 'novelsettings')}
+            onOpenStorefront={(id) => openEditorForWork(id, 'novelsettings')}
+            onPreview={previewWork}
+          />
+        ) : null}
+        {topTab === 'storefront' ? <PersonalStorefrontStub /> : null}
+        {topTab === 'agentready' ? <AgentReadyStub /> : null}
+        {topTab === 'community' ? <CommunityStub /> : null}
       </div>
     </div>
   );
