@@ -188,6 +188,7 @@ export default function DiscoverPage() {
             className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
             aria-pressed={sidebarOpen}
             aria-expanded={sidebarOpen}
+            aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
             onClick={() => setSidebarOpen((s) => !s)}
           >
             <span className="br-fs-toggle-icon" aria-hidden="true">
@@ -195,7 +196,6 @@ export default function DiscoverPage() {
               <span />
               <span />
             </span>
-            <span>{sidebarOpen ? 'Hide filters' : 'Filters'}</span>
           </button>
           <StoreTabs<DiscoverTabId>
             tabs={tabs}
