@@ -9143,11 +9143,11 @@ body:has(.br-read-gallery) .br-avatar {
    progress, active tab indicator. Scoped to /read via .br-discover.
    ============================================================ */
 .br-discover {
-  --read-accent: #e50914;
-  --read-accent-strong: #ff3344;
-  --read-accent-soft: rgba(229, 9, 20, 0.16);
-  --read-accent-line: rgba(229, 9, 20, 0.42);
-  --read-accent-glow: rgba(229, 9, 20, 0.32);
+  --read-accent: #e94b36;
+  --read-accent-strong: #ff6b54;
+  --read-accent-soft: rgba(233, 75, 54, 0.16);
+  --read-accent-line: rgba(233, 75, 54, 0.42);
+  --read-accent-glow: rgba(233, 75, 54, 0.30);
 
   /* Neutral tiered chrome — no red tint anywhere in the grey */
   --read-chrome: #000000;       /* top nav: pure black */
@@ -9164,12 +9164,19 @@ body:has(.br-read-gallery) .br-avatar {
   --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
 }
 
-/* --- Top nav: pure black, Manrope, pill hover/active --- */
+/* --- Top nav: pure black, Manrope, pill hover/active.
+       Hardened against transparency: explicit bg-color, no image,
+       no backdrop-filter, raised z-index so book covers can't
+       paint over it on scroll. --- */
 body:has(.br-discover) .br-nav {
-  background: var(--read-chrome);
+  background-color: var(--read-chrome);
+  background-image: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   border-bottom: none;
   padding: 0.85rem 2rem;
   font-family: var(--read-font);
+  z-index: 200;
 }
 body:has(.br-discover) .br-nav-brand {
   font-family: var(--read-font);
