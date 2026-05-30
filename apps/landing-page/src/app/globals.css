@@ -10406,6 +10406,19 @@ html[data-theme='light'] .br-discover .br-fs-toggle.is-on {
   background: rgba(10, 10, 10, 0.10);
   border-color: rgba(10, 10, 10, 0.24);
 }
+html[data-theme='light'] .br-discover .br-discover-search {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] .br-discover .br-discover-search:focus-within {
+  border-color: rgba(10, 10, 10, 0.32);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.06);
+}
+html[data-theme='light'] .br-discover .br-discover-search-icon { color: rgba(10, 10, 10, 0.55); }
+html[data-theme='light'] .br-discover .br-discover-search-input { color: #0a0a0a; }
+html[data-theme='light'] .br-discover .br-discover-search-input::placeholder { color: rgba(10, 10, 10, 0.45); }
+html[data-theme='light'] .br-discover .br-discover-search-clear { color: rgba(10, 10, 10, 0.55); }
+html[data-theme='light'] .br-discover .br-discover-search-clear:hover { color: #0a0a0a; }
 html[data-theme='light'] .br-discover .br-continue {
   background: rgba(10, 10, 10, 0.03);
   border-color: rgba(10, 10, 10, 0.10);
