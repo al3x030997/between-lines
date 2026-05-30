@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import {
@@ -206,28 +206,105 @@ export default function DiscoverPage() {
             const books = getBooksBySection(s.id);
             if (books.length === 0) return null;
             return (
-              <section key={s.id} aria-labelledby={`br-sec-${s.id}`} className="br-gallery-rail">
-                <div className="br-gallery-rail-head">
-                  <div>
-                    <p className="br-gallery-kicker">{sectionKickers[s.id]}</p>
-                    <h2 id={`br-sec-${s.id}`}>{s.label}</h2>
-                  </div>
-                  <a className="br-gallery-rail-link" role="button">See all</a>
-                </div>
-                <div className="br-gallery-track">
-                  {books.map((book, idx) => (
-                    <RailPoster
-                      key={book.slug}
-                      book={book}
-                      rank={s.id === 'bl' ? idx + 1 : undefined}
-                    />
-                  ))}
-                </div>
-              </section>
+              <Rail
+                key={s.id}
+                section={s}
+                kicker={sectionKickers[s.id]}
+                books={books}
+                showRank={s.id === 'bl'}
+              />
             );
           })}
         </div>
       </div>
     </div>
+  );
+}
+
+function Rail({
+  section,
+  kicker,
+  books,
+  showRank,
+}: {
+  section: Section;
+  kicker: string;
+  books: Book[];
+  showRank: boolean;
+}) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft <= 2);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
+  }, []);
+
+  useEffect(() => {
+    update();
+    const el = trackRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    return () => {
+      el.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [update]);
+
+  const scrollByPage = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    if (!el) return;
+    el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' });
+  };
+
+  const showNav = !atStart || !atEnd;
+
+  return (
+    <section aria-labelledby={`br-sec-${section.id}`} className="br-gallery-rail">
+      <div className="br-gallery-rail-head">
+        <div>
+          <p className="br-gallery-kicker">{kicker}</p>
+          <h2 id={`br-sec-${section.id}`}>{section.label}</h2>
+        </div>
+        <div className="br-gallery-rail-actions">
+          {showNav ? (
+            <div className="br-gallery-rail-nav" aria-label="Scroll books">
+              <button
+                type="button"
+                className="br-gallery-rail-arrow"
+                onClick={() => scrollByPage(-1)}
+                disabled={atStart}
+                aria-label="Previous books"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="br-gallery-rail-arrow"
+                onClick={() => scrollByPage(1)}
+                disabled={atEnd}
+                aria-label="Next books"
+              >
+                ›
+              </button>
+            </div>
+          ) : null}
+          <a className="br-gallery-rail-link" role="button">See all</a>
+        </div>
+      </div>
+      <div className="br-gallery-track" ref={trackRef}>
+        {books.map((book, idx) => (
+          <RailPoster
+            key={book.slug}
+            book={book}
+            rank={showRank ? idx + 1 : undefined}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
