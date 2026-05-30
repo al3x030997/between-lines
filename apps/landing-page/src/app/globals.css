@@ -8097,14 +8097,15 @@ body[data-quiet="true"] .br-progress { display: none; }
   max-width: 680px;
 }
 .br-write-preview-frame {
-  background: var(--wp-card);
-  border-radius: 14px;
-  border: 0.5px solid var(--wp-on-line);
-  padding: 3rem 3.5rem;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.5);
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  padding: 3rem 0.5rem 4rem;
+  box-shadow: none;
 }
 .br-write-preview-inner.is-mobile { max-width: 390px; }
 .br-write-preview-inner.is-mobile .br-write-preview-frame {
+  background: var(--wp-canvas);
   padding: 1.5rem;
   border-radius: 32px;
   border: 8px solid #000000;
