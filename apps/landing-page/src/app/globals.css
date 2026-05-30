@@ -1404,6 +1404,28 @@ body[data-quiet="true"] .br-progress { display: none; }
   border-top-color: var(--v11-accent);
 }
 .br-pb-switch-icon { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* Switch Account button in the top nav — compact variant */
+.br-nav .br-pb-switch {
+  margin-top: 0;
+  padding: 5px 11px;
+  border: 0.5px solid var(--v11-divider);
+  border-top: 0.5px solid var(--v11-divider);
+  border-radius: 8px;
+  font-size: 11.5px;
+  gap: 7px;
+}
+.br-nav .br-pb-switch:hover {
+  border-color: var(--v11-accent);
+  border-top-color: var(--v11-accent);
+  background: var(--br-panel-warm);
+}
+
+/* WriterInbox when it's the first child (no ProfileBlock above) */
+.br-discover-profile-col > .br-profile-inbox:first-child {
+  border-top: none;
+}
+
 .br-discover-head-eyebrow {
   display: flex;
   justify-content: space-between;

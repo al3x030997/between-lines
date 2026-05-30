@@ -12,7 +12,6 @@ import {
   type WriterLibraryWork,
 } from '@/lib/mock-writers';
 import { useMockSession } from '@/lib/useMockSession';
-import { ProfileBlock } from '@/components/ProfileBlock';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { WorkDropdown } from './WorkDropdown';
 import { ChapterSidebar } from './ChapterSidebar';
@@ -319,7 +318,6 @@ export function WriteShell() {
     <div className="br-write-shell br-write-shell-discover br-discover-scope">
       <header className="br-discover-head br-write-head">
         <div className="br-discover-profile-col">
-          <ProfileBlock />
           <WriterInbox inbox={WRITER_INBOX} />
         </div>
         <div className="br-discover-head-right">

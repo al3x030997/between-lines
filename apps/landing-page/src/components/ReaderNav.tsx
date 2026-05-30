@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import { AccountSwitcher } from './AccountSwitcher';
 import { AvatarMenu } from './AvatarMenu';
 import { useMockSession } from '@/lib/useMockSession';
 
@@ -69,6 +70,7 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
+        <AccountSwitcher />
         <AvatarMenu />
       </div>
     </nav>

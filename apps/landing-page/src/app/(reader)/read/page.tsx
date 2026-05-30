@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FilterSidebar } from '@/components/FilterSidebar';
+import { FilterSidebar, type FilterState, type SidebarShelfId } from '@/components/FilterSidebar';
 import { ProductCard } from '@/components/ProductCard';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { getBooksBySection, sections, type Section, type Book } from '@/lib/mock-books';
@@ -59,11 +59,22 @@ function bookToCard(b: Book): React.ReactNode {
 
 export default function DiscoverPage() {
   const [active, setActive] = useState<DiscoverTabId>('all');
+  const [filters, setFilters] = useState<FilterState>({});
+  const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const visible = new Set<Section['id']>(visibility[active]);
+
+  const handleToggle = (key: string) => {
+    setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
     <div className="br-discover">
-      <FilterSidebar />
+      <FilterSidebar
+        filters={filters}
+        onToggle={handleToggle}
+        selectedShelf={selectedShelf}
+        onShelfChange={setSelectedShelf}
+      />
       <div className="br-discover-main">
         <StoreTabs<DiscoverTabId>
           tabs={tabs}
