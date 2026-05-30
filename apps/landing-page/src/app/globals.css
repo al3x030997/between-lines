@@ -9143,14 +9143,16 @@ body:has(.br-read-gallery) .br-avatar {
    progress, active tab indicator. Scoped to /read via .br-discover.
    ============================================================ */
 .br-discover {
-  --read-accent: #8b5cf6;
-  --read-accent-strong: #a78bfa;
-  --read-accent-soft: rgba(139, 92, 246, 0.16);
-  --read-accent-line: rgba(139, 92, 246, 0.42);
-  --read-accent-glow: rgba(139, 92, 246, 0.28);
+  --read-accent: #e50914;
+  --read-accent-strong: #ff3344;
+  --read-accent-soft: rgba(229, 9, 20, 0.16);
+  --read-accent-line: rgba(229, 9, 20, 0.42);
+  --read-accent-glow: rgba(229, 9, 20, 0.32);
 
-  --read-chrome: #000000;
-  --read-canvas: #1c1c1c;
+  /* Neutral tiered chrome — no red tint anywhere in the grey */
+  --read-chrome: #000000;       /* top nav: pure black */
+  --read-chrome-2: #0d0d0d;     /* tabs bar: one shade up from the top */
+  --read-canvas: #141414;       /* wide canvas: darker neutral grey */
 
   --read-on: #f5f5f5;
   --read-on-soft: rgba(245, 245, 245, 0.74);
@@ -9220,14 +9222,15 @@ body:has(.br-discover) .br-avatar:hover {
   box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
 }
 
-/* --- Canvas: neutral dark grey, no tint --- */
+/* --- Canvas: flat neutral dark grey, no gradient --- */
 .br-discover .br-discover-main {
   background: var(--read-canvas);
+  background-image: none;
 }
 
-/* --- Tabs bar: continuous with the black nav --- */
+/* --- Tabs bar: one shade up from the pure-black top nav --- */
 .br-discover .br-discover-tabsbar {
-  background: var(--read-chrome);
+  background: var(--read-chrome-2);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   font-family: var(--read-font);
 }
