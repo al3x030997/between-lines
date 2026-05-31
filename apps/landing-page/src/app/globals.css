@@ -921,8 +921,12 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: var(--br-panel-bg);
   border-right: 0.5px solid var(--v11-divider);
   position: sticky;
-  top: 65px;
-  height: calc(100vh - 65px);
+  /* Detach from both nav bars: stick below the nav (65px) + tabsbar
+     (66px) plus a 14px breathing strip. The 14px window between the
+     tabsbar's bottom edge and the sidebar's top edge shows the page
+     background, giving the panel a floating-card feel. */
+  top: 145px;
+  height: calc(100vh - 145px);
   overflow: hidden;
   border-radius: 18px 18px 18px 0;
   transition:
@@ -936,13 +940,10 @@ body[data-quiet="true"] .br-progress { display: none; }
   box-shadow: none;
 }
 .br-fsidebar-inner {
-  /* Fixed width so content doesn't reflow as the outer width animates;
-     extra 14px top padding pushes the first filter item below the visual
-     gap that sits beneath the nav, keeping the sidebar's own background
-     covering y=65→79 so scrolled rails can't bleed through. */
+  /* Fixed width so content doesn't reflow as the outer width animates. */
   width: 240px;
   height: 100%;
-  padding: calc(1.5rem + 14px) 0 2.5rem;
+  padding: 1.5rem 0 2.5rem;
   overflow-y: auto;
   box-sizing: border-box;
 }
