@@ -308,13 +308,15 @@ export function WriteShell() {
   return (
     <div className="br-write-shell br-write-shell-discover br-write-page">
       <div className="br-write-tabsbar">
-        <WriterSearch query={writerQuery} onChange={setWriterQuery} />
         <StoreTabs<TopTab>
           tabs={TOP_TABS}
           active={topTab}
           onChange={changeTopTab}
           ariaLabel="Writer sections"
         />
+      </div>
+      <div className="br-write-toolbar">
+        <WriterSearch query={writerQuery} onChange={setWriterQuery} />
       </div>
       <div className="br-write-stage">
         {topTab === 'library' ? (

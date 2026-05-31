@@ -924,8 +924,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   top: 65px;
   height: calc(100vh - 65px);
   overflow: hidden;
-  border-top-right-radius: 18px;
-  border-bottom-right-radius: 18px;
+  border-radius: 18px 18px 18px 0;
   transition:
     width 260ms cubic-bezier(0.2, 0, 0, 1),
     box-shadow 260ms cubic-bezier(0.2, 0, 0, 1),
@@ -938,10 +937,12 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-fsidebar-inner {
   /* Fixed width so content doesn't reflow as the outer width animates;
-     padding clears the tabsbar+toolbar overlap. */
+     extra 14px top padding pushes the first filter item below the visual
+     gap that sits beneath the nav, keeping the sidebar's own background
+     covering y=65→79 so scrolled rails can't bleed through. */
   width: 240px;
   height: 100%;
-  padding: 1.5rem 0 2.5rem;
+  padding: calc(1.5rem + 14px) 0 2.5rem;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -1328,7 +1329,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   display: flex;
   align-items: stretch;
   gap: 1rem;
-  padding: 0 2rem;
+  padding: 14px 2rem 0;
   background: var(--br-panel-bg);
   border-bottom: 0.5px solid var(--br-border-warm);
 }
@@ -1340,14 +1341,21 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: transparent;
   border-bottom: none;
 }
-/* Filter toggle now lives in .br-discover-toolbar (below the tabsbar), styled
-   as a chip pinned to the left edge of the rails. */
+/* Toolbar row beneath the tabsbar: hosts the Filters toggle (left) plus the
+   discover search bar, both pinned to the same horizontal start so the search
+   field lines up under the filter chip rather than under the nav tabs. */
 .br-discover-toolbar {
   display: flex;
   align-items: center;
+  gap: 14px;
   padding: 14px 2.5rem 0;
   width: min(1480px, 100%);
   margin: 0 auto;
+}
+.br-discover-toolbar .br-discover-search {
+  flex: 0 0 auto;
+  width: 320px;
+  max-width: 100%;
 }
 .br-fs-toggle {
   display: inline-flex;
@@ -2020,11 +2028,6 @@ body[data-quiet="true"] .br-progress { display: none; }
   border: 0.5px solid var(--br-border-warm);
   border-radius: 10px;
   transition: border-color 0.15s, box-shadow 0.15s;
-}
-.br-discover-tabsbar > .br-discover-search {
-  width: 280px;
-  flex-shrink: 0;
-  align-self: center;
 }
 .br-discover-search:focus-within {
   border-color: var(--v11-accent);
@@ -9979,16 +9982,17 @@ body:has(.br-write-page) .br-nav-link.is-active {
   font-weight: 700;
 }
 
-/* Top tabsbar: hosts StoreTabs (left) + WriterSearch (right).
-   Crucially, neutralizes the .br-tabs base styling (which paints its
-   own --br-panel-bg overlay and adds a sticky position) so the
-   wrapper's pure-dark background reads cleanly without a light strip
-   bleeding through. */
+/* Top tabsbar: hosts StoreTabs only. The WriterSearch moved to its own
+   .br-write-toolbar row below so its left edge aligns with the page content
+   rather than crowding the tab labels. The .br-tabs base styling (which
+   paints its own --br-panel-bg overlay and adds a sticky position) is
+   neutralized so the wrapper's pure-dark background reads cleanly without
+   a light strip bleeding through. Detached from the nav by a small gap. */
 .br-write-tabsbar {
   display: flex;
   align-items: stretch;
   gap: 1rem;
-  padding: 0 2rem;
+  padding: 14px 2rem 0;
   background: var(--wpg-chrome-2);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   font-family: var(--wpg-font);
@@ -10027,12 +10031,23 @@ body:has(.br-write-page) .br-nav-link.is-active {
   border-bottom: none;
 }
 
-/* Search bar sits at the left of the tabsbar; fixed width so it doesn't
-   crowd out the tabs as the viewport narrows. */
-.br-write-tabsbar > .br-write-search {
-  width: 280px;
-  flex-shrink: 0;
-  align-self: center;
+/* Toolbar row beneath the tabsbar: hosts the WriterSearch, aligned with the
+   .br-write-stage content so the search field lines up with the library cards
+   below rather than the nav-tab labels above. */
+.br-write-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 2rem 0;
+  max-width: 1320px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.br-write-toolbar .br-write-search {
+  flex: 0 0 auto;
+  width: 320px;
+  max-width: 100%;
 }
 
 /* Stage: full-width main content (replaces .br-discover-main + .br-stage) */

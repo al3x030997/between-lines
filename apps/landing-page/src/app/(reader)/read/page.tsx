@@ -197,7 +197,6 @@ export default function DiscoverPage() {
       />
       <div className="br-discover-main">
         <div className="br-discover-tabsbar">
-          <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
           <StoreTabs<DiscoverTabId>
             tabs={tabs}
             active={active}
@@ -221,6 +220,7 @@ export default function DiscoverPage() {
             </span>
             <span className="br-fs-toggle-label">Filters</span>
           </button>
+          <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
         </div>
 
         {showContinue && <ContinueReadingBox />}
