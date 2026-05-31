@@ -922,11 +922,13 @@ body[data-quiet="true"] .br-progress { display: none; }
   border-right: 0.5px solid var(--v11-divider);
   position: sticky;
   /* Detach from both nav bars: stick below the nav (65px) + tabsbar
-     (66px) plus a 14px breathing strip. The 14px window between the
-     tabsbar's bottom edge and the sidebar's top edge shows the page
-     background, giving the panel a floating-card feel. */
-  top: 145px;
-  height: calc(100vh - 145px);
+     (66px) plus a 22px breathing strip. The strip between the tabsbar's
+     bottom edge and the sidebar's top edge gives the panel a floating-
+     card feel; in the dark Netflix scope the strip is painted with
+     chrome-2 by the .br-discover wrapper so no canvas seam shows
+     through. */
+  top: 153px;
+  height: calc(100vh - 153px);
   overflow: hidden;
   border-radius: 18px 18px 18px 0;
   transition:
@@ -8060,9 +8062,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   --wp-chrome: #000000;
   --wp-canvas: #141414;
   --wp-card: rgba(255, 255, 255, 0.04);
-  --wp-accent: #f0405a;
-  --wp-accent-strong: #ff5f78;
-  --wp-accent-glow: rgba(240, 64, 90, 0.30);
+  --wp-accent: #1FD8B8;
+  --wp-accent-strong: #4FF0D2;
+  --wp-accent-glow: rgba(31, 216, 184, 0.30);
   --wp-on: #ffffff;
   --wp-on-soft: rgba(255, 255, 255, 0.92);
   --wp-on-mute: rgba(255, 255, 255, 0.74);
@@ -9246,16 +9248,19 @@ body:has(.br-read-gallery) .br-avatar {
 /* ============================================================
    READ · NETFLIX-STYLE CHROME
    Pure-black nav with pill hover/active (no underline), Manrope
-   font. Neutral dark-grey canvas (no violet tint). Electric
-   violet is reserved as accent only — CTAs, kickers, rank,
-   progress, active tab indicator. Scoped to /read via .br-discover.
+   font. Neutral dark-grey canvas (no warm tint). Electric teal
+   is reserved as accent only — CTAs, kickers, rank, progress,
+   active tab indicator. Scoped to /read via .br-discover. The
+   teal owns a color cluster Wattpad/Substack/Inkitt/Kindle all
+   leave open (they cluster in warm red/orange), and extends the
+   existing brand --v11-accent teal family rather than fighting it.
    ============================================================ */
 .br-discover {
-  --read-accent: #f0405a;
-  --read-accent-strong: #ff5f78;
-  --read-accent-soft: rgba(240, 64, 90, 0.16);
-  --read-accent-line: rgba(240, 64, 90, 0.42);
-  --read-accent-glow: rgba(240, 64, 90, 0.30);
+  --read-accent: #1FD8B8;
+  --read-accent-strong: #4FF0D2;
+  --read-accent-soft: rgba(31, 216, 184, 0.16);
+  --read-accent-line: rgba(31, 216, 184, 0.42);
+  --read-accent-glow: rgba(31, 216, 184, 0.30);
 
   /* Neutral tiered chrome — no red tint anywhere in the grey */
   --read-chrome: #000000;       /* top nav: pure black */
@@ -9271,6 +9276,13 @@ body:has(.br-read-gallery) .br-avatar {
 
   --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
   --read-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
+
+  /* Paint the flex wrapper with chrome-2 so the 22px breathing strip
+     above the sidebar (and the rounded-corner peek) blends with the
+     sidebar + tabsbar instead of showing the lighter canvas grey
+     through. .br-discover-main covers the right side with canvas, so
+     only the 240px sidebar column inherits this chrome-2 background. */
+  background: var(--read-chrome-2);
 }
 
 /* --- Top nav: pure black, Manrope, pill hover/active.
@@ -9696,11 +9708,11 @@ body:has(.br-discover) .br-avatar:hover {
    .br-book-*, .br-community-* etc. are untouched.
    ============================================================ */
 .br-book-page {
-  --bp-accent: #f0405a;
-  --bp-accent-strong: #ff5f78;
-  --bp-accent-soft: rgba(240, 64, 90, 0.16);
-  --bp-accent-line: rgba(240, 64, 90, 0.42);
-  --bp-accent-glow: rgba(240, 64, 90, 0.30);
+  --bp-accent: #1FD8B8;
+  --bp-accent-strong: #4FF0D2;
+  --bp-accent-soft: rgba(31, 216, 184, 0.16);
+  --bp-accent-line: rgba(31, 216, 184, 0.42);
+  --bp-accent-glow: rgba(31, 216, 184, 0.30);
   --bp-chrome: #000000;
   --bp-chrome-2: #0d0d0d;
   --bp-canvas: #141414;
@@ -9895,11 +9907,11 @@ body:has(.br-book-page) .br-nav-link.is-active {
    ============================================================ */
 .br-write-page {
   /* Local Manrope/Sora tokens — used by tabsbar, stage, stub copy */
-  --wpg-accent: #f0405a;
-  --wpg-accent-strong: #ff5f78;
-  --wpg-accent-soft: rgba(240, 64, 90, 0.16);
-  --wpg-accent-line: rgba(240, 64, 90, 0.42);
-  --wpg-accent-glow: rgba(240, 64, 90, 0.30);
+  --wpg-accent: #1FD8B8;
+  --wpg-accent-strong: #4FF0D2;
+  --wpg-accent-soft: rgba(31, 216, 184, 0.16);
+  --wpg-accent-line: rgba(31, 216, 184, 0.42);
+  --wpg-accent-glow: rgba(31, 216, 184, 0.30);
   --wpg-chrome: #000000;
   --wpg-chrome-2: #0d0d0d;
   --wpg-canvas: #141414;
@@ -9926,12 +9938,12 @@ body:has(.br-book-page) .br-nav-link.is-active {
   --v11-ink-soft: rgba(255, 255, 255, 0.92);
   --v11-ink-mute: rgba(255, 255, 255, 0.78);
   --v11-ink-trace: rgba(255, 255, 255, 0.50);
-  --v11-accent: #f0405a;
-  --v11-accent-soft: rgba(240, 64, 90, 0.16);
-  --v11-yellow: #f0405a;
-  --theme-strong-cta-bg: #f0405a;
-  --theme-strong-cta-fg: #ffffff;
-  --theme-strong-cta-hover-bg: #ff5f78;
+  --v11-accent: #1FD8B8;
+  --v11-accent-soft: rgba(31, 216, 184, 0.16);
+  --v11-yellow: #1FD8B8;
+  --theme-strong-cta-bg: #1FD8B8;
+  --theme-strong-cta-fg: #052b24;
+  --theme-strong-cta-hover-bg: #4FF0D2;
 
   display: flex;
   flex-direction: column;
@@ -10159,11 +10171,11 @@ body:has(.br-write-page) .br-nav-link.is-active {
    pages via .br-reader-page (wraps <ReaderShell />).
    ============================================================ */
 .br-reader-page {
-  --reader-accent: #f0405a;
-  --reader-accent-strong: #ff5f78;
-  --reader-accent-soft: rgba(240, 64, 90, 0.16);
-  --reader-accent-line: rgba(240, 64, 90, 0.42);
-  --reader-accent-glow: rgba(240, 64, 90, 0.30);
+  --reader-accent: #1FD8B8;
+  --reader-accent-strong: #4FF0D2;
+  --reader-accent-soft: rgba(31, 216, 184, 0.16);
+  --reader-accent-line: rgba(31, 216, 184, 0.42);
+  --reader-accent-glow: rgba(31, 216, 184, 0.30);
   --reader-chrome: #000000;
   --reader-chrome-2: #0d0d0d;
   --reader-canvas: #141414;
@@ -10394,11 +10406,11 @@ body:has(.br-reader-page) .br-nav-link.is-active {
 
 /* --- /read discover --- */
 html[data-theme='light'] .br-discover {
-  --read-accent: #f0405a;
-  --read-accent-strong: #d0344a;
-  --read-accent-soft: rgba(240, 64, 90, 0.10);
-  --read-accent-line: rgba(240, 64, 90, 0.42);
-  --read-accent-glow: rgba(240, 64, 90, 0.22);
+  --read-accent: #0F766E;
+  --read-accent-strong: #14B89A;
+  --read-accent-soft: rgba(15, 118, 110, 0.10);
+  --read-accent-line: rgba(15, 118, 110, 0.42);
+  --read-accent-glow: rgba(15, 118, 110, 0.22);
   --read-chrome: #ffffff;
   --read-chrome-2: #f5f5f7;
   --read-canvas: #fafafa;
@@ -10408,6 +10420,9 @@ html[data-theme='light'] .br-discover {
   --read-on-faint: rgba(10, 10, 10, 0.42);
   --read-on-line: rgba(10, 10, 10, 0.10);
   --read-on-line-strong: rgba(10, 10, 10, 0.18);
+  /* Same chrome-2 paint as dark mode so the breathing strip above the
+     sidebar blends with the tabsbar instead of showing canvas through. */
+  background: var(--read-chrome-2);
 }
 html[data-theme='light'] body:has(.br-discover) { background: #fafafa; }
 html[data-theme='light'] body:has(.br-discover) .br-nav {
@@ -10521,11 +10536,11 @@ html[data-theme='light'] .br-discover .br-fs-saved-item {
 
 /* --- /read chapter reader --- */
 html[data-theme='light'] .br-reader-page {
-  --reader-accent: #f0405a;
-  --reader-accent-strong: #d0344a;
-  --reader-accent-soft: rgba(240, 64, 90, 0.10);
-  --reader-accent-line: rgba(240, 64, 90, 0.42);
-  --reader-accent-glow: rgba(240, 64, 90, 0.22);
+  --reader-accent: #0F766E;
+  --reader-accent-strong: #14B89A;
+  --reader-accent-soft: rgba(15, 118, 110, 0.10);
+  --reader-accent-line: rgba(15, 118, 110, 0.42);
+  --reader-accent-glow: rgba(15, 118, 110, 0.22);
   --reader-chrome: #ffffff;
   --reader-chrome-2: #f5f5f7;
   --reader-canvas: #fafafa;
@@ -10569,11 +10584,11 @@ html[data-theme='light'] .br-reader-page .br-star { color: rgba(10, 10, 10, 0.20
 
 /* --- /read book detail --- */
 html[data-theme='light'] .br-book-page {
-  --bp-accent: #f0405a;
-  --bp-accent-strong: #d0344a;
-  --bp-accent-soft: rgba(240, 64, 90, 0.10);
-  --bp-accent-line: rgba(240, 64, 90, 0.42);
-  --bp-accent-glow: rgba(240, 64, 90, 0.22);
+  --bp-accent: #0F766E;
+  --bp-accent-strong: #14B89A;
+  --bp-accent-soft: rgba(15, 118, 110, 0.10);
+  --bp-accent-line: rgba(15, 118, 110, 0.42);
+  --bp-accent-glow: rgba(15, 118, 110, 0.22);
   --bp-chrome: #ffffff;
   --bp-chrome-2: #f5f5f7;
   --bp-canvas: #fafafa;
@@ -10609,11 +10624,11 @@ html[data-theme='light'] .br-book-page .br-unlock-nudge {
 
 /* --- /write landing --- */
 html[data-theme='light'] .br-write-page {
-  --wpg-accent: #f0405a;
-  --wpg-accent-strong: #d0344a;
-  --wpg-accent-soft: rgba(240, 64, 90, 0.10);
-  --wpg-accent-line: rgba(240, 64, 90, 0.42);
-  --wpg-accent-glow: rgba(240, 64, 90, 0.22);
+  --wpg-accent: #0F766E;
+  --wpg-accent-strong: #14B89A;
+  --wpg-accent-soft: rgba(15, 118, 110, 0.10);
+  --wpg-accent-line: rgba(15, 118, 110, 0.42);
+  --wpg-accent-glow: rgba(15, 118, 110, 0.22);
   --wpg-chrome: #ffffff;
   --wpg-chrome-2: #f5f5f7;
   --wpg-canvas: #fafafa;
@@ -10638,12 +10653,12 @@ html[data-theme='light'] .br-write-page {
   --v11-ink-soft: rgba(10, 10, 10, 0.92);
   --v11-ink-mute: rgba(10, 10, 10, 0.66);
   --v11-ink-trace: rgba(10, 10, 10, 0.42);
-  --v11-accent: #f0405a;
-  --v11-accent-soft: rgba(240, 64, 90, 0.10);
-  --v11-yellow: #f0405a;
-  --theme-strong-cta-bg: #f0405a;
+  --v11-accent: #0F766E;
+  --v11-accent-soft: rgba(15, 118, 110, 0.10);
+  --v11-yellow: #0F766E;
+  --theme-strong-cta-bg: #0F766E;
   --theme-strong-cta-fg: #ffffff;
-  --theme-strong-cta-hover-bg: #d0344a;
+  --theme-strong-cta-hover-bg: #14B89A;
 }
 html[data-theme='light'] body:has(.br-write-page) { background: #fafafa; }
 html[data-theme='light'] body:has(.br-write-page) .br-nav {
@@ -10690,9 +10705,9 @@ html[data-theme='light'] .br-write-preview {
   --wp-chrome: #ffffff;
   --wp-canvas: #fafafa;
   --wp-card: rgba(10, 10, 10, 0.03);
-  --wp-accent: #f0405a;
-  --wp-accent-strong: #d0344a;
-  --wp-accent-glow: rgba(240, 64, 90, 0.22);
+  --wp-accent: #0F766E;
+  --wp-accent-strong: #14B89A;
+  --wp-accent-glow: rgba(15, 118, 110, 0.22);
   --wp-on: #0a0a0a;
   --wp-on-soft: rgba(10, 10, 10, 0.92);
   --wp-on-mute: rgba(10, 10, 10, 0.66);
