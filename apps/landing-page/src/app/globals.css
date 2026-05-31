@@ -8121,9 +8121,11 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-write-preview-modebtn:hover { color: var(--wp-on); }
 .br-write-preview-modebtn.is-on {
-  background: var(--wp-accent);
+  /* Same calm-CTA treatment as discover/book CTAs: deep teal fill,
+     neutral shadow, no saturated halo against the dark preview. */
+  background: #0E9D86;
   color: #ffffff;
-  box-shadow: 0 6px 18px var(--wp-accent-glow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 .br-write-preview-bar .br-write-btn-sm {
   font-family: var(--wp-font);
@@ -9455,10 +9457,14 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-discover-featured-kicker,
 .br-discover .br-discover-featured .br-featured-eyebrow { color: var(--read-accent-strong); }
 .br-discover .br-discover-featured .br-featured-cta {
-  background: var(--read-accent);
+  /* Same calm-CTA treatment as .br-continue-cta: deeper teal fill so
+     the "Start reading" button stops glowing as a saturated mint chip
+     on the dark canvas. Bright accent stays the hover lift. */
+  background: #0E9D86;
   color: #ffffff;
-  box-shadow: 0 8px 24px var(--read-accent-glow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
+.br-discover .br-discover-featured .br-featured-cta:hover { background: var(--read-accent); }
 .br-discover .br-discover-featured .br-featured-arrow:hover {
   border-color: var(--read-accent-line);
 }
@@ -9830,14 +9836,16 @@ body:has(.br-book-page) .br-nav-link.is-active {
   border-left-color: var(--bp-accent);
 }
 
-/* Buttons inside hero actions */
+/* Buttons inside hero actions — calm-CTA treatment: deep teal at rest,
+   neutral shadow, bright accent lift on hover. Mirrors the discover
+   .br-continue-cta / .br-featured-cta pattern. */
 .br-book-page .br-btn-primary {
-  background: var(--bp-accent);
+  background: #0E9D86;
   color: #ffffff;
-  box-shadow: 0 8px 24px var(--bp-accent-glow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 .br-book-page .br-btn-primary:hover:not(:disabled) {
-  background: var(--bp-accent-strong);
+  background: var(--bp-accent);
 }
 .br-book-page .br-btn-ghost {
   background: rgba(255, 255, 255, 0.04);
@@ -9850,11 +9858,11 @@ body:has(.br-book-page) .br-nav-link.is-active {
   color: var(--bp-on);
 }
 .br-book-page .br-btn-premium {
-  background: var(--bp-accent);
+  background: #0E9D86;
   color: #ffffff;
 }
 .br-book-page .br-btn-premium:hover:not(:disabled) {
-  background: var(--bp-accent-strong);
+  background: var(--bp-accent);
 }
 
 /* "Also available on" pills */
