@@ -197,12 +197,15 @@ export default function DiscoverPage() {
       />
       <div className="br-discover-main">
         <div className="br-discover-tabsbar">
-          <StoreTabs<DiscoverTabId>
-            tabs={tabs}
-            active={active}
-            onChange={setActive}
-            ariaLabel="Discover sections"
-          />
+          <div className="br-discover-tabsbar-inner">
+            <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
+            <StoreTabs<DiscoverTabId>
+              tabs={tabs}
+              active={active}
+              onChange={setActive}
+              ariaLabel="Discover sections"
+            />
+          </div>
         </div>
         <div className="br-discover-toolbar">
           <button
@@ -220,7 +223,6 @@ export default function DiscoverPage() {
             </span>
             <span className="br-fs-toggle-label">Filters</span>
           </button>
-          <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
         </div>
 
         {showContinue && <ContinueReadingBox />}

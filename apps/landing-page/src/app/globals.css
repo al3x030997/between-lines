@@ -1326,14 +1326,28 @@ body[data-quiet="true"] .br-progress { display: none; }
   position: sticky;
   top: 65px;
   z-index: 40;
-  display: flex;
-  align-items: stretch;
-  gap: 1rem;
-  padding: 14px 2rem 0;
+  padding-top: 14px;
   background: var(--br-panel-bg);
   border-bottom: 0.5px solid var(--br-border-warm);
 }
-.br-discover-tabsbar > .br-tabs {
+/* Inner band hosts search + tabs and is width-matched to .br-discover-toolbar
+   below (max 1480px, 2.5rem side padding, centered) so the search bar's left
+   edge lines up with the Filters chip directly underneath. */
+.br-discover-tabsbar-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  width: min(1480px, 100%);
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  box-sizing: border-box;
+}
+.br-discover-tabsbar-inner > .br-discover-search {
+  width: 280px;
+  flex-shrink: 0;
+  align-self: center;
+}
+.br-discover-tabsbar .br-tabs {
   position: static;
   top: auto;
   z-index: auto;
@@ -1341,21 +1355,12 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: transparent;
   border-bottom: none;
 }
-/* Toolbar row beneath the tabsbar: hosts the Filters toggle (left) plus the
-   discover search bar, both pinned to the same horizontal start so the search
-   field lines up under the filter chip rather than under the nav tabs. */
 .br-discover-toolbar {
   display: flex;
   align-items: center;
-  gap: 14px;
   padding: 14px 2.5rem 0;
   width: min(1480px, 100%);
   margin: 0 auto;
-}
-.br-discover-toolbar .br-discover-search {
-  flex: 0 0 auto;
-  width: 320px;
-  max-width: 100%;
 }
 .br-fs-toggle {
   display: inline-flex;
@@ -9989,16 +9994,30 @@ body:has(.br-write-page) .br-nav-link.is-active {
    neutralized so the wrapper's pure-dark background reads cleanly without
    a light strip bleeding through. Detached from the nav by a small gap. */
 .br-write-tabsbar {
-  display: flex;
-  align-items: stretch;
-  gap: 1rem;
-  padding: 14px 2rem 0;
+  padding-top: 14px;
   background: var(--wpg-chrome-2);
   border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
   font-family: var(--wpg-font);
   position: sticky;
   top: 65px;
   z-index: 40;
+}
+/* Inner band hosts WriterSearch + StoreTabs and is width-matched to
+   .br-write-stage (max 1320px, 2rem side padding, centered) so the search
+   bar's left edge lines up with the library cards directly below. */
+.br-write-tabsbar-inner {
+  display: flex;
+  align-items: stretch;
+  gap: 1rem;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
+}
+.br-write-tabsbar-inner > .br-write-search {
+  width: 280px;
+  flex-shrink: 0;
+  align-self: center;
 }
 .br-write-tabsbar .br-tabs {
   background: transparent;
@@ -10031,24 +10050,6 @@ body:has(.br-write-page) .br-nav-link.is-active {
   border-bottom: none;
 }
 
-/* Toolbar row beneath the tabsbar: hosts the WriterSearch, aligned with the
-   .br-write-stage content so the search field lines up with the library cards
-   below rather than the nav-tab labels above. */
-.br-write-toolbar {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 2rem 0;
-  max-width: 1320px;
-  margin: 0 auto;
-  width: 100%;
-  box-sizing: border-box;
-}
-.br-write-toolbar .br-write-search {
-  flex: 0 0 auto;
-  width: 320px;
-  max-width: 100%;
-}
 
 /* Stage: full-width main content (replaces .br-discover-main + .br-stage) */
 .br-write-stage {
