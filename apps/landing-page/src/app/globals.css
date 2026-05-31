@@ -7634,21 +7634,20 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-write-lib-filter.is-on .br-write-lib-filter-count { color: var(--v11-accent-strong); }
 
-/* Writing-room back bar — replaces the 5-tab strip in editor mode.
-   Sized to match .br-write-tabsbar's 66px so the editor's row-2 chrome
-   sits at the exact same y-position as the library's row-2 tabsbar.
-   The .br-write-page scope rebinds --br-panel-bg + --br-border-warm
-   to dark Netflix tokens, so the bar inherits the chrome look without
-   per-mode overrides. */
+/* Editor-mode row-3 context strip: just the active work title + meta
+   ("The Salt Letters · Literary Fiction · Novel · Drafting") sitting
+   below the shared row-2 tabsbar. Compact (44px) since the Back-to-
+   library button moved into the tabsbar's "Your Library" tab. Inherits
+   dark Netflix tokens via .br-write-page on the shell wrapper. */
 .br-write-editor-topbar {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0 1.5rem;
+  padding: 0 2.5rem;
   background: var(--br-panel-bg);
   border-bottom: 0.5px solid var(--br-border-warm);
   flex-shrink: 0;
-  height: 66px;
+  height: 44px;
   font-family: var(--br-font-sans);
 }
 .br-write-back {
@@ -7683,9 +7682,6 @@ body[data-quiet="true"] .br-progress { display: none; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-left: 1rem;
-  padding-left: 1rem;
-  border-left: 0.5px solid var(--br-border-hair);
 }
 .br-write-editor-work-title {
   font-family: var(--br-font-display);

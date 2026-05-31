@@ -220,16 +220,25 @@ export function WriteShell() {
   if (topTab === 'write') {
     return (
       <div className="br-write-shell br-write-shell-editor br-write-page">
+        {/* Row 2: same tabsbar as library mode so the global section nav
+            (Search + Your Library / Write / Audio / ...) stays at the
+            same y-position across /write surfaces. "Write" is active
+            here because topTab === 'write'. */}
+        <div className="br-write-tabsbar">
+          <div className="br-write-tabsbar-inner">
+            <WriterSearch query={writerQuery} onChange={setWriterQuery} />
+            <StoreTabs<TopTab>
+              tabs={TOP_TABS}
+              active={topTab}
+              onChange={changeTopTab}
+              ariaLabel="Writer sections"
+            />
+          </div>
+        </div>
+        {/* Row 3: editor-specific context strip — work title + meta.
+            The redundant "Back to library" button is dropped because
+            the tabsbar's "Your Library" tab does the same thing. */}
         <div className="br-write-editor-topbar">
-          <button
-            type="button"
-            className="br-write-back"
-            onClick={() => changeTopTab('library')}
-            aria-label="Back to your library"
-          >
-            <span className="br-write-back-arrow" aria-hidden="true">←</span>
-            <span>Back to library</span>
-          </button>
           {activeWork ? (
             <span className="br-write-editor-work" aria-label="Active work">
               <span className="br-write-editor-work-title">{activeWork.title}</span>
