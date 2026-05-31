@@ -9478,6 +9478,20 @@ body:has(.br-discover) .br-avatar:hover {
   --gallery-on-media-muted: rgba(255, 247, 232, 0.78);
 }
 
+/* Cover-hover border: neutral white-tint instead of the teal
+   --gallery-accent-line so hovering a book cover doesn't paint a
+   colored ring around the art. Light-mode mirror flips to a black
+   tint. The teal accent still drives chips, kickers, and CTA states
+   elsewhere — this is scoped only to the two cover-card hovers. */
+.br-discover .br-gallery-poster:hover .br-gallery-poster-cover,
+.br-discover .br-gallery-hero-feature:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+}
+html[data-theme='light'] .br-discover .br-gallery-poster:hover .br-gallery-poster-cover,
+html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
+  border-color: rgba(10, 10, 10, 0.28);
+}
+
 /* Strengthen featured-carousel author/blurb/meta inside /read so the
    spotlight body copy lifts off the dark backdrop. */
 .br-discover .br-discover-featured .br-featured-author {
