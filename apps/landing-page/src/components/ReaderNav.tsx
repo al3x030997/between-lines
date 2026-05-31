@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AvatarMenu } from './AvatarMenu';
+import { ThemeToggle } from './ThemeToggle';
 import { useMockSession } from '@/lib/useMockSession';
 
 type NavLink = { href: string; label: string; requiresWriter?: boolean };
@@ -70,6 +71,7 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
+        <ThemeToggle className="br-nav-theme" />
         <AccountSwitcher />
         <AvatarMenu />
       </div>

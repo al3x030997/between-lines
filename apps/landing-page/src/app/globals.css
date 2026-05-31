@@ -9348,6 +9348,40 @@ body:has(.br-discover) .br-avatar {
   border-color: var(--read-accent-line);
   color: var(--read-accent-strong);
 }
+
+/* Theme toggle in the dark Netflix nav: transparent-on-black pill with
+   a white icon, teal ring on hover. Same treatment on /write so the
+   button reads native to the chrome instead of inheriting the marketing
+   --theme-surface paint. */
+body:has(.br-discover) .br-nav-theme,
+body:has(.br-write-page) .br-nav-theme {
+  background: rgba(255, 255, 255, 0.04);
+  border: 0.5px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+}
+body:has(.br-discover) .br-nav-theme:hover,
+body:has(.br-discover) .br-nav-theme:focus-visible,
+body:has(.br-write-page) .br-nav-theme:hover,
+body:has(.br-write-page) .br-nav-theme:focus-visible {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: var(--read-accent, var(--wpg-accent));
+  color: var(--read-accent, var(--wpg-accent));
+}
+html[data-theme='light'] body:has(.br-discover) .br-nav-theme,
+html[data-theme='light'] body:has(.br-write-page) .br-nav-theme {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.18);
+  color: rgba(10, 10, 10, 0.78);
+}
+html[data-theme='light'] body:has(.br-discover) .br-nav-theme:hover,
+html[data-theme='light'] body:has(.br-discover) .br-nav-theme:focus-visible,
+html[data-theme='light'] body:has(.br-write-page) .br-nav-theme:hover,
+html[data-theme='light'] body:has(.br-write-page) .br-nav-theme:focus-visible {
+  background: rgba(10, 10, 10, 0.06);
+  border-color: var(--read-accent, var(--wpg-accent));
+  color: var(--read-accent, var(--wpg-accent));
+}
 body:has(.br-discover) .br-avatar:hover {
   box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.18);
 }
@@ -9472,12 +9506,17 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-continue-bar { background: rgba(255, 255, 255, 0.10); }
 .br-discover .br-continue-bar-fill { background: var(--read-accent); }
 .br-discover .br-continue-cta {
-  background: var(--read-accent);
+  /* Deeper teal than --read-accent (#1FD8B8) for CTA fills so the
+     button reads as solid surface, not as a saturated brand chip.
+     Bright accent is reserved for borders/progress/kickers; CTAs lift
+     to it on hover. Neutral shadow replaces the teal halo so the
+     button doesn't glow against the dark canvas. */
+  background: #0E9D86;
   color: #ffffff;
   border: none;
-  box-shadow: 0 8px 22px var(--read-accent-glow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
-.br-discover .br-continue-cta:hover { background: var(--read-accent-strong); }
+.br-discover .br-continue-cta:hover { background: var(--read-accent); }
 
 /* ============================================================
    READ · TYPE SYSTEM
@@ -9941,9 +9980,12 @@ body:has(.br-book-page) .br-nav-link.is-active {
   --v11-accent: #1FD8B8;
   --v11-accent-soft: rgba(31, 216, 184, 0.16);
   --v11-yellow: #1FD8B8;
-  --theme-strong-cta-bg: #1FD8B8;
-  --theme-strong-cta-fg: #052b24;
-  --theme-strong-cta-hover-bg: #4FF0D2;
+  /* CTA fill is the deeper teal so buttons read as solid surface;
+     bright #1FD8B8 stays the accent (borders/progress/kickers) and
+     becomes the hover lift on CTAs. */
+  --theme-strong-cta-bg: #0E9D86;
+  --theme-strong-cta-fg: #ffffff;
+  --theme-strong-cta-hover-bg: #1FD8B8;
 
   display: flex;
   flex-direction: column;
