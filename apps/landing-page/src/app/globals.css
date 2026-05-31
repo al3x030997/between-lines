@@ -7549,8 +7549,8 @@ body[data-quiet="true"] .br-progress { display: none; }
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 .br-write-search:focus-within {
-  border-color: var(--v11-accent);
-  box-shadow: 0 0 0 3px var(--v11-accent-soft);
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 .br-write-search-icon {
   width: 16px;
@@ -9396,7 +9396,7 @@ body:has(.br-discover) .br-avatar:hover {
   border-color: var(--read-on-line-strong);
 }
 .br-discover .br-discover-search:focus-within {
-  border-color: var(--read-accent);
+  border-color: rgba(255, 255, 255, 0.32);
   box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
 }
 .br-discover .br-discover-search-icon { color: rgba(255, 255, 255, 0.55); }
@@ -10003,16 +10003,19 @@ body:has(.br-write-page) .br-nav-link.is-active {
   top: 65px;
   z-index: 40;
 }
-/* Inner band hosts WriterSearch + StoreTabs and is width-matched to
-   .br-write-stage (max 1320px, 2rem side padding, centered) so the search
-   bar's left edge lines up with the library cards directly below. */
+/* Inner band hosts WriterSearch + StoreTabs and is width-matched to the
+   /read .br-discover-tabsbar-inner (max 1480px, 2.5rem side padding,
+   centered) so the search bar + tab labels sit at the exact same x as
+   the equivalent items on /read. The .br-write-stage below is widened
+   to the same grid so the items inside /write stay aligned with the
+   tabsbar above them. */
 .br-write-tabsbar-inner {
   display: flex;
   align-items: stretch;
   gap: 1rem;
-  max-width: 1320px;
+  width: min(1480px, 100%);
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 2.5rem;
   box-sizing: border-box;
 }
 .br-write-tabsbar-inner > .br-write-search {
@@ -10052,13 +10055,16 @@ body:has(.br-write-page) .br-nav-link.is-active {
 }
 
 
-/* Stage: full-width main content (replaces .br-discover-main + .br-stage) */
+/* Stage: full-width main content (replaces .br-discover-main + .br-stage).
+   Width-matched to the /read .br-discover-toolbar / .br-continue-wrap
+   (min(1480px, 100%) + 2.5rem side padding) so the library cards align
+   with the tabsbar's search and tab labels above. */
 .br-write-stage {
   flex: 1;
-  padding: 2rem 2rem 4rem;
-  max-width: 1320px;
+  padding: 2rem 2.5rem 4rem;
+  width: min(1480px, 100%);
   margin: 0 auto;
-  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Status filter pills and "Add work" pick up the rebound tokens, but
@@ -10669,6 +10675,14 @@ html[data-theme='light'] .br-write-tabsbar .br-tab:hover {
 html[data-theme='light'] .br-write-tabsbar .br-tab.is-active {
   background: rgba(10, 10, 10, 0.10);
   color: #0a0a0a;
+}
+html[data-theme='light'] .br-write-search {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] .br-write-search:focus-within {
+  border-color: rgba(10, 10, 10, 0.32);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.06);
 }
 
 /* --- Write preview overlay --- */
