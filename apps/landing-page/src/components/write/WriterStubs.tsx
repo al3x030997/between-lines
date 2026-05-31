@@ -57,6 +57,22 @@ export function AgentReadyStub() {
   );
 }
 
+export function AudioStub() {
+  return (
+    <Stub
+      eyebrow="In design"
+      title="Audio"
+      body="Your prose as an audiobook — without a studio. Record chapter-by-chapter, hand off to AI narration in voices you've approved, or commission a narrator from our roster. One workspace for the whole audio pipeline."
+      points={[
+        { label: 'Self-record', meta: 'Browser-based booth + retakes per paragraph' },
+        { label: 'AI narration', meta: 'Approve voices, generate per chapter' },
+        { label: 'Narrator marketplace', meta: 'Brief, audition, hire from a vetted pool' },
+        { label: 'Distribution', meta: 'Ship audio chapters to readers as a track' },
+      ]}
+    />
+  );
+}
+
 export function CommunityStub() {
   return (
     <Stub

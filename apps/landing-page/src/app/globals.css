@@ -7634,16 +7634,22 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-write-lib-filter.is-on .br-write-lib-filter-count { color: var(--v11-accent-strong); }
 
-/* Writing-room back bar — replaces the 5-tab strip in editor mode. */
+/* Writing-room back bar — replaces the 5-tab strip in editor mode.
+   Sized to match .br-write-tabsbar's 66px so the editor's row-2 chrome
+   sits at the exact same y-position as the library's row-2 tabsbar.
+   The .br-write-page scope rebinds --br-panel-bg + --br-border-warm
+   to dark Netflix tokens, so the bar inherits the chrome look without
+   per-mode overrides. */
 .br-write-editor-topbar {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.55rem 1.5rem;
+  padding: 0 1.5rem;
   background: var(--br-panel-bg);
   border-bottom: 0.5px solid var(--br-border-warm);
   flex-shrink: 0;
-  min-height: 44px;
+  height: 66px;
+  font-family: var(--br-font-sans);
 }
 .br-write-back {
   display: inline-flex;
@@ -7905,8 +7911,8 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-write-chitem:hover { background: var(--br-panel-warm); }
 .br-write-chitem.is-active {
-  background: var(--br-writer-soft);
-  border-left-color: var(--br-writer);
+  background: var(--v11-accent-soft);
+  border-left-color: var(--v11-accent);
 }
 .br-write-chnum {
   font-size: 10px;
@@ -7932,11 +7938,11 @@ body[data-quiet="true"] .br-progress { display: none; }
   overflow: visible;
   white-space: normal;
   background: var(--theme-surface);
-  box-shadow: 0 0 0 1.5px var(--br-writer);
+  box-shadow: 0 0 0 1.5px var(--v11-accent);
   outline: none;
   text-overflow: clip;
 }
-.br-write-chitem.is-new .br-write-chname { color: var(--br-writer); }
+.br-write-chitem.is-new .br-write-chname { color: var(--v11-accent); }
 .br-write-chfoot {
   border-top: 0.5px solid var(--br-border-hair);
   padding: 0.75rem 1rem;
@@ -7945,7 +7951,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-write-add-ch {
   font-size: 12px;
   font-weight: 600;
-  color: var(--br-writer);
+  color: var(--v11-accent);
   background: none;
   border: none;
   cursor: pointer;
@@ -7954,7 +7960,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   gap: 6px;
   padding: 0;
 }
-.br-write-add-ch:hover { color: var(--br-writer-strong); }
+.br-write-add-ch:hover { color: var(--v11-accent-strong); }
 
 /* Right panel */
 .br-write-right {
@@ -8050,7 +8056,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   content: attr(data-placeholder);
   color: var(--v11-ink-trace);
   pointer-events: none;
-  font-style: italic;
+  font-family: var(--br-font-sans);
+  font-style: normal;
+  font-size: 15px;
 }
 
 /* Preview overlay — mirrors /read's dark Netflix chrome so writers

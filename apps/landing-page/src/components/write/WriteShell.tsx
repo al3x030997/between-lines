@@ -17,16 +17,17 @@ import { WriteTab } from './WriteTab';
 import { ChapterSettingsTab } from './ChapterSettingsTab';
 import { NovelSettingsTab } from './NovelSettingsTab';
 import { WriterLibrary, makeDraftWork, type LibraryStatusFilter } from './WriterLibrary';
-import { AgentReadyStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
+import { AgentReadyStub, AudioStub, CommunityStub, PersonalStorefrontStub } from './WriterStubs';
 import { WriterSearch } from './WriterSearch';
 import { AnalyticsDashboard } from './AnalyticsDashboard';
 
-type TopTab = 'library' | 'write' | 'analytics' | 'storefront' | 'agentready' | 'community';
+type TopTab = 'library' | 'write' | 'audio' | 'analytics' | 'storefront' | 'agentready' | 'community';
 type EditorSubTab = 'write' | 'chsettings' | 'novelsettings';
 
 const TOP_TABS: TabDef<TopTab>[] = [
   { id: 'library', label: 'Your Library' },
   { id: 'write', label: 'Write' },
+  { id: 'audio', label: 'Audio' },
   { id: 'analytics', label: 'Analytics' },
   { id: 'storefront', label: 'Personal Storefront' },
   { id: 'agentready', label: 'Agent Ready' },
@@ -37,6 +38,7 @@ function isTopTab(value: string | null): value is TopTab {
   return (
     value === 'library' ||
     value === 'write' ||
+    value === 'audio' ||
     value === 'analytics' ||
     value === 'storefront' ||
     value === 'agentready' ||
@@ -217,7 +219,7 @@ export function WriteShell() {
   // back to the library instead.
   if (topTab === 'write') {
     return (
-      <div className="br-write-shell br-write-shell-editor">
+      <div className="br-write-shell br-write-shell-editor br-write-page">
         <div className="br-write-editor-topbar">
           <button
             type="button"
@@ -334,6 +336,7 @@ export function WriteShell() {
           />
         ) : null}
         {topTab === 'analytics' ? <AnalyticsDashboard works={mergedLibraryWorks} /> : null}
+        {topTab === 'audio' ? <AudioStub /> : null}
         {topTab === 'storefront' ? <PersonalStorefrontStub /> : null}
         {topTab === 'agentready' ? <AgentReadyStub /> : null}
         {topTab === 'community' ? <CommunityStub /> : null}
