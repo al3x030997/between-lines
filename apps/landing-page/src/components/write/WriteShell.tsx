@@ -235,17 +235,11 @@ export function WriteShell() {
             />
           </div>
         </div>
-        {/* Row 3: editor-specific context strip — work title + meta.
-            The redundant "Back to library" button is dropped because
-            the tabsbar's "Your Library" tab does the same thing. */}
-        <div className="br-write-editor-topbar">
-          {activeWork ? (
-            <span className="br-write-editor-work" aria-label="Active work">
-              <span className="br-write-editor-work-title">{activeWork.title}</span>
-              <span className="br-write-editor-work-meta">{activeWork.meta}</span>
-            </span>
-          ) : null}
-        </div>
+        {/* The work title + meta strip used to live here as row-3, but
+            the chapter sidebar already shows "{work title} / {meta} /
+            {word count} · {chapter count}" — so the dedicated strip
+            was pure redundancy. Editor sub-tabs become row-3 directly,
+            and the work title only appears in the sidebar header. */}
         <div className="br-write-editor-subbar">
           <button
             type="button"
