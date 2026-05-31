@@ -1,7 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Suspense, useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import {
   FilterSidebar,
@@ -10,6 +11,8 @@ import {
 } from '@/components/FilterSidebar';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { DiscoverSearch } from '@/components/read/DiscoverSearch';
+import { RailScroller } from '@/components/read/RailScroller';
+import { BetaReadingHub } from '@/components/read/BetaReadingHub';
 import {
   getBooksBySection,
   getInProgressBooks,
@@ -48,10 +51,7 @@ const visibility: Record<DiscoverTabId, Section['id'][]> = {
 const stubContent: Record<DiscoverTabId, { title: string; body: string } | null> = {
   foryou: null,
   betweenlines: null,
-  betareading: {
-    title: 'Beta Reading',
-    body: 'Read full manuscripts before they publish and earn Swap Credits for feedback. Coming soon.',
-  },
+  betareading: null,
   audio: {
     title: 'Audio',
     body: 'Listen to stories and journal pieces narrated by their writers. Coming soon.',
@@ -156,9 +156,17 @@ function ContinueReadingBox() {
   );
 }
 
-export default function DiscoverPage() {
+function isDiscoverTab(value: string | null): value is DiscoverTabId {
+  return value != null && tabs.some((tab) => tab.id === value);
+}
+
+function DiscoverContent() {
   const { session } = useMockSession();
-  const [active, setActive] = useState<DiscoverTabId>('foryou');
+  const searchParams = useSearchParams();
+  const initialTab = searchParams.get('tab');
+  const [active, setActive] = useState<DiscoverTabId>(
+    isDiscoverTab(initialTab) ? initialTab : 'foryou',
+  );
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -207,23 +215,25 @@ export default function DiscoverPage() {
             />
           </div>
         </div>
-        <div className="br-discover-toolbar">
-          <button
-            type="button"
-            className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
-            aria-pressed={sidebarOpen}
-            aria-expanded={sidebarOpen}
-            aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
-            onClick={() => setSidebarOpen((s) => !s)}
-          >
-            <span className="br-fs-toggle-icon" aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </span>
-            <span className="br-fs-toggle-label">Filters</span>
-          </button>
-        </div>
+        {active !== 'betareading' && (
+          <div className="br-discover-toolbar">
+            <button
+              type="button"
+              className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
+              aria-pressed={sidebarOpen}
+              aria-expanded={sidebarOpen}
+              aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
+              onClick={() => setSidebarOpen((s) => !s)}
+            >
+              <span className="br-fs-toggle-icon" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+              <span className="br-fs-toggle-label">Filters</span>
+            </button>
+          </div>
+        )}
 
         {showContinue && <ContinueReadingBox />}
 
@@ -237,7 +247,9 @@ export default function DiscoverPage() {
           </div>
         )}
 
-        {stub ? (
+        {active === 'betareading' ? (
+          <BetaReadingHub query={searchQuery} />
+        ) : stub ? (
           <div className="br-discover-stub" role="status">
             <p className="br-discover-stub-kicker">Coming soon</p>
             <h2 className="br-discover-stub-title">{stub.title}</h2>
@@ -278,6 +290,14 @@ export default function DiscoverPage() {
   );
 }
 
+export default function DiscoverPage() {
+  return (
+    <Suspense fallback={null}>
+      <DiscoverContent />
+    </Suspense>
+  );
+}
+
 function Rail({
   section,
   kicker,
@@ -289,79 +309,24 @@ function Rail({
   books: Book[];
   showRank: boolean;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [atStart, setAtStart] = useState(true);
-  const [atEnd, setAtEnd] = useState(false);
-
-  const update = useCallback(() => {
-    const el = trackRef.current;
-    if (!el) return;
-    setAtStart(el.scrollLeft <= 2);
-    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
-  }, []);
-
-  useEffect(() => {
-    update();
-    const el = trackRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    return () => {
-      el.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }, [update]);
-
-  const scrollByPage = (dir: 1 | -1) => {
-    const el = trackRef.current;
-    if (!el) return;
-    el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' });
-  };
-
-  const showNav = !atStart || !atEnd;
-
   return (
-    <section aria-labelledby={`br-sec-${section.id}`} className="br-gallery-rail">
-      <div className="br-gallery-rail-head">
-        <div>
+    <RailScroller
+      labelledById={`br-sec-${section.id}`}
+      head={
+        <>
           <p className="br-gallery-kicker">{kicker}</p>
           <h2 id={`br-sec-${section.id}`}>{section.label}</h2>
-        </div>
-        <div className="br-gallery-rail-actions">
-          {showNav ? (
-            <div className="br-gallery-rail-nav" aria-label="Scroll books">
-              <button
-                type="button"
-                className="br-gallery-rail-arrow"
-                onClick={() => scrollByPage(-1)}
-                disabled={atStart}
-                aria-label="Previous books"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="br-gallery-rail-arrow"
-                onClick={() => scrollByPage(1)}
-                disabled={atEnd}
-                aria-label="Next books"
-              >
-                ›
-              </button>
-            </div>
-          ) : null}
-          <a className="br-gallery-rail-link" role="button">See all</a>
-        </div>
-      </div>
-      <div className="br-gallery-track" ref={trackRef}>
-        {books.map((book, idx) => (
-          <RailPoster
-            key={book.slug}
-            book={book}
-            rank={showRank ? idx + 1 : undefined}
-          />
-        ))}
-      </div>
-    </section>
+        </>
+      }
+      actions={<a className="br-gallery-rail-link" role="button">See all</a>}
+    >
+      {books.map((book, idx) => (
+        <RailPoster
+          key={book.slug}
+          book={book}
+          rank={showRank ? idx + 1 : undefined}
+        />
+      ))}
+    </RailScroller>
   );
 }
