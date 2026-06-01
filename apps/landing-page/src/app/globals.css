@@ -1330,7 +1330,9 @@ body[data-quiet="true"] .br-progress { display: none; }
   top: 65px;
   z-index: 40;
   padding-top: 14px;
-  background: var(--br-panel-bg);
+  /* Lifted a shade off the nav's --br-panel-bg so the two top bars read as
+     distinct, mirroring the subtle chrome/chrome-2 contrast on /write. */
+  background: var(--theme-surface-subtle);
   border-bottom: 0.5px solid var(--br-border-warm);
 }
 /* Inner band hosts search + tabs and is width-matched to .br-discover-toolbar
