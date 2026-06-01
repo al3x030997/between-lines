@@ -1,13 +1,6 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
-import { useMockSession } from '@/lib/useMockSession';
-
-type Billing = 'monthly' | 'annual';
-
-/** Swap Credits to unlock a month of premium beta access (mirrors AgentReady Pro pricing). */
-const SWAP_COST = 100;
 
 const STATS: { num: string; label: string }[] = [
   { num: 'Free', label: 'To take part' },
@@ -19,7 +12,7 @@ const STATS: { num: string; label: string }[] = [
 const STEPS: { num: string; title: string; body: string }[] = [
   {
     num: '01',
-    title: 'Opt in by genre',
+    title: 'Tell us what you read',
     body: 'Pick the genres, formats, and feedback style you like. We match you with manuscripts that fit your taste. No qualifications needed — just read carefully and respond honestly.',
   },
   {
@@ -30,7 +23,7 @@ const STEPS: { num: string; title: string; body: string }[] = [
   {
     num: '03',
     title: 'Give feedback, earn credits',
-    body: 'React, leave a quick comment, or write deep thoughts. Each response earns Swap Credits — 25 for a partial read, 50 for a full manuscript.',
+    body: 'React, leave a quick comment, or write deep thoughts. Each response earns Swap Credits — 25 for a partial read, 50 for a full manuscript. Always free.',
   },
   {
     num: '04',
@@ -57,32 +50,59 @@ const WAYS: { title: string; credit: string; body: string }[] = [
   },
 ];
 
-const POWER_FEATURES = [
-  'Priority beta reader matching',
-  'Reader Pods — a writer’s inner circle of six',
-  'Unlimited premium chapters',
-  'BetweenLines Journal — every issue',
-  'Early access to new content',
+const GENRES = [
+  'Literary Fiction',
+  'Romance',
+  'Fantasy',
+  'Science Fiction',
+  'Thriller',
+  'Mystery',
+  'Historical',
+  'Horror',
+  'Young Adult',
+  'Romantasy',
+  'Poetry',
+  'Non-fiction',
 ];
 
-const MEMBER_FEATURES = [
-  'Priority beta reader matching',
-  '2× Reading Credits on all activity',
-  '100 Reading Credits welcome bonus',
-  'Vote in weekly Member Picks',
-  'Member badge on your profile',
+const COMMITMENTS: { id: string; title: string; desc: string }[] = [
+  {
+    id: 'partial',
+    title: 'A few chapters',
+    desc: 'The minimum — 3 chapters or 5,000 words. A quick, focused read.',
+  },
+  {
+    id: 'full',
+    title: 'Full manuscripts',
+    desc: 'Go the distance and read whole books from first page to last.',
+  },
+  {
+    id: 'either',
+    title: 'Either — match me to anything',
+    desc: 'Surprise me. I’ll take partial or full reads as they come.',
+  },
 ];
+
+const FEEDBACK = ['React', 'Quick Comment', 'Deep Thoughts'];
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function BetaReadingHub() {
-  const [billing, setBilling] = useState<Billing>('annual');
-  const { session } = useMockSession();
-  const swap = session?.sc ?? 0;
-  const canRedeem = swap >= SWAP_COST;
+  const [step, setStep] = useState(0);
+  const [genres, setGenres] = useState<string[]>([]);
+  const [commitment, setCommitment] = useState<string | null>(null);
+  const [feedback, setFeedback] = useState<string[]>([]);
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const isAnnual = billing === 'annual';
-  const powerPrice = isAnnual ? '$100' : '$10';
-  const powerPeriod = isAnnual ? 'per year' : 'per month';
-  const powerAlt = isAnnual ? 'save $20 vs monthly' : 'or $100/yr — save $20';
+  const toggleGenre = (g: string) =>
+    setGenres((p) => (p.includes(g) ? p.filter((x) => x !== g) : [...p, g]));
+  const toggleFeedback = (f: string) =>
+    setFeedback((p) => (p.includes(f) ? p.filter((x) => x !== f) : [...p, f]));
+
+  const emailValid = EMAIL_RE.test(email.trim());
+  const canContinue = step === 0 ? genres.length > 0 : commitment !== null;
+  const canSubmit = feedback.length > 0 && emailValid;
 
   return (
     <div className="br-beta-hub">
@@ -93,7 +113,7 @@ export function BetaReadingHub() {
         <p className="br-beta-hero-lede">
           A beta reader is a writer’s first real audience. Read unpublished manuscripts from emerging
           authors, give honest, structured feedback, and help shape a book while it’s still forming —
-          earning Swap Credits and Early Discoverer status as you go.
+          earning Swap Credits and Early Discoverer status as you go. Always free.
         </p>
         <div className="br-beta-stats">
           {STATS.map((s) => (
@@ -156,100 +176,171 @@ export function BetaReadingHub() {
         </p>
       </section>
 
-      {/* upgrade screen */}
+      {/* volunteer intake flow */}
       <section className="br-beta-block">
         <div className="br-beta-sec-head">
-          <p className="br-beta-sec-eyebrow">Upgrade</p>
-          <h2 className="br-beta-sec-title">Unlock unlimited beta reading</h2>
+          <p className="br-beta-sec-eyebrow">Volunteer</p>
+          <h2 className="br-beta-sec-title">Get matched with a writer who needs you</h2>
           <p className="br-beta-sec-sub">
-            Three free pieces a month come standard. Go further with a plan, the co-op membership, or
-            the Swap Credits you’ve already earned.
+            Beta reading is always free — no plan, no upgrade. Tell us what you love to read and we’ll
+            email you the moment an author is searching for a beta reader like you.
           </p>
         </div>
 
-        <div className="br-beta-bill" role="group" aria-label="Billing period">
-          <span className={`br-beta-bill-label${!isAnnual ? ' is-active' : ''}`}>Monthly</span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={isAnnual}
-            aria-label="Toggle annual billing"
-            className={`br-beta-bill-toggle${isAnnual ? ' is-annual' : ''}`}
-            onClick={() => setBilling(isAnnual ? 'monthly' : 'annual')}
-          />
-          <span className={`br-beta-bill-label${isAnnual ? ' is-active' : ''}`}>Annual</span>
-          <span className="br-beta-bill-save">Save 17%</span>
-        </div>
+        <div className="br-beta-intake">
+          {submitted ? (
+            <div className="br-beta-intake-done">
+              <span className="br-beta-intake-done-mark" aria-hidden="true">✓</span>
+              <h3 className="br-beta-intake-done-title">You’re on the list.</h3>
+              <p className="br-beta-intake-done-body">
+                We’ll email you at <strong>{email.trim()}</strong> the moment an author is looking for
+                a beta reader who loves what you do. No upgrade, no fee — beta reading stays free and
+                earns the most Swap Credits on the platform.
+              </p>
+              {genres.length > 0 && (
+                <div className="br-beta-intake-done-recap">
+                  {genres.map((g) => (
+                    <span className="br-beta-intake-done-tag" key={g}>
+                      {g}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <button
+                type="button"
+                className="br-beta-intake-reset"
+                onClick={() => {
+                  setSubmitted(false);
+                  setStep(0);
+                }}
+              >
+                Edit my preferences
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="br-beta-intake-head">
+                <div className="br-beta-intake-progress" aria-hidden="true">
+                  {[0, 1, 2].map((i) => (
+                    <span key={i} className={`br-beta-intake-seg${i <= step ? ' is-on' : ''}`} />
+                  ))}
+                </div>
+                <span className="br-beta-intake-step">Question {step + 1} of 3</span>
+              </div>
 
-        <div className="br-beta-plans">
-          {/* PowerReader */}
-          <article className="br-beta-plan is-featured">
-            <span className="br-beta-plan-flag">Most popular</span>
-            <h3 className="br-beta-plan-name">PowerReader</h3>
-            <p className="br-beta-plan-tag">First in line for the writers you most want to read.</p>
-            <div className="br-beta-plan-price">
-              <span className="br-beta-plan-amount">{powerPrice}</span>
-              <span className="br-beta-plan-period">{powerPeriod}</span>
-            </div>
-            <span className="br-beta-plan-alt">{powerAlt}</span>
-            <ul className="br-beta-plan-feats">
-              {POWER_FEATURES.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-            <Link href="/pricing" className="br-beta-plan-cta is-solid">
-              Upgrade to PowerReader
-            </Link>
-            <p className="br-beta-plan-fine">✦ Members pay $90/yr · 14-day free trial</p>
-          </article>
+              {step === 0 && (
+                <div>
+                  <h3 className="br-beta-intake-q">What do you love to read?</h3>
+                  <p className="br-beta-intake-hint">
+                    Pick the genres you’d happily beta read. Choose as many as you like.
+                  </p>
+                  <div className="br-beta-intake-chips">
+                    {GENRES.map((g) => (
+                      <button
+                        key={g}
+                        type="button"
+                        aria-pressed={genres.includes(g)}
+                        className={`br-beta-intake-chip${genres.includes(g) ? ' is-on' : ''}`}
+                        onClick={() => toggleGenre(g)}
+                      >
+                        {g}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Co-op Membership */}
-          <article className="br-beta-plan">
-            <h3 className="br-beta-plan-name">Co-op Membership</h3>
-            <p className="br-beta-plan-tag">Own a piece of the platform — and skip the queue.</p>
-            <div className="br-beta-plan-price">
-              <span className="br-beta-plan-amount">$50</span>
-              <span className="br-beta-plan-period">per year</span>
-            </div>
-            <span className="br-beta-plan-alt">one membership covers everything</span>
-            <ul className="br-beta-plan-feats">
-              {MEMBER_FEATURES.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-            <Link href="/pricing" className="br-beta-plan-cta is-outline">
-              Become a member
-            </Link>
-            <p className="br-beta-plan-fine">✦ 10% off every paid plan</p>
-          </article>
+              {step === 1 && (
+                <div>
+                  <h3 className="br-beta-intake-q">How much will you commit to?</h3>
+                  <p className="br-beta-intake-hint">
+                    You can change this anytime — and read more whenever you want.
+                  </p>
+                  <div className="br-beta-intake-opts">
+                    {COMMITMENTS.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        aria-pressed={commitment === c.id}
+                        className={`br-beta-intake-opt${commitment === c.id ? ' is-on' : ''}`}
+                        onClick={() => setCommitment(c.id)}
+                      >
+                        <span className="br-beta-intake-opt-title">{c.title}</span>
+                        <span className="br-beta-intake-opt-desc">{c.desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-          {/* Swap Credits */}
-          <article className="br-beta-plan is-credits">
-            <h3 className="br-beta-plan-name">Use Swap Credits</h3>
-            <p className="br-beta-plan-tag">No card. Spend what you earn by beta reading.</p>
-            <div className="br-beta-plan-price">
-              <span className="br-beta-plan-amount">{SWAP_COST}</span>
-              <span className="br-beta-plan-period">Swap Credits / month</span>
-            </div>
-            <span className="br-beta-plan-alt">unlock a month of premium beta access</span>
-            <ul className="br-beta-plan-feats">
-              <li>Unlock full-manuscript beta reads</li>
-              <li>Priority matching for one month</li>
-              <li>Credits never expire</li>
-            </ul>
-            <div className="br-beta-credit-bal">
-              <span className="br-beta-credit-have">You have {swap} Swap Credits</span>
-              <span className="br-beta-credit-note">
-                {canRedeem
-                  ? 'Enough to unlock right now.'
-                  : `Earn ${SWAP_COST - swap} more by beta reading.`}
-              </span>
-            </div>
-            <button type="button" className="br-beta-plan-cta is-credits-cta" disabled={!canRedeem}>
-              {canRedeem ? `Unlock for ${SWAP_COST} credits` : 'Keep beta reading to earn'}
-            </button>
-            <p className="br-beta-plan-fine">Beta reading earns 25–50 credits each</p>
-          </article>
+              {step === 2 && (
+                <div>
+                  <h3 className="br-beta-intake-q">How do you like to give feedback?</h3>
+                  <p className="br-beta-intake-hint">
+                    Pick the styles that suit you — every one earns Swap Credits.
+                  </p>
+                  <div className="br-beta-intake-chips">
+                    {FEEDBACK.map((f) => (
+                      <button
+                        key={f}
+                        type="button"
+                        aria-pressed={feedback.includes(f)}
+                        className={`br-beta-intake-chip${feedback.includes(f) ? ' is-on' : ''}`}
+                        onClick={() => toggleFeedback(f)}
+                      >
+                        {f}
+                      </button>
+                    ))}
+                  </div>
+                  <label className="br-beta-intake-field">
+                    <span className="br-beta-intake-label">Where should we email you?</span>
+                    <input
+                      className="br-beta-intake-input"
+                      type="email"
+                      inputMode="email"
+                      autoComplete="email"
+                      placeholder="you@email.com"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </label>
+                </div>
+              )}
+
+              <div className="br-beta-intake-actions">
+                {step > 0 ? (
+                  <button
+                    type="button"
+                    className="br-beta-intake-btn is-ghost"
+                    onClick={() => setStep((s) => s - 1)}
+                  >
+                    ← Back
+                  </button>
+                ) : (
+                  <span />
+                )}
+                {step < 2 ? (
+                  <button
+                    type="button"
+                    className="br-beta-intake-btn is-primary"
+                    disabled={!canContinue}
+                    onClick={() => setStep((s) => s + 1)}
+                  >
+                    Continue
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    className="br-beta-intake-btn is-primary"
+                    disabled={!canSubmit}
+                    onClick={() => setSubmitted(true)}
+                  >
+                    Join the beta reader list
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       </section>
     </div>
