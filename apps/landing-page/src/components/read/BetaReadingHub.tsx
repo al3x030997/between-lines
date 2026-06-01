@@ -125,58 +125,7 @@ export function BetaReadingHub() {
         </div>
       </section>
 
-      {/* how it works */}
-      <section className="br-beta-block">
-        <div className="br-beta-sec-head">
-          <p className="br-beta-sec-eyebrow">How it works</p>
-          <h2 className="br-beta-sec-title">From reader to first audience in four steps</h2>
-          <p className="br-beta-sec-sub">
-            Beta reading is free — and it’s the activity that earns the most Swap Credits on the
-            platform. Here’s the whole loop.
-          </p>
-        </div>
-        <div className="br-beta-how-grid">
-          {STEPS.map((s) => (
-            <div className="br-beta-step" key={s.num}>
-              <div className="br-beta-step-num">{s.num}</div>
-              <h3 className="br-beta-step-title">{s.title}</h3>
-              <p className="br-beta-step-body">{s.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* three ways to respond */}
-      <section className="br-beta-block">
-        <div className="br-beta-sec-head">
-          <p className="br-beta-sec-eyebrow">Your feedback</p>
-          <h2 className="br-beta-sec-title">Three ways to respond</h2>
-          <p className="br-beta-sec-sub">
-            Choose the depth that suits you and the work. Every level earns Swap Credits and goes
-            straight to the writer.
-          </p>
-        </div>
-        <div className="br-beta-ways">
-          {WAYS.map((w) => (
-            <div className="br-beta-way" key={w.title}>
-              <div className="br-beta-way-top">
-                <h3 className="br-beta-way-title">{w.title}</h3>
-                <span className="br-beta-way-credit">{w.credit}</span>
-              </div>
-              <p className="br-beta-way-body">{w.body}</p>
-            </div>
-          ))}
-        </div>
-        <p className="br-beta-note">
-          <span className="br-beta-note-mark" aria-hidden="true">🔒</span>
-          <span>
-            <strong>Every manuscript is protected.</strong> Beta readers agree to confidentiality on
-            opt-in — copy is disabled, and we never train AI on the work.
-          </span>
-        </p>
-      </section>
-
-      {/* volunteer intake flow */}
+      {/* volunteer intake flow — sits directly under the hero */}
       <section className="br-beta-block">
         <div className="br-beta-sec-head">
           <p className="br-beta-sec-eyebrow">Volunteer</p>
@@ -342,6 +291,57 @@ export function BetaReadingHub() {
             </>
           )}
         </div>
+      </section>
+
+      {/* how it works */}
+      <section className="br-beta-block">
+        <div className="br-beta-sec-head">
+          <p className="br-beta-sec-eyebrow">How it works</p>
+          <h2 className="br-beta-sec-title">From reader to first audience in four steps</h2>
+          <p className="br-beta-sec-sub">
+            Beta reading is free — and it’s the activity that earns the most Swap Credits on the
+            platform. Here’s the whole loop.
+          </p>
+        </div>
+        <div className="br-beta-how-grid">
+          {STEPS.map((s) => (
+            <div className="br-beta-step" key={s.num}>
+              <div className="br-beta-step-num">{s.num}</div>
+              <h3 className="br-beta-step-title">{s.title}</h3>
+              <p className="br-beta-step-body">{s.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* three ways to respond */}
+      <section className="br-beta-block">
+        <div className="br-beta-sec-head">
+          <p className="br-beta-sec-eyebrow">Your feedback</p>
+          <h2 className="br-beta-sec-title">Three ways to respond</h2>
+          <p className="br-beta-sec-sub">
+            Choose the depth that suits you and the work. Every level earns Swap Credits and goes
+            straight to the writer.
+          </p>
+        </div>
+        <div className="br-beta-ways">
+          {WAYS.map((w) => (
+            <div className="br-beta-way" key={w.title}>
+              <div className="br-beta-way-top">
+                <h3 className="br-beta-way-title">{w.title}</h3>
+                <span className="br-beta-way-credit">{w.credit}</span>
+              </div>
+              <p className="br-beta-way-body">{w.body}</p>
+            </div>
+          ))}
+        </div>
+        <p className="br-beta-note">
+          <span className="br-beta-note-mark" aria-hidden="true">🔒</span>
+          <span>
+            <strong>Every manuscript is protected.</strong> Beta readers agree to confidentiality on
+            opt-in — copy is disabled, and we never train AI on the work.
+          </span>
+        </p>
       </section>
     </div>
   );

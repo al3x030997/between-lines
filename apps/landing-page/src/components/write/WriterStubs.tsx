@@ -57,6 +57,22 @@ export function AgentReadyStub() {
   );
 }
 
+export function FindBetaReaderStub() {
+  return (
+    <Stub
+      eyebrow="In design"
+      title="Find beta readers"
+      body="Match your manuscript with real readers who love what you write. SecureBetaReads protects your work on upload, and you control exactly who reads it — your first three chapters are free, and structured feedback comes straight back to you."
+      points={[
+        { label: 'Reader matching', meta: 'By genre, format, and feedback style' },
+        { label: 'SecureBetaReads', meta: 'Watermarked, copy disabled, never AI-trained' },
+        { label: 'Structured feedback', meta: 'React, quick comments, deep thoughts' },
+        { label: 'You control access', meta: 'Set the window, revoke anytime' },
+      ]}
+    />
+  );
+}
+
 export function AudioStub() {
   return (
     <Stub
