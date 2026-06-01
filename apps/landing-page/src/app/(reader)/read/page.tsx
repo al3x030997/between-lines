@@ -198,6 +198,7 @@ function DiscoverContent() {
     <div className="br-discover">
       <FilterSidebar
         open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         filters={filters}
         onToggle={handleToggle}
         selectedShelf={selectedShelf}

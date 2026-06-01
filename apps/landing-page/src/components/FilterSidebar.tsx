@@ -132,9 +132,10 @@ type FilterSidebarProps = {
   selectedShelf: SidebarShelfId;
   onShelfChange: (id: SidebarShelfId) => void;
   open?: boolean;
+  onClose?: () => void;
 };
 
-export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true }: FilterSidebarProps) {
+export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true, onClose }: FilterSidebarProps) {
   return (
     <aside
       className={`br-fsidebar ${open ? 'is-open' : 'is-closed'}`}
@@ -142,6 +143,21 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
       aria-hidden={open ? undefined : true}
     >
       <div className="br-fsidebar-inner">
+      {onClose && (
+        <div className="br-fs-head">
+          <span className="br-fs-head-title">Filters</span>
+          <button
+            type="button"
+            className="br-fs-collapse"
+            aria-label="Hide filters"
+            onClick={onClose}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M10 3 5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      )}
       <div className="br-fs-section br-fs-section-shelf">
         <div className="br-fs-shelf-grid">
           {SHELF_FILTERS.map((item) => {

@@ -916,38 +916,68 @@ body[data-quiet="true"] .br-progress { display: none; }
   min-height: calc(100vh - 65px);
 }
 .br-fsidebar {
+  /* Overlay drawer, not a flex column: fixed to the viewport so opening it
+     floats over the gallery instead of pushing the page sideways. The main
+     content stays put whether the sidebar is open or closed. Flush below the
+     nav (65px) + tabsbar (66px) = 131px, full-bleed to the left edge with a
+     flat Notion-style panel fill and a hairline right border — no floating
+     card, no breathing strip. */
+  position: fixed;
+  left: 0;
+  top: 131px;
+  z-index: 50;
   width: 240px;
-  flex-shrink: 0;
-  background: var(--br-panel-bg);
+  height: calc(100vh - 131px);
+  background: var(--theme-surface-raised);
   border-right: 0.5px solid var(--v11-divider);
-  position: sticky;
-  /* Detach from both nav bars: stick below the nav (65px) + tabsbar
-     (66px) plus a 22px breathing strip. The strip between the tabsbar's
-     bottom edge and the sidebar's top edge gives the panel a floating-
-     card feel; in the dark Netflix scope the strip is painted with
-     chrome-2 by the .br-discover wrapper so no canvas seam shows
-     through. */
-  top: 153px;
-  height: calc(100vh - 153px);
   overflow: hidden;
-  border-radius: 18px 18px 18px 0;
-  transition:
-    width 260ms cubic-bezier(0.2, 0, 0, 1),
-    box-shadow 260ms cubic-bezier(0.2, 0, 0, 1),
-    border-color 260ms cubic-bezier(0.2, 0, 0, 1);
+  transition: width 260ms cubic-bezier(0.2, 0, 0, 1);
 }
 .br-fsidebar.is-closed {
   width: 0;
   border-right-color: transparent;
-  box-shadow: none;
 }
 .br-fsidebar-inner {
   /* Fixed width so content doesn't reflow as the outer width animates. */
   width: 240px;
   height: 100%;
-  padding: 1.5rem 0 2.5rem;
+  padding: 0.75rem 0 2.5rem;
   overflow-y: auto;
   box-sizing: border-box;
+}
+/* Notion-style header: title + a collapse chevron that closes the drawer.
+   The drawer overlays the Filters chip when open, so this is the close
+   affordance. */
+.br-fs-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem 1rem 0.75rem;
+}
+.br-fs-head-title {
+  font-family: var(--br-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--v11-ink-mute);
+}
+.br-fs-collapse {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--v11-ink-mute);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.br-fs-collapse:hover {
+  background: var(--br-panel-warm);
+  color: var(--v11-ink);
 }
 
 /* Profile block — occupies the 240px left slot of .br-discover-head, sitting
@@ -2863,7 +2893,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: var(--v11-divider);
   transition: background 0.25s var(--bl-ease, ease);
 }
-.br-beta-intake-seg.is-on { background: var(--v11-accent); }
+.br-beta-intake-seg.is-on { background: var(--br-sc-green); }
 .br-beta-intake-step {
   font-family: var(--br-font-display);
   font-size: 11px;
@@ -2905,13 +2935,13 @@ body[data-quiet="true"] .br-progress { display: none; }
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
 .br-beta-intake-chip:hover {
-  border-color: var(--v11-accent-strong);
+  border-color: var(--br-sc-green);
   color: var(--v11-ink);
 }
 .br-beta-intake-chip.is-on {
-  background: var(--v11-accent);
-  border-color: var(--v11-accent);
-  color: var(--theme-paper-ink);
+  background: var(--br-sc-green-soft);
+  border-color: var(--br-sc-green);
+  color: var(--br-sc-green-strong);
 }
 .br-beta-intake-opts {
   display: flex;
@@ -2931,10 +2961,10 @@ body[data-quiet="true"] .br-progress { display: none; }
   border: 0.5px solid var(--v11-divider);
   transition: border-color 0.15s ease, background 0.15s ease;
 }
-.br-beta-intake-opt:hover { border-color: var(--v11-accent-strong); }
+.br-beta-intake-opt:hover { border-color: var(--br-sc-green); }
 .br-beta-intake-opt.is-on {
-  border-color: var(--v11-accent);
-  background: var(--v11-accent-soft);
+  border-color: var(--br-sc-green);
+  background: var(--br-sc-green-soft);
 }
 .br-beta-intake-opt-title {
   font-family: var(--br-font-display);
@@ -2974,7 +3004,7 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-beta-intake-input::placeholder { color: var(--v11-ink-trace); }
 .br-beta-intake-input:focus {
   outline: none;
-  border-color: var(--v11-accent);
+  border-color: var(--br-sc-green);
 }
 .br-beta-intake-actions {
   display: flex;
@@ -2997,10 +3027,11 @@ body[data-quiet="true"] .br-progress { display: none; }
   transition: transform 0.18s var(--bl-ease, ease), box-shadow 0.18s ease, background 0.18s ease, color 0.15s ease, opacity 0.18s ease;
 }
 .br-beta-intake-btn.is-primary {
-  background: var(--v11-accent);
-  color: var(--theme-paper-ink);
+  background: #0f6e56;
+  color: #ffffff;
 }
 .br-beta-intake-btn.is-primary:hover:not(:disabled) {
+  background: #0b5743;
   transform: translateY(-1px);
   box-shadow: var(--br-shadow-pop);
 }
@@ -3080,7 +3111,7 @@ body[data-quiet="true"] .br-progress { display: none; }
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.br-beta-intake-reset:hover { color: var(--v11-accent-strong); }
+.br-beta-intake-reset:hover { color: var(--br-sc-green-strong); }
 
 /* responsive */
 @media (max-width: 900px) {
@@ -9640,12 +9671,10 @@ body:has(.br-read-gallery) .br-avatar {
   --read-font: 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
   --read-display: 'Sora', 'Manrope', 'Outfit', -apple-system, system-ui, sans-serif;
 
-  /* Paint the flex wrapper with chrome-2 so the 22px breathing strip
-     above the sidebar (and the rounded-corner peek) blends with the
-     sidebar + tabsbar instead of showing the lighter canvas grey
-     through. .br-discover-main covers the right side with canvas, so
-     only the 240px sidebar column inherits this chrome-2 background. */
-  background: var(--read-chrome-2);
+  /* The sidebar is a fixed overlay, so .br-discover-main fills the whole
+     wrapper with canvas. Paint the wrapper canvas too so any sliver behind
+     the overlay reads as the same normal grey rather than a seam. */
+  background: var(--read-canvas);
 }
 
 /* --- Top nav: pure black, Manrope, pill hover/active.
@@ -10051,12 +10080,12 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
        red accent. Reskins the warm-parchment sidebar without
        touching .br-fs-* usages on other surfaces. --- */
 .br-discover .br-fsidebar {
-  background: var(--read-chrome-2);
+  /* Flat Notion-style panel: a neutral grey one step lighter than the
+     #141414 canvas so it reads as a distinct column, sitting flush with a
+     hairline divider — no floating drop shadow. */
+  background: #1e1e1e;
   border-right: 0.5px solid var(--read-on-line);
   font-family: var(--read-font);
-  box-shadow: 6px 0 28px rgba(0, 0, 0, 0.30);
-}
-.br-discover .br-fsidebar.is-closed {
   box-shadow: none;
 }
 .br-discover .br-fs-label {
@@ -10832,24 +10861,35 @@ body:has(.br-reader-page) .br-nav-link.is-active {
 /* --- /read discover --- */
 html[data-theme='light'] .br-discover {
   --read-accent: #0F766E;
-  --read-accent-strong: #14B89A;
+  /* Strong teal reads as TEXT (eyebrows, links, saved counts) on the light
+     surface — the brighter #14B89A only clears ~2.4:1 on white, so the
+     darker base teal (~5.5:1) is used for both. */
+  --read-accent-strong: #0F766E;
   --read-accent-soft: rgba(15, 118, 110, 0.10);
   --read-accent-line: rgba(15, 118, 110, 0.42);
   --read-accent-glow: rgba(15, 118, 110, 0.22);
   --read-chrome: #ffffff;
-  --read-chrome-2: #f5f5f7;
-  --read-canvas: #fafafa;
+  /* Soft greys, not stark white — the main panel + tabsbar sit on chrome-2,
+     the breathing strip behind them on the slightly deeper canvas. */
+  --read-chrome-2: #eef0f3;
+  --read-canvas: #e9ebef;
   --read-on: #0a0a0a;
   --read-on-soft: rgba(10, 10, 10, 0.92);
   --read-on-mute: rgba(10, 10, 10, 0.66);
   --read-on-faint: rgba(10, 10, 10, 0.42);
   --read-on-line: rgba(10, 10, 10, 0.10);
   --read-on-line-strong: rgba(10, 10, 10, 0.18);
+  /* The Beta Reading hub renders inside .br-discover but leans on the v11
+     marketing tokens — flip its gold accent to the reader teal so eyebrows
+     and step numbers stay legible on the light surface. */
+  --v11-accent: #0F766E;
+  --v11-accent-strong: #0F766E;
+  --v11-accent-soft: rgba(15, 118, 110, 0.10);
   /* Same chrome-2 paint as dark mode so the breathing strip above the
      sidebar blends with the tabsbar instead of showing canvas through. */
   background: var(--read-chrome-2);
 }
-html[data-theme='light'] body:has(.br-discover) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-discover) { background: #e9ebef; }
 html[data-theme='light'] body:has(.br-discover) .br-nav {
   background-color: #ffffff;
   border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
@@ -10929,17 +10969,44 @@ html[data-theme='light'] .br-discover .br-discover-featured .br-featured-blurb {
 html[data-theme='light'] .br-discover .br-discover-featured .br-featured-meta {
   color: rgba(10, 10, 10, 0.55);
 }
-/* Gallery rail card text */
+/* Section heading + Continue-reading title hardcode warm-white / #fff in the
+   dark scope — flip to ink so they don't vanish on the light surface. */
+html[data-theme='light'] .br-discover .br-discover-featured-head h2,
+html[data-theme='light'] .br-discover .br-continue-title { color: #0a0a0a; }
+/* Gallery rail card text. The rail tokens default to warm off-white (#fff7e8)
+   for the dark Netflix surface; below the cover the poster title/author/blurb/
+   tags + rail headings sit on the light canvas, so flip every on-SURFACE token
+   to neutral ink. The on-MEDIA tokens stay light — they overlay the dark cover
+   art and its bottom gradient. */
 html[data-theme='light'] .br-discover .br-discover-rails {
+  --gallery-ink: #0a0a0a;
   --gallery-soft: rgba(10, 10, 10, 0.74);
+  --gallery-muted: rgba(10, 10, 10, 0.55);
+  --gallery-faint: rgba(10, 10, 10, 0.38);
+  --gallery-line: rgba(10, 10, 10, 0.12);
+  --gallery-surface: rgba(10, 10, 10, 0.03);
+  --gallery-surface-strong: rgba(10, 10, 10, 0.06);
+  --gallery-accent: #0F766E;
+  --gallery-accent-strong: #0F766E;
+  --gallery-accent-soft: rgba(15, 118, 110, 0.10);
+  --gallery-accent-line: rgba(15, 118, 110, 0.42);
   --gallery-on-media-soft: rgba(255, 255, 255, 0.92);
   --gallery-on-media-muted: rgba(255, 255, 255, 0.74);
 }
+/* Metadata pills below the cover hardcode warm off-white (the keyword pills
+   ON the cover keep it — they overlay dark art). Flip the below-cover ones. */
+html[data-theme='light'] .br-discover .br-gallery-poster-tag {
+  border-color: rgba(10, 10, 10, 0.14);
+  background: rgba(10, 10, 10, 0.04);
+  color: rgba(10, 10, 10, 0.66);
+}
 /* Filter sidebar */
 html[data-theme='light'] .br-discover .br-fsidebar {
-  background: var(--read-chrome-2);
+  /* Notion-style light grey panel, a touch lighter than the #e9ebef canvas,
+     flush with a hairline divider — no floating shadow. */
+  background: #f4f5f7;
   border-right-color: rgba(10, 10, 10, 0.10);
-  box-shadow: 6px 0 24px rgba(10, 10, 10, 0.08);
+  box-shadow: none;
 }
 html[data-theme='light'] .br-discover .br-fsidebar.is-closed { box-shadow: none; }
 html[data-theme='light'] .br-discover .br-fs-shelf-btn,
@@ -10962,13 +11029,13 @@ html[data-theme='light'] .br-discover .br-fs-saved-item {
 /* --- /read chapter reader --- */
 html[data-theme='light'] .br-reader-page {
   --reader-accent: #0F766E;
-  --reader-accent-strong: #14B89A;
+  --reader-accent-strong: #0F766E;
   --reader-accent-soft: rgba(15, 118, 110, 0.10);
   --reader-accent-line: rgba(15, 118, 110, 0.42);
   --reader-accent-glow: rgba(15, 118, 110, 0.22);
   --reader-chrome: #ffffff;
-  --reader-chrome-2: #f5f5f7;
-  --reader-canvas: #fafafa;
+  --reader-chrome-2: #eef0f3;
+  --reader-canvas: #e9ebef;
   --reader-on: #0a0a0a;
   --reader-on-soft: rgba(10, 10, 10, 0.92);
   --reader-on-mute: rgba(10, 10, 10, 0.66);
@@ -10976,7 +11043,7 @@ html[data-theme='light'] .br-reader-page {
   --reader-on-line: rgba(10, 10, 10, 0.10);
   --reader-on-line-strong: rgba(10, 10, 10, 0.18);
 }
-html[data-theme='light'] body:has(.br-reader-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-reader-page) { background: #e9ebef; }
 html[data-theme='light'] body:has(.br-reader-page) .br-nav {
   background-color: #ffffff;
   border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
@@ -11010,13 +11077,13 @@ html[data-theme='light'] .br-reader-page .br-star { color: rgba(10, 10, 10, 0.20
 /* --- /read book detail --- */
 html[data-theme='light'] .br-book-page {
   --bp-accent: #0F766E;
-  --bp-accent-strong: #14B89A;
+  --bp-accent-strong: #0F766E;
   --bp-accent-soft: rgba(15, 118, 110, 0.10);
   --bp-accent-line: rgba(15, 118, 110, 0.42);
   --bp-accent-glow: rgba(15, 118, 110, 0.22);
   --bp-chrome: #ffffff;
-  --bp-chrome-2: #f5f5f7;
-  --bp-canvas: #fafafa;
+  --bp-chrome-2: #eef0f3;
+  --bp-canvas: #e9ebef;
   --bp-on: #0a0a0a;
   --bp-on-soft: rgba(10, 10, 10, 0.92);
   --bp-on-mute: rgba(10, 10, 10, 0.66);
@@ -11024,7 +11091,7 @@ html[data-theme='light'] .br-book-page {
   --bp-on-line: rgba(10, 10, 10, 0.10);
   --bp-on-line-strong: rgba(10, 10, 10, 0.18);
 }
-html[data-theme='light'] body:has(.br-book-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-book-page) { background: #e9ebef; }
 html[data-theme='light'] body:has(.br-book-page) .br-nav {
   background-color: #ffffff;
   border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
@@ -11050,13 +11117,13 @@ html[data-theme='light'] .br-book-page .br-unlock-nudge {
 /* --- /write landing --- */
 html[data-theme='light'] .br-write-page {
   --wpg-accent: #0F766E;
-  --wpg-accent-strong: #14B89A;
+  --wpg-accent-strong: #0F766E;
   --wpg-accent-soft: rgba(15, 118, 110, 0.10);
   --wpg-accent-line: rgba(15, 118, 110, 0.42);
   --wpg-accent-glow: rgba(15, 118, 110, 0.22);
   --wpg-chrome: #ffffff;
-  --wpg-chrome-2: #f5f5f7;
-  --wpg-canvas: #fafafa;
+  --wpg-chrome-2: #eef0f3;
+  --wpg-canvas: #e9ebef;
   --wpg-on: #0a0a0a;
   --wpg-on-soft: rgba(10, 10, 10, 0.92);
   --wpg-on-mute: rgba(10, 10, 10, 0.66);
@@ -11085,7 +11152,7 @@ html[data-theme='light'] .br-write-page {
   --theme-strong-cta-fg: #ffffff;
   --theme-strong-cta-hover-bg: #14B89A;
 }
-html[data-theme='light'] body:has(.br-write-page) { background: #fafafa; }
+html[data-theme='light'] body:has(.br-write-page) { background: #e9ebef; }
 html[data-theme='light'] body:has(.br-write-page) .br-nav {
   background-color: #ffffff;
   border-bottom: 0.5px solid rgba(10, 10, 10, 0.10);
@@ -11128,10 +11195,10 @@ html[data-theme='light'] .br-write-search:focus-within {
 /* --- Write preview overlay --- */
 html[data-theme='light'] .br-write-preview {
   --wp-chrome: #ffffff;
-  --wp-canvas: #fafafa;
+  --wp-canvas: #e9ebef;
   --wp-card: rgba(10, 10, 10, 0.03);
   --wp-accent: #0F766E;
-  --wp-accent-strong: #14B89A;
+  --wp-accent-strong: #0F766E;
   --wp-accent-glow: rgba(15, 118, 110, 0.22);
   --wp-on: #0a0a0a;
   --wp-on-soft: rgba(10, 10, 10, 0.92);
