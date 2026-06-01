@@ -248,7 +248,7 @@ function DiscoverContent() {
         )}
 
         {active === 'betareading' ? (
-          <BetaReadingHub query={searchQuery} />
+          <BetaReadingHub />
         ) : stub ? (
           <div className="br-discover-stub" role="status">
             <p className="br-discover-stub-kicker">Coming soon</p>
