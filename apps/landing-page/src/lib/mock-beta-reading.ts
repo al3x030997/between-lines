@@ -194,3 +194,71 @@ export function getBetaReadingRequests(): BetaReadingRequest[] {
 export function getBetaReadingRequest(slug: string): BetaReadingRequest | undefined {
   return betaReadingRequests.find((request) => request.slug === slug);
 }
+
+/** Parse a deadline label like "14 days" into a number of days for sorting. */
+export function deadlineDays(request: BetaReadingRequest): number {
+  const match = request.deadline.match(/\d+/);
+  return match ? Number(match[0]) : Number.POSITIVE_INFINITY;
+}
+
+/**
+ * How early in the writing process a draft is — lower = earlier (needs the most
+ * help, so it surfaces first in the "Fresh requests" rail). Unknown stages sort last.
+ */
+const stageRank: Record<string, number> = {
+  'First full draft': 0,
+  'Developmental draft': 1,
+  'Second draft': 2,
+  'Line edit': 3,
+};
+
+function stageOrder(request: BetaReadingRequest): number {
+  return stageRank[request.stage] ?? 99;
+}
+
+export type BetaReadingSection = {
+  id: string;
+  label: string;
+  kicker: string;
+  requests: BetaReadingRequest[];
+};
+
+/**
+ * Rail groupings for the Beta Reading hub. Built to read well with the current
+ * thin mock data (5 requests, each a distinct genre — so we group by deadline and
+ * stage rather than genre, which would yield one-card rails). Genre lives in the
+ * hub's filter chips instead.
+ */
+export function getBetaReadingSections(): BetaReadingSection[] {
+  const all = getBetaReadingRequests();
+  return [
+    {
+      id: 'closing',
+      label: 'Closing soon',
+      kicker: 'Feedback windows ending first',
+      requests: [...all].sort((a, b) => deadlineDays(a) - deadlineDays(b)),
+    },
+    {
+      id: 'fresh',
+      label: 'Fresh requests',
+      kicker: 'Early drafts looking for readers',
+      requests: [...all].sort((a, b) => stageOrder(a) - stageOrder(b)),
+    },
+    {
+      id: 'all',
+      label: 'All open beta reads',
+      kicker: 'Every manuscript seeking feedback',
+      requests: all,
+    },
+  ];
+}
+
+/** Unique genres across open requests, for the hub filter chips. */
+export function betaGenres(): string[] {
+  return Array.from(new Set(getBetaReadingRequests().map((r) => r.genre))).sort();
+}
+
+/** Unique moods across open requests, for the hub filter chips. */
+export function betaMoods(): string[] {
+  return Array.from(new Set(getBetaReadingRequests().map((r) => r.mood))).sort();
+}
