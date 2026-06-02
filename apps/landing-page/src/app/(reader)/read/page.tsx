@@ -14,6 +14,11 @@ import { DiscoverSearch } from '@/components/read/DiscoverSearch';
 import { RailScroller } from '@/components/read/RailScroller';
 import { BetaReadingHub } from '@/components/read/BetaReadingHub';
 import {
+  KidCategoryChips,
+  KID_CATEGORY_TERMS,
+  type KidCategory,
+} from '@/components/read/KidCategoryChips';
+import {
   getBooksBySection,
   getInProgressBooks,
   sections,
@@ -36,6 +41,15 @@ const tabs: TabDef<DiscoverTabId>[] = [
   { id: 'betareading', label: 'Beta Reading' },
   { id: 'audio', label: 'Audio' },
   { id: 'magazine', label: 'Magazine' },
+  { id: 'community', label: 'Community' },
+];
+
+// Kids get a stripped-down set: Read (For You), Audio, Community. No
+// BetweenLines / Beta Reading / Magazine.
+const KID_TAB_IDS: DiscoverTabId[] = ['foryou', 'audio', 'community'];
+const kidTabs: TabDef<DiscoverTabId>[] = [
+  { id: 'foryou', label: 'Read' },
+  { id: 'audio', label: 'Audio' },
   { id: 'community', label: 'Community' },
 ];
 
@@ -162,6 +176,7 @@ function isDiscoverTab(value: string | null): value is DiscoverTabId {
 
 function DiscoverContent() {
   const { session } = useMockSession();
+  const isKid = session?.isKid ?? false;
   const searchParams = useSearchParams();
   const initialTab = searchParams.get('tab');
   const [active, setActive] = useState<DiscoverTabId>(
@@ -171,69 +186,82 @@ function DiscoverContent() {
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const visible = new Set<Section['id']>(visibility[active]);
+  const [kidCategory, setKidCategory] = useState<KidCategory>('all');
+  // Keep kids out of hidden tabs (e.g. a `?tab=betareading` deep link).
+  const safeActive: DiscoverTabId = isKid && !KID_TAB_IDS.includes(active) ? 'foryou' : active;
+  const visible = new Set<Section['id']>(visibility[safeActive]);
   const normalizedQuery = searchQuery.trim().toLowerCase();
+  const kidTerms = isKid ? KID_CATEGORY_TERMS[kidCategory] : [];
   const matchesQuery = useCallback(
     (book: Book) => {
-      if (!normalizedQuery) return true;
-      return (
-        book.title.toLowerCase().includes(normalizedQuery)
-        || book.author.toLowerCase().includes(normalizedQuery)
-        || book.blurb.toLowerCase().includes(normalizedQuery)
-        || book.tags.some((t) => t.toLowerCase().includes(normalizedQuery))
-      );
+      const hay = [book.title, book.author, book.blurb, ...book.tags]
+        .join(' ')
+        .toLowerCase();
+      if (normalizedQuery && !hay.includes(normalizedQuery)) return false;
+      if (kidTerms.length > 0 && !kidTerms.some((t) => hay.includes(t))) return false;
+      return true;
     },
-    [normalizedQuery],
+    [normalizedQuery, kidTerms],
   );
   const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
-  const showFeatured = active === 'foryou' || active === 'betweenlines';
-  const showContinue = session && (active === 'foryou' || active === 'betweenlines');
-  const stub = stubContent[active];
+  const showFeatured = !isKid && (safeActive === 'foryou' || safeActive === 'betweenlines');
+  const showContinue = session && (safeActive === 'foryou' || safeActive === 'betweenlines');
+  const stub = stubContent[safeActive];
 
   const handleToggle = (key: string) => {
     setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   return (
-    <div className="br-discover">
-      <FilterSidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-        filters={filters}
-        onToggle={handleToggle}
-        selectedShelf={selectedShelf}
-        onShelfChange={setSelectedShelf}
-      />
+    <div className={`br-discover ${isKid ? 'is-kid' : ''}`}>
+      {!isKid && (
+        <FilterSidebar
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          filters={filters}
+          onToggle={handleToggle}
+          selectedShelf={selectedShelf}
+          onShelfChange={setSelectedShelf}
+        />
+      )}
       <div className="br-discover-main">
         <div className="br-discover-tabsbar">
           <div className="br-discover-tabsbar-inner">
             <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
             <StoreTabs<DiscoverTabId>
-              tabs={tabs}
-              active={active}
+              tabs={isKid ? kidTabs : tabs}
+              active={safeActive}
               onChange={setActive}
               ariaLabel="Discover sections"
             />
           </div>
         </div>
-        {active !== 'betareading' && (
-          <div className="br-discover-toolbar">
-            <button
-              type="button"
-              className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
-              aria-pressed={sidebarOpen}
-              aria-expanded={sidebarOpen}
-              aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
-              onClick={() => setSidebarOpen((s) => !s)}
-            >
-              <span className="br-fs-toggle-icon" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </span>
-              <span className="br-fs-toggle-label">Filters</span>
-            </button>
-          </div>
+        {isKid ? (
+          safeActive === 'foryou' && (
+            <div className="br-discover-toolbar">
+              <KidCategoryChips selected={kidCategory} onSelect={setKidCategory} />
+            </div>
+          )
+        ) : (
+          safeActive !== 'betareading' && (
+            <div className="br-discover-toolbar">
+              <button
+                type="button"
+                className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
+                aria-pressed={sidebarOpen}
+                aria-expanded={sidebarOpen}
+                aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
+                onClick={() => setSidebarOpen((s) => !s)}
+              >
+                <span className="br-fs-toggle-icon" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </span>
+                <span className="br-fs-toggle-label">Filters</span>
+              </button>
+            </div>
+          )
         )}
 
         {showContinue && <ContinueReadingBox />}
@@ -248,7 +276,7 @@ function DiscoverContent() {
           </div>
         )}
 
-        {active === 'betareading' ? (
+        {safeActive === 'betareading' ? (
           <BetaReadingHub />
         ) : stub ? (
           <div className="br-discover-stub" role="status">
@@ -274,12 +302,18 @@ function DiscoverContent() {
                 );
               })
               .filter(Boolean);
-            if (renderedRails.length === 0 && normalizedQuery) {
+            if (renderedRails.length === 0 && (normalizedQuery || kidTerms.length > 0)) {
               return (
                 <div className="br-discover-stub" role="status">
                   <p className="br-discover-stub-kicker">No matches</p>
-                  <h2 className="br-discover-stub-title">Nothing here for “{searchQuery}”</h2>
-                  <p className="br-discover-stub-body">Try a different title, author, or tag.</p>
+                  <h2 className="br-discover-stub-title">
+                    {normalizedQuery ? `Nothing here for “${searchQuery}”` : 'Nothing here yet'}
+                  </h2>
+                  <p className="br-discover-stub-body">
+                    {normalizedQuery
+                      ? 'Try a different title, author, or tag.'
+                      : 'Pick another category to keep exploring.'}
+                  </p>
                 </div>
               );
             }

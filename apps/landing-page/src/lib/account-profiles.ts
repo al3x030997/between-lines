@@ -87,5 +87,6 @@ export function sessionForAccountProfile(profile: AccountProfile): SetSessionInp
     roles: profile.roles,
     followers: profile.followers,
     following: profile.following,
+    isKid: profile.badge === 'kids',
   };
 }

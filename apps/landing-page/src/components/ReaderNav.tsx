@@ -8,12 +8,12 @@ import { AvatarMenu } from './AvatarMenu';
 import { ThemeToggle } from './ThemeToggle';
 import { useMockSession } from '@/lib/useMockSession';
 
-type NavLink = { href: string; label: string; requiresWriter?: boolean };
+type NavLink = { href: string; label: string; requiresWriter?: boolean; hideForKids?: boolean };
 
 const links: NavLink[] = [
   { href: '/read', label: 'Read' },
-  { href: '/write', label: 'Write' },
-  { href: '/betweenlines#journal-submission', label: 'Submit to Journal' },
+  { href: '/write', label: 'Write', hideForKids: true },
+  { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
 export function ReaderNav() {
@@ -22,6 +22,7 @@ export function ReaderNav() {
   const [currentTarget, setCurrentTarget] = useState(pathname);
   const { session } = useMockSession();
   const isWriter = session?.roles?.includes('writer') ?? false;
+  const isKid = session?.isKid ?? false;
 
   useEffect(() => {
     setCurrentTarget(`${pathname}${window.location.search}`);
@@ -45,6 +46,7 @@ export function ReaderNav() {
       <div className="br-nav-links">
         {links.map((l) => {
           if (l.requiresWriter && !isWriter) return null;
+          if (l.hideForKids && isKid) return null;
           const hrefWithoutHash = l.href.split('#')[0] ?? l.href;
           const baseHref = hrefWithoutHash.split('?')[0] ?? hrefWithoutHash;
           const isActionLink = hrefWithoutHash.includes('?');
@@ -71,7 +73,7 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
-        <ThemeToggle className="br-nav-theme" />
+        {!isKid && <ThemeToggle className="br-nav-theme" />}
         <AccountSwitcher />
         <AvatarMenu />
       </div>

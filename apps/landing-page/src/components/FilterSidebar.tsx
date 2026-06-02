@@ -1,5 +1,20 @@
 'use client';
 
+import type { ComponentType } from 'react';
+import {
+  IconGrid,
+  IconSparkle,
+  IconPlayCircle,
+  IconBookmark,
+  IconCheckCircle,
+  IconStar,
+  IconBeaker,
+  IconCrown,
+  IconClock,
+  IconSearch,
+  IconChevronLeft,
+} from './read/sidebar-icons';
+
 type FilterDef = {
   label: FilterGroup;
   items: { label: string }[];
@@ -18,16 +33,18 @@ export type SidebarShelfId =
   | 'readinglist'
   | 'finished';
 
-const SHELF_FILTERS: { id: SidebarShelfId; label: string }[] = [
-  { id: 'all', label: 'All' },
-  { id: 'foryou', label: 'For You' },
-  { id: 'continue', label: 'Continue Reading' },
-  { id: 'readinglist', label: 'Reading List' },
-  { id: 'finished', label: 'Finished' },
-  { id: 'readerpicks', label: 'Reader Picks' },
-  { id: 'betapicks', label: 'Beta Picks' },
-  { id: 'memberpicks', label: 'Member Picks' },
-  { id: 'new', label: 'New This Week' },
+type ShelfIcon = ComponentType<{ className?: string; size?: number }>;
+
+const SHELF_FILTERS: { id: SidebarShelfId; label: string; icon: ShelfIcon }[] = [
+  { id: 'all', label: 'All', icon: IconGrid },
+  { id: 'foryou', label: 'For You', icon: IconSparkle },
+  { id: 'continue', label: 'Continue Reading', icon: IconPlayCircle },
+  { id: 'readinglist', label: 'Reading List', icon: IconBookmark },
+  { id: 'finished', label: 'Finished', icon: IconCheckCircle },
+  { id: 'readerpicks', label: 'Reader Picks', icon: IconStar },
+  { id: 'betapicks', label: 'Beta Picks', icon: IconBeaker },
+  { id: 'memberpicks', label: 'Member Picks', icon: IconCrown },
+  { id: 'new', label: 'New This Week', icon: IconClock },
 ];
 
 const FILTERS: FilterDef[] = [
@@ -143,25 +160,29 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
       aria-hidden={open ? undefined : true}
     >
       <div className="br-fsidebar-inner">
-      {onClose && (
-        <div className="br-fs-head">
-          <span className="br-fs-head-title">Filters</span>
-          <button
-            type="button"
-            className="br-fs-collapse"
-            aria-label="Hide filters"
-            onClick={onClose}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M10 3 5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+      <div className="br-fs-head">
+        <span className="br-fs-head-title">Library</span>
+        <div className="br-fs-head-actions">
+          <button type="button" className="br-fs-iconbtn" aria-label="Search the library">
+            <IconSearch size={16} />
           </button>
+          {onClose && (
+            <button
+              type="button"
+              className="br-fs-iconbtn"
+              aria-label="Hide filters"
+              onClick={onClose}
+            >
+              <IconChevronLeft size={16} />
+            </button>
+          )}
         </div>
-      )}
+      </div>
       <div className="br-fs-section br-fs-section-shelf">
-        <div className="br-fs-shelf-grid">
+        <nav className="br-fs-shelf-grid" aria-label="Shelves">
           {SHELF_FILTERS.map((item) => {
             const on = selectedShelf === item.id;
+            const Icon = item.icon;
             return (
               <button
                 key={item.id}
@@ -170,11 +191,12 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
                 aria-pressed={on}
                 onClick={() => onShelfChange(item.id)}
               >
+                <Icon className="br-fs-shelf-icon" />
                 <span>{item.label}</span>
               </button>
             );
           })}
-        </div>
+        </nav>
       </div>
 
       {FILTERS.map((group) => {

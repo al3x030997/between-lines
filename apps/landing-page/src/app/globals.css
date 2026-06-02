@@ -286,6 +286,106 @@ input:focus, textarea:focus { outline: none; }
   --br-shadow-lift: 0 14px 40px rgba(0,0,0,0.10);
 }
 
+/* ============================================================
+   KIDS SKIN — bright, playful reader reskin for child profiles.
+   Toggled by applyKidsSkin() → html[data-kids='on']. Locked to a
+   light, high-energy palette; overrides only --theme-*/--v11-*/--br-*
+   reader tokens, so the .v11-* / .bl-* marketing pages are untouched
+   and the adult teal/yellow/paper brand is never replaced.
+   ============================================================ */
+html[data-kids='on'] {
+  color-scheme: light;
+
+  /* Cream page + warm surfaces */
+  --theme-page: #FFF9F0;
+  --theme-page-soft: #FFF9F0;
+  --theme-surface: #ffffff;
+  --theme-surface-raised: #ffffff;
+  --theme-surface-subtle: #FFF3DF;
+  --theme-surface-muted: #FFF0E6;
+  --theme-text: #1d2240;
+  --theme-text-strong: #11152e;
+  --theme-text-soft: #353a5e;
+  --theme-text-muted: #5b6088;
+  --theme-text-faint: #9aa0c0;
+  --theme-border: rgba(46, 107, 230, 0.22);
+  --theme-border-subtle: rgba(46, 107, 230, 0.12);
+  --theme-border-strong: rgba(46, 107, 230, 0.4);
+
+  /* Bright blue primary, sunny yellow + coral as accents */
+  --theme-accent: #2E6BE6;
+  --theme-accent-strong: #1f54c4;
+  --theme-accent-soft: #e4edff;
+  --theme-accent-contrast: #ffffff;
+  --theme-yellow: #FFC93C;
+  --theme-yellow-strong: #f4b81f;
+  --theme-yellow-deep: #ffb000;
+  --theme-on-yellow: #2a1f00;
+  --theme-hero: var(--theme-yellow);
+  --theme-hero-text: #2a1f00;
+  --theme-strong-cta-bg: #2E6BE6;
+  --theme-strong-cta-hover-bg: #1f54c4;
+  --theme-strong-cta-fg: #ffffff;
+  --theme-footer-bg: #2E6BE6;
+  --theme-footer-fg: #ffffff;
+
+  /* Recolor the loudest reader accents to the kid palette */
+  --br-premium: #2E6BE6;
+  --br-premium-strong: #1f54c4;
+  --br-premium-soft: #e4edff;
+  --br-premium-ink: #1f54c4;
+  --br-free-bg: #e3f9ef;
+  --br-free-ink: #13794f;
+  --br-free-border: #9fe6c4;
+  --br-rc-gold: #f4a800;
+  --br-rc-gold-strong: #d98e00;
+
+  /* Chunky, rounded geometry */
+  --br-radius-sm: 12px;
+  --br-radius-md: 18px;
+  --br-radius-lg: 24px;
+  --br-radius-xl: 32px;
+  --br-shadow-soft: 0 6px 18px rgba(46, 107, 230, 0.10);
+  --br-shadow-pop: 0 10px 30px rgba(46, 107, 230, 0.16);
+  --br-shadow-lift: 0 16px 44px rgba(46, 107, 230, 0.20);
+}
+
+/* Kids category chips (rendered only in kids mode) */
+.br-kid-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+.br-kid-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 2px solid var(--theme-border);
+  background: var(--theme-surface);
+  color: var(--theme-text);
+  font-family: var(--br-font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s var(--bl-ease), background 0.12s var(--bl-ease), border-color 0.12s var(--bl-ease), color 0.12s var(--bl-ease);
+}
+.br-kid-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--theme-accent);
+}
+.br-kid-chip.is-on {
+  background: var(--theme-accent);
+  border-color: var(--theme-accent);
+  color: var(--theme-accent-contrast);
+}
+.br-kid-chip-emoji {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
 html[data-theme='dark'] {
   /* Reader currency and label surfaces */
   --br-rc-gold: #e1b650;
@@ -938,12 +1038,16 @@ body[data-quiet="true"] .br-progress { display: none; }
   border-right-color: transparent;
 }
 .br-fsidebar-inner {
-  /* Fixed width so content doesn't reflow as the outer width animates. */
+  /* Fixed width so content doesn't reflow as the outer width animates. Flex
+     column so the saved-filters block pins to the bottom (margin-top:auto),
+     Claude-style, while the nav + filter groups stack from the top. */
   width: 240px;
   height: 100%;
-  padding: 0.75rem 0 2.5rem;
+  padding: 0.75rem 0 1rem;
   overflow-y: auto;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 /* Notion-style header: title + a collapse chevron that closes the drawer.
    The drawer overlays the Filters chip when open, so this is the close
@@ -976,6 +1080,29 @@ body[data-quiet="true"] .br-progress { display: none; }
   transition: background 0.15s, color 0.15s;
 }
 .br-fs-collapse:hover {
+  background: var(--br-panel-warm);
+  color: var(--v11-ink);
+}
+/* Claude-style top icon row: ghost search + collapse buttons. */
+.br-fs-head-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.br-fs-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--v11-ink-mute);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.br-fs-iconbtn:hover {
   background: var(--br-panel-warm);
   color: var(--v11-ink);
 }
@@ -1146,24 +1273,31 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-fs-shelf-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 7px;
+  gap: 2px;
 }
+/* Leading-icon nav rows (Claude "Projects / Artifacts" style): borderless,
+   full-width, a fixed icon slot + label, soft hover fill, solid soft-accent
+   fill when active. Color comes from the per-surface overrides below. */
 .br-fs-shelf-btn {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: flex-start;
+  gap: 11px;
   width: 100%;
-  min-height: 42px;
-  padding: 9px 11px;
+  min-height: 38px;
+  padding: 8px 10px;
   border-radius: 8px;
-  border: 0.5px solid var(--v11-divider);
-  background: var(--br-panel-bg);
+  border: none;
+  background: transparent;
   color: var(--v11-ink-soft);
   font-family: var(--br-font-sans);
   text-align: left;
   cursor: pointer;
-  transition: background 0.12s, color 0.12s, border-color 0.12s, transform 0.12s;
+  transition: background 0.12s, color 0.12s;
+}
+.br-fs-shelf-icon {
+  flex-shrink: 0;
+  opacity: 0.85;
 }
 .br-fs-shelf-btn span {
   min-width: 0;
@@ -1171,19 +1305,17 @@ body[data-quiet="true"] .br-progress { display: none; }
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 600;
 }
 .br-fs-shelf-btn:hover {
   background: var(--br-panel-warm);
   color: var(--v11-ink);
-  border-color: var(--br-border-warm);
-  transform: translateY(-1px);
 }
 .br-fs-shelf-btn.is-on {
   background: var(--v11-accent-soft);
   color: var(--v11-accent);
-  border-color: var(--v11-accent);
 }
+.br-fs-shelf-btn.is-on .br-fs-shelf-icon { opacity: 1; }
 .br-fs-pills {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1262,7 +1394,9 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-fs-more:hover { background: var(--br-panel-warm); color: var(--v11-ink); border-color: var(--br-border-warm); }
 .br-fs-saved {
-  margin: 0 1rem;
+  /* Pinned footer card (Claude footer-row analog): pushed to the bottom of the
+     flex inner so it sits below the nav + filter groups. */
+  margin: auto 1rem 0;
   padding-top: 1.25rem;
   border-top: 0.5px solid var(--v11-divider);
 }
@@ -2663,10 +2797,10 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-beta-hub {
   display: flex;
   flex-direction: column;
-  gap: clamp(2rem, 4vw, 3rem);
+  gap: clamp(3.5rem, 7vw, 6rem);
   width: min(1480px, 100%);
   margin: 0 auto;
-  padding: 1.75rem 2.5rem 3rem;
+  padding: 2.5rem 2.5rem 4.5rem;
   box-sizing: border-box;
 }
 /* hero — what beta reading is */
@@ -2868,13 +3002,26 @@ body[data-quiet="true"] .br-progress { display: none; }
 /* === volunteer intake flow === */
 .br-beta-intake {
   width: 100%;
-  max-width: 660px;
-  align-self: center;
   background: var(--br-panel-bg);
-  border: 0.5px solid var(--v11-divider);
-  border-radius: var(--br-radius-lg);
-  box-shadow: var(--br-shadow-soft);
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid var(--br-sc-green-border);
+  border-radius: var(--br-radius-xl);
+  box-shadow: var(--br-shadow-lift);
+  padding: clamp(2rem, 4vw, 3.5rem);
+}
+/* In-card intro — the heading lives inside the highlight box now. */
+.br-beta-intake-intro {
+  max-width: 60ch;
+  margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
+  border-bottom: 0.5px solid var(--v11-divider);
+}
+.br-beta-intake-intro .br-beta-sec-title {
+  font-size: clamp(26px, 3.4vw, 40px);
+  margin-top: 8px;
+}
+.br-beta-intake-intro .br-beta-sec-sub {
+  font-size: 15px;
+  margin-top: 12px;
 }
 .br-beta-intake-head {
   display: flex;
@@ -8227,14 +8374,20 @@ body[data-quiet="true"] .br-progress { display: none; }
   transition: width 0.2s;
   overflow: hidden;
 }
-.br-write-sidebar.is-collapsed { width: 4px; }
-.br-write-vbar {
-  width: 4px;
-  background: var(--br-border-hair);
-  flex-shrink: 0;
+/* Collapsed: a thin 4px progress rail with a chevron tab that pokes out so the
+   whole rail clicks open. overflow:visible lets the tab show past the 4px. */
+.br-write-sidebar.is-collapsed { width: 4px; overflow: visible; }
+.br-write-rail {
   position: relative;
+  width: 4px;
+  height: 100%;
+  flex-shrink: 0;
+  background: var(--br-border-hair);
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }
-.br-write-vbar-fill {
+.br-write-rail-fill {
   position: absolute;
   top: 0;
   left: 0;
@@ -8242,25 +8395,23 @@ body[data-quiet="true"] .br-progress { display: none; }
   background: var(--br-writer);
   border-radius: 0 0 3px 3px;
 }
-.br-write-collapse-btn {
+.br-write-rail-chev {
   position: absolute;
-  bottom: 1rem;
+  top: 14px;
   left: 0;
-  width: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 0;
-  cursor: pointer;
-  color: var(--v11-ink-trace);
-  font-size: 14px;
+  width: 20px;
+  height: 26px;
+  border-radius: 0 8px 8px 0;
   background: var(--theme-surface);
-  border: none;
-  border-top: 0.5px solid var(--br-border-hair);
-  z-index: 2;
-  margin-left: -14px;
+  border: 0.5px solid var(--br-border-hair);
+  border-left: none;
+  color: var(--v11-ink-trace);
+  transition: color 0.15s;
 }
-.br-write-collapse-btn:hover { color: var(--v11-ink-soft); }
+.br-write-rail:hover .br-write-rail-chev { color: var(--v11-ink-soft); }
 
 .br-write-chpanel {
   flex: 1;
@@ -8270,42 +8421,119 @@ body[data-quiet="true"] .br-progress { display: none; }
   min-width: 0;
 }
 .br-write-novel-header {
-  padding: 0.95rem 1rem 0.85rem;
+  padding: 0.85rem 1rem 0.9rem;
   border-bottom: 0.5px solid var(--br-border-hair);
   flex-shrink: 0;
+}
+.br-write-novel-headrow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
 }
 .br-write-novel-title {
   font-family: var(--br-font-display);
   font-size: 16px;
   color: var(--v11-ink);
-  margin-bottom: 3px;
+  flex: 1;
+  min-width: 0;
 }
-.br-write-novel-meta { font-size: 10px; color: var(--br-writer); margin-bottom: 4px; }
+/* Collapse control now lives top-right in the header (Claude-style icon button). */
+.br-write-collapse-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin: -3px -5px 0 0;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--v11-ink-trace);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.br-write-collapse-btn:hover { background: var(--br-panel-warm); color: var(--v11-ink-soft); }
+.br-write-novel-meta { font-size: 10px; color: var(--br-writer); margin-top: 3px; }
+.br-write-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--br-border-hair);
+  overflow: hidden;
+  margin: 9px 0 6px;
+}
+.br-write-progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--br-writer);
+  border-radius: 999px;
+  transition: width 0.2s;
+}
 .br-write-novel-stats { font-size: 10px; color: var(--v11-ink-trace); }
+
+/* Primary action at top — Claude "New chat" analog. */
+.br-write-new-ch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0.75rem 0.65rem 0.25rem;
+  padding: 9px 11px;
+  border-radius: 9px;
+  border: 0.5px solid var(--v11-accent);
+  background: var(--v11-accent-soft);
+  color: var(--v11-accent);
+  font-family: var(--br-font-sans);
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.br-write-new-ch:hover { background: var(--v11-accent); color: #0a0a0a; }
+
+.br-write-chsection-label {
+  font-family: var(--br-font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v11-ink-trace);
+  padding: 0 1rem;
+  margin: 0.9rem 0 0.4rem;
+}
 .br-write-chlist-wrap { flex: 1; overflow-y: auto; }
 .br-write-chlist { list-style: none; }
 .br-write-chitem {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 1rem;
+  gap: 9px;
+  padding: 6px 8px;
+  margin: 0 0.5rem 1px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background 0.12s;
-  border-left: 2px solid transparent;
 }
 .br-write-chitem:hover { background: var(--br-panel-warm); }
-.br-write-chitem.is-active {
-  background: var(--v11-accent-soft);
-  border-left-color: var(--v11-accent);
-}
+.br-write-chitem.is-active { background: var(--v11-accent-soft); }
 .br-write-chnum {
-  font-size: 10px;
-  color: var(--v11-ink-trace);
-  width: 18px;
   flex-shrink: 0;
-  text-align: right;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--br-panel-warm);
+  font-size: 10px;
+  color: var(--v11-ink-mute);
   font-family: var(--br-font-display);
   font-style: italic;
+}
+.br-write-chitem.is-active .br-write-chnum {
+  background: var(--v11-accent);
+  color: #0a0a0a;
+  font-style: normal;
+  font-weight: 700;
 }
 .br-write-chname {
   font-size: 12px;
@@ -8327,24 +8555,28 @@ body[data-quiet="true"] .br-progress { display: none; }
   text-overflow: clip;
 }
 .br-write-chitem.is-new .br-write-chname { color: var(--v11-accent); }
+
+/* Pinned footer chip — Claude footer-row analog (progress at a glance). */
 .br-write-chfoot {
-  border-top: 0.5px solid var(--br-border-hair);
-  padding: 0.75rem 1rem;
-  flex-shrink: 0;
-}
-.br-write-add-ch {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--v11-accent);
-  background: none;
-  border: none;
-  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0;
+  gap: 7px;
+  border-top: 0.5px solid var(--br-border-hair);
+  margin-top: auto;
+  padding: 0.7rem 1rem;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--v11-ink-mute);
+  font-variant-numeric: tabular-nums;
 }
-.br-write-add-ch:hover { color: var(--v11-accent-strong); }
+.br-write-foot-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--br-writer);
+  flex-shrink: 0;
+}
 
 /* Right panel */
 .br-write-right {
@@ -10097,11 +10329,19 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
   letter-spacing: 0.16em;
   color: var(--read-on-mute);
 }
+.br-discover .br-fs-head-title { color: var(--read-on-mute); }
+.br-discover .br-fs-iconbtn { color: var(--read-on-mute); }
+.br-discover .br-fs-iconbtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--read-on);
+}
+.br-discover .br-fs-shelf-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
 .br-discover .br-fs-section-shelf,
 .br-discover .br-fs-saved {
   border-color: var(--read-on-line);
 }
-.br-discover .br-fs-shelf-btn,
 .br-discover .br-fs-pill,
 .br-discover .br-fs-more {
   background: rgba(255, 255, 255, 0.04);
@@ -10109,6 +10349,8 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
   color: var(--read-on-soft);
   font-family: var(--read-font);
 }
+/* Shelf rows are borderless nav rows on this surface, not chips. */
+.br-discover .br-fs-shelf-btn,
 .br-discover .br-fs-row {
   color: var(--read-on-soft);
   font-family: var(--read-font);
@@ -11009,7 +11251,6 @@ html[data-theme='light'] .br-discover .br-fsidebar {
   box-shadow: none;
 }
 html[data-theme='light'] .br-discover .br-fsidebar.is-closed { box-shadow: none; }
-html[data-theme='light'] .br-discover .br-fs-shelf-btn,
 html[data-theme='light'] .br-discover .br-fs-pill,
 html[data-theme='light'] .br-discover .br-fs-more {
   background: rgba(10, 10, 10, 0.03);

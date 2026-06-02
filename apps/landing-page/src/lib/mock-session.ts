@@ -11,6 +11,7 @@ export type MockSession = {
   roles: Role[];
   followers: number;
   following: number;
+  isKid: boolean;
   ts: number;
 };
 
@@ -73,6 +74,7 @@ export function getMockSession(): MockSession | null {
       roles: parseRoles(parsed.roles),
       followers: typeof parsed.followers === 'number' && Number.isFinite(parsed.followers) ? parsed.followers : DEFAULT_FOLLOWERS,
       following: typeof parsed.following === 'number' && Number.isFinite(parsed.following) ? parsed.following : DEFAULT_FOLLOWING,
+      isKid: parsed.isKid === true,
       ts: typeof parsed.ts === 'number' ? parsed.ts : Date.now(),
     };
   } catch {
@@ -90,6 +92,7 @@ export type SetSessionInput = {
   roles?: Role[];
   followers?: number;
   following?: number;
+  isKid?: boolean;
 };
 
 export function setMockSession(s: SetSessionInput): MockSession {
@@ -104,6 +107,7 @@ export function setMockSession(s: SetSessionInput): MockSession {
     roles: s.roles && s.roles.length > 0 ? s.roles : ['reader'],
     followers: s.followers ?? DEFAULT_FOLLOWERS,
     following: s.following ?? DEFAULT_FOLLOWING,
+    isKid: s.isKid ?? false,
     ts: Date.now(),
   };
   const serialized = JSON.stringify(session);
@@ -132,6 +136,7 @@ export function addRC(delta: number): number {
     roles: cur.roles,
     followers: cur.followers,
     following: cur.following,
+    isKid: cur.isKid,
   });
   return next;
 }
@@ -150,6 +155,7 @@ export function addSC(delta: number): number {
     roles: cur.roles,
     followers: cur.followers,
     following: cur.following,
+    isKid: cur.isKid,
   });
   return next;
 }

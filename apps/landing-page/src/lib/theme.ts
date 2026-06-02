@@ -61,6 +61,25 @@ export function applyLightTheme(): ResolvedTheme {
 }
 
 /**
+ * Toggle the bright, kid-friendly reader skin. Kept separate from `data-theme`
+ * so the two concerns don't tangle: kids mode locks to light and overrides the
+ * reader tokens via `html[data-kids='on']` in globals.css. When turning the
+ * skin on we also force the resolved theme to light (the toggle is hidden for
+ * kids, so the stored preference is irrelevant while it's on).
+ */
+export function applyKidsSkin(on: boolean): void {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  if (on) {
+    root.dataset.kids = 'on';
+    root.dataset.theme = 'light';
+    root.style.colorScheme = 'light';
+  } else {
+    delete root.dataset.kids;
+  }
+}
+
+/**
  * Resolve the initial setting for a reader page: use the stored preference if
  * one exists, otherwise default to dark.
  */

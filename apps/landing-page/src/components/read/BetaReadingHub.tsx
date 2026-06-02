@@ -127,16 +127,15 @@ export function BetaReadingHub() {
 
       {/* volunteer intake flow — sits directly under the hero */}
       <section className="br-beta-block">
-        <div className="br-beta-sec-head">
-          <p className="br-beta-sec-eyebrow">Volunteer</p>
-          <h2 className="br-beta-sec-title">Get matched with a writer who needs you</h2>
-          <p className="br-beta-sec-sub">
-            Beta reading is always free — no plan, no upgrade. Tell us what you love to read and we’ll
-            email you the moment an author is searching for a beta reader like you.
-          </p>
-        </div>
-
         <div className="br-beta-intake">
+          <div className="br-beta-sec-head br-beta-intake-intro">
+            <p className="br-beta-sec-eyebrow">Volunteer</p>
+            <h2 className="br-beta-sec-title">Get matched with a writer who needs you</h2>
+            <p className="br-beta-sec-sub">
+              Beta reading is always free — no plan, no upgrade. Tell us what you love to read and
+              we’ll email you the moment an author is searching for a beta reader like you.
+            </p>
+          </div>
           {submitted ? (
             <div className="br-beta-intake-done">
               <span className="br-beta-intake-done-mark" aria-hidden="true">✓</span>
