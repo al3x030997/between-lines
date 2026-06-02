@@ -289,9 +289,10 @@ input:focus, textarea:focus { outline: none; }
 /* ============================================================
    KIDS SKIN — bright, playful reader reskin for child profiles.
    Toggled by applyKidsSkin() → html[data-kids='on']. Locked to a
-   light, high-energy palette; overrides only --theme-*/--v11-*/--br-*
-   reader tokens, so the .v11-* / .bl-* marketing pages are untouched
-   and the adult teal/yellow/paper brand is never replaced.
+   light, high-energy palette; overrides only the reader tokens
+   (theme, v11 and br custom properties), so the marketing pages
+   (v11 and bl classes) are untouched and the adult teal/yellow/paper
+   brand is never replaced.
    ============================================================ */
 html[data-kids='on'] {
   color-scheme: light;
