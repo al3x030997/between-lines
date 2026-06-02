@@ -150,15 +150,53 @@ type FilterSidebarProps = {
   onShelfChange: (id: SidebarShelfId) => void;
   open?: boolean;
   onClose?: () => void;
+  onOpen?: () => void;
 };
 
-export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true, onClose }: FilterSidebarProps) {
+export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true, onClose, onOpen }: FilterSidebarProps) {
+  if (!open) {
+    // Minimized: a persistent icon rail (Claude-style) — the filter toggle on
+    // top, then the shelves as icon-only nav. Stays visible instead of hiding.
+    return (
+      <aside className="br-fsidebar is-rail" aria-label="Filter books">
+        <div className="br-fsidebar-rail">
+          <button
+            type="button"
+            className="br-fs-rail-toggle"
+            aria-label="Expand filters"
+            onClick={onOpen}
+          >
+            <span className="br-fs-toggle-icon" aria-hidden="true">
+              <span />
+              <span />
+              <span />
+            </span>
+          </button>
+          <nav className="br-fs-rail-nav" aria-label="Shelves">
+            {SHELF_FILTERS.map((item) => {
+              const on = selectedShelf === item.id;
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`br-fs-rail-btn ${on ? 'is-on' : ''}`}
+                  aria-pressed={on}
+                  aria-label={item.label}
+                  title={item.label}
+                  onClick={() => onShelfChange(item.id)}
+                >
+                  <Icon className="br-fs-rail-icon" />
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+      </aside>
+    );
+  }
   return (
-    <aside
-      className={`br-fsidebar ${open ? 'is-open' : 'is-closed'}`}
-      aria-label="Filter books"
-      aria-hidden={open ? undefined : true}
-    >
+    <aside className="br-fsidebar is-open" aria-label="Filter books">
       <div className="br-fsidebar-inner">
       <div className="br-fs-head">
         <span className="br-fs-head-title">Library</span>

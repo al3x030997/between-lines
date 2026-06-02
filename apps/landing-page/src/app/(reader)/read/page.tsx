@@ -89,11 +89,9 @@ const sectionKickers: Record<Section['id'], string> = {
 
 function RailPoster({ book, rank }: { book: Book; rank?: number }) {
   const keywords = book.tags.slice(0, 3);
-  const formatHasWords = /\d/.test(book.format);
-  const wordCount =
-    !formatHasWords && book.words
-      ? `${book.words.toLocaleString('en-US')} words`
-      : null;
+  // Readers think in time-to-read, not word counts — surface estRead
+  // (e.g. "~4hr") as the metadata pill instead of the raw word total.
+  const readTime = book.estRead ? `${book.estRead} read` : null;
   return (
     <Link className="br-gallery-poster" href={`/read/${book.slug}`}>
       <span className="br-gallery-poster-cover" style={{ background: book.cover }}>
@@ -114,7 +112,7 @@ function RailPoster({ book, rank }: { book: Book; rank?: number }) {
         <span className="br-gallery-poster-blurb">{book.blurb}</span>
         <span className="br-gallery-poster-tags">
           <span className="br-gallery-poster-tag">{book.format}</span>
-          {wordCount ? <span className="br-gallery-poster-tag">{wordCount}</span> : null}
+          {readTime ? <span className="br-gallery-poster-tag">{readTime}</span> : null}
           <span
             className={`br-gallery-poster-tag is-${book.access.type === 'free' ? 'free' : 'rc'}`}
           >
@@ -218,6 +216,7 @@ function DiscoverContent() {
         <FilterSidebar
           open={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
+          onOpen={() => setSidebarOpen(true)}
           filters={filters}
           onToggle={handleToggle}
           selectedShelf={selectedShelf}
@@ -242,27 +241,7 @@ function DiscoverContent() {
               <KidCategoryChips selected={kidCategory} onSelect={setKidCategory} />
             </div>
           )
-        ) : (
-          safeActive !== 'betareading' && (
-            <div className="br-discover-toolbar">
-              <button
-                type="button"
-                className={`br-fs-toggle ${sidebarOpen ? 'is-on' : ''}`}
-                aria-pressed={sidebarOpen}
-                aria-expanded={sidebarOpen}
-                aria-label={sidebarOpen ? 'Hide filters' : 'Show filters'}
-                onClick={() => setSidebarOpen((s) => !s)}
-              >
-                <span className="br-fs-toggle-icon" aria-hidden="true">
-                  <span />
-                  <span />
-                  <span />
-                </span>
-                <span className="br-fs-toggle-label">Filters</span>
-              </button>
-            </div>
-          )
-        )}
+        ) : null}
 
         {showContinue && <ContinueReadingBox />}
 

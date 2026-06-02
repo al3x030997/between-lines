@@ -1038,6 +1038,69 @@ body[data-quiet="true"] .br-progress { display: none; }
   width: 0;
   border-right-color: transparent;
 }
+/* Minimized = a persistent icon rail (Claude-style), not hidden. */
+.br-fsidebar.is-rail {
+  width: 60px;
+}
+.br-fsidebar-rail {
+  width: 60px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+/* Filter toggle sits at the top of the rail and expands the panel. */
+.br-fs-rail-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 6px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--v11-ink-mute);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.br-fs-rail-toggle:hover {
+  background: var(--br-panel-warm);
+  color: var(--v11-ink);
+}
+.br-fs-rail-nav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+}
+.br-fs-rail-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--v11-ink-soft);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.br-fs-rail-icon { opacity: 0.85; }
+.br-fs-rail-btn:hover {
+  background: var(--br-panel-warm);
+  color: var(--v11-ink);
+}
+.br-fs-rail-btn.is-on {
+  background: var(--v11-accent-soft);
+  color: var(--v11-accent);
+}
+.br-fs-rail-btn.is-on .br-fs-rail-icon { opacity: 1; }
 .br-fsidebar-inner {
   /* Fixed width so content doesn't reflow as the outer width animates. Flex
      column so the saved-filters block pins to the bottom (margin-top:auto),
@@ -1698,14 +1761,16 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-discover-rails .br-gallery-rail-head {
   padding-right: 0;
 }
-/* Carousel rail: 4 cards fit exactly in the visible window. Books 5+
+/* Carousel rail: 5 cards fit exactly in the visible window. Books 6+
    are reachable via the ‹ › arrows in the rail head. Each card is
-   1/4 of the available width minus its share of the gap; scroll snap
-   keeps the next page aligned cleanly. */
+   1/5 of the available width minus its share of the gap; scroll snap
+   keeps the next page aligned cleanly. Narrower covers + larger card
+   type (see READ type system) shift the visual emphasis from artwork
+   to the title/byline — the reader scans text first. */
 .br-discover-rails .br-gallery-track {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: calc((100% - 3 * 1.25rem) / 4);
+  grid-auto-columns: calc((100% - 4 * 1.25rem) / 5);
   gap: 1.25rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -4186,6 +4251,13 @@ body[data-quiet="true"] .br-progress { display: none; }
     grid-auto-columns: minmax(148px, 64vw);
     gap: 0.85rem;
     padding-right: 1rem;
+  }
+  /* The 5-up desktop rail would be unreadable on a phone; show ~2.3
+     cards so a peek of the next card invites the horizontal swipe.
+     Higher specificity than the rule above, so this wins for /read. */
+  .br-discover-rails .br-gallery-track {
+    grid-auto-columns: minmax(150px, 42vw);
+    gap: 0.85rem;
   }
   .br-gallery-poster-title {
     font-size: 17px;
@@ -10217,12 +10289,28 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
   text-transform: uppercase;
 }
 
-/* Card titles — Sora 700 */
+/* Card titles — Sora 700. Covers shrank to 5-up, so the type scale
+   steps up to keep text the focal point: title is the display step
+   (28px) of a ~1.25 modular scale anchored on the 15px blurb body.
+   Tighter line-height than the base since the size carries the weight. */
 .br-discover .br-gallery-poster-title {
   font-family: var(--read-display);
   font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+  font-size: 28px;
+  letter-spacing: -0.012em;
+  line-height: 1.12;
+}
+
+/* Card body copy — modular-scale body step (15px), looser leading so
+   the 3-line blurb reads as prose under the narrower 5-up cards. */
+.br-discover .br-gallery-poster-blurb {
+  font-size: 15px;
+  line-height: 1.55;
+}
+/* Card byline stays a small tracked-caps label — keeping it compact
+   lets the larger title hold the card's visual weight. */
+.br-discover .br-gallery-poster-author {
+  font-size: 12.5px;
 }
 
 /* Bylines (author / handle) — Manrope tracked caps */
@@ -10245,10 +10333,13 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
   letter-spacing: 0;
 }
 
-/* Keyword pills on covers (were Cormorant Garamond serif) */
+/* Keyword pills on covers (were Cormorant Garamond serif). Nudged
+   down to 11px so three descriptors still sit cleanly on the narrower
+   5-up cover without wrapping into a third row. */
 .br-discover .br-gallery-poster-keyword {
   font-family: var(--read-font);
   font-weight: 500;
+  font-size: 11px;
   letter-spacing: 0.01em;
 }
 
@@ -10338,6 +10429,18 @@ html[data-theme='light'] .br-discover .br-gallery-hero-feature:hover {
 }
 .br-discover .br-fs-shelf-btn:hover {
   background: rgba(255, 255, 255, 0.06);
+}
+/* Minimized icon rail on the reader surface. */
+.br-discover .br-fs-rail-toggle { color: var(--read-on-mute); }
+.br-discover .br-fs-rail-btn { color: var(--read-on-soft); }
+.br-discover .br-fs-rail-toggle:hover,
+.br-discover .br-fs-rail-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--read-on);
+}
+.br-discover .br-fs-rail-btn.is-on {
+  background: var(--read-accent-soft);
+  color: var(--read-accent-strong);
 }
 .br-discover .br-fs-section-shelf,
 .br-discover .br-fs-saved {
@@ -11260,7 +11363,9 @@ html[data-theme='light'] .br-discover .br-fs-more {
 html[data-theme='light'] .br-discover .br-fs-shelf-btn:hover,
 html[data-theme='light'] .br-discover .br-fs-pill:hover,
 html[data-theme='light'] .br-discover .br-fs-row:hover,
-html[data-theme='light'] .br-discover .br-fs-more:hover {
+html[data-theme='light'] .br-discover .br-fs-more:hover,
+html[data-theme='light'] .br-discover .br-fs-rail-toggle:hover,
+html[data-theme='light'] .br-discover .br-fs-rail-btn:hover {
   background: rgba(10, 10, 10, 0.06);
   border-color: rgba(10, 10, 10, 0.18);
 }
