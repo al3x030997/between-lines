@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import { AccountProfilePicker } from '@/components/AccountProfilePicker';
 import { sessionForAccountProfile, type AccountProfile } from '@/lib/account-profiles';
@@ -28,6 +29,7 @@ function SwapIcon() {
 }
 
 export function AccountSwitcher() {
+  const router = useRouter();
   const { session } = useMockSession();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -57,6 +59,9 @@ export function AccountSwitcher() {
   function switchTo(p: AccountProfile) {
     setMockSession(sessionForAccountProfile(p));
     setOpen(false);
+    // Land on the reader home for the newly-selected profile so a kid profile
+    // drops straight into the kid-skinned view (and adults into the full one).
+    router.push('/read');
   }
 
   const trigger = (
