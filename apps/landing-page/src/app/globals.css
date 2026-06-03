@@ -1122,6 +1122,12 @@ body[data-quiet="true"] .br-progress { display: none; }
   justify-content: space-between;
   padding: 0.25rem 1rem 0.75rem;
 }
+/* Library search sits at the top of the sidebar, under the header. The dark/
+   light input treatment is inherited from .br-discover .br-discover-search. */
+.br-fs-search {
+  padding: 0 1rem 1rem;
+}
+.br-fs-search .br-discover-search { width: 100%; }
 .br-fs-head-title {
   font-family: var(--br-font-sans);
   font-size: 11px;
@@ -3711,11 +3717,10 @@ body[data-quiet="true"] .br-progress { display: none; }
 @media (max-width: 640px) {
   .br-grid { grid-template-columns: 1fr; }
   .br-recommended-row { grid-template-columns: 1fr; }
-  /* Sidebar now carries the section switcher, so don't hide it outright on
-     mobile — keep the collapsed icon rail; the full panel still hides. */
+  /* Sidebar now carries the section switcher + search, so don't hide it
+     outright on mobile — keep the collapsed icon rail; the full panel still
+     hides. */
   .br-fsidebar.is-open { display: none; }
-  /* Search moved into the top bar — give it room to shrink on small screens. */
-  .br-nav-search { width: clamp(120px, 38vw, 220px); margin-left: 0.75rem; }
   .br-discover-head {
     display: flex;
     flex-direction: column;
@@ -11306,19 +11311,6 @@ html[data-theme='light'] .br-discover .br-discover-search-input { color: #0a0a0a
 html[data-theme='light'] .br-discover .br-discover-search-input::placeholder { color: rgba(10, 10, 10, 0.45); }
 html[data-theme='light'] .br-discover .br-discover-search-clear { color: rgba(10, 10, 10, 0.55); }
 html[data-theme='light'] .br-discover .br-discover-search-clear:hover { color: #0a0a0a; }
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search {
-  background: rgba(10, 10, 10, 0.03);
-  border-color: rgba(10, 10, 10, 0.18);
-}
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search:focus-within {
-  border-color: rgba(10, 10, 10, 0.32);
-  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.06);
-}
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-icon { color: rgba(10, 10, 10, 0.55); }
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-input { color: #0a0a0a; }
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-input::placeholder { color: rgba(10, 10, 10, 0.45); }
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-clear { color: rgba(10, 10, 10, 0.55); }
-html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-clear:hover { color: #0a0a0a; }
 html[data-theme='light'] .br-discover .br-continue {
   background: rgba(10, 10, 10, 0.03);
   border-color: rgba(10, 10, 10, 0.10);
