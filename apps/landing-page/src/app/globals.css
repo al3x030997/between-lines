@@ -1721,6 +1721,29 @@ body[data-quiet="true"] .br-progress { display: none; }
   opacity: 0.88;
 }
 
+/* Launch (MVP) Discover — debut titles + classics, no personalised rails. */
+.br-launch-section {
+  display: flex;
+  flex-direction: column;
+}
+.br-launch-section + .br-launch-section {
+  margin-top: 0.5rem;
+}
+.br-launch-featured {
+  margin-top: 0.25rem;
+}
+/* The single featured slide shouldn't stretch awkwardly wide. */
+.br-launch-featured .br-featured-carousel {
+  max-width: none;
+}
+/* MVP sidebar footnote. */
+.br-fs-mvp-note {
+  margin: 0.75rem 1rem 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--theme-text-muted, rgba(255, 255, 255, 0.55));
+}
+
 /* ============================================================
    FEATURED THIS WEEK — carousel band below Continue, above rails.
    Dark-themed wrapper that re-skins .br-featured-* tokens so the

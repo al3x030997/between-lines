@@ -8,6 +8,7 @@ import {
   FilterSidebar,
   type FilterState,
   type SidebarShelfId,
+  type SidebarMvpSection,
 } from '@/components/FilterSidebar';
 import { StoreTabs, type TabDef } from '@/components/StoreTabs';
 import { DiscoverSearch } from '@/components/read/DiscoverSearch';
@@ -22,6 +23,7 @@ import {
   accountMaturity,
   getBooksBySection,
   getInProgressBooks,
+  getLaunchOriginals,
   sections,
   type Section,
   type Book,
@@ -204,6 +206,7 @@ function DiscoverContent() {
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [kidCategory, setKidCategory] = useState<KidCategory>('all');
+  const [launchSection, setLaunchSection] = useState<SidebarMvpSection>('all');
   // Keep kids out of hidden tabs (e.g. a `?tab=betareading` deep link).
   const safeActive: DiscoverTabId = isKid && !KID_TAB_IDS.includes(active) ? 'foryou' : active;
   const visible = new Set<Section['id']>(visibility[safeActive]);
@@ -221,10 +224,16 @@ function DiscoverContent() {
     [normalizedQuery, kidTerms],
   );
   const handle = session?.handle;
-  const showBuildingBanner = accountMaturity(handle) === 'mvp';
+  const isLaunch = accountMaturity(handle) === 'mvp';
+  const showBuildingBanner = isLaunch;
+  // Launch view renders its own content for the two catalogue tabs; everything
+  // else (Beta Reading / Audio / Magazine / Community) still falls through.
+  const launchContent = isLaunch && (safeActive === 'foryou' || safeActive === 'betweenlines');
+  const launchOriginals = useMemo(() => getLaunchOriginals(), []);
+  const launchClassics = useMemo(() => getBooksBySection('classics', handle), [handle]);
   const featuredBooks = useMemo(() => getBooksBySection('bl', handle), [handle]);
-  const showFeatured = !isKid && (safeActive === 'foryou' || safeActive === 'betweenlines');
-  const showContinue = session && (safeActive === 'foryou' || safeActive === 'betweenlines');
+  const showFeatured = !isLaunch && !isKid && (safeActive === 'foryou' || safeActive === 'betweenlines');
+  const showContinue = !isLaunch && session && (safeActive === 'foryou' || safeActive === 'betweenlines');
   const stub = stubContent[safeActive];
 
   const handleToggle = (key: string) => {
@@ -248,6 +257,9 @@ function DiscoverContent() {
           showFilters={safeActive === 'foryou' || safeActive === 'betweenlines'}
           query={searchQuery}
           onSearchChange={setSearchQuery}
+          mvp={isLaunch}
+          mvpSection={launchSection}
+          onMvpSectionChange={setLaunchSection}
         />
       )}
       <div className="br-discover-main">
@@ -285,7 +297,14 @@ function DiscoverContent() {
           </div>
         )}
 
-        {safeActive === 'betareading' ? (
+        {launchContent ? (
+          <LaunchDiscover
+            originals={launchOriginals}
+            classics={launchClassics}
+            section={launchSection}
+            query={searchQuery}
+          />
+        ) : safeActive === 'betareading' ? (
           <BetaReadingHub />
         ) : stub ? (
           <div className="br-discover-stub" role="status">
@@ -339,6 +358,96 @@ export default function DiscoverPage() {
     <Suspense fallback={null}>
       <DiscoverContent />
     </Suspense>
+  );
+}
+
+// The launch (MVP) Discover view: one featured debut + a five-up row of the
+// remaining originals under "Be among the first", then the free classics. No
+// continue-reading, no carousel, no personalised rails — just the small
+// catalogue we actually have at launch. The left sidebar filters between the
+// two groups (see FilterSidebar mvp mode).
+function LaunchDiscover({
+  originals,
+  classics,
+  section,
+  query,
+}: {
+  originals: Book[];
+  classics: Book[];
+  section: SidebarMvpSection;
+  query: string;
+}) {
+  const q = query.trim().toLowerCase();
+  const match = (book: Book) => {
+    if (!q) return true;
+    return [book.title, book.author, book.blurb, ...book.tags].join(' ').toLowerCase().includes(q);
+  };
+
+  const firstBooks = originals.filter(match);
+  const classicBooks = classics.filter(match);
+  const featured = firstBooks[0];
+  const rowBooks = firstBooks.slice(1);
+
+  const showFirst = (section === 'all' || section === 'first') && firstBooks.length > 0;
+  const showClassics = (section === 'all' || section === 'classics') && classicBooks.length > 0;
+
+  if (!showFirst && !showClassics) {
+    return (
+      <div className="br-discover-stub" role="status">
+        <p className="br-discover-stub-kicker">No matches</p>
+        <h2 className="br-discover-stub-title">
+          {q ? `Nothing here for “${query}”` : 'Nothing here yet'}
+        </h2>
+        <p className="br-discover-stub-body">
+          {q ? 'Try a different title, author, or tag.' : 'Check back soon — we’re just getting started.'}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="br-discover-rails">
+      {showFirst && (
+        <section className="br-launch-section" id="first-books" aria-labelledby="br-launch-first">
+          <div className="br-discover-featured-head">
+            <p className="br-discover-featured-kicker">Be among the first</p>
+            <h2 id="br-launch-first">Read our first books</h2>
+          </div>
+          {featured && (
+            <div className="br-discover-featured br-launch-featured">
+              <FeaturedCarousel books={[featured]} />
+            </div>
+          )}
+          {rowBooks.length > 0 && (
+            <RailScroller
+              labelledById="br-launch-first-row"
+              head={<p className="br-gallery-kicker">More of our debut list</p>}
+            >
+              {rowBooks.map((book) => (
+                <RailPoster key={book.slug} book={book} />
+              ))}
+            </RailScroller>
+          )}
+        </section>
+      )}
+      {showClassics && (
+        <section className="br-launch-section" id="classics">
+          <RailScroller
+            labelledById="br-launch-classics"
+            head={
+              <>
+                <p className="br-gallery-kicker">Free forever · Public domain</p>
+                <h2 id="br-launch-classics">Timeless classics</h2>
+              </>
+            }
+          >
+            {classicBooks.map((book) => (
+              <RailPoster key={book.slug} book={book} />
+            ))}
+          </RailScroller>
+        </section>
+      )}
+    </div>
   );
 }
 

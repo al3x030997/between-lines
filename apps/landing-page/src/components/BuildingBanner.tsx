@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-// Shown only to first-time reader/writer preview accounts (the MVP personas).
+// Shown only to the Launch Version preview account (the MVP experience).
 // A founder's note in the landing-page brand yellow with a referral CTA: the
 // invite link carries the inviter's handle so new sign-ups credit both sides.
 export function BuildingBanner({ handle }: { handle?: string }) {

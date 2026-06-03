@@ -40,6 +40,17 @@ type ShelfIcon = ComponentType<{ className?: string; size?: number }>;
 
 export type SidebarSection = { id: string; label: string };
 
+// MVP (Launch Version) sidebar — the catalogue is tiny, so the granular
+// shelves + Mood/Genre/Type filters aren't earned yet. We show just a search
+// box and a three-way browse between our debut titles and the free classics.
+export type SidebarMvpSection = 'all' | 'first' | 'classics';
+
+const MVP_BROWSE: { id: SidebarMvpSection; label: string; icon: ShelfIcon }[] = [
+  { id: 'all', label: 'All', icon: IconGrid },
+  { id: 'first', label: 'Our First Books', icon: IconSparkle },
+  { id: 'classics', label: 'Timeless Classics', icon: IconBook },
+];
+
 // Icon per top-level section shown in the sidebar nav. Falls back to IconGrid.
 const SECTION_ICONS: Record<string, ShelfIcon> = {
   foryou: IconSparkle,
@@ -173,6 +184,10 @@ type FilterSidebarProps = {
   open?: boolean;
   onClose?: () => void;
   onOpen?: () => void;
+  /** When true, render the trimmed Launch-Version sidebar instead. */
+  mvp?: boolean;
+  mvpSection?: SidebarMvpSection;
+  onMvpSectionChange?: (id: SidebarMvpSection) => void;
 };
 
 export function FilterSidebar({
@@ -189,6 +204,9 @@ export function FilterSidebar({
   open = true,
   onClose,
   onOpen,
+  mvp = false,
+  mvpSection = 'all',
+  onMvpSectionChange,
 }: FilterSidebarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
   // Set when the user clicks the rail's search icon: focus the input once the
@@ -200,6 +218,107 @@ export function FilterSidebar({
       searchInputRef.current?.focus();
     }
   }, [open]);
+
+  if (mvp) {
+    if (!open) {
+      return (
+        <aside className="br-fsidebar is-rail" aria-label="Browse">
+          <div className="br-fsidebar-rail">
+            <button
+              type="button"
+              className="br-fs-rail-toggle"
+              aria-label="Expand sidebar"
+              onClick={onOpen}
+            >
+              <span className="br-fs-toggle-icon" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </span>
+            </button>
+            <button
+              type="button"
+              className="br-fs-rail-btn"
+              aria-label="Search"
+              title="Search"
+              onClick={() => {
+                focusOnOpenRef.current = true;
+                onOpen?.();
+              }}
+            >
+              <IconSearch className="br-fs-rail-icon" />
+            </button>
+            <nav className="br-fs-rail-nav" aria-label="Browse">
+              {MVP_BROWSE.map((item) => {
+                const on = mvpSection === item.id;
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`br-fs-rail-btn ${on ? 'is-on' : ''}`}
+                    aria-pressed={on}
+                    aria-label={item.label}
+                    title={item.label}
+                    onClick={() => onMvpSectionChange?.(item.id)}
+                  >
+                    <Icon className="br-fs-rail-icon" />
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+        </aside>
+      );
+    }
+    return (
+      <aside className="br-fsidebar is-open" aria-label="Browse">
+        <div className="br-fsidebar-inner">
+          <div className="br-fs-head">
+            <span className="br-fs-head-title">Browse</span>
+            <div className="br-fs-head-actions">
+              {onClose && (
+                <button
+                  type="button"
+                  className="br-fs-iconbtn"
+                  aria-label="Collapse sidebar"
+                  onClick={onClose}
+                >
+                  <IconChevronLeft size={16} />
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="br-fs-search">
+            <DiscoverSearch query={query} onChange={onSearchChange} inputRef={searchInputRef} />
+          </div>
+          <div className="br-fs-section br-fs-section-nav">
+            <nav className="br-fs-shelf-grid" aria-label="Browse">
+              {MVP_BROWSE.map((item) => {
+                const on = mvpSection === item.id;
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`br-fs-shelf-btn ${on ? 'is-on' : ''}`}
+                    aria-pressed={on}
+                    onClick={() => onMvpSectionChange?.(item.id)}
+                  >
+                    <Icon className="br-fs-shelf-icon" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+          <p className="br-fs-mvp-note">
+            More ways to browse — moods, genres, your shelves — arrive as the library grows.
+          </p>
+        </div>
+      </aside>
+    );
+  }
 
   if (!open) {
     // Minimized: a persistent icon rail (Claude-style) — the filter toggle on

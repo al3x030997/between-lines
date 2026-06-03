@@ -18,36 +18,23 @@ export type AccountProfile = {
 
 // Preview accounts — one per user segment. The display name IS the segment label
 // so the account picker doubles as a "view the app as…" switcher for demos.
-// "First time login" = a freshly-created account (zero activity, no followers);
-// "Frequent" = an established account with accumulated credits and a social graph.
+// "Launch Version" = the MVP experience a brand-new account sees (zero activity,
+// trimmed catalogue, founder's banner); "Frequent" = an established account with
+// accumulated credits and a social graph.
 export const ACCOUNT_PROFILES: AccountProfile[] = [
   {
-    id: 'writer-new',
-    user: 'Writer - First Time Login',
-    handle: 'writer-first-time',
-    initial: 'W',
+    id: 'launch',
+    user: 'Launch Version',
+    handle: 'launch',
+    initial: 'L',
     rc: 0,
     sc: 0,
     tier: 'Reader',
-    roles: ['writer'],
+    roles: ['reader', 'writer'],
     followers: 0,
     following: 0,
-    avatarBg: 'linear-gradient(160deg, #b7e3c6 0%, #8fcfa6 100%)',
-    avatarInk: '#10241a',
-  },
-  {
-    id: 'reader-new',
-    user: 'Reader - First Time Login',
-    handle: 'reader-first-time',
-    initial: 'R',
-    rc: 0,
-    sc: 0,
-    tier: 'Reader',
-    roles: ['reader'],
-    followers: 0,
-    following: 0,
-    avatarBg: 'linear-gradient(160deg, #cdb7ec 0%, #a98fd6 100%)',
-    avatarInk: '#1e1426',
+    avatarBg: 'linear-gradient(160deg, #f3d84a 0%, #d4aa18 100%)',
+    avatarInk: '#10110f',
   },
   {
     id: 'writer-frequent',

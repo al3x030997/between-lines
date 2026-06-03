@@ -813,13 +813,26 @@ export function getBook(slug: string): Book | undefined {
 // the whole catalogue and the populated shelves below.
 export type AccountMaturity = 'mvp' | 'full';
 
+// The launch catalogue — six originals, in display order. The first is featured;
+// the rest fill the "Read our first books" row.
 export const MVP_ORIGINAL_SLUGS = [
   'the-quiet-hours',
   'three-tuesdays',
   'the-glass-meridian',
+  'ember-and-the-cartographer',
+  'salt-and-the-sea-between',
+  'before-the-frost',
 ] as const;
 
-const MVP_HANDLES = new Set(['reader-first-time', 'writer-first-time']);
+const MVP_HANDLES = new Set(['launch']);
+
+// The six originals as Book objects, in MVP_ORIGINAL_SLUGS order.
+export function getLaunchOriginals(): Book[] {
+  return MVP_ORIGINAL_SLUGS.flatMap((s) => {
+    const book = getBook(s);
+    return book ? [book] : [];
+  });
+}
 
 export function accountMaturity(handle?: string): AccountMaturity {
   return handle && MVP_HANDLES.has(handle) ? 'mvp' : 'full';
