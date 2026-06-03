@@ -11,7 +11,8 @@ import {
   IconBeaker,
   IconCrown,
   IconClock,
-  IconSearch,
+  IconBook,
+  IconNewspaper,
   IconChevronLeft,
 } from './read/sidebar-icons';
 
@@ -34,6 +35,16 @@ export type SidebarShelfId =
   | 'finished';
 
 type ShelfIcon = ComponentType<{ className?: string; size?: number }>;
+
+export type SidebarSection = { id: string; label: string };
+
+// Icon per top-level section shown in the sidebar nav. Falls back to IconGrid.
+const SECTION_ICONS: Record<string, ShelfIcon> = {
+  foryou: IconSparkle,
+  betweenlines: IconBook,
+  audio: IconPlayCircle,
+  magazine: IconNewspaper,
+};
 
 const SHELF_FILTERS: { id: SidebarShelfId; label: string; icon: ShelfIcon }[] = [
   { id: 'all', label: 'All', icon: IconGrid },
@@ -148,22 +159,40 @@ type FilterSidebarProps = {
   onToggle: (key: string) => void;
   selectedShelf: SidebarShelfId;
   onShelfChange: (id: SidebarShelfId) => void;
+  /** Top-level sections (For You / BetweenLines / Audio / Magazine). */
+  sections: SidebarSection[];
+  activeSection: string;
+  onSectionChange: (id: string) => void;
+  /** Filters (shelves + Mood/Genre/Type) only apply to catalog sections. */
+  showFilters: boolean;
   open?: boolean;
   onClose?: () => void;
   onOpen?: () => void;
 };
 
-export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange, open = true, onClose, onOpen }: FilterSidebarProps) {
+export function FilterSidebar({
+  filters,
+  onToggle,
+  selectedShelf,
+  onShelfChange,
+  sections,
+  activeSection,
+  onSectionChange,
+  showFilters,
+  open = true,
+  onClose,
+  onOpen,
+}: FilterSidebarProps) {
   if (!open) {
     // Minimized: a persistent icon rail (Claude-style) — the filter toggle on
     // top, then the shelves as icon-only nav. Stays visible instead of hiding.
     return (
-      <aside className="br-fsidebar is-rail" aria-label="Filter books">
+      <aside className="br-fsidebar is-rail" aria-label="Browse">
         <div className="br-fsidebar-rail">
           <button
             type="button"
             className="br-fs-rail-toggle"
-            aria-label="Expand filters"
+            aria-label="Expand sidebar"
             onClick={onOpen}
           >
             <span className="br-fs-toggle-icon" aria-hidden="true">
@@ -172,10 +201,10 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
               <span />
             </span>
           </button>
-          <nav className="br-fs-rail-nav" aria-label="Shelves">
-            {SHELF_FILTERS.map((item) => {
-              const on = selectedShelf === item.id;
-              const Icon = item.icon;
+          <nav className="br-fs-rail-nav" aria-label="Sections">
+            {sections.map((item) => {
+              const on = activeSection === item.id;
+              const Icon = SECTION_ICONS[item.id] ?? IconGrid;
               return (
                 <button
                   key={item.id}
@@ -184,13 +213,34 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
                   aria-pressed={on}
                   aria-label={item.label}
                   title={item.label}
-                  onClick={() => onShelfChange(item.id)}
+                  onClick={() => onSectionChange(item.id)}
                 >
                   <Icon className="br-fs-rail-icon" />
                 </button>
               );
             })}
           </nav>
+          {showFilters && (
+            <nav className="br-fs-rail-nav" aria-label="Shelves">
+              {SHELF_FILTERS.map((item) => {
+                const on = selectedShelf === item.id;
+                const Icon = item.icon;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`br-fs-rail-btn ${on ? 'is-on' : ''}`}
+                    aria-pressed={on}
+                    aria-label={item.label}
+                    title={item.label}
+                    onClick={() => onShelfChange(item.id)}
+                  >
+                    <Icon className="br-fs-rail-icon" />
+                  </button>
+                );
+              })}
+            </nav>
+          )}
         </div>
       </aside>
     );
@@ -199,16 +249,13 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
     <aside className="br-fsidebar is-open" aria-label="Filter books">
       <div className="br-fsidebar-inner">
       <div className="br-fs-head">
-        <span className="br-fs-head-title">Library</span>
+        <span className="br-fs-head-title">Browse</span>
         <div className="br-fs-head-actions">
-          <button type="button" className="br-fs-iconbtn" aria-label="Search the library">
-            <IconSearch size={16} />
-          </button>
           {onClose && (
             <button
               type="button"
               className="br-fs-iconbtn"
-              aria-label="Hide filters"
+              aria-label="Collapse sidebar"
               onClick={onClose}
             >
               <IconChevronLeft size={16} />
@@ -216,6 +263,29 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
           )}
         </div>
       </div>
+      <div className="br-fs-section br-fs-section-nav">
+        <nav className="br-fs-shelf-grid" aria-label="Sections">
+          {sections.map((item) => {
+            const on = activeSection === item.id;
+            const Icon = SECTION_ICONS[item.id] ?? IconGrid;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className={`br-fs-shelf-btn ${on ? 'is-on' : ''}`}
+                aria-pressed={on}
+                onClick={() => onSectionChange(item.id)}
+              >
+                <Icon className="br-fs-shelf-icon" />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
+      </div>
+
+      {showFilters && (
+        <>
       <div className="br-fs-section br-fs-section-shelf">
         <nav className="br-fs-shelf-grid" aria-label="Shelves">
           {SHELF_FILTERS.map((item) => {
@@ -304,6 +374,8 @@ export function FilterSidebar({ filters, onToggle, selectedShelf, onShelfChange,
           </button>
         ))}
       </div>
+        </>
+      )}
       </div>
     </aside>
   );

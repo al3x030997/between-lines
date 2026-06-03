@@ -140,3 +140,22 @@ export function IconSearch(p: IconProps) {
     </Svg>
   );
 }
+
+export function IconBook(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H11v15H5.5A1.5 1.5 0 0 0 4 20.5V5.5Z" />
+      <path d="M20 5.5A1.5 1.5 0 0 0 18.5 4H13v15h5.5a1.5 1.5 0 0 1 1.5 1.5V5.5Z" />
+    </Svg>
+  );
+}
+
+export function IconNewspaper(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <path d="M4 6.5A1.5 1.5 0 0 1 5.5 5h9a1.5 1.5 0 0 1 1.5 1.5V18a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V6.5Z" />
+      <path d="M16 8.5h2.5A1.5 1.5 0 0 1 20 10v8a2 2 0 0 1-2 2" />
+      <path d="M7 8.5h6M7 12h6M7 15h4" />
+    </Svg>
+  );
+}

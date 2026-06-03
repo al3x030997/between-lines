@@ -536,6 +536,14 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-nav-link.is-active { color: var(--v11-ink); font-weight: 600; }
 .br-nav-link.is-active::after { transform: translateX(-50%) scaleX(1); }
 .br-nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+/* Discover search relocated into the top bar (shown only on /read). Sits between
+   the brand and the nav links, fixed width so it doesn't crowd the links. */
+.br-nav-search {
+  flex-shrink: 0;
+  width: clamp(180px, 22vw, 300px);
+  margin-left: 1.5rem;
+}
+.br-nav-search .br-discover-search { width: 100%; }
 
 .br-rc-badge {
   display: inline-flex;
@@ -1020,15 +1028,15 @@ body[data-quiet="true"] .br-progress { display: none; }
   /* Overlay drawer, not a flex column: fixed to the viewport so opening it
      floats over the gallery instead of pushing the page sideways. The main
      content stays put whether the sidebar is open or closed. Flush below the
-     nav (65px) + tabsbar (66px) = 131px, full-bleed to the left edge with a
-     flat Notion-style panel fill and a hairline right border — no floating
-     card, no breathing strip. */
+     nav (65px) — the old middle tabs bar is gone for grown-up readers, so it's
+     no longer 65 + 66 = 131. Full-bleed to the left edge with a flat
+     Notion-style panel fill and a hairline right border. */
   position: fixed;
   left: 0;
-  top: 131px;
+  top: 65px;
   z-index: 50;
   width: 240px;
-  height: calc(100vh - 131px);
+  height: calc(100vh - 65px);
   background: var(--theme-surface-raised);
   border-right: 0.5px solid var(--v11-divider);
   overflow: hidden;
@@ -1330,6 +1338,13 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 .br-fs-section-shelf {
   padding-top: 0;
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 0.5px solid var(--v11-divider);
+}
+/* Top-level section nav (For You / BetweenLines / Audio / Magazine) sits above
+   the shelves, separated by the same hairline. */
+.br-fs-section-nav {
   padding-bottom: 1.25rem;
   margin-bottom: 1.5rem;
   border-bottom: 0.5px solid var(--v11-divider);
@@ -3704,7 +3719,11 @@ body[data-quiet="true"] .br-progress { display: none; }
 @media (max-width: 640px) {
   .br-grid { grid-template-columns: 1fr; }
   .br-recommended-row { grid-template-columns: 1fr; }
-  .br-fsidebar { display: none; }
+  /* Sidebar now carries the section switcher, so don't hide it outright on
+     mobile — keep the collapsed icon rail; the full panel still hides. */
+  .br-fsidebar.is-open { display: none; }
+  /* Search moved into the top bar — give it room to shrink on small screens. */
+  .br-nav-search { width: clamp(120px, 38vw, 220px); margin-left: 0.75rem; }
   .br-discover-head {
     display: flex;
     flex-direction: column;
@@ -10147,6 +10166,21 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-discover-search-input::placeholder { color: rgba(255, 255, 255, 0.45); }
 .br-discover .br-discover-search-clear { color: rgba(255, 255, 255, 0.55); }
 .br-discover .br-discover-search-clear:hover { color: #ffffff; }
+/* The search also lives in the top bar on /read (outside .br-discover), so mirror
+   the dark treatment there. */
+body:has(.br-discover) .br-nav-search .br-discover-search {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--read-on-line-strong);
+}
+body:has(.br-discover) .br-nav-search .br-discover-search:focus-within {
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+body:has(.br-discover) .br-nav-search .br-discover-search-icon { color: rgba(255, 255, 255, 0.55); }
+body:has(.br-discover) .br-nav-search .br-discover-search-input { color: #ffffff; }
+body:has(.br-discover) .br-nav-search .br-discover-search-input::placeholder { color: rgba(255, 255, 255, 0.45); }
+body:has(.br-discover) .br-nav-search .br-discover-search-clear { color: rgba(255, 255, 255, 0.55); }
+body:has(.br-discover) .br-nav-search .br-discover-search-clear:hover { color: #ffffff; }
 
 /* --- Featured carousel: violet accent on neutral grey --- */
 .br-discover .br-discover-featured-kicker,
@@ -11295,6 +11329,19 @@ html[data-theme='light'] .br-discover .br-discover-search-input { color: #0a0a0a
 html[data-theme='light'] .br-discover .br-discover-search-input::placeholder { color: rgba(10, 10, 10, 0.45); }
 html[data-theme='light'] .br-discover .br-discover-search-clear { color: rgba(10, 10, 10, 0.55); }
 html[data-theme='light'] .br-discover .br-discover-search-clear:hover { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search {
+  background: rgba(10, 10, 10, 0.03);
+  border-color: rgba(10, 10, 10, 0.18);
+}
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search:focus-within {
+  border-color: rgba(10, 10, 10, 0.32);
+  box-shadow: 0 0 0 3px rgba(10, 10, 10, 0.06);
+}
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-icon { color: rgba(10, 10, 10, 0.55); }
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-input { color: #0a0a0a; }
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-input::placeholder { color: rgba(10, 10, 10, 0.45); }
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-clear { color: rgba(10, 10, 10, 0.55); }
+html[data-theme='light'] body:has(.br-discover) .br-nav-search .br-discover-search-clear:hover { color: #0a0a0a; }
 html[data-theme='light'] .br-discover .br-continue {
   background: rgba(10, 10, 10, 0.03);
   border-color: rgba(10, 10, 10, 0.10);

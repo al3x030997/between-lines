@@ -2,7 +2,7 @@
 
 import { Suspense, useCallback, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FeaturedCarousel } from '@/components/FeaturedCarousel';
 import {
   FilterSidebar,
@@ -26,6 +26,7 @@ import {
   type Book,
 } from '@/lib/mock-books';
 import { useMockSession } from '@/lib/useMockSession';
+import { useDiscoverSearch } from '@/lib/discover-search';
 
 type DiscoverTabId =
   | 'foryou'
@@ -51,6 +52,15 @@ const kidTabs: TabDef<DiscoverTabId>[] = [
   { id: 'foryou', label: 'Read' },
   { id: 'audio', label: 'Audio' },
   { id: 'community', label: 'Community' },
+];
+
+// Sections that live in the left sidebar for grown-up readers. Beta Reading and
+// Community were promoted to the global top bar (ReaderNav), so they're not here.
+const sidebarSections: { id: DiscoverTabId; label: string }[] = [
+  { id: 'foryou', label: 'For You' },
+  { id: 'betweenlines', label: 'BetweenLines' },
+  { id: 'audio', label: 'Audio' },
+  { id: 'magazine', label: 'Magazine' },
 ];
 
 const visibility: Record<DiscoverTabId, Section['id'][]> = {
@@ -175,15 +185,23 @@ function isDiscoverTab(value: string | null): value is DiscoverTabId {
 function DiscoverContent() {
   const { session } = useMockSession();
   const isKid = session?.isKid ?? false;
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialTab = searchParams.get('tab');
-  const [active, setActive] = useState<DiscoverTabId>(
-    isDiscoverTab(initialTab) ? initialTab : 'foryou',
+  // The active section is URL-driven (?tab=) so the top-bar link highlight, the
+  // sidebar highlight, and the rendered content never drift apart — whether the
+  // user clicks a ReaderNav link or a sidebar section. replace() keeps history clean.
+  const tabParam = searchParams.get('tab');
+  const active: DiscoverTabId = isDiscoverTab(tabParam) ? tabParam : 'foryou';
+  const setActive = useCallback(
+    (id: DiscoverTabId) => {
+      router.replace(`/read?tab=${id}`, { scroll: false });
+    },
+    [router],
   );
+  const { query: searchQuery, setQuery: setSearchQuery } = useDiscoverSearch();
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const [kidCategory, setKidCategory] = useState<KidCategory>('all');
   // Keep kids out of hidden tabs (e.g. a `?tab=betareading` deep link).
   const safeActive: DiscoverTabId = isKid && !KID_TAB_IDS.includes(active) ? 'foryou' : active;
@@ -221,20 +239,26 @@ function DiscoverContent() {
           onToggle={handleToggle}
           selectedShelf={selectedShelf}
           onShelfChange={setSelectedShelf}
+          sections={sidebarSections}
+          activeSection={safeActive}
+          onSectionChange={(id) => setActive(id as DiscoverTabId)}
+          showFilters={safeActive === 'foryou' || safeActive === 'betweenlines'}
         />
       )}
       <div className="br-discover-main">
-        <div className="br-discover-tabsbar">
-          <div className="br-discover-tabsbar-inner">
-            <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
-            <StoreTabs<DiscoverTabId>
-              tabs={isKid ? kidTabs : tabs}
-              active={safeActive}
-              onChange={setActive}
-              ariaLabel="Discover sections"
-            />
+        {isKid && (
+          <div className="br-discover-tabsbar">
+            <div className="br-discover-tabsbar-inner">
+              <DiscoverSearch query={searchQuery} onChange={setSearchQuery} />
+              <StoreTabs<DiscoverTabId>
+                tabs={kidTabs}
+                active={safeActive}
+                onChange={setActive}
+                ariaLabel="Discover sections"
+              />
+            </div>
           </div>
-        </div>
+        )}
         {isKid ? (
           safeActive === 'foryou' && (
             <div className="br-discover-toolbar">
