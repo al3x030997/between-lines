@@ -1,11 +1,14 @@
 'use client';
 
+import type { Ref } from 'react';
+
 type Props = {
   query: string;
   onChange: (next: string) => void;
+  inputRef?: Ref<HTMLInputElement>;
 };
 
-export function DiscoverSearch({ query, onChange }: Props) {
+export function DiscoverSearch({ query, onChange, inputRef }: Props) {
   return (
     <div className="br-discover-search">
       <svg
@@ -18,6 +21,7 @@ export function DiscoverSearch({ query, onChange }: Props) {
         <line x1="13.5" y1="13.5" x2="17" y2="17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
       <input
+        ref={inputRef}
         type="search"
         className="br-discover-search-input"
         value={query}

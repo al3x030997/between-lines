@@ -536,14 +536,6 @@ body[data-quiet="true"] .br-progress { display: none; }
 .br-nav-link.is-active { color: var(--v11-ink); font-weight: 600; }
 .br-nav-link.is-active::after { transform: translateX(-50%) scaleX(1); }
 .br-nav-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-/* Discover search relocated into the top bar (shown only on /read). Sits between
-   the brand and the nav links, fixed width so it doesn't crowd the links. */
-.br-nav-search {
-  flex-shrink: 0;
-  width: clamp(180px, 22vw, 300px);
-  margin-left: 1.5rem;
-}
-.br-nav-search .br-discover-search { width: 100%; }
 
 .br-rc-badge {
   display: inline-flex;
@@ -10166,21 +10158,6 @@ body:has(.br-discover) .br-avatar:hover {
 .br-discover .br-discover-search-input::placeholder { color: rgba(255, 255, 255, 0.45); }
 .br-discover .br-discover-search-clear { color: rgba(255, 255, 255, 0.55); }
 .br-discover .br-discover-search-clear:hover { color: #ffffff; }
-/* The search also lives in the top bar on /read (outside .br-discover), so mirror
-   the dark treatment there. */
-body:has(.br-discover) .br-nav-search .br-discover-search {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--read-on-line-strong);
-}
-body:has(.br-discover) .br-nav-search .br-discover-search:focus-within {
-  border-color: rgba(255, 255, 255, 0.32);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
-}
-body:has(.br-discover) .br-nav-search .br-discover-search-icon { color: rgba(255, 255, 255, 0.55); }
-body:has(.br-discover) .br-nav-search .br-discover-search-input { color: #ffffff; }
-body:has(.br-discover) .br-nav-search .br-discover-search-input::placeholder { color: rgba(255, 255, 255, 0.45); }
-body:has(.br-discover) .br-nav-search .br-discover-search-clear { color: rgba(255, 255, 255, 0.55); }
-body:has(.br-discover) .br-nav-search .br-discover-search-clear:hover { color: #ffffff; }
 
 /* --- Featured carousel: violet accent on neutral grey --- */
 .br-discover .br-discover-featured-kicker,

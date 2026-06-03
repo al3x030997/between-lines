@@ -1,6 +1,6 @@
 'use client';
 
-import type { ComponentType } from 'react';
+import { useEffect, useRef, type ComponentType } from 'react';
 import {
   IconGrid,
   IconSparkle,
@@ -13,8 +13,10 @@ import {
   IconClock,
   IconBook,
   IconNewspaper,
+  IconSearch,
   IconChevronLeft,
 } from './read/sidebar-icons';
+import { DiscoverSearch } from './read/DiscoverSearch';
 
 type FilterDef = {
   label: FilterGroup;
@@ -165,6 +167,9 @@ type FilterSidebarProps = {
   onSectionChange: (id: string) => void;
   /** Filters (shelves + Mood/Genre/Type) only apply to catalog sections. */
   showFilters: boolean;
+  /** Library search — lives at the top of the sidebar. */
+  query: string;
+  onSearchChange: (next: string) => void;
   open?: boolean;
   onClose?: () => void;
   onOpen?: () => void;
@@ -179,10 +184,23 @@ export function FilterSidebar({
   activeSection,
   onSectionChange,
   showFilters,
+  query,
+  onSearchChange,
   open = true,
   onClose,
   onOpen,
 }: FilterSidebarProps) {
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  // Set when the user clicks the rail's search icon: focus the input once the
+  // panel has expanded.
+  const focusOnOpenRef = useRef(false);
+  useEffect(() => {
+    if (open && focusOnOpenRef.current) {
+      focusOnOpenRef.current = false;
+      searchInputRef.current?.focus();
+    }
+  }, [open]);
+
   if (!open) {
     // Minimized: a persistent icon rail (Claude-style) — the filter toggle on
     // top, then the shelves as icon-only nav. Stays visible instead of hiding.
@@ -200,6 +218,18 @@ export function FilterSidebar({
               <span />
               <span />
             </span>
+          </button>
+          <button
+            type="button"
+            className="br-fs-rail-btn"
+            aria-label="Search"
+            title="Search"
+            onClick={() => {
+              focusOnOpenRef.current = true;
+              onOpen?.();
+            }}
+          >
+            <IconSearch className="br-fs-rail-icon" />
           </button>
           <nav className="br-fs-rail-nav" aria-label="Sections">
             {sections.map((item) => {
@@ -262,6 +292,9 @@ export function FilterSidebar({
             </button>
           )}
         </div>
+      </div>
+      <div className="br-fs-search">
+        <DiscoverSearch query={query} onChange={onSearchChange} inputRef={searchInputRef} />
       </div>
       <div className="br-fs-section br-fs-section-nav">
         <nav className="br-fs-shelf-grid" aria-label="Sections">

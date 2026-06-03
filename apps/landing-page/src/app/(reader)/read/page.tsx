@@ -26,7 +26,6 @@ import {
   type Book,
 } from '@/lib/mock-books';
 import { useMockSession } from '@/lib/useMockSession';
-import { useDiscoverSearch } from '@/lib/discover-search';
 
 type DiscoverTabId =
   | 'foryou'
@@ -134,8 +133,8 @@ function RailPoster({ book, rank }: { book: Book; rank?: number }) {
   );
 }
 
-function ContinueReadingBox() {
-  const inProgress = getInProgressBooks();
+function ContinueReadingBox({ handle }: { handle?: string }) {
+  const inProgress = getInProgressBooks(handle);
   const current = inProgress[0];
   if (!current) return null;
 
@@ -198,7 +197,7 @@ function DiscoverContent() {
     },
     [router],
   );
-  const { query: searchQuery, setQuery: setSearchQuery } = useDiscoverSearch();
+  const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState<FilterState>({});
   const [selectedShelf, setSelectedShelf] = useState<SidebarShelfId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -219,7 +218,8 @@ function DiscoverContent() {
     },
     [normalizedQuery, kidTerms],
   );
-  const featuredBooks = useMemo(() => getBooksBySection('bl'), []);
+  const handle = session?.handle;
+  const featuredBooks = useMemo(() => getBooksBySection('bl', handle), [handle]);
   const showFeatured = !isKid && (safeActive === 'foryou' || safeActive === 'betweenlines');
   const showContinue = session && (safeActive === 'foryou' || safeActive === 'betweenlines');
   const stub = stubContent[safeActive];
@@ -243,6 +243,8 @@ function DiscoverContent() {
           activeSection={safeActive}
           onSectionChange={(id) => setActive(id as DiscoverTabId)}
           showFilters={safeActive === 'foryou' || safeActive === 'betweenlines'}
+          query={searchQuery}
+          onSearchChange={setSearchQuery}
         />
       )}
       <div className="br-discover-main">
@@ -267,7 +269,7 @@ function DiscoverContent() {
           )
         ) : null}
 
-        {showContinue && <ContinueReadingBox />}
+        {showContinue && <ContinueReadingBox handle={handle} />}
 
         {showFeatured && (
           <div className="br-discover-featured">
@@ -292,7 +294,7 @@ function DiscoverContent() {
             const renderedRails = sections
               .filter((s) => visible.has(s.id))
               .map((s) => {
-                const books = getBooksBySection(s.id).filter(matchesQuery);
+                const books = getBooksBySection(s.id, handle).filter(matchesQuery);
                 if (books.length === 0) return null;
                 return (
                   <Rail

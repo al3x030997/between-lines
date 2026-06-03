@@ -845,10 +845,38 @@ const MIDNIGHT_WORKS: WorkSummary[] = [
   },
 ];
 
+// The "Frequent Writer" preview account authored the platform's three MVP
+// originals: two are published, one is in revision. (The "Writer - First Time
+// Login" account intentionally has no works → the library shows its empty state.)
+const FREQUENT_WRITER_WORKS: WorkSummary[] = [
+  {
+    id: 'quiet-hours',
+    bookSlug: 'the-quiet-hours',
+    title: 'The Quiet Hours',
+    meta: 'Literary Fiction · Novel · Published',
+    stage: 'Final',
+  },
+  {
+    id: 'glass-meridian',
+    bookSlug: 'the-glass-meridian',
+    title: 'The Glass Meridian',
+    meta: 'Literary Fiction · Novel · Published',
+    stage: 'Final',
+  },
+  {
+    id: 'three-tuesdays-fw',
+    bookSlug: 'three-tuesdays',
+    title: 'Three Tuesdays in November',
+    meta: 'Literary Fiction · Short stories · Editing',
+    stage: 'Editing',
+  },
+];
+
 export function getWriterWorks(handle: string): WorkSummary[] {
   const lower = handle.toLowerCase();
   if (lower === 'midnightdraftsman') return MIDNIGHT_WORKS;
   if (lower === 'sarah-m') return SARAH_WORKS;
+  if (lower === 'frequent-writer') return FREQUENT_WRITER_WORKS;
   return [];
 }
 
@@ -1004,6 +1032,60 @@ const LIBRARY_OVERRIDES: Record<string, Partial<WriterLibraryWork>> = {
       reads: 0,
       readerPicks: 0,
       betaRequests: 2,
+      coins: 0,
+    },
+  },
+  'glass-meridian': {
+    meta: 'Literary Fiction · Novel',
+    status: 'Published',
+    readiness: 'Ready',
+    audience: 'Public readers',
+    lastUpdated: 'A week ago',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🔥', label: 'Intense' },
+    ],
+    audienceTags: [{ icon: '👁️', label: 'PowerReaders' }],
+    pitch:
+      'A glassblower retraces a vanished sister through the objects she left behind, each one bending the light a little differently.',
+    storefront: {
+      state: 'Listed',
+      price: '$4.99 · 100 Reading Credits',
+      options: ['BetweenReads storefront', 'Kobo'],
+      note: 'Storefront is live',
+    },
+    activity: {
+      reads: 980,
+      readerPicks: 31,
+      betaRequests: 7,
+      coins: 320,
+    },
+  },
+  'three-tuesdays-fw': {
+    meta: 'Literary Fiction · Short stories',
+    status: 'Editing',
+    readiness: 'In revision',
+    audience: 'Beta readers only',
+    lastUpdated: '3 days ago',
+    genre: { icon: '📖', label: 'Literary Fiction' },
+    moods: [
+      { icon: '💭', label: 'Reflective' },
+      { icon: '🕯️', label: 'Slow Burn' },
+    ],
+    audienceTags: [{ icon: '🔒', label: 'Beta' }],
+    pitch:
+      "Linked stories set in the same small town across three decades. Each told by a different narrator who doesn't know they share a secret.",
+    storefront: {
+      state: 'Not listed',
+      price: '$5.99 · 120 Reading Credits',
+      options: ['Storefront draft saved'],
+      note: 'List when the revision is done',
+    },
+    activity: {
+      reads: 64,
+      readerPicks: 3,
+      betaRequests: 6,
       coins: 0,
     },
   },

@@ -6,17 +6,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { AccountSwitcher } from './AccountSwitcher';
 import { AvatarMenu } from './AvatarMenu';
 import { ThemeToggle } from './ThemeToggle';
-import { DiscoverSearch } from './read/DiscoverSearch';
 import { useMockSession } from '@/lib/useMockSession';
-import { useDiscoverSearch } from '@/lib/discover-search';
 
 type NavLink = { href: string; label: string; requiresWriter?: boolean; hideForKids?: boolean };
 
 const links: NavLink[] = [
   { href: '/read', label: 'Read' },
+  { href: '/write', label: 'Write', hideForKids: true },
   { href: '/read?tab=betareading', label: 'Beta Reading', hideForKids: true },
   { href: '/read?tab=community', label: 'Community', hideForKids: true },
-  { href: '/write', label: 'Write', hideForKids: true },
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
@@ -25,12 +23,8 @@ export function ReaderNav() {
   const pathname = usePathname() ?? '';
   const [currentTarget, setCurrentTarget] = useState(pathname);
   const { session } = useMockSession();
-  const { query, setQuery } = useDiscoverSearch();
   const isWriter = session?.roles?.includes('writer') ?? false;
   const isKid = session?.isKid ?? false;
-  // Search lives in the top bar on /read for grown-up readers. Kids keep their
-  // own search inside the kid tab bar, so we don't double it up here.
-  const showSearch = !isKid && pathname.startsWith('/read');
 
   useEffect(() => {
     setCurrentTarget(`${pathname}${window.location.search}`);
@@ -50,12 +44,6 @@ export function ReaderNav() {
       >
         Between<strong>Reads</strong>
       </button>
-
-      {showSearch && (
-        <div className="br-nav-search">
-          <DiscoverSearch query={query} onChange={setQuery} />
-        </div>
-      )}
 
       <div className="br-nav-links">
         {links.map((l) => {
