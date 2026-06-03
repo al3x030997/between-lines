@@ -19,12 +19,14 @@ import {
   type KidCategory,
 } from '@/components/read/KidCategoryChips';
 import {
+  accountMaturity,
   getBooksBySection,
   getInProgressBooks,
   sections,
   type Section,
   type Book,
 } from '@/lib/mock-books';
+import { BuildingBanner } from '@/components/BuildingBanner';
 import { useMockSession } from '@/lib/useMockSession';
 
 type DiscoverTabId =
@@ -219,6 +221,7 @@ function DiscoverContent() {
     [normalizedQuery, kidTerms],
   );
   const handle = session?.handle;
+  const showBuildingBanner = accountMaturity(handle) === 'mvp';
   const featuredBooks = useMemo(() => getBooksBySection('bl', handle), [handle]);
   const showFeatured = !isKid && (safeActive === 'foryou' || safeActive === 'betweenlines');
   const showContinue = session && (safeActive === 'foryou' || safeActive === 'betweenlines');
@@ -248,6 +251,7 @@ function DiscoverContent() {
         />
       )}
       <div className="br-discover-main">
+        {showBuildingBanner && <BuildingBanner handle={handle} />}
         {isKid && (
           <div className="br-discover-tabsbar">
             <div className="br-discover-tabsbar-inner">

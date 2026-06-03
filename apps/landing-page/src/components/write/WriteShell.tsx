@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getBook, type Chapter } from '@/lib/mock-books';
+import { accountMaturity, getBook, type Chapter } from '@/lib/mock-books';
+import { BuildingBanner } from '@/components/BuildingBanner';
 import {
   getWriterLibraryWorks,
   getWriterWorks,
@@ -340,6 +341,9 @@ export function WriteShell() {
         </div>
       </div>
       <div className="br-write-stage">
+        {topTab === 'library' && accountMaturity(session.handle) === 'mvp' ? (
+          <BuildingBanner handle={session.handle} />
+        ) : null}
         {topTab === 'library' ? (
           <WriterLibrary
             works={filteredLibraryWorks}
