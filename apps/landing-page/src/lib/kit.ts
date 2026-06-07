@@ -215,6 +215,7 @@ export function intakeToKit(intake: IntakePayload): {
   } else {
     const a = intake.answers;
     tags.push('audience-writer');
+    if (a.practice) tags.push(`practice-${a.practice}`);
     if (a.journey) tags.push(`journey-${a.journey}`);
     if (a.pubRoute) tags.push(`pub-route-${a.pubRoute}`);
     if (a.pubRoute === 'traditional' && a.agentStage) {
@@ -249,6 +250,7 @@ export function intakeToKit(intake: IntakePayload): {
     if (a.platform) tags.push(`writer-platform-${a.platform}`);
 
     fields.region = 'writer';
+    fields.writer_practice = a.practice ?? '';
     fields.writer_genre_focus = a.genre.focus ?? '';
     fields.writer_genre_fiction = a.genre.fictionPrimary.join(', ');
     fields.writer_genre_nonfiction = a.genre.nonfictionPrimary.join(', ');

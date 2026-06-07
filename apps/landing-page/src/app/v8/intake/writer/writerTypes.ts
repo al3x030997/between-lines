@@ -1,6 +1,7 @@
 // Writer intake state. File slots keep the live File on the client; only
 // {name, size} cross the wire (see serializeWriter() in WriterForm.tsx).
 
+export type Practice = 'prose' | 'poetry' | 'illustration';
 export type GenreFocus = 'single' | 'cross';
 export type JourneyStage = 'aspiring' | 'emerging' | 'established';
 export type WorkingOn = 'debut' | 'new' | 'thinking';
@@ -66,6 +67,7 @@ export type UploadSampleAnswers = {
 };
 
 export type WriterAnswers = {
+  practice: Practice | null;
   genre: {
     focus: GenreFocus | null;
     fictionPrimary: string[];
@@ -96,6 +98,7 @@ export type WriterAnswers = {
 };
 
 export const WRITER_INITIAL: WriterAnswers = {
+  practice: null,
   genre: {
     focus: null,
     fictionPrimary: [],
@@ -171,6 +174,7 @@ function metaOf(slot: FileSlot): FileMeta {
 }
 
 export type WriterPayload = {
+  practice: Practice | null;
   genre: WriterAnswers['genre'];
   journey: JourneyStage | null;
   awards: string;
@@ -210,6 +214,7 @@ export type WriterPayload = {
 
 export function serializeWriter(a: WriterAnswers): WriterPayload {
   return {
+    practice: a.practice,
     genre: a.genre,
     journey: a.journey,
     awards: a.awards.slice(0, 500),

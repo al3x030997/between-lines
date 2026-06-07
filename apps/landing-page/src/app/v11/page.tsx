@@ -42,7 +42,7 @@ const V11_CSS = `
   --bl-footer-bg: var(--theme-footer-bg);
   min-height: 100vh;
   background: var(--theme-page);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Outfit', system-ui, sans-serif;
   color: var(--v11-ink);
   transition: background-color 220ms var(--v6-ease), color 220ms var(--v6-ease);
 }
@@ -68,7 +68,7 @@ const V11_CSS = `
   gap: 0;
 }
 .v11-brand {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: 'Outfit', system-ui, sans-serif;
   font-size: 17px;
   font-weight: 700;
   color: var(--v11-ink);
@@ -248,10 +248,6 @@ const V11_CSS = `
 .v11-hero h1 em {
   font-style: italic;
   font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.08em;
-  text-decoration-color: color-mix(in srgb, var(--v11-accent) 75%, transparent);
 }
 
 .v11-proof-strip {
@@ -285,17 +281,20 @@ const V11_CSS = `
 
 /* === CTAs === */
 .v11-cta-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(230px, 1fr));
-  gap: clamp(12px, 2vw, 18px);
-  margin-top: clamp(28px, 5vh, 52px);
-  width: min(760px, 100%);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(28px, 7vw, 84px);
+  margin-top: clamp(56px, 11vh, 112px);
+  width: 100%;
 }
 .v11-cta {
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 6px;
   color: var(--v11-ink);
   background: transparent;
@@ -304,7 +303,6 @@ const V11_CSS = `
   padding: 6px 0;
   cursor: pointer;
   text-decoration: none;
-  text-align: left;
   -webkit-tap-highlight-color: transparent;
   transition: color 220ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -317,11 +315,11 @@ const V11_CSS = `
 }
 .v11-cta-main {
   display: block;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(28px, 4vw, 42px);
-  font-weight: 900;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(24px, 3.4vw, 36px);
+  font-weight: 800;
   line-height: 0.95;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
   text-decoration: underline;
   text-decoration-thickness: 0.06em;
   text-underline-offset: 0.1em;

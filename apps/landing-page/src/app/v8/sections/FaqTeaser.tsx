@@ -236,9 +236,8 @@ const STYLES = `
   font-feature-settings: "kern", "liga", "calt";
 }
 .bl-faq-split-invitation {
-  font-family: 'Fraunces', Georgia, serif;
+  font-family: var(--bl-font-serif);
   font-weight: 400;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(17px, 1.4vw, 20px);
   line-height: 1.5;
   color: var(--bl-ink);

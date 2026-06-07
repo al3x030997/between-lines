@@ -74,10 +74,10 @@
   --bl-footer-muted: var(--theme-footer-muted);
   --bl-footer-divider: var(--theme-footer-divider);
 
-  --bl-font-display: 'Bricolage Grotesque', 'Outfit', system-ui, sans-serif;
+  --bl-font-display: 'Outfit', system-ui, sans-serif;
   --bl-font-body: 'Outfit', system-ui, sans-serif;
-  --bl-font-eyebrow: 'Bricolage Grotesque', sans-serif;
-  --bl-font-serif: 'Fraunces', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --bl-font-eyebrow: 'Outfit', system-ui, sans-serif;
+  --bl-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
   --bl-font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
   --bl-font-script: 'Caveat', 'Brush Script MT', cursive;
 

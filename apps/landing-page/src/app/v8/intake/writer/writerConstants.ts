@@ -2,6 +2,12 @@
 // Kit fields/tags; values are the labels shown in the UI. Adding a new option
 // means adding here only; the chip rows derive from these maps.
 
+export const PRACTICE: Record<string, string> = {
+  prose: 'Prose',
+  poetry: 'Poetry',
+  illustration: 'Illustration',
+};
+
 export const JOURNEY: Record<string, string> = {
   aspiring: 'Aspiring writer',
   emerging: 'Emerging writer',

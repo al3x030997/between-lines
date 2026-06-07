@@ -4,8 +4,7 @@ import { useState } from 'react';
 import { track } from '@vercel/analytics';
 import type { IntakePayload } from '@/lib/schemas';
 import { INTAKE_CSS } from '../../v8/intake/intakeCss';
-import { Chip, Chips, Group, Prompt } from '../../v8/intake/shared/intakeAtoms';
-import WriterGenre from '../../v8/intake/writer/WriterGenre';
+import { Chip, Chips, Group, Prompt, ToggleChip } from '../../v8/intake/shared/intakeAtoms';
 import {
   READER_INITIAL,
   type ReaderAnswers,
@@ -22,10 +21,13 @@ import {
   type WriterAnswers,
 } from '../../v8/intake/writer/writerTypes';
 import {
+  PRACTICE,
   JOURNEY,
   PUB_ROUTE,
   AGENT_STAGE,
   MS_STAGE,
+  FICTION_GENRES_PRIMARY,
+  FICTION_GENRES_MORE,
 } from '../../v8/intake/writer/writerConstants';
 
 export type IntakeRegion = 'reader' | 'writer';
@@ -82,16 +84,29 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   };
 
   // --- Writer hook helpers -------------------------------------------------
-  const writerHasGenre =
-    writer.genre.openToAll ||
-    writer.genre.fictionPrimary.length > 0 ||
-    writer.genre.nonfictionPrimary.length > 0;
+  const [wMoreOpen, setWMoreOpen] = useState(false);
+  const writerGenreAtCap = writer.genre.fictionPrimary.length >= GENRE_CAP;
+  const setPractice = (p: WriterAnswers['practice']) =>
+    setWriter({ ...writer, practice: p });
+  const setGenre = (next: WriterAnswers['genre']) =>
+    setWriter({ ...writer, genre: next });
+  const toggleFiction = (g: string) => {
+    const has = writer.genre.fictionPrimary.includes(g);
+    if (has) {
+      setGenre({
+        ...writer.genre,
+        fictionPrimary: writer.genre.fictionPrimary.filter((x) => x !== g),
+      });
+    } else if (!writerGenreAtCap) {
+      setGenre({ ...writer.genre, fictionPrimary: [...writer.genre.fictionPrimary, g] });
+    }
+  };
 
   // --- Step gating ---------------------------------------------------------
   const hookReady =
     mode === 'reader'
       ? reader.audience !== null
-      : writerHasGenre && writer.journey !== null;
+      : writer.practice !== null && writer.journey !== null;
 
   const canSubmitEmail = email.trim().length > 0 && consent && !submitting;
 
@@ -178,32 +193,32 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
           })}
         </ol>
 
-        {/* Role toggle — locked once an email has been captured */}
+        {/* Role toggle — modern segmented control, locked after email capture */}
         {step === 'hook' && (
           <div
-            className={`v8-intake-toggle${mode === 'reader' ? ' is-reader' : ''}`}
+            className={`v12-seg${mode === 'reader' ? ' is-reader' : ''}`}
             role="tablist"
             aria-label="Choose your path"
           >
+            <span className="v12-seg-thumb" aria-hidden="true" />
             <button
               type="button"
               role="tab"
               aria-selected={mode === 'writer'}
-              className={`v8-intake-toggle-btn${mode === 'writer' ? ' is-active' : ''}`}
+              className={`v12-seg-btn${mode === 'writer' ? ' is-active' : ''}`}
               onClick={() => setMode('writer')}
             >
-              I&rsquo;m writer first
+              Writer first
             </button>
             <button
               type="button"
               role="tab"
               aria-selected={mode === 'reader'}
-              className={`v8-intake-toggle-btn${mode === 'reader' ? ' is-active' : ''}`}
+              className={`v12-seg-btn${mode === 'reader' ? ' is-active' : ''}`}
               onClick={() => setMode('reader')}
             >
-              I&rsquo;m reader first
+              Reader first
             </button>
-            <span className="v8-intake-toggle-bar" aria-hidden="true" />
           </div>
         )}
 
@@ -275,12 +290,78 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
               </>
             ) : (
               <>
-                <WriterGenre
-                  num="01"
-                  value={writer.genre}
-                  onChange={(genre) => setWriter({ ...writer, genre })}
-                />
-                <Group num="02" label="Journey">
+                <Group num="01" label="Practice">
+                  <Prompt>What do you create?</Prompt>
+                  <Chips>
+                    {Object.entries(PRACTICE).map(([key, label]) => (
+                      <Chip
+                        key={key}
+                        selected={writer.practice === key}
+                        onClick={() => setPractice(key as WriterAnswers['practice'])}
+                      >
+                        {label}
+                      </Chip>
+                    ))}
+                  </Chips>
+                </Group>
+
+                {writer.practice !== 'illustration' && (
+                  <Group num="02" label="Genres">
+                    <Prompt>What genres? Pick up to three — or open to all.</Prompt>
+                    <Chips>
+                      {FICTION_GENRES_PRIMARY.map((g) => {
+                        const selected = writer.genre.fictionPrimary.includes(g);
+                        return (
+                          <Chip
+                            key={g}
+                            selected={selected}
+                            disabled={!selected && writerGenreAtCap}
+                            onClick={() => toggleFiction(g)}
+                          >
+                            {g}
+                          </Chip>
+                        );
+                      })}
+                      <button
+                        type="button"
+                        className={`v8-chip is-more${wMoreOpen ? ' is-open' : ''}`}
+                        aria-expanded={wMoreOpen}
+                        onClick={() => setWMoreOpen((v) => !v)}
+                      >
+                        {wMoreOpen ? 'Less' : 'More…'}
+                      </button>
+                    </Chips>
+                    <div className={`v8-intake-expand${wMoreOpen ? ' is-open' : ''}`}>
+                      <div className="v8-intake-expand-inner">
+                        <div className="v8-intake-chips">
+                          {FICTION_GENRES_MORE.map((g) => {
+                            const selected = writer.genre.fictionPrimary.includes(g);
+                            return (
+                              <Chip
+                                key={g}
+                                selected={selected}
+                                disabled={!selected && writerGenreAtCap}
+                                onClick={() => toggleFiction(g)}
+                              >
+                                {g}
+                              </Chip>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                    <ToggleChip
+                      on={writer.genre.openToAll}
+                      onClick={() =>
+                        setGenre({ ...writer.genre, openToAll: !writer.genre.openToAll })
+                      }
+                    >
+                      I&rsquo;m open to all genres
+                    </ToggleChip>
+                  </Group>
+                )}
+
+                <Group num="03" label="Journey">
                   <Prompt>Where are you on your writing journey?</Prompt>
                   <Chips>
                     {Object.entries(JOURNEY).map(([key, label]) => (
@@ -440,6 +521,15 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
                   </Chips>
                 </Group>
               </>
+            ) : writer.practice !== 'prose' ? (
+              <Group num="04" label="Almost there">
+                <Prompt>You&rsquo;re all set.</Prompt>
+                <p className="v8-intake-caption">
+                  {writer.practice === 'poetry' ? 'Poetry' : 'Illustration'} goes live fast — a
+                  light spot-check, no heavy gate. Add any extra details from your creator profile
+                  whenever you like.
+                </p>
+              </Group>
             ) : (
               <>
                 <Group num="04" label="Publishing route">
@@ -542,6 +632,61 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 }
 
 const FLOW_CSS = `
+/* Prompt text: black + bold instead of the yellow accent */
+.v8-intake .v8-intake-prompt {
+  color: var(--v6-text-strong);
+  font-weight: 800;
+}
+
+/* === Modern segmented toggle === */
+.v12-seg {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 0;
+  padding: 4px;
+  margin: 0 auto 8px;
+  width: 100%;
+  max-width: 380px;
+  background: var(--theme-surface-muted);
+  border: 1px solid var(--v6-divider);
+  border-radius: 999px;
+  isolation: isolate;
+}
+.v12-seg-thumb {
+  position: absolute;
+  z-index: 0;
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+  width: calc(50% - 4px);
+  border-radius: 999px;
+  background: var(--theme-surface, #fff);
+  box-shadow: 0 1px 2px rgb(var(--theme-shadow-rgb, 0 0 0) / 0.10),
+              0 2px 10px rgb(var(--theme-shadow-rgb, 0 0 0) / 0.07);
+  transition: transform 280ms var(--v6-ease);
+}
+.v12-seg.is-reader .v12-seg-thumb { transform: translateX(100%); }
+.v12-seg-btn {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 11px 16px;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: clamp(14px, 1.5vw, 16px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--v6-text-muted);
+  transition: color 200ms var(--v6-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.v12-seg-btn.is-active { color: var(--v6-text-strong); }
+.v12-seg-btn:hover { color: var(--v6-text-strong); }
+
 .v12-steps {
   list-style: none;
   display: flex;

@@ -100,15 +100,15 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             ))}
           </div>
           <p className="bl-offers-lede">
-            Pick three from Issue №01 when you join — hand-selected debut fiction, yours to keep.
-            No trial, no card.
+            Meet the six debut authors of Issue №01 — read them free when you join.
+            Hand-selected fiction, yours to keep. No trial, no card.
           </p>
           <a
             href="/?intake=reader"
             className="bl-offers-cta"
             onClick={handle(onReader)}
           >
-            Claim 3 free
+            Read now
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>

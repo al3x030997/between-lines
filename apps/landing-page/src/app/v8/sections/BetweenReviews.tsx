@@ -162,9 +162,7 @@ const STYLES = `
   background: var(--theme-page-soft);
   color: var(--bl-rev-ink);
   padding: clamp(72px, 10vh, 120px) clamp(24px, 5vw, 80px);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  border-top: 2px solid var(--bl-rev-ink);
-  border-bottom: 2px solid var(--bl-rev-ink);
+  font-family: 'Outfit', system-ui, sans-serif;
   transition: background-color 320ms ease, color 320ms ease;
 }
 .bl-reviews-inner {

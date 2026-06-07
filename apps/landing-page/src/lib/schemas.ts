@@ -24,6 +24,9 @@ const fileMetaSchema = z
   .nullable();
 
 const writerAnswersSchema = z.object({
+  // Lead question from the creator-intake flow (write / poetry / illustrate).
+  // Optional + nullable so older payloads without the key still validate.
+  practice: z.enum(['prose', 'poetry', 'illustration']).nullable().optional(),
   genre: z.object({
     focus: z.enum(['single', 'cross']).nullable(),
     fictionPrimary: z.array(z.string().max(64)).max(10),
