@@ -119,13 +119,13 @@ const V11_CSS = `
   font-weight: 500;
 }
 .v11-nav-link.member {
-  color: var(--v11-accent);
+  color: var(--v11-ink);
   font-weight: 500;
 }
 .v11-nav-link.support {
   border: 1.5px solid var(--v11-accent-strong);
   border-radius: 6px;
-  color: var(--v11-accent);
+  color: var(--v11-ink);
   font-weight: 500;
 }
 .v11-nav-link.support:hover {
@@ -274,6 +274,13 @@ const V11_CSS = `
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.v11-proof-pill-lg {
+  min-height: 44px;
+  padding: 10px 24px;
+  font-size: 16px;
+  letter-spacing: 0.14em;
 }
 
 /* === CTAs === */
@@ -584,9 +591,7 @@ export default function V11Page() {
               </button>
             </div>
             <div className="v11-proof-strip" aria-label="Platform commitments">
-              <span className="v11-proof-pill">Free to start</span>
-              <span className="v11-proof-pill">Protected drafts</span>
-              <span className="v11-proof-pill">No ads</span>
+              <span className="v11-proof-pill v11-proof-pill-lg">Ad-free</span>
             </div>
           </div>
         )}
