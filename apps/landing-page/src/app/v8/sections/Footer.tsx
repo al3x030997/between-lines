@@ -113,16 +113,17 @@ export default function Footer() {
       <div className="bl-footer-inner">
         <div className="bl-footer-top">
           <h2 className="bl-footer-mark">BetweenReads</h2>
-          <p className="bl-footer-tag">Home for readers who want books worth their time &mdash; and writers who want real readers, real feedback, and a real path to publish. Curated by humans. No ranked feed. No pay-to-play.</p>
+          <p className="bl-footer-tag">A home for emerging authors and the readers who discover them first. Read free, ad-free, and curated by humans &mdash; no ranked feed, no pay-to-play.</p>
         </div>
 
         <div className="bl-footer-cols">
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Product</h3>
             <ul>
-              <li><a href="#">For writers</a></li>
-              <li><a href="#">For readers</a></li>
-              <li><a href="#">How it works</a></li>
+              <li><a href="/readers">For readers</a></li>
+              <li><a href="/creators">For writers</a></li>
+              <li><a href="/creators/agent-readiness">AgentReady</a></li>
+              <li><a href="/pricing">Pricing</a></li>
               <li><a href="/faq">FAQ</a></li>
             </ul>
           </div>
@@ -130,16 +131,16 @@ export default function Footer() {
             <h3 className="bl-footer-col-title">Company</h3>
             <ul>
               <li><a href="/about">About</a></li>
-              <li><a href="/#open-call">between.lines</a></li>
-              <li><a href="#">Contact</a></li>
+              <li><a href="/betweenlines">BetweenLines</a></li>
+              <li><a href="/insider">Become a Member</a></li>
             </ul>
           </div>
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Legal</h3>
             <ul>
               <li><a href="/privacy">Privacy</a></li>
-              <li><a href="#">Terms</a></li>
-              <li><a href="#">Cookies</a></li>
+              <li><a href="/privacy">Terms</a></li>
+              <li><a href="/privacy">Cookies</a></li>
             </ul>
           </div>
         </div>

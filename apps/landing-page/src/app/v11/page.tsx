@@ -294,36 +294,20 @@ const V11_CSS = `
 }
 .v11-cta {
   position: relative;
-  min-height: 112px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
+  align-items: flex-start;
+  gap: 6px;
   color: var(--v11-ink);
-  background: rgb(var(--theme-surface-rgb) / 0.78);
-  border: 2px solid var(--v11-ink);
+  background: transparent;
+  border: 0;
   border-radius: 0;
-  padding: 18px 20px 16px;
+  padding: 6px 0;
   cursor: pointer;
   text-decoration: none;
   text-align: left;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 7px 7px 0 var(--v11-ink);
-  transition:
-    background 220ms cubic-bezier(.22, 1, .36, 1),
-    box-shadow 220ms cubic-bezier(.22, 1, .36, 1),
-    transform 220ms cubic-bezier(.22, 1, .36, 1),
-    color 220ms cubic-bezier(.22, 1, .36, 1);
-}
-.v11-cta::after {
-  content: '→';
-  position: absolute;
-  right: 18px;
-  bottom: 15px;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 30px;
-  line-height: 1;
-  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+  transition: color 220ms cubic-bezier(.22, 1, .36, 1);
 }
 .v11-cta-kicker {
   font-size: 11px;
@@ -333,40 +317,23 @@ const V11_CSS = `
   color: color-mix(in srgb, var(--v11-ink) 62%, transparent);
 }
 .v11-cta-main {
-  max-width: 9ch;
+  display: block;
   font-family: 'Playfair Display', Georgia, serif;
   font-size: clamp(28px, 4vw, 42px);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.035em;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.1em;
 }
 .v11-cta:hover,
 .v11-cta:focus-visible {
-  background: var(--theme-surface);
   color: var(--v11-accent);
-  box-shadow: 11px 11px 0 var(--v11-ink);
-  transform: translate(-2px, -2px);
   outline: none;
 }
-.v11-cta:hover::after,
-.v11-cta:focus-visible::after {
-  transform: translateX(5px);
-}
-.v11-cta:active {
-  transform: translateY(0);
-  transition-duration: 80ms;
-}
-.v11-cta.reader {
-  background: var(--theme-strong-cta-bg);
-  color: var(--theme-strong-cta-fg);
-}
 .v11-cta.reader .v11-cta-kicker {
-  color: color-mix(in srgb, var(--theme-strong-cta-fg) 72%, transparent);
-}
-.v11-cta.reader:hover,
-.v11-cta.reader:focus-visible {
-  background: var(--theme-strong-cta-hover-bg);
-  color: var(--theme-strong-cta-fg);
+  color: color-mix(in srgb, var(--v11-ink) 62%, transparent);
 }
 
 /* Banner reused */
@@ -569,8 +536,8 @@ export default function V11Page() {
               wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators
             </p>
             <h1>
-              <span className="v11-hero-line">Discover <em>new voices.</em></span>
-              <span className="v11-hero-line">Curated <em>stories.</em></span>
+              <span className="v11-hero-line">Six emerging <em>authors,</em></span>
+              <span className="v11-hero-line">publishing here. Read them <em>free.</em></span>
             </h1>
 
             <div className="v11-cta-row" role="group" aria-label="Start">

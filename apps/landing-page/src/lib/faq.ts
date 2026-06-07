@@ -24,9 +24,13 @@ export type FaqCategory = {
 export const FAQ: FaqCategory[] = [
   {
     slug: 'general',
-    title: 'General',
-    blurb: 'What it is, who it’s for',
+    title: 'What makes us different',
+    blurb: 'Why BetweenReads, what it is, who it’s for',
     questions: [
+      {
+        q: 'What makes BetweenReads different?',
+        a: 'BetweenReads is built on a simple belief — that readers deserve quality writing and serious writers deserve real readers. We also believe in a wholesome reading experience. The platform is driven by curation and reader participation. No advertising. No chasing algorithms. Just writing worth reading and readers worth writing for.\n\nAs readers and writers, we prize the experience and cherish our memories of physical book reading, the joy of discovery, staff picks, and quality content. We aim to replicate a quality browsing experience for readers.\n\nWhat makes BetweenReads distinctive:\n\nCurated Reading — We highlight Reader Picks and BetweenReads team picks to offer readers choice based on their reading interests.\n\nQuietReading Mode — We offer a distraction-free reading mode. When selected, we hold platform nudges, notifications, and new content from popping onto your radar. They await your return, silently, in notifications.\n\nVirtual Reading Club — Readers can host reading clubs for their favourite genre, author, or book and include any book — published, self-published, or emerging. Readers earn badges and are invited to recommend writers on the platform for Reader Picks.\n\nReader Pods — Writers invite up to 6 readers into an exclusive pod for deeper, more intimate conversation around their work. Not a public feed. A trusted inner circle.\n\nWriter Pods — Writers may form small groups of up to 4 writers. Kept deliberately small for meaningful craft conversations and peer support.\n\nSecureBetaReads — Manuscripts are protected on upload with watermarks and disabled copy. We never train AI on your content. We match readers to writers based on shared interests. Writers control exactly who reads their work and can revoke access at any time. Beta readers can only access your work on the platform. Beta readers who violate confidentiality and the terms of their agreement may be banned from the platform.\n\nSwap Credits — Readers earn credits by giving feedback. Writers earn credits by reading others. Credits unlock more of the platform — no cash required.\n\nEarly Discoverer — Readers who beta read a writer before they are published are permanently credited on that writer’s author page. Recognition that cannot be bought. Only earned.\n\nAgentReady — One place to build your agent list, generate tailored query letters, track submissions, and prepare for publication. Free to start. No tool-hopping.\n\nAuthor Page — Every writer on BetweenReads gets a generated author page with custom themes and templates. You can showcase all your works, self-published titles, and writing portfolio in one place. You can highlight your best writing for agents to find. You can build agent-ready bios for easy uploads to social media. You can list your book for sale. It is free and yours to customise.\n\nReader Page — Every reader on BetweenReads gets a generated reader page with custom themes and templates. You can showcase all your reading shelves, build reading lists — read and to be read — for published, unpublished, and self-published titles, list your favourite authors from any platform including newsletter writers, and manage your reading shelf in one place. It is free and yours to customise.\n\nIllustrator Page — Every illustrator on BetweenReads gets a dedicated page with full quality art display, style tags, commission availability, and storefront. Illustrated art is a first-class content category on BetweenReads — not a footnote to fiction. Standalone works, story illustrations, and journal submissions all have a home here.\n\nBetweenLines Journal — Each month the BetweenLines Journal curates the finest writing on the platform — reader picks, distinct voices, diverse genres — a wholesome literary magazine made for a quiet hour and a good cup of coffee. Readers encounter a variety of voices across genres, and writers may submit their work for consideration. Early Discoverer readers and Deep Thoughts readers may be invited to help screen selections before each issue.\n\nAudio — We offer audiobooks as well and provide authors services to turn their manuscripts into audiobooks.',
+      },
       {
         q: 'What is BetweenReads?',
         a: 'BetweenReads is a platform for readers, writers, and illustrators of fiction for adults, young adults, and children. Readers discover emerging authors and original stories. Writers build a real readership, get beta feedback, and prepare for publication. Illustrators share their work, collaborate with writers, and get discovered by readers who love art as much as story. All in one place.',
@@ -38,10 +42,6 @@ export const FAQ: FaqCategory[] = [
       {
         q: 'Is BetweenReads free to join?',
         a: 'Yes. Joining is free for both readers and writers.',
-      },
-      {
-        q: 'What makes BetweenReads different?',
-        a: 'BetweenReads is built on a simple belief — that readers deserve quality writing and serious writers deserve real readers. We also believe in a wholesome reading experience. The platform is driven by curation and reader participation. No advertising. No chasing algorithms. Just writing worth reading and readers worth writing for.\n\nAs readers and writers, we prize the experience and cherish our memories of physical book reading, the joy of discovery, staff picks, and quality content. We aim to replicate a quality browsing experience for readers.\n\nWhat makes BetweenReads distinctive:\n\nCurated Reading — We highlight Reader Picks and BetweenReads team picks to offer readers choice based on their reading interests.\n\nQuietReading Mode — We offer a distraction-free reading mode. When selected, we hold platform nudges, notifications, and new content from popping onto your radar. They await your return, silently, in notifications.\n\nVirtual Reading Club — Readers can host reading clubs for their favourite genre, author, or book and include any book — published, self-published, or emerging. Readers earn badges and are invited to recommend writers on the platform for Reader Picks.\n\nReader Pods — Writers invite up to 6 readers into an exclusive pod for deeper, more intimate conversation around their work. Not a public feed. A trusted inner circle.\n\nWriter Pods — Writers may form small groups of up to 4 writers. Kept deliberately small for meaningful craft conversations and peer support.\n\nSecureBetaReads — Manuscripts are protected on upload with watermarks and disabled copy. We never train AI on your content. We match readers to writers based on shared interests. Writers control exactly who reads their work and can revoke access at any time. Beta readers can only access your work on the platform. Beta readers who violate confidentiality and the terms of their agreement may be banned from the platform.\n\nSwap Credits — Readers earn credits by giving feedback. Writers earn credits by reading others. Credits unlock more of the platform — no cash required.\n\nEarly Discoverer — Readers who beta read a writer before they are published are permanently credited on that writer’s author page. Recognition that cannot be bought. Only earned.\n\nAgentReady — One place to build your agent list, generate tailored query letters, track submissions, and prepare for publication. Free to start. No tool-hopping.\n\nAuthor Page — Every writer on BetweenReads gets a generated author page with custom themes and templates. You can showcase all your works, self-published titles, and writing portfolio in one place. You can highlight your best writing for agents to find. You can build agent-ready bios for easy uploads to social media. You can list your book for sale. It is free and yours to customise.\n\nReader Page — Every reader on BetweenReads gets a generated reader page with custom themes and templates. You can showcase all your reading shelves, build reading lists — read and to be read — for published, unpublished, and self-published titles, list your favourite authors from any platform including newsletter writers, and manage your reading shelf in one place. It is free and yours to customise.\n\nIllustrator Page — Every illustrator on BetweenReads gets a dedicated page with full quality art display, style tags, commission availability, and storefront. Illustrated art is a first-class content category on BetweenReads — not a footnote to fiction. Standalone works, story illustrations, and journal submissions all have a home here.\n\nBetweenLines Journal — Each month the BetweenLines Journal curates the finest writing on the platform — reader picks, distinct voices, diverse genres — a wholesome literary magazine made for a quiet hour and a good cup of coffee. Readers encounter a variety of voices across genres, and writers may submit their work for consideration. Early Discoverer readers and Deep Thoughts readers may be invited to help screen selections before each issue.\n\nAudio — We offer audiobooks as well and provide authors services to turn their manuscripts into audiobooks.',
       },
       {
         q: 'When does the Inaugral issue launch?',
@@ -416,118 +416,6 @@ export const FAQ: FaqCategory[] = [
       {
         q: 'What is weWrite?',
         a: 'weWrite is our collaborative storytelling feature — coming soon. Up to 4 writers collaborate on one story with gamified handoffs, timers, and turns. Completed stories go into the weWrite library. Revenue is split equally among contributors. Joint copyright applies to all. weWrite costs $10/month or is available at $5/month when bundled with AgentReady Pro.',
-      },
-    ],
-  },
-  {
-    slug: 'illustrators',
-    title: 'For Illustrators',
-    blurb: 'Pages, commissions, journal submissions',
-    questions: [
-      {
-        q: 'Do I pay to upload my work as an illustrator?',
-        a: 'No. Uploading your art is free. You can upload a minimum of 1 illustration to join the platform. We ask that you upload at least 3 works to build a meaningful portfolio for readers and writers to discover. Your Illustrator Page is free and yours to customise. You only pay when you choose to submit to the BetweenLines Journal — a small entry fee of $2 per submission.',
-      },
-      {
-        q: 'How can I earn as an illustrator?',
-        a: 'You can sell your art on BetweenReads — prints and digital downloads — keeping 80% of every sale. You can accept commissions from writers for cover images and story illustrations. You can also issue copyright licenses for your existing work to writers and publishers who want to use your art. BetweenReads takes 20% on sales. You retain full copyright always.\n\nAvailable for Commission — Illustrators can toggle their commission availability directly on their Illustrator Page. When open, writers and readers can reach out directly to commission cover art, story illustrations, or licensed work.',
-      },
-      {
-        q: 'What illustrator badges can I earn?',
-        a: '',
-        table: {
-          headers: ['Badge', 'How Earned'],
-          rows: [
-            ['BetweenLines Pick', 'Art selected by editorial team for Journal or platform feature'],
-            ['Award Winner', 'Won a recognised illustration or literary prize — verified by platform'],
-            ['Shortlisted', 'Shortlisted for a recognised prize — verified by platform'],
-            ['Longlisted', 'Longlisted for a recognised prize — verified by platform'],
-            ['Verified Illustrator', 'Verified professional illustrator — verified by platform'],
-            ['Reader Favourite', 'Consistently chosen in Reader Picks'],
-          ],
-        },
-      },
-    ],
-  },
-  {
-    slug: 'standards',
-    title: 'Platform Standards',
-    blurb: 'What’s allowed, AI policy, moderation',
-    questions: [
-      {
-        q: 'What content themes are allowed?',
-        a: 'Dark themes, mental health themes, and mature subject matter are permitted where handled with craft and intention. Writers self-declare content advisories on upload.',
-      },
-      {
-        q: 'What does Mature mean on BetweenReads?',
-        a: 'Writers may tag their work as Mature if it contains content not suitable for younger readers — including romance with intimate scenes, dark themes, violence, or mature subject matter. Mature content is visible only to readers aged 17 and above. Mature does not mean explicit or pornographic — purely sexual content with no literary purpose remains prohibited regardless of rating.',
-      },
-      {
-        q: 'Is AI-generated content allowed?',
-        a: 'No. BetweenReads is a platform for human writers. AI-generated content is not permitted.',
-      },
-      {
-        q: 'What content is not permitted on BetweenReads?',
-        a: 'BetweenReads is a platform for quality fiction, nonfiction, memoir, and poetry. To protect the integrity of the reading experience we do not permit the following:\n\n- Pornographic or purely explicit sexual content\n- Extreme violence or graphic gore\n- Political content or commentary\n- Religious content or proselytising\n- Incest\n- Plagiarised or stolen work\n- AI-generated content where AI is the author rather than an assistant',
-      },
-      {
-        q: 'How is content moderated?',
-        a: 'Writers self-declare content advisories on upload. Our AI moderation tools flag content that may violate platform standards — including explicit content, plagiarism, and copyright violations. Readers may also alert us by flagging inappropriate content. Our human editorial team reviews all flagged content before any action is taken. AI flags. Humans decide.',
-      },
-      {
-        q: 'What happens if my content is flagged?',
-        a: 'You will be notified and given the opportunity to respond, review, and revise your submission. If content is found to be in serious violation of our standards it will be removed and you will be informed of the reason. Repeated violations may result in removal from the platform.',
-      },
-      {
-        q: 'Can dark or difficult themes appear in fiction?',
-        a: 'Yes. Serious literary fiction often explores difficult human experiences — grief, trauma, addiction, violence, moral complexity. These themes are welcome on BetweenReads when handled with craft and intention. What we do not permit is gratuitous, exploitative, or explicit content that serves no literary purpose.',
-      },
-      {
-        q: 'How do I report inappropriate content?',
-        a: 'Every piece of content on the platform has a report button. Our content team reviews all reports and takes action including permanent removal from the platform.',
-      },
-      {
-        q: 'What is BetweenReads’ position on AI?',
-        a: 'We believe AI is a powerful tool for research, productivity, and assistance — not a substitute for human creativity and original voice. BetweenReads is a platform built for human writers and human readers. The writing here is yours.',
-      },
-      {
-        q: 'Do you train AI on my content?',
-        a: 'No. We will never use your uploaded manuscripts, stories, or any written work to train AI models — ours or anyone else’s. Your writing is yours. We are not in the business of harvesting creative work.',
-      },
-      {
-        q: 'Do you use AI on the platform?',
-        a: 'Yes — in specific ways that serve writers and readers:\n\n1. AI Assist — optional upgrade feature for writers. Writers can choose to use our AI Assist tools to help with query letter drafting, synopsis generation, pitch refinement, and grammar checking. This is entirely optional, available as an upgrade feature, and is designed to assist your process — not replace your voice. AI Assist works on your manuscript only when you actively choose to use it.\n\n2. AI moderation — to protect the platform. We use AI as a research and moderation tool to help identify content that may violate our platform standards — including explicit content, copyright violations, plagiarism, and prohibited material. Our human editorial team reviews any objections filed for flagged content.\n\n3. AI for platform efficiencies and scale. We may use AI to support our processes and internal workflows — enabling us to operate efficiently and deliver platform improvements at scale. Like other platforms, we may read uploaded content to moderate for content exclusions, improve platform quality, and ensure compliance with our standards. Human readers will beta read. We do not use your content to train AI models.',
-      },
-      {
-        q: 'Can I submit AI-generated writing to BetweenReads?',
-        a: 'We are fully supportive of writers using AI tools as part of their creative process. Grammarly, ProWritingAid, Copilot, Notion AI, and similar tools are widely used by serious writers for grammar checking, editing, research, and drafting assistance — and we respect that. How you write is your business.\n\nThe line we draw is authorship. Work submitted to BetweenReads must be substantially and originally yours. Writing that is predominantly or wholly generated by AI — where the AI is the author rather than the assistant — is not permitted. BetweenReads is a platform for human voices. Our moderation tools help identify content that crosses that line and our editorial team reviews all flagged submissions.\n\nIn short: use AI to write better. Don’t use AI to write for you.',
-      },
-    ],
-  },
-  {
-    slug: 'privacy',
-    title: 'Privacy and Safety',
-    blurb: 'SecureBetaReads, data, manuscript protection',
-    questions: [
-      {
-        q: 'Is my manuscript protected?',
-        a: 'Yes. All manuscripts uploaded via SecureBetaReads are protected. Beta readers agree to confidentiality terms on opt-in. Your unpublished work is safe.',
-      },
-      {
-        q: 'What does SecureBetaReads actually mean?',
-        a: 'SecureBetaReads is our commitment to protecting your unpublished manuscript on the platform. It covers four specific protections:\n\n1. No copy and paste. Content on BetweenReads cannot be copied and pasted. This prevents readers from easily reproducing your work elsewhere.\n\n2. No AI training. We do not use your manuscript to train any AI model — ever. Not our own tools, not third party tools. Your unpublished work is never training data. This is a firm commitment and a deliberate departure from the practices of many platforms.\n\n3. Your work is deleted when you delete it. If you remove your work from BetweenReads it is deleted. We do not retain copies of unpublished manuscripts you have chosen to remove. This is different from platforms which reserve the right to retain deleted content. We may continue to use previously published promotional material for a period of 90 days to allow us time to remove it from all channels.\n\n4. DMCA protection. If your work is reproduced without your permission anywhere online you can file a DMCA takedown. BetweenReads will support you in this process. Beta readers who violate confidentiality terms will be permanently removed from the platform.',
-      },
-      {
-        q: 'Does uploading to BetweenReads affect my ability to publish traditionally?',
-        a: 'No. Sharing unpublished work with beta readers is standard practice and is not considered prior publication by agents or publishers. Your work remains unpublished until you choose to publish it. Always check individual agent or publisher submission guidelines if you are uncertain.',
-      },
-      {
-        q: 'Can I export my written work?',
-        a: 'Yes. You can export all your written work from BetweenReads at any time in standard file formats. Your writing is always yours to take with you. We do not lock you in.',
-      },
-      {
-        q: 'How is my data used?',
-        a: 'We protect your privacy and data. We do not sell your data to third parties. We do not serve third-party advertising. We may use your reading and engagement preferences to personalise your experience on the platform and to send you relevant recommendations and promotions from BetweenReads. We may use short excerpts from your work to promote BetweenReads and attract new readers to the platform. We will always credit you as the author. This is covered in the promotional rights you grant on upload. You retain full copyright at all times. Full details in our Privacy Policy and Terms and Conditions.',
       },
     ],
   },

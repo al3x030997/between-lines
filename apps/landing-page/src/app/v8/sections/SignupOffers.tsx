@@ -222,7 +222,7 @@ const CSS = `
   font-size: 11px;
   letter-spacing: 0.46em;
   text-transform: uppercase;
-  color: var(--bl-accent);
+  color: color-mix(in srgb, var(--bl-footer-fg) 72%, transparent);
   margin: 0;
   display: inline-flex;
   align-items: center;
@@ -249,7 +249,7 @@ const CSS = `
 .bl-offers-title em {
   font-style: italic;
   font-weight: 500;
-  color: var(--bl-accent);
+  color: var(--bl-footer-fg);
 }
 .bl-offers-volume-mark {
   display: block;
@@ -271,7 +271,7 @@ const CSS = `
   letter-spacing: -0.015em;
   color: var(--bl-footer-fg);
 }
-.bl-offers-volume-sub em { color: var(--bl-accent); }
+.bl-offers-volume-sub em { color: var(--bl-footer-fg); }
 
 .bl-offers-lede {
   font-family: var(--bl-font-body);
