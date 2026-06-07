@@ -1013,7 +1013,7 @@ export default function FaqPage() {
                 className="bl-faq-promo-cover"
                 style={{ background: '#1F7A3E', color: '#F3EFE6', transform: 'rotate(-3deg)' }}
               >
-                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-publisher">BETWEENREADS</div>
                 <div className="bl-faq-promo-cover-title">
                   <em>Hollow</em> Latitude
                 </div>
@@ -1026,7 +1026,7 @@ export default function FaqPage() {
                 className="bl-faq-promo-cover"
                 style={{ background: '#F3EFE6', color: '#0e0e0c', transform: 'rotate(0.5deg)' }}
               >
-                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-publisher">BETWEENREADS</div>
                 <div className="bl-faq-promo-cover-title">
                   Ash &amp; <em>Anise</em>
                 </div>
@@ -1039,7 +1039,7 @@ export default function FaqPage() {
                 className="bl-faq-promo-cover"
                 style={{ background: '#1F3A8A', color: '#F3EFE6', transform: 'rotate(2.5deg)' }}
               >
-                <div className="bl-faq-promo-cover-publisher">ISSUE №01</div>
+                <div className="bl-faq-promo-cover-publisher">BETWEENREADS</div>
                 <div className="bl-faq-promo-cover-title">
                   The <em>Undertow</em> Hours
                 </div>
@@ -1050,7 +1050,7 @@ export default function FaqPage() {
               </div>
             </div>
             <p className="bl-faq-promo-body">
-              Pick three from Issue №01 when you join &mdash; hand-selected debut fiction, yours to
+              Pick three when you join &mdash; hand-selected debut fiction, yours to
               keep. No trial, no card.
             </p>
             <Link href="/?intake=reader" className="bl-faq-promo-cta">

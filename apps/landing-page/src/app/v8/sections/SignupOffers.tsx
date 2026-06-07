@@ -22,7 +22,7 @@ const MINI_BOOKS: MiniBook[] = [
     title: 'Hollow Latitude',
     italicWords: [1],
     authorMono: 'M. OSEI',
-    publisher: 'ISSUE №01',
+    publisher: 'BETWEENREADS',
     coverBg: offerCover('hollow-latitude'),
     coverFg: 'light',
   },
@@ -30,7 +30,7 @@ const MINI_BOOKS: MiniBook[] = [
     title: 'Ash & Anise',
     italicWords: [2],
     authorMono: 'P. NAIR',
-    publisher: 'ISSUE №01',
+    publisher: 'BETWEENREADS',
     coverBg: offerCover('ash-and-anise'),
     coverFg: 'light',
   },
@@ -38,7 +38,7 @@ const MINI_BOOKS: MiniBook[] = [
     title: 'The Undertow Hours',
     italicWords: [1],
     authorMono: 'J.T. CALLOWAY',
-    publisher: 'ISSUE №01',
+    publisher: 'BETWEENREADS',
     coverBg: offerCover('the-undertow-hours'),
     coverFg: 'light',
   },
@@ -100,7 +100,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             ))}
           </div>
           <p className="bl-offers-lede">
-            Meet the six debut authors of Issue №01 — read them free when you join.
+            Meet six debut authors — read them free when you join.
             Hand-selected fiction, yours to keep. No trial, no card.
           </p>
           <a

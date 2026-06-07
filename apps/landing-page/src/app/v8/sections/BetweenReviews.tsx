@@ -162,7 +162,7 @@ const STYLES = `
   background: var(--theme-page-soft);
   color: var(--bl-rev-ink);
   padding: clamp(72px, 10vh, 120px) clamp(24px, 5vw, 80px);
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: var(--br-font-sans);
   transition: background-color 320ms ease, color 320ms ease;
 }
 .bl-reviews-inner {
@@ -182,7 +182,7 @@ const STYLES = `
   margin: 0 0 10px;
 }
 .bl-reviews-title {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--br-font-display);
   font-size: clamp(34px, 5.5vw, 56px);
   font-weight: 900;
   letter-spacing: -0.03em;
@@ -245,12 +245,12 @@ const STYLES = `
 .bl-reviews-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   background: var(--theme-surface);
   color: var(--bl-rev-ink);
   border: 2px solid var(--bl-rev-ink);
   border-radius: 0;
-  padding: 20px 22px 18px;
+  padding: 28px 30px 26px;
   box-shadow: 6px 6px 0 var(--bl-rev-ink);
   transition:
     box-shadow 220ms cubic-bezier(.22, 1, .36, 1),
@@ -283,43 +283,39 @@ const STYLES = `
   color: var(--theme-accent-contrast, #10110f);
 }
 .bl-rev-name {
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--theme-text-soft);
 }
 .bl-rev-book {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 21px;
+  font-family: var(--br-font-display);
+  font-size: 27px;
   font-weight: 800;
-  line-height: 1.12;
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  margin: 2px 0 0;
+  margin: 4px 0 0;
 }
 .bl-rev-author {
-  font-size: 11.5px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--theme-text-muted);
-  margin-top: 3px;
-}
-.bl-rev-body {
-  font-size: 13px;
-  line-height: 1.62;
-  color: var(--theme-text-soft);
-  flex: 1;
+  margin-top: 5px;
 }
 .bl-rev-pull {
-  font-family: 'Playfair Display', Georgia, serif;
+  font-family: var(--br-font-serif);
   font-style: italic;
-  font-size: 14.5px;
+  font-size: 18px;
   line-height: 1.5;
   color: var(--bl-rev-ink);
   border-left: 3px solid var(--theme-accent);
-  padding-left: 12px;
+  padding-left: 15px;
+  flex: 1;
 }
 .bl-rev-for {
-  font-size: 11px;
+  font-family: var(--br-font-serif);
+  font-size: 13px;
   font-style: italic;
   color: var(--theme-text-faint);
 }
@@ -333,24 +329,24 @@ const STYLES = `
   border-top: 1.5px solid var(--theme-border-subtle);
 }
 .bl-rev-feeling {
-  font-size: 9.5px;
+  font-size: 10.5px;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 4px 9px;
+  padding: 5px 11px;
   border: 1.5px solid var(--theme-border-strong);
   border-radius: 999px;
   color: var(--theme-text-soft);
 }
 .bl-rev-score {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 18px;
+  font-family: var(--br-font-display);
+  font-size: 22px;
   font-weight: 900;
   letter-spacing: -0.02em;
   white-space: nowrap;
 }
 .bl-rev-score span {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--theme-text-muted);
 }
 
@@ -452,8 +448,6 @@ export default function BetweenReviews({ onReader }: Props) {
                 <h3 className="bl-rev-book">{r.book}</h3>
                 <p className="bl-rev-author">{r.author}</p>
               </div>
-
-              <p className="bl-rev-body">{r.body}</p>
 
               {r.pull && <p className="bl-rev-pull">&ldquo;{r.pull}&rdquo;</p>}
               {r.forWho && <p className="bl-rev-for">For: {r.forWho}</p>}
