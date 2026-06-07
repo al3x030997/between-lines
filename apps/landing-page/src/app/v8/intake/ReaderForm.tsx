@@ -32,9 +32,11 @@ export const READER_INITIAL: ReaderAnswers = {
   favoriteBooks: [],
 };
 
-const AUDIENCES = ['Adult Fiction', 'Young Adult', 'Children’s'];
-const GENRES_PRIMARY = ['Fantasy', 'Romance', 'Sci-fi', 'Thriller', 'Litfic'];
-const GENRES_MORE = [
+// Exported so the v12 stepped intake (IntakeFlow) can reuse the same option
+// sets without duplicating them. v8/v11 behavior is unchanged.
+export const AUDIENCES = ['Adult Fiction', 'Young Adult', 'Children’s'];
+export const GENRES_PRIMARY = ['Fantasy', 'Romance', 'Sci-fi', 'Thriller', 'Litfic'];
+export const GENRES_MORE = [
   'Historical',
   'Horror',
   'Mystery',
@@ -44,13 +46,13 @@ const GENRES_MORE = [
   'Essays',
   'YA-crossover',
 ];
-const LENGTHS = ['Microstory', 'Flash', 'Chapter 1', 'Excerpt'];
+export const LENGTHS = ['Microstory', 'Flash', 'Chapter 1', 'Excerpt'];
 const DEVICES = ['Mobile', 'E-reader', 'Tablet', 'Desktop'];
 const MODES = ['Read', 'Listen', 'Both'];
 const WHENS = ['Commute', 'Bedtime', 'Weekends', 'Breaks'];
-const REACTIONS = ['Just react', 'Answer a few questions', 'Deep thoughts'];
+export const REACTIONS = ['Just react', 'Answer a few questions', 'Deep thoughts'];
 
-const GENRE_CAP = 3;
+export const GENRE_CAP = 3;
 
 type Props = {
   answers: ReaderAnswers;
