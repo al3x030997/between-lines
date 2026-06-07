@@ -7,6 +7,7 @@ import { WaitlistOverlay } from '../v8/WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import { serializeWriter } from '../v8/intake/writer/writerTypes';
 import OpenCall from '../v8/sections/opencall';
+import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
@@ -604,6 +605,8 @@ export default function V11Page() {
           />
         )}
       </section>
+
+      <BetweenReviews onReader={() => open('reader')} />
 
       <OpenCall onReader={() => open('reader')} onWriter={() => open('author')} />
 
