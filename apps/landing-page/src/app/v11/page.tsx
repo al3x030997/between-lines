@@ -6,7 +6,6 @@ import IntakeHero, { type IntakeSubmit } from '../v8/IntakeHero';
 import { WaitlistOverlay } from '../v8/WaitlistForm';
 import type { IntakePayload } from '@/lib/schemas';
 import { serializeWriter } from '../v8/intake/writer/writerTypes';
-import OpenCall from '../v8/sections/opencall';
 import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
@@ -536,8 +535,8 @@ export default function V11Page() {
               wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators
             </p>
             <h1>
-              <span className="v11-hero-line">Six emerging <em>authors,</em></span>
-              <span className="v11-hero-line">publishing here. Read them <em>free.</em></span>
+              <span className="v11-hero-line">Discover <em>new voices.</em></span>
+              <span className="v11-hero-line">Curated <em>stories.</em></span>
             </h1>
 
             <div className="v11-cta-row" role="group" aria-label="Start">
@@ -546,7 +545,6 @@ export default function V11Page() {
                 className="v11-cta"
                 onClick={() => open('author')}
               >
-                <span className="v11-cta-kicker">Writers</span>
                 <span className="v11-cta-main">Start Creating</span>
               </button>
               <button
@@ -554,7 +552,6 @@ export default function V11Page() {
                 className="v11-cta reader"
                 onClick={() => open('reader')}
               >
-                <span className="v11-cta-kicker">Readers</span>
                 <span className="v11-cta-main">Start Reading</span>
               </button>
             </div>
@@ -574,8 +571,6 @@ export default function V11Page() {
       </section>
 
       <BetweenReviews onReader={() => open('reader')} />
-
-      <OpenCall onReader={() => open('reader')} onWriter={() => open('author')} />
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 

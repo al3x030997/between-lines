@@ -75,7 +75,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             Free on signup
           </p>
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Three originals, <em>on the house.</em>
+            Six emerging authors, publishing here. Read them <em>free.</em>
           </h2>
           <div className="bl-offers-covers" aria-hidden="true">
             {MINI_BOOKS.map((book, i) => (
