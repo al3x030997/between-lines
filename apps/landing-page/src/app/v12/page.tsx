@@ -296,10 +296,10 @@ const V12_CSS = `
 .v12-open-call {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
   background: transparent;
   border: 0;
-  padding: 4px 0;
+  padding: 6px 0;
   cursor: pointer;
   color: var(--theme-hero-text);
   font-family: 'Outfit', system-ui, sans-serif;
@@ -308,16 +308,16 @@ const V12_CSS = `
 .v12-open-call-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
+  gap: 8px;
+  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--theme-hero-text) 70%, transparent);
+  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
 }
 .v12-open-call-dot {
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--theme-yellow-deep);
   box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 70%, transparent);
@@ -325,22 +325,22 @@ const V12_CSS = `
 }
 @keyframes v12-opencall-pulse {
   0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 60%, transparent); }
-  70%  { box-shadow: 0 0 0 7px color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
+  70%  { box-shadow: 0 0 0 9px color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
   100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
   .v12-open-call-dot { animation: none; }
 }
 .v12-open-call-text {
-  font-size: clamp(15px, 1.7vw, 17px);
-  font-weight: 600;
+  font-size: clamp(18px, 2.3vw, 23px);
+  font-weight: 700;
   text-decoration: underline;
-  text-decoration-thickness: 0.06em;
+  text-decoration-thickness: 0.07em;
   text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, var(--theme-hero-text) 40%, transparent);
+  text-decoration-color: color-mix(in srgb, var(--theme-hero-text) 42%, transparent);
 }
 .v12-open-call-arrow {
-  font-size: 0.95em;
+  font-size: 1em;
   transition: transform 200ms var(--v6-ease);
 }
 .v12-open-call:hover { color: var(--theme-text); }
@@ -561,7 +561,7 @@ export default function V12Page() {
                   <span className="v12-open-call-dot" aria-hidden="true" />
                   Open Call
                 </span>
-                <span className="v12-open-call-text">Become an emerging creator</span>
+                <span className="v12-open-call-text">Become a founding creator</span>
                 <span className="v12-open-call-arrow" aria-hidden="true">→</span>
               </button>
             </div>
