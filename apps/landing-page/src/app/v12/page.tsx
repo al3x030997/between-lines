@@ -247,87 +247,126 @@ const V12_CSS = `
   font-weight: 700;
 }
 
-.v12-proof-strip {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  margin-top: clamp(20px, 3.2vh, 34px);
-}
-.v12-proof-pill {
-  display: inline-flex;
-  align-items: center;
-  min-height: 30px;
-  padding: 6px 12px;
-  border: 1.5px solid color-mix(in srgb, var(--theme-hero-text) 48%, transparent);
-  border-radius: 999px;
-  background: var(--theme-hero-subtle);
-  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.v12-proof-pill-lg {
-  min-height: 44px;
-  padding: 10px 24px;
-  font-size: 16px;
-  letter-spacing: 0.14em;
-}
-
-/* === CTAs === */
-.v12-cta-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
-  gap: clamp(28px, 7vw, 84px);
-  margin-top: clamp(56px, 11vh, 112px);
-  width: 100%;
-}
-.v12-cta {
-  position: relative;
+/* === Hero actions === */
+.v12-hero-actions {
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  gap: 6px;
-  color: var(--v12-ink);
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-  padding: 6px 0;
-  cursor: pointer;
-  text-decoration: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: color 220ms cubic-bezier(.22, 1, .36, 1);
+  gap: clamp(20px, 3.4vh, 30px);
+  margin-top: clamp(48px, 9vh, 88px);
+  width: 100%;
 }
-.v12-cta-kicker {
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--v12-ink) 62%, transparent);
-}
-.v12-cta-main {
-  display: block;
+
+/* Primary CTA — built on the design-system strong-CTA tokens (theme-aware),
+   label set to paper cream per chosen "solid black, paper text" style. */
+.v12-read-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(24px, 3.4vw, 36px);
+  font-size: clamp(18px, 2.1vw, 22px);
   font-weight: 800;
-  line-height: 0.95;
-  letter-spacing: -0.02em;
-  text-decoration: underline;
-  text-decoration-thickness: 0.06em;
-  text-underline-offset: 0.1em;
+  letter-spacing: 0.2px;
+  color: var(--theme-paper-bg);
+  background: var(--theme-strong-cta-bg);
+  border: none;
+  border-radius: 999px;
+  padding: clamp(15px, 1.9vh, 19px) clamp(36px, 4.4vw, 48px);
+  cursor: pointer;
+  box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--v12-ink) 70%, transparent);
+  transition: transform 220ms var(--v6-ease),
+              box-shadow 220ms var(--v6-ease),
+              background 220ms var(--v6-ease);
 }
-.v12-cta:hover,
-.v12-cta:focus-visible {
-  color: var(--v12-accent);
+.v12-read-now:hover,
+.v12-read-now:focus-visible {
+  background: var(--theme-strong-cta-hover-bg);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -14px color-mix(in srgb, var(--v12-ink) 72%, transparent);
   outline: none;
 }
-.v12-cta.reader .v12-cta-kicker {
-  color: color-mix(in srgb, var(--v12-ink) 62%, transparent);
+.v12-read-now:active { transform: translateY(0); }
+.v12-read-now-arrow {
+  font-size: 0.92em;
+  transition: transform 220ms var(--v6-ease);
+}
+.v12-read-now:hover .v12-read-now-arrow { transform: translateX(4px); }
+
+/* Secondary CTA — open-call badge + link */
+.v12-open-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  cursor: pointer;
+  color: var(--theme-hero-text);
+  font-family: 'Outfit', system-ui, sans-serif;
+  transition: color 200ms var(--v6-ease);
+}
+.v12-open-call-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--theme-hero-text) 70%, transparent);
+}
+.v12-open-call-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--theme-yellow-deep);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 70%, transparent);
+  animation: v12-opencall-pulse 2.4s ease-out infinite;
+}
+@keyframes v12-opencall-pulse {
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 60%, transparent); }
+  70%  { box-shadow: 0 0 0 7px color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v12-open-call-dot { animation: none; }
+}
+.v12-open-call-text {
+  font-size: clamp(15px, 1.7vw, 17px);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+  text-decoration-color: color-mix(in srgb, var(--theme-hero-text) 40%, transparent);
+}
+.v12-open-call-arrow {
+  font-size: 0.95em;
+  transition: transform 200ms var(--v6-ease);
+}
+.v12-open-call:hover { color: var(--theme-text); }
+.v12-open-call:hover .v12-open-call-text { text-decoration-color: currentColor; }
+.v12-open-call:hover .v12-open-call-arrow { transform: translateX(3px); }
+.v12-open-call:focus-visible { outline: none; }
+.v12-open-call:focus-visible .v12-open-call-text { text-decoration-color: currentColor; }
+
+/* Ad-free — kept, but quiet (replaces the big bordered pill) */
+.v12-proof-strip {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(26px, 4.5vh, 48px);
+}
+.v12-proof-note {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--theme-hero-text) 50%, transparent);
+}
+.v12-proof-note::before {
+  content: "✓";
+  margin-right: 7px;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
 }
 
 /* Banner reused */
@@ -374,21 +413,13 @@ const V12_CSS = `
   .v12-hero h1 {
     font-size: clamp(52px, 15vw, 78px);
   }
-  .v12-cta-row {
-    grid-template-columns: 1fr;
-    width: min(420px, 100%);
-    margin-top: 30px;
+  .v12-hero-actions {
+    margin-top: 34px;
   }
-  .v12-cta {
-    min-height: 94px;
-  }
-  .v12-proof-strip {
-    gap: 6px;
-  }
-  .v12-proof-pill {
-    min-height: 28px;
-    font-size: 10px;
-    padding-inline: 10px;
+  .v12-open-call {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 4px;
   }
 }
 
@@ -511,24 +542,31 @@ export default function V12Page() {
               <span className="v12-hero-line">Curated <em>stories.</em></span>
             </h1>
 
-            <div className="v12-cta-row" role="group" aria-label="Start">
+            <div className="v12-hero-actions">
               <button
                 type="button"
-                className="v12-cta"
-                onClick={() => open('author')}
-              >
-                <span className="v12-cta-main">Start Creating</span>
-              </button>
-              <button
-                type="button"
-                className="v12-cta reader"
+                className="v12-read-now"
                 onClick={() => open('reader')}
               >
-                <span className="v12-cta-main">Start Reading</span>
+                <span>Read Now</span>
+                <span className="v12-read-now-arrow" aria-hidden="true">→</span>
+              </button>
+
+              <button
+                type="button"
+                className="v12-open-call"
+                onClick={() => open('author')}
+              >
+                <span className="v12-open-call-tag">
+                  <span className="v12-open-call-dot" aria-hidden="true" />
+                  Open Call
+                </span>
+                <span className="v12-open-call-text">Become an emerging creator</span>
+                <span className="v12-open-call-arrow" aria-hidden="true">→</span>
               </button>
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
-              <span className="v12-proof-pill v12-proof-pill-lg">Ad-free</span>
+              <span className="v12-proof-note">Always ad-free</span>
             </div>
           </div>
         )}
