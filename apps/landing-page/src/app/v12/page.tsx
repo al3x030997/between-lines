@@ -94,7 +94,7 @@ const V12_CSS = `
   gap: 2px;
 }
 .v12-nav-link {
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--v12-ink-soft);
   text-decoration: none;
   padding: 6px 11px;
@@ -136,7 +136,7 @@ const V12_CSS = `
   margin-left: 24px;
 }
 .v12-btn-join {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--theme-on-yellow);
   background: var(--v12-yellow);
@@ -151,7 +151,7 @@ const V12_CSS = `
 }
 .v12-btn-join:hover { background: var(--v12-yellow-strong); }
 .v12-btn-signin {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--v12-ink);
   background: transparent;
@@ -174,7 +174,7 @@ const V12_CSS = `
 
 @media (max-width: 1100px) {
   .v12-nav-links { gap: 0; }
-  .v12-nav-link { padding: 6px 8px; font-size: 13px; }
+  .v12-nav-link { padding: 6px 8px; font-size: 14px; }
 }
 @media (max-width: 900px) {
   .v12-nav-links { display: none; }
