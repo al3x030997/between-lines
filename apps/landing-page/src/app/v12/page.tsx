@@ -496,7 +496,7 @@ export default function V12Page() {
           <div className="v12-nav-links">
             <Link className="v12-nav-link active" href="/readers">Read</Link>
             <Link className="v12-nav-link" href="/creators">Create</Link>
-            <Link className="v12-nav-link" href="/betweenlines">BetweenLines</Link>
+            <Link className="v12-nav-link" href="/readers/kids">For Kids</Link>
             <Link className="v12-nav-link" href="/pricing">Pricing</Link>
             <Link className="v12-nav-link" href="/faq">FAQ</Link>
             <Link className="v12-nav-link member" href="/insider">Become a Member</Link>
