@@ -497,8 +497,6 @@ export default function V12Page() {
             <Link className="v12-nav-link active" href="/readers">Read</Link>
             <Link className="v12-nav-link" href="/creators">Create</Link>
             <Link className="v12-nav-link" href="/betweenlines">BetweenLines</Link>
-            <Link className="v12-nav-link" href="/creators/agent-readiness">AgentReady</Link>
-            <Link className="v12-nav-link" href="/creators/upload-illustrations">Submit</Link>
             <Link className="v12-nav-link" href="/pricing">Pricing</Link>
             <Link className="v12-nav-link" href="/faq">FAQ</Link>
             <Link className="v12-nav-link member" href="/insider">Become a Member</Link>
