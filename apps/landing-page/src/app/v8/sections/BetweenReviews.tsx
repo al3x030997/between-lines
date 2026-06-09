@@ -276,9 +276,10 @@ const STYLES = `
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 5px 11px;
-  border: 1.5px solid var(--theme-border-strong);
+  border: 1.5px solid var(--theme-accent);
   border-radius: 999px;
-  color: var(--theme-text-soft);
+  background: var(--theme-accent-soft);
+  color: var(--bl-rev-ink);
 }
 .bl-rev-meta {
   display: flex;
