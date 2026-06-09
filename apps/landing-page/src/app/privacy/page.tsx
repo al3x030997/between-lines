@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SiteNav } from '@/components/SiteNav';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Between Lines',
@@ -83,9 +84,11 @@ const CSS = `
 
 export default function PrivacyPage() {
   return (
-    <div className="bl-privacy-root">
-      <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <article className="bl-privacy-inner">
+    <>
+      <SiteNav />
+      <div className="bl-privacy-root">
+        <style dangerouslySetInnerHTML={{ __html: CSS }} />
+        <article className="bl-privacy-inner">
         <p className="bl-privacy-eyebrow">Legal</p>
         <h1 className="bl-privacy-title">Privacy Policy</h1>
         <p className="bl-privacy-updated">Last updated: {LAST_UPDATED}</p>
@@ -226,7 +229,8 @@ export default function PrivacyPage() {
         </p>
 
         <a className="bl-privacy-back" href="/">← Back to Between Lines</a>
-      </article>
-    </div>
+        </article>
+      </div>
+    </>
   );
 }

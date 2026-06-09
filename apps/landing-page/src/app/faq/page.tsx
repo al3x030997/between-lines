@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 import { FAQ, type FaqQuestion } from '@/lib/faq';
 import Footer from '../v8/sections/Footer';
 
@@ -18,44 +19,6 @@ const CSS = `
   --v6-ease: var(--bl-ease);
   --bl-footer-accent: var(--bl-accent);
 }
-.bl-faq-top {
-  border-bottom: 1px solid rgba(14,14,12,0.08);
-  background: var(--bl-surface);
-}
-.bl-faq-top-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px clamp(20px, 5vw, 48px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.bl-faq-top-brand {
-  display: inline-flex;
-  align-items: baseline;
-  color: var(--bl-ink);
-  text-decoration: none;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-}
-.bl-faq-top-dot {
-  color: var(--bl-accent);
-  padding: 0 4px;
-  font-weight: 800;
-  transform: translateY(-1px);
-}
-.bl-faq-top-back {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--bl-ink-muted);
-  text-decoration: none;
-  transition: color 180ms ease;
-}
-.bl-faq-top-back:hover { color: var(--bl-accent); }
 .bl-faq-shell {
   max-width: 1100px;
   margin: 0 auto;
@@ -898,18 +861,7 @@ export default function FaqPage() {
     <div className="bl-faq-root">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <header id="top" className="bl-faq-top">
-        <div className="bl-faq-top-inner">
-          <Link href="/" className="bl-faq-top-brand" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="bl-faq-top-dot">.</span>
-            <span>reads</span>
-          </Link>
-          <Link href="/" className="bl-faq-top-back">
-            ← Back to home
-          </Link>
-        </div>
-      </header>
+      <SiteNav />
 
       <main className="bl-faq-shell">
         <div className="bl-faq-hero">

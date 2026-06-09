@@ -6,6 +6,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 import { WaitlistOverlay } from '../v8/WaitlistForm';
 import Footer from '../v8/sections/Footer';
 
@@ -19,156 +20,6 @@ const PRICING_CSS = `
   background: var(--pr-paper);
   font-family: var(--bl-font-body);
   color: var(--pr-ink);
-}
-
-/* === nav (mirrors the rest of the site) === */
-.pricing-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(20px, 3.5vw, 56px);
-  border-bottom: 1px solid var(--pr-divider);
-  background: var(--pr-paper);
-}
-.pricing-nav-left {
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 3vw, 38px);
-}
-.pricing-brand {
-  display: inline-flex;
-  align-items: baseline;
-  color: var(--pr-ink);
-  text-decoration: none;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -0.02em;
-  font-variation-settings: 'wdth' 95;
-}
-.pricing-brand-dot {
-  color: var(--bl-accent);
-  padding: 0 4px;
-  font-weight: 800;
-  transform: translateY(-1px);
-}
-.pricing-nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-  font-family: var(--bl-font-eyebrow);
-}
-.pricing-nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--pr-ink);
-  text-decoration: none;
-  padding: 4px 0;
-  position: relative;
-  transition: color 200ms ease;
-}
-.pricing-nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--bl-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 240ms var(--bl-ease);
-}
-.pricing-nav-link:hover { color: var(--bl-accent); }
-.pricing-nav-link:hover::after { transform: scaleX(1); }
-.pricing-nav-link.is-active { color: var(--bl-accent); }
-.pricing-nav-link.is-active::after { transform: scaleX(1); }
-.pricing-nav-cta {
-  appearance: none;
-  border: 0;
-  background: var(--pr-yellow);
-  color: var(--pr-ink);
-  padding: 9px 18px;
-  border-radius: 999px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: transform 200ms ease, box-shadow 200ms ease;
-}
-.pricing-nav-cta:hover,
-.pricing-nav-cta:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(14, 14, 12, 0.16);
-  outline: none;
-}
-
-/* hover dropdowns for nav groups */
-.pricing-nav-group { position: relative; display: inline-flex; align-items: center; }
-.pricing-nav-group::before {
-  content: '';
-  position: absolute;
-  left: -12px; right: -12px; top: 100%;
-  height: 18px;
-  pointer-events: none;
-}
-.pricing-nav-group:hover::before,
-.pricing-nav-group:focus-within::before { pointer-events: auto; }
-.pricing-nav-dropdown {
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  min-width: 232px;
-  background: var(--pr-paper);
-  border: 1px solid rgba(14,14,12,0.08);
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow:
-    0 18px 40px -16px rgba(14, 14, 12, 0.22),
-    0 8px 16px -10px rgba(14, 14, 12, 0.14);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transform: translate(-50%, -6px);
-  transition: opacity 200ms var(--bl-ease), transform 220ms var(--bl-ease), visibility 200ms linear;
-  z-index: 10;
-}
-.pricing-nav-group:hover .pricing-nav-dropdown,
-.pricing-nav-group:focus-within .pricing-nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-.pricing-nav-sub {
-  display: block;
-  padding: 9px 14px;
-  font-family: var(--bl-font-body);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--pr-ink);
-  text-decoration: none;
-  border-radius: 8px;
-  white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease, transform 160ms var(--bl-ease);
-}
-.pricing-nav-sub:hover,
-.pricing-nav-sub:focus-visible {
-  background: var(--bl-accent-soft);
-  color: var(--bl-accent-strong);
-  transform: translateX(2px);
-  outline: none;
-}
-@media (max-width: 760px) {
-  .pricing-nav-links { display: none; }
-  .pricing-nav-dropdown { display: none; }
 }
 
 /* === hero === */
@@ -801,40 +652,7 @@ export default function PricingPage() {
       <style dangerouslySetInnerHTML={{ __html: PRICING_CSS }} />
 
       {/* === nav === */}
-      <nav className="pricing-nav">
-        <div className="pricing-nav-left">
-          <Link className="pricing-brand" href="/" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="pricing-brand-dot">.</span>
-            <span>reads</span>
-          </Link>
-          <div className="pricing-nav-links">
-            <Link className="pricing-nav-link" href="/betweenlines">BetweenLines</Link>
-            <div className="pricing-nav-group">
-              <Link className="pricing-nav-link" href="/readers">Readers</Link>
-              <div className="pricing-nav-dropdown" role="menu" aria-label="Readers sub-pages">
-                <Link className="pricing-nav-sub" href="/readers/read" role="menuitem">Read</Link>
-                <Link className="pricing-nav-sub" href="/readers/listen" role="menuitem">Listen</Link>
-                <Link className="pricing-nav-sub" href="/readers/kids" role="menuitem">Kids</Link>
-              </div>
-            </div>
-            <div className="pricing-nav-group">
-              <Link className="pricing-nav-link" href="/creators">Creators</Link>
-              <div className="pricing-nav-dropdown" role="menu" aria-label="Creators sub-pages">
-                <Link className="pricing-nav-sub" href="/creators/write-on-betweenreads" role="menuitem">Write on BetweenReads</Link>
-                <Link className="pricing-nav-sub" href="/creators/upload-illustrations" role="menuitem">Upload Illustrations</Link>
-                <Link className="pricing-nav-sub" href="/creators/securebetareads" role="menuitem">Secure BetaReads</Link>
-                <Link className="pricing-nav-sub" href="/creators/agent-readiness" role="menuitem">Agent Readiness</Link>
-              </div>
-            </div>
-            <Link className="pricing-nav-link is-active" href="/pricing" aria-current="page">Pricing</Link>
-            <Link className="pricing-nav-link" href="/faq">FAQ</Link>
-          </div>
-        </div>
-        <button type="button" className="pricing-nav-cta" onClick={() => openWaitlist()}>
-          Join free
-        </button>
-      </nav>
+      <SiteNav />
 
       {/* === hero === */}
       <section className="pricing-hero">

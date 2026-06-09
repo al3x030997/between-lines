@@ -2,6 +2,7 @@
 
 import { type FormEvent, useRef, useState } from 'react';
 import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 
 type SubmissionFields = {
   title: string;
@@ -154,23 +155,7 @@ export default function BetweenLinesPage() {
     <main className="bls-page">
       <style dangerouslySetInnerHTML={{ __html: SUBMISSION_CSS }} />
 
-      <header className="bls-topbar">
-        <div className="bls-wrap bls-topbar-inner">
-          <Link className="bls-brand" href="/" aria-label="BetweenReads home">
-            <span>between</span>
-            <b aria-hidden="true">&bull;</b>
-            <span>reads</span>
-          </Link>
-          <nav className="bls-nav" aria-label="BetweenLines page links">
-            <Link href="/read">Read</Link>
-            <Link href="/store">Store</Link>
-            <Link className="is-active" href="/betweenlines" aria-current="page">
-              BetweenLines
-            </Link>
-            <Link href="/pricing">Pricing</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteNav />
 
       <section className="bls-hero" aria-labelledby="betweenlines-title">
         <div className="bls-wrap">
@@ -561,56 +546,9 @@ const SUBMISSION_CSS = `
   padding: 0 24px;
 }
 
-.bls-topbar {
-  border-bottom: 1px solid var(--bls-line);
-  background: rgba(250, 248, 244, 0.9);
-  backdrop-filter: blur(12px);
-}
-
-.bls-topbar-inner {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.bls-brand,
-.bls-nav a,
 .bls-footnote a {
   color: inherit;
   text-decoration: none;
-}
-
-.bls-brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 13px;
-  color: var(--bls-muted);
-  font-weight: 700;
-}
-
-.bls-brand b {
-  color: var(--bls-ink);
-  font-size: 12px;
-}
-
-.bls-nav {
-  display: flex;
-  gap: 26px;
-  font-size: 13.5px;
-  color: var(--bls-muted);
-}
-
-.bls-nav a {
-  transition: color 160ms ease;
-}
-
-.bls-nav a:hover,
-.bls-nav .is-active {
-  color: var(--bls-ink);
-  font-weight: 700;
 }
 
 .bls-hero {
@@ -1195,8 +1133,7 @@ const SUBMISSION_CSS = `
 @media (prefers-reduced-motion: reduce) {
   .bls-book,
   .bls-plus,
-  .bls-button,
-  .bls-nav a {
+  .bls-button {
     animation: none;
     transition: none;
   }
@@ -1205,14 +1142,6 @@ const SUBMISSION_CSS = `
 @media (max-width: 760px) {
   .bls-wrap {
     padding: 0 18px;
-  }
-
-  .bls-topbar-inner {
-    justify-content: center;
-  }
-
-  .bls-nav {
-    display: none;
   }
 
   .bls-hero {

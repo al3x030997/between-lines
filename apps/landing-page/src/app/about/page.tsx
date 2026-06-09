@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 import EditorialSplit from '../v8/sections/EditorialSplit';
 import Footer from '../v8/sections/Footer';
 
@@ -31,53 +32,6 @@ const CSS = `
   --bl-footer-divider: rgba(11,23,51,0.22);
   --bl-footer-accent: #1F7A3E;
 }
-.bl-about-top {
-  border-bottom: 1px solid rgba(14, 14, 12, 0.08);
-  background: #ffffff;
-  position: sticky;
-  top: 0;
-  z-index: 4;
-}
-.bl-about-top-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 18px clamp(20px, 5vw, 48px);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.bl-about-brand {
-  display: inline-flex;
-  align-items: baseline;
-  color: #0e0e0c;
-  text-decoration: none;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.02em;
-}
-.bl-about-brand-dot {
-  color: #e94b36;
-  padding: 0 4px;
-  font-weight: 800;
-  transform: translateY(-1px);
-}
-.bl-about-top-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 22px;
-  font-family: 'Bricolage Grotesque', sans-serif;
-}
-.bl-about-top-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: #5a5a52;
-  text-decoration: none;
-  transition: color 180ms ease;
-}
-.bl-about-top-link:hover { color: #e94b36; }
-
 .bl-about-hero {
   max-width: 1100px;
   margin: 0 auto;
@@ -186,19 +140,7 @@ export default function AboutPage() {
     <div className="bl-about-root">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <header className="bl-about-top">
-        <div className="bl-about-top-inner">
-          <Link href="/" className="bl-about-brand" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="bl-about-brand-dot">.</span>
-            <span>reads</span>
-          </Link>
-          <nav className="bl-about-top-meta" aria-label="Site">
-            <Link href="/" className="bl-about-top-link">Home</Link>
-            <Link href="/faq" className="bl-about-top-link">FAQ</Link>
-          </nav>
-        </div>
-      </header>
+      <SiteNav />
 
       <section className="bl-about-hero" aria-label="About BetweenReads">
         <p className="bl-about-hero-eyebrow">About</p>

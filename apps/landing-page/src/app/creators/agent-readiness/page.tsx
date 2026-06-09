@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { WaitlistOverlay } from '../../v8/WaitlistForm';
 import Footer from '../../v8/sections/Footer';
+import { SiteNav } from '@/components/SiteNav';
 
 const AGENTREADY_CSS = `
 .ar-root {
@@ -18,174 +18,6 @@ const AGENTREADY_CSS = `
   font-family: var(--bl-font-body);
   font-feature-settings: "kern", "liga", "calt";
   -webkit-font-smoothing: antialiased;
-}
-
-/* === nav (mirrors /pricing) === */
-.ar-nav {
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(20px, 3.5vw, 56px);
-  border-bottom: 1px solid var(--ar-rule);
-  background: var(--bl-surface);
-  color: var(--bl-ink);
-}
-.ar-brand {
-  display: inline-flex;
-  align-items: baseline;
-  color: var(--bl-ink);
-  text-decoration: none;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -0.02em;
-  font-variation-settings: 'wdth' 95;
-}
-.ar-brand-dot {
-  color: var(--bl-accent);
-  padding: 0 4px;
-  font-weight: 800;
-  transform: translateY(-1px);
-}
-.ar-nav-left {
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 3vw, 38px);
-}
-.ar-nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-  font-family: var(--bl-font-eyebrow);
-}
-.ar-nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--bl-ink);
-  text-decoration: none;
-  padding: 4px 0;
-  position: relative;
-  transition: color 200ms ease;
-}
-.ar-nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--bl-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 240ms var(--ar-ease);
-}
-.ar-nav-link:hover { color: var(--bl-accent); }
-.ar-nav-link:hover::after { transform: scaleX(1); }
-.ar-nav-link.is-active { color: var(--bl-accent); }
-.ar-nav-link.is-active::after { transform: scaleX(1); }
-.ar-nav-cta {
-  appearance: none;
-  border: 0;
-  background: var(--bl-ink);
-  color: #f6f1e3;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: background 200ms ease, transform 200ms ease, box-shadow 200ms ease;
-}
-.ar-nav-cta:hover,
-.ar-nav-cta:focus-visible {
-  background: var(--bl-accent);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(14, 14, 12, 0.16);
-  outline: none;
-}
-@media (max-width: 760px) {
-  .ar-nav-links { display: none; }
-}
-
-/* Hover dropdown for nav groups (Readers, Creators) */
-.ar-nav-group {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-.ar-nav-group::before {
-  content: '';
-  position: absolute;
-  left: -12px;
-  right: -12px;
-  top: 100%;
-  height: 18px;
-  pointer-events: none;
-}
-.ar-nav-group:hover::before,
-.ar-nav-group:focus-within::before {
-  pointer-events: auto;
-}
-.ar-nav-dropdown {
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  min-width: 232px;
-  background: var(--bl-surface);
-  border: 1px solid rgba(14, 14, 12, 0.08);
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow:
-    0 18px 40px -16px rgba(14, 14, 12, 0.22),
-    0 8px 16px -10px rgba(14, 14, 12, 0.14);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transform: translate(-50%, -6px);
-  transition:
-    opacity 200ms var(--ar-ease),
-    transform 220ms var(--ar-ease),
-    visibility 200ms linear;
-  z-index: 10;
-}
-.ar-nav-group:hover .ar-nav-dropdown,
-.ar-nav-group:focus-within .ar-nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-.ar-nav-sub {
-  display: block;
-  padding: 9px 14px;
-  font-family: var(--bl-font-body);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: var(--bl-ink);
-  text-decoration: none;
-  text-transform: none;
-  border-radius: 8px;
-  white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease, transform 160ms var(--ar-ease);
-}
-.ar-nav-sub:hover,
-.ar-nav-sub:focus-visible {
-  background: var(--bl-accent-soft);
-  color: var(--bl-accent-strong);
-  transform: translateX(2px);
-  outline: none;
-}
-@media (max-width: 760px) {
-  .ar-nav-dropdown { display: none; }
 }
 
 /* === hero === */
@@ -1246,40 +1078,7 @@ export default function AgentReadinessPage() {
       <style dangerouslySetInnerHTML={{ __html: AGENTREADY_CSS }} />
 
       {/* === nav === */}
-      <nav className="ar-nav">
-        <div className="ar-nav-left">
-          <Link className="ar-brand" href="/" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="ar-brand-dot">.</span>
-            <span>reads</span>
-          </Link>
-          <div className="ar-nav-links">
-            <Link className="ar-nav-link" href="/betweenlines">BetweenLines</Link>
-            <div className="ar-nav-group">
-              <Link className="ar-nav-link" href="/readers">Readers</Link>
-              <div className="ar-nav-dropdown" role="menu" aria-label="Readers sub-pages">
-                <Link className="ar-nav-sub" href="/readers/read" role="menuitem">Read</Link>
-                <Link className="ar-nav-sub" href="/readers/listen" role="menuitem">Listen</Link>
-                <Link className="ar-nav-sub" href="/readers/kids" role="menuitem">Kids</Link>
-              </div>
-            </div>
-            <div className="ar-nav-group">
-              <Link className="ar-nav-link is-active" href="/creators" aria-current="page">Creators</Link>
-              <div className="ar-nav-dropdown" role="menu" aria-label="Creators sub-pages">
-                <Link className="ar-nav-sub" href="/creators/write-on-betweenreads" role="menuitem">Write on BetweenReads</Link>
-                <Link className="ar-nav-sub" href="/creators/upload-illustrations" role="menuitem">Upload Illustrations</Link>
-                <Link className="ar-nav-sub" href="/creators/securebetareads" role="menuitem">Secure BetaReads</Link>
-                <Link className="ar-nav-sub" href="/creators/agent-readiness" role="menuitem">Agent Readiness</Link>
-              </div>
-            </div>
-            <Link className="ar-nav-link" href="/pricing">Pricing</Link>
-            <Link className="ar-nav-link" href="/faq">FAQ</Link>
-          </div>
-        </div>
-        <button type="button" className="ar-nav-cta" onClick={() => openWaitlist('AgentReady')}>
-          Join free
-        </button>
-      </nav>
+      <SiteNav />
 
       {/* === hero === */}
       <section className="ar-hero">
