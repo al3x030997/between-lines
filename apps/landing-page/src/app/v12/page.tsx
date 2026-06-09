@@ -355,7 +355,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   gap: clamp(10px, 1.6vh, 16px);
-  margin-top: clamp(44px, 7vh, 80px);
+  margin-top: clamp(72px, 12vh, 140px);
 }
 .v12-proof-note {
   display: inline-flex;
