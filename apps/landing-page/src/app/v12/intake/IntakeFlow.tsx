@@ -632,10 +632,16 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 }
 
 const FLOW_CSS = `
-/* Prompt text: black + bold instead of the yellow accent */
+/* Prompt text: black + bold + larger instead of the small yellow accent */
 .v8-intake .v8-intake-prompt {
   color: var(--v6-text-strong);
   font-weight: 800;
+  font-size: clamp(19px, 2.2vw, 24px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.v8-intake .v8-intake-prompt-num {
+  font-size: 0.8em;
 }
 
 /* === Modern segmented toggle === */
