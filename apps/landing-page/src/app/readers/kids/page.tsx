@@ -6,7 +6,7 @@
 // brand yellow/ink/paper system, with playful accents for the book covers.
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
 import { WaitlistOverlay } from '../../v8/WaitlistForm';
 import Footer from '../../v8/sections/Footer';
 
@@ -26,173 +26,6 @@ const KIDS_CSS = `
   color: var(--k-ink);
 }
 .kids-serif { font-family: var(--bl-font-serif); }
-
-/* === nav (mirrors the rest of the site) === */
-.kids-nav {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 clamp(20px, 3.5vw, 56px);
-  border-bottom: 1px solid var(--k-divider);
-  background: #ffffff;
-}
-.kids-nav-left {
-  display: flex;
-  align-items: center;
-  gap: clamp(20px, 3vw, 38px);
-}
-.kids-brand {
-  display: inline-flex;
-  align-items: baseline;
-  color: var(--k-ink);
-  text-decoration: none;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 19px;
-  letter-spacing: -0.02em;
-}
-.kids-brand-dot {
-  color: var(--bl-accent);
-  padding: 0 4px;
-  font-weight: 800;
-  transform: translateY(-1px);
-}
-.kids-nav-links {
-  display: flex;
-  align-items: center;
-  gap: clamp(14px, 2vw, 24px);
-  font-family: var(--bl-font-eyebrow);
-}
-.kids-nav-link {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--k-ink);
-  text-decoration: none;
-  padding: 4px 0;
-  position: relative;
-  transition: color 200ms ease;
-}
-.kids-nav-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: var(--bl-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 240ms var(--bl-ease);
-}
-.kids-nav-link:hover { color: var(--bl-accent); }
-.kids-nav-link:hover::after { transform: scaleX(1); }
-.kids-nav-link.is-active { color: var(--bl-accent); }
-.kids-nav-link.is-active::after { transform: scaleX(1); }
-
-/* kids gets a yellow pill in the nav */
-.kids-nav-link.kids-pill {
-  color: var(--k-ink);
-  font-weight: 700;
-  background: var(--k-yellow);
-  border-radius: 20px;
-  padding: 7px 15px;
-}
-.kids-nav-link.kids-pill::after { display: none; }
-.kids-nav-link.kids-pill:hover { color: var(--k-ink); background: #ffd900; }
-.kids-nav-sup {
-  font-size: 9px;
-  font-weight: 800;
-  vertical-align: super;
-  color: var(--k-orange);
-  margin-left: 1px;
-}
-.kids-nav-cta {
-  appearance: none;
-  border: 0;
-  background: var(--k-yellow);
-  color: var(--k-ink);
-  padding: 9px 18px;
-  border-radius: 999px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  cursor: pointer;
-  transition: transform 200ms ease, box-shadow 200ms ease;
-}
-.kids-nav-cta:hover,
-.kids-nav-cta:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(14, 14, 12, 0.16);
-  outline: none;
-}
-
-/* hover dropdowns for nav groups */
-.kids-nav-group { position: relative; display: inline-flex; align-items: center; }
-.kids-nav-group::before {
-  content: '';
-  position: absolute;
-  left: -12px; right: -12px; top: 100%;
-  height: 18px;
-  pointer-events: none;
-}
-.kids-nav-group:hover::before,
-.kids-nav-group:focus-within::before { pointer-events: auto; }
-.kids-nav-dropdown {
-  position: absolute;
-  top: calc(100% + 14px);
-  left: 50%;
-  min-width: 232px;
-  background: #ffffff;
-  border: 1px solid rgba(14,14,12,0.08);
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow:
-    0 18px 40px -16px rgba(14, 14, 12, 0.22),
-    0 8px 16px -10px rgba(14, 14, 12, 0.14);
-  display: flex;
-  flex-direction: column;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transform: translate(-50%, -6px);
-  transition: opacity 200ms var(--bl-ease), transform 220ms var(--bl-ease), visibility 200ms linear;
-  z-index: 10;
-}
-.kids-nav-group:hover .kids-nav-dropdown,
-.kids-nav-group:focus-within .kids-nav-dropdown {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-  transform: translate(-50%, 0);
-}
-.kids-nav-subitem {
-  display: block;
-  padding: 9px 14px;
-  font-family: var(--bl-font-body);
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--k-ink);
-  text-decoration: none;
-  border-radius: 8px;
-  white-space: nowrap;
-  transition: background 160ms ease, color 160ms ease, transform 160ms var(--bl-ease);
-}
-.kids-nav-subitem:hover,
-.kids-nav-subitem:focus-visible {
-  background: var(--bl-accent-soft);
-  color: var(--bl-accent-strong);
-  transform: translateX(2px);
-  outline: none;
-}
-@media (max-width: 760px) {
-  .kids-nav-links { display: none; }
-  .kids-nav-dropdown { display: none; }
-}
 
 /* === hero === */
 .kids-hero { background: var(--k-yellow); padding: 90px 24px 96px; text-align: center; }
@@ -739,43 +572,7 @@ export default function KidsPage() {
       <style dangerouslySetInnerHTML={{ __html: KIDS_CSS }} />
 
       {/* === nav === */}
-      <nav className="kids-nav">
-        <div className="kids-nav-left">
-          <Link className="kids-brand" href="/" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="kids-brand-dot">.</span>
-            <span>reads</span>
-          </Link>
-          <div className="kids-nav-links">
-            <Link className="kids-nav-link" href="/betweenlines">BetweenLines</Link>
-            <div className="kids-nav-group">
-              <Link className="kids-nav-link is-active" href="/readers">Readers</Link>
-              <div className="kids-nav-dropdown" role="menu" aria-label="Readers sub-pages">
-                <Link className="kids-nav-subitem" href="/readers/read" role="menuitem">Read</Link>
-                <Link className="kids-nav-subitem" href="/readers/listen" role="menuitem">Listen</Link>
-                <Link className="kids-nav-subitem" href="/readers/kids" role="menuitem">Kids</Link>
-              </div>
-            </div>
-            <div className="kids-nav-group">
-              <Link className="kids-nav-link" href="/creators">Creators</Link>
-              <div className="kids-nav-dropdown" role="menu" aria-label="Creators sub-pages">
-                <Link className="kids-nav-subitem" href="/creators/write-on-betweenreads" role="menuitem">Write on BetweenReads</Link>
-                <Link className="kids-nav-subitem" href="/creators/upload-illustrations" role="menuitem">Upload Illustrations</Link>
-                <Link className="kids-nav-subitem" href="/creators/securebetareads" role="menuitem">Secure BetaReads</Link>
-                <Link className="kids-nav-subitem" href="/creators/agent-readiness" role="menuitem">Agent Readiness</Link>
-              </div>
-            </div>
-            <Link className="kids-nav-link" href="/pricing">Pricing</Link>
-            <Link className="kids-nav-link" href="/faq">FAQ</Link>
-            <Link className="kids-nav-link kids-pill" href="/readers/kids" aria-current="page">
-              BetweenReads<span className="kids-nav-sup">Kids</span>
-            </Link>
-          </div>
-        </div>
-        <button type="button" className="kids-nav-cta" onClick={() => openWaitlist('BetweenReads Kids')}>
-          Join Free
-        </button>
-      </nav>
+      <SiteNav />
 
       {/* === hero === */}
       <section className="kids-hero">
