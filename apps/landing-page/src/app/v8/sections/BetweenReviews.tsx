@@ -4,155 +4,112 @@ import { useMemo, useState } from 'react';
 
 type Review = {
   book: string;
-  author: string;
   reviewer: string;
-  role: string;
   score: string;
-  body: string;
-  pull?: string;
-  feeling?: string;
+  quote: string;
+  more?: boolean;
+  tags: string[];
   forWho?: string;
   young: boolean;
 };
 
-// Ported from the BetweenReviews prototype (between_reviews) — reviews wall data only.
+// Reviewer-voice cards — written the way someone would actually log a book on Goodreads.
 const REVIEWS: Review[] = [
   {
     book: 'The Quiet Hours',
-    author: 'MidnightDraftsman',
     reviewer: 'The Wandering Owl',
-    role: 'Reader',
     score: '9',
-    body: "Eleanor Marsh is one of the most quietly devastating characters I've read in years. I finished it in two sittings and couldn't speak for an hour.",
-    pull: 'The name was hers.',
-    feeling: 'Stayed with me',
+    quote:
+      "Went in expecting a slow character study and got something that quietly took me apart. Marsh's restraint is the whole point — every unsaid thing lands harder than a confession would. I finished it in two sittings and just sat there afterwards.",
+    more: true,
+    tags: ['Stayed with me', 'Quiet devastation', 'Read in one sitting'],
     forWho: 'Readers who loved The Remains of the Day',
     young: false,
   },
   {
     book: 'The Glass Meridian',
-    author: 'NocturnalReader',
     reviewer: 'James K.',
-    role: 'Writer',
     score: '8',
-    body: "A climate fiction novel that doesn't feel like a lesson. The science is woven into the emotional life of the protagonist so seamlessly you forget you're learning something.",
-    pull: 'Her models had been right about everything except the most important thing.',
-    feeling: "Couldn't stop thinking about it",
+    quote:
+      "Climate fiction that never once feels like homework. The science lives inside the characters instead of being lectured at you, and by the end I cared more about Mara than about being right.",
+    tags: ["Couldn't put it down", 'Smarter than it lets on'],
     forWho: 'Readers drawn to quiet speculative fiction',
     young: false,
   },
   {
     book: 'Salt & the Sea Between',
-    author: 'MarginNotes',
-    reviewer: 'BetweenReads Team',
-    role: 'Team',
+    reviewer: 'MarginNotes',
     score: '9',
-    body: "A love story told entirely in letters that never arrived. The structure is the point — what doesn't get said is the whole novel.",
-    pull: "I wrote this for you on a Tuesday. I don't know what day it is now.",
-    feeling: 'Put it down and looked out the window',
+    quote:
+      "A whole love story told in letters that never get sent, and somehow the silences say more than the sentences do. I kept stopping to reread paragraphs out loud. Structurally it shouldn't work this well and yet here we are.",
+    more: true,
+    tags: ['Wrecked me', 'Unforgettable structure', 'Buying copies for friends'],
     forWho: 'Readers who loved Letters to a Young Poet',
     young: false,
   },
   {
-    book: 'Ember & the Cartographer',
-    author: 'TheOpenChapter',
-    reviewer: 'Priya R.',
-    role: 'Volunteer Reader',
-    score: '8',
-    body: 'The map that updates itself is such a clean metaphor for grief and recovery. This is YA that respects its readers completely.',
-    pull: 'The map knew where she needed to go before she did.',
-    feeling: 'Changed how I see things',
-    forWho: 'Anyone who loved The Night Circus',
-    young: false,
-  },
-  {
     book: 'Before the Frost',
-    author: 'MidnightDraftsman',
     reviewer: 'Tom W.',
-    role: 'Reader',
     score: '9',
-    body: 'A perfect short story. The ending reframes everything that came before without a single cheap trick.',
-    pull: 'She had learned to love the silence — not because it was peaceful, but because it was honest.',
-    feeling: 'Read it in one sitting',
+    quote:
+      "A near-perfect short story. The ending quietly reframes everything before it without a single cheap trick — I flipped straight back to page one to watch the seams.",
+    tags: ['Read in one sitting', 'That ending'],
     forWho: 'Readers who love Alice Munro',
     young: false,
   },
   {
-    book: 'What the River Keeps',
-    author: 'SilverMarginal',
-    reviewer: 'BetweenLines Editorial',
-    role: 'Team',
-    score: '8',
-    body: 'Six voices, one river, and a collection of small goodbyes that adds up to something enormous.',
-    pull: 'We are the things we leave behind.',
-    feeling: 'Put it down and looked out the window',
-    forWho: 'Readers of W.S. Merwin and Mary Oliver',
-    young: false,
-  },
-  {
     book: 'The Archivist of Small Things',
-    author: 'QuietPageTurner',
     reviewer: 'Maria C.',
-    role: 'Reader',
     score: '7',
-    body: "The mystery deepens so naturally you don't notice it happening.",
-    pull: 'She had been collecting their faces for years without knowing why.',
-    feeling: "Couldn't stop thinking about it",
+    quote:
+      "The mystery deepens so gently you don't notice it pulling you under until you're three chapters past your bedtime. Lost half a star because the middle wanders, but the atmosphere is worth it.",
+    tags: ["Couldn't stop thinking about it"],
     forWho: 'Readers who love quiet literary mystery',
     young: false,
   },
   {
     book: 'Three Tuesdays in November',
-    author: 'MidnightDraftsman',
     reviewer: 'Ana P.',
-    role: 'Writer',
     score: '10',
-    body: 'The linked structure is breathtakingly controlled. I reread the whole collection immediately just to catch what I missed.',
-    pull: 'Nobody in this town ever said the thing they meant on the first try.',
-    feeling: 'Will reread this',
+    quote:
+      "The linked structure is so controlled it almost feels unfair. Every story quietly answers a question the last one left open. I reread the whole collection the same night just to catch what I'd missed the first time.",
+    more: true,
+    tags: ['Will reread this', 'Instant favourite', 'Pressed into hands'],
     forWho: 'Fans of Elizabeth Strout',
     young: false,
   },
   {
     book: 'The Velveteen Rabbit',
-    author: 'Margery Williams',
     reviewer: 'Lily, age 9',
-    role: 'Young Reader',
     score: '10',
-    body: 'This book made me cry but in a good way. The rabbit just wants to be real and the boy loves him so much.',
-    pull: 'What is REAL? asked the Rabbit.',
-    feeling: 'Made me a better person',
+    quote:
+      "This book made me cry but in a good way. The rabbit just wants to be real and the boy loves him so so much. I made my mum read it again the next night.",
+    tags: ['Made me a better person', 'Read it twice'],
     forWho: 'Everyone who has a favourite toy',
     young: true,
   },
   {
     book: "Charlotte's Web",
-    author: 'E.B. White',
     reviewer: 'Noah, age 10',
-    role: 'Young Reader',
     score: '10',
-    body: 'I did not expect to cry this much in a book about a spider and a pig. Charlotte is the best friend anyone could have.',
-    pull: 'It is not often that someone comes along who is a true friend and a good writer.',
-    feeling: 'Will reread this',
+    quote:
+      "I did NOT expect to cry this much about a spider and a pig. Charlotte is the best friend anyone could ever have and I wasn't ready for the ending at all.",
+    more: true,
+    tags: ['Will reread this', 'Best friend ever', 'Cried a lot'],
     forWho: 'Everyone, forever',
     young: true,
   },
   {
     book: 'The BFG',
-    author: 'Roald Dahl',
     reviewer: 'Sophie, age 8',
-    role: 'Young Reader',
     score: '9',
-    body: 'The BFG speaks in the funniest way and it makes the book so fun to read out loud.',
-    pull: 'I is not understanding human beans at all.',
-    feeling: 'Will reread this',
+    quote:
+      "The BFG talks in the funniest way ever and it made me laugh out loud reading it to my little brother. The dream-catching part is my favourite.",
+    tags: ['So funny', 'Great read-aloud'],
     forWho: 'Anyone who wants to laugh a lot',
     young: true,
   },
 ];
-
-// Roles that read as "official" BetweenReads voices get the yellow-accent badge.
-const OFFICIAL_ROLES = new Set(['Team']);
 
 type Audience = 'all' | 'young';
 
@@ -260,58 +217,47 @@ const STYLES = `
   box-shadow: 10px 10px 0 var(--bl-rev-ink);
   transform: translate(-2px, -2px);
 }
-.bl-rev-head {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  flex-wrap: wrap;
-}
-.bl-rev-badge {
-  font-size: 9.5px;
-  font-weight: 900;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 3px 8px;
-  border: 1.5px solid var(--bl-rev-ink);
-  border-radius: 0;
-  background: transparent;
-  color: var(--bl-rev-ink);
-}
-.bl-rev-badge.is-official {
-  background: var(--theme-accent);
-  border-color: var(--bl-rev-ink);
-  color: var(--theme-accent-contrast, #10110f);
-}
-.bl-rev-name {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--theme-text-soft);
-}
 .bl-rev-book {
   font-family: var(--br-font-display);
   font-size: 27px;
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.01em;
-  margin: 4px 0 0;
+  margin: 0;
 }
-.bl-rev-author {
+.bl-rev-by {
+  font-family: var(--br-font-sans);
   font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
   color: var(--theme-text-muted);
-  margin-top: 5px;
+  margin-top: 6px;
 }
-.bl-rev-pull {
+.bl-rev-quote {
   font-family: var(--br-font-serif);
-  font-style: italic;
-  font-size: 18px;
-  line-height: 1.5;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 1.6;
   color: var(--bl-rev-ink);
   border-left: 3px solid var(--theme-accent);
   padding-left: 15px;
   flex: 1;
+}
+.bl-rev-more {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--br-font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--theme-accent-strong);
+  padding: 0 0 0 6px;
+  white-space: nowrap;
+}
+.bl-rev-more:hover {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
 }
 .bl-rev-for {
   font-family: var(--br-font-serif);
@@ -319,34 +265,40 @@ const STYLES = `
   font-style: italic;
   color: var(--theme-text-faint);
 }
-.bl-rev-meta {
+.bl-rev-tags {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
   flex-wrap: wrap;
-  padding-top: 4px;
-  border-top: 1.5px solid var(--theme-border-subtle);
+  gap: 7px;
 }
-.bl-rev-feeling {
+.bl-rev-tag {
   font-size: 10.5px;
   font-weight: 800;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 5px 11px;
   border: 1.5px solid var(--theme-border-strong);
   border-radius: 999px;
   color: var(--theme-text-soft);
 }
+.bl-rev-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 6px;
+  border-top: 1.5px solid var(--theme-border-subtle);
+}
 .bl-rev-score {
   font-family: var(--br-font-display);
-  font-size: 22px;
+  font-size: clamp(40px, 5vw, 52px);
   font-weight: 900;
-  letter-spacing: -0.02em;
+  line-height: 1;
+  letter-spacing: -0.03em;
   white-space: nowrap;
 }
 .bl-rev-score span {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: 700;
   color: var(--theme-text-muted);
 }
 
@@ -395,7 +347,7 @@ export default function BetweenReviews({ onReader }: Props) {
   const [audience, setAudience] = useState<Audience>('all');
 
   const shown = useMemo(
-    () => REVIEWS.filter((r) => (audience === 'young' ? r.young : !r.young)),
+    () => REVIEWS.filter((r) => (audience === 'young' ? r.young : !r.young)).slice(0, 6),
     [audience],
   );
 
@@ -435,31 +387,37 @@ export default function BetweenReviews({ onReader }: Props) {
         <div className="bl-reviews-grid">
           {shown.map((r) => (
             <article className="bl-reviews-card" key={`${r.book}-${r.reviewer}`}>
-              <div className="bl-rev-head">
-                <span
-                  className={`bl-rev-badge${OFFICIAL_ROLES.has(r.role) ? ' is-official' : ''}`}
-                >
-                  {r.role}
-                </span>
-                <span className="bl-rev-name">{r.reviewer}</span>
-              </div>
-
               <div>
                 <h3 className="bl-rev-book">{r.book}</h3>
-                <p className="bl-rev-author">{r.author}</p>
+                <p className="bl-rev-by">by {r.reviewer}</p>
               </div>
 
-              {r.pull && <p className="bl-rev-pull">&ldquo;{r.pull}&rdquo;</p>}
+              <p className="bl-rev-quote">
+                &ldquo;{r.quote}&rdquo;
+                {r.more && (
+                  <button type="button" className="bl-rev-more">
+                    read more
+                  </button>
+                )}
+              </p>
+
               {r.forWho && <p className="bl-rev-for">For: {r.forWho}</p>}
 
+              {r.tags.length > 0 && (
+                <div className="bl-rev-tags">
+                  {r.tags.map((t) => (
+                    <span className="bl-rev-tag" key={t}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              )}
+
               <div className="bl-rev-meta">
-                {r.feeling && <span className="bl-rev-feeling">{r.feeling}</span>}
-                {r.score && (
-                  <span className="bl-rev-score">
-                    {r.score}
-                    <span>/10</span>
-                  </span>
-                )}
+                <span className="bl-rev-score">
+                  {r.score}
+                  <span>/10</span>
+                </span>
               </div>
             </article>
           ))}
