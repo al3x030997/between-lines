@@ -352,10 +352,9 @@ const V12_CSS = `
 /* Trust commitments — three bullets */
 .v12-proof-strip {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(16px, 3vw, 40px);
+  gap: clamp(10px, 1.6vh, 16px);
   margin-top: clamp(26px, 4.5vh, 48px);
 }
 .v12-proof-note {
