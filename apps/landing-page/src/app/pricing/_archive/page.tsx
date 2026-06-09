@@ -1,9 +1,16 @@
 'use client';
 
+// ARCHIVED pricing page (green-accent, single-audience layout).
+// Superseded on 2026-06-09 by the tabbed reader/creator design in
+// src/app/pricing/page.tsx. Kept in git for reference — the `_archive`
+// folder is ignored by Next.js routing, so this is not a live route.
+// To revisit: copy back to src/app/pricing/page.tsx and restore the two
+// import paths below from ../../v8/... to ../v8/...
+
 import { useState } from 'react';
 import Link from 'next/link';
-import { WaitlistOverlay } from '../v8/WaitlistForm';
-import Footer from '../v8/sections/Footer';
+import { WaitlistOverlay } from '../../v8/WaitlistForm';
+import Footer from '../../v8/sections/Footer';
 
 const PRICING_CSS = `
 .pricing-root {
