@@ -349,24 +349,30 @@ const V12_CSS = `
 .v12-open-call:focus-visible { outline: none; }
 .v12-open-call:focus-visible .v12-open-call-text { text-decoration-color: currentColor; }
 
-/* Ad-free — kept, but quiet (replaces the big bordered pill) */
+/* Trust commitments — three bullets */
 .v12-proof-strip {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+  gap: clamp(16px, 3vw, 40px);
   margin-top: clamp(26px, 4.5vh, 48px);
 }
 .v12-proof-note {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(13px, 1.5vw, 16px);
+  font-weight: 800;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--theme-hero-text) 50%, transparent);
+  color: color-mix(in srgb, var(--theme-hero-text) 62%, transparent);
 }
 .v12-proof-note::before {
   content: "✓";
-  margin-right: 7px;
-  font-weight: 800;
-  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
+  margin-right: 9px;
+  font-size: 1.1em;
+  font-weight: 900;
+  color: color-mix(in srgb, var(--theme-hero-text) 80%, transparent);
 }
 
 /* Banner reused */
@@ -567,6 +573,8 @@ export default function V12Page() {
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
               <span className="v12-proof-note">Always ad-free</span>
+              <span className="v12-proof-note">Always AI-free</span>
+              <span className="v12-proof-note">Always community first</span>
             </div>
           </div>
         )}
