@@ -358,7 +358,7 @@ export default function BetweenReviews({ onReader }: Props) {
       <div className="bl-reviews-inner">
         <header className="bl-reviews-head">
           <p className="bl-reviews-eyebrow">Between Reads</p>
-          <h2 className="bl-reviews-title">BetweenReviews</h2>
+          <h2 className="bl-reviews-title">What our community says</h2>
           <p className="bl-reviews-sub">
             What readers, writers and our team are reading, loving and recommending.
           </p>
