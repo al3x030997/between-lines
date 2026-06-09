@@ -355,12 +355,12 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   gap: clamp(10px, 1.6vh, 16px);
-  margin-top: clamp(26px, 4.5vh, 48px);
+  margin-top: clamp(44px, 7vh, 80px);
 }
 .v12-proof-note {
   display: inline-flex;
   align-items: center;
-  font-size: clamp(13px, 1.5vw, 16px);
+  font-size: clamp(12px, 1.3vw, 14px);
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
