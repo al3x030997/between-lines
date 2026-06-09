@@ -7,7 +7,7 @@ import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
-import { SignInButton } from '@/components/SignInButton';
+import { SiteNav } from '@/components/SiteNav';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -452,6 +452,17 @@ export default function V12Page() {
     const params = new URLSearchParams(window.location.search);
     const code = params.get('u');
     setBannerMessage(code ? (BANNER_MESSAGES[code] ?? null) : null);
+
+    // Deep-link from a subpage "Join Free" CTA: ?join=reader|author auto-opens
+    // the intake flow, then the param is stripped from the URL.
+    const join = params.get('join');
+    if (join === 'reader' || join === 'author') {
+      setSelectedRegion(join as Region);
+      setPhase('questions');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('join');
+      window.history.replaceState(null, '', url.toString());
+    }
   }, []);
   const dismissBanner = () => {
     setBannerMessage(null);
@@ -486,35 +497,7 @@ export default function V12Page() {
     <main className={rootClass}>
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
-      <nav className="v12-nav" aria-label="Primary">
-        <div className="v12-nav-inner">
-          <Link className="v12-brand" href="/" aria-label="BetweenReads, home">
-            <span>between</span>
-            <span className="v12-brand-dot" aria-hidden="true" />
-            <span>reads</span>
-          </Link>
-          <div className="v12-nav-links">
-            <Link className="v12-nav-link active" href="/readers">Read</Link>
-            <Link className="v12-nav-link" href="/creators">Create</Link>
-            <Link className="v12-nav-link" href="/readers/kids">For Kids</Link>
-            <Link className="v12-nav-link" href="/pricing">Pricing</Link>
-            <Link className="v12-nav-link" href="/faq">FAQ</Link>
-            <Link className="v12-nav-link member" href="/insider">Become a Member</Link>
-            <Link className="v12-nav-link support" href="/about">Support Us</Link>
-          </div>
-          <div className="v12-nav-right">
-            <button
-              type="button"
-              className="v12-btn-join"
-              onClick={() => open('reader')}
-            >
-              Join Free
-            </button>
-            <div className="v12-nav-divider" aria-hidden="true" />
-            <SignInButton className="v12-btn-signin">Sign In</SignInButton>
-          </div>
-        </div>
-      </nav>
+      <SiteNav activeHref="/readers" onJoin={() => open('reader')} />
 
       {bannerMessage && (
         <div className="bl-banner" role="status" aria-live="polite">

@@ -175,6 +175,41 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
           </button>
         )}
 
+        {/* Role toggle — modern segmented control, kept constant across steps.
+            Interaction is locked once the hook is answered (mode commits at email capture). */}
+        {(() => {
+          const locked = step !== 'hook';
+          return (
+            <div
+              className={`v12-seg${mode === 'reader' ? ' is-reader' : ''}${locked ? ' is-locked' : ''}`}
+              role="tablist"
+              aria-label="Choose your path"
+            >
+              <span className="v12-seg-thumb" aria-hidden="true" />
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === 'writer'}
+                disabled={locked}
+                className={`v12-seg-btn${mode === 'writer' ? ' is-active' : ''}`}
+                onClick={() => setMode('writer')}
+              >
+                Creator profile
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === 'reader'}
+                disabled={locked}
+                className={`v12-seg-btn${mode === 'reader' ? ' is-active' : ''}`}
+                onClick={() => setMode('reader')}
+              >
+                Reader profile
+              </button>
+            </div>
+          );
+        })()}
+
         {/* Step rail */}
         <ol className="v12-steps" aria-label="Progress">
           {(['hook', 'email', 'more'] as const).map((s, i) => {
@@ -192,35 +227,6 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
             );
           })}
         </ol>
-
-        {/* Role toggle — modern segmented control, locked after email capture */}
-        {step === 'hook' && (
-          <div
-            className={`v12-seg${mode === 'reader' ? ' is-reader' : ''}`}
-            role="tablist"
-            aria-label="Choose your path"
-          >
-            <span className="v12-seg-thumb" aria-hidden="true" />
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === 'writer'}
-              className={`v12-seg-btn${mode === 'writer' ? ' is-active' : ''}`}
-              onClick={() => setMode('writer')}
-            >
-              Writer first
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={mode === 'reader'}
-              className={`v12-seg-btn${mode === 'reader' ? ' is-active' : ''}`}
-              onClick={() => setMode('reader')}
-            >
-              Reader first
-            </button>
-          </div>
-        )}
 
         {/* ============ STEP 1 — HOOK ============ */}
         {step === 'hook' && (
@@ -691,7 +697,11 @@ const FLOW_CSS = `
   -webkit-tap-highlight-color: transparent;
 }
 .v12-seg-btn.is-active { color: var(--v6-text-strong); }
-.v12-seg-btn:hover { color: var(--v6-text-strong); }
+.v12-seg-btn:hover:not(:disabled) { color: var(--v6-text-strong); }
+.v12-seg-btn:disabled { cursor: default; }
+/* Once committed, the thumb stays put but the control reads as settled, not interactive. */
+.v12-seg.is-locked { opacity: 0.85; }
+.v12-seg.is-locked .v12-seg-btn:not(.is-active) { opacity: 0.55; }
 
 .v12-steps {
   list-style: none;
