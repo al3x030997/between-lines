@@ -644,29 +644,6 @@ const FLOW_CSS = `
   font-size: 0.8em;
 }
 
-/* === Colorful tags (rotating palette) === */
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more) {
-  background: var(--cs, var(--theme-surface-muted));
-  border-color: color-mix(in srgb, var(--c, var(--v6-divider)) 36%, transparent);
-  color: var(--c, var(--v6-text-strong));
-  font-weight: 600;
-}
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):hover {
-  border-color: var(--c, var(--v6-accent));
-  background: color-mix(in srgb, var(--c, var(--v6-accent)) 16%, var(--theme-surface));
-}
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more).is-selected {
-  background: var(--c, var(--v6-accent));
-  border-color: var(--c, var(--v6-accent));
-  color: #fff;
-}
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+1) { --c: #d6455d; --cs: #fdeaee; }
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+2) { --c: #b9760a; --cs: #fbf0d8; }
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+3) { --c: #0d8c7d; --cs: #e1f5f1; }
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+4) { --c: #4f56c9; --cs: #ebecfc; }
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+5) { --c: #4f8a2b; --cs: #eef6e5; }
-.v8-intake .v8-intake-chips .v8-chip:not(.is-more):nth-of-type(6n+6) { --c: #9148c4; --cs: #f4e9fb; }
-
 /* === Modern segmented toggle === */
 .v12-seg {
   position: relative;
