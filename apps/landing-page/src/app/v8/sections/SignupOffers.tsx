@@ -161,7 +161,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           </p>
           <a
             href="/start?mode=writer"
-            className="bl-offers-cta bl-offers-cta-ghost"
+            className="bl-offers-cta"
             onClick={handle(onWriter)}
           >
             Sign up for early access
