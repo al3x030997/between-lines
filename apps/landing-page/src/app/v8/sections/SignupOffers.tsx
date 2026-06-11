@@ -71,7 +71,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-reader-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Six emerging authors, publishing here. Read them <em>free.</em>
+            Six emerging authors, <em>publishing here.</em>
           </h2>
           <div className="bl-offers-covers" aria-hidden="true">
             {MINI_BOOKS.map((book, i) => (
@@ -96,7 +96,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             ))}
           </div>
           <p className="bl-offers-lede">
-            Meet six debut authors — read them free when you join.
+            Meet six debut authors when you join.
             Hand-selected fiction, yours to keep. No trial, no card.
           </p>
           <a
