@@ -77,7 +77,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-reader-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Six emerging authors, publishing here. Read them <em>free.</em>
+            Read them <em>free.</em> Then do more.
           </h2>
           <div className="bl-offers-covers" aria-hidden="true">
             {MINI_BOOKS.map((book, i) => (
@@ -232,7 +232,7 @@ const CSS = `
 .bl-offers-panel {
   display: flex;
   flex-direction: column;
-  gap: clamp(18px, 1.8vw, 24px);
+  gap: clamp(12px, 1.4vw, 18px);
   min-width: 0;
 }
 .bl-offers-divider {
@@ -364,7 +364,7 @@ const CSS = `
 }
 .bl-offers-cover {
   flex: 0 0 auto;
-  width: clamp(72px, 9vw, 104px);
+  width: clamp(56px, 6.5vw, 84px);
   aspect-ratio: 2 / 3;
   border-radius: 3px;
   padding: 9px 9px 8px;

@@ -302,22 +302,21 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
           <div className="bl-faq-split-col">
             <h3 className="bl-faq-split-eyebrow">For writers</h3>
             <p className="bl-faq-split-invitation">
-              Share your best work. Find beta readers. Discuss craft in writer pods.
-              Interact with select readers. Earn tips. Sell your work. One platform to
-              rule ’em all. ;-)
+              Bring your work to a platform built for writers. Find readers who care.
+              Beta readers waiting. A community that reads seriously.
             </p>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
-              Share my work <span aria-hidden="true">→</span>
+              Submit a manuscript <span aria-hidden="true">→</span>
             </button>
           </div>
           <div className="bl-faq-split-col">
             <h3 className="bl-faq-split-eyebrow">For readers</h3>
             <p className="bl-faq-split-invitation">
-              Shape your reading community. Volunteer as a beta reader. Your taste
-              matters here.
+              Be among the first readers on BetweenReads. Help shape what a reading
+              community can be. Volunteer as a beta reader. Your taste matters here.
             </p>
             <button type="button" className="bl-faq-split-cta" onClick={onReader}>
-              Start reading <span aria-hidden="true">→</span>
+              Open the shelf <span aria-hidden="true">→</span>
             </button>
           </div>
         </div>
