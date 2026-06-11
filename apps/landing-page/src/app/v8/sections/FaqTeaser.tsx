@@ -1,13 +1,5 @@
 import Link from 'next/link';
 
-// Pre-filled social invites (X compose intents) for the actionable feature-list items.
-const INVITE_AUTHORS_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-  'I want my favorite author on @betweenreads — a reader-first home for emerging writers. Come join us:',
-)}`;
-const INVITE_READERS_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-  'I’m sharing my writing on @betweenreads — a reader-first home for emerging writers. Come read with me:',
-)}`;
-
 const STYLES = `
 .bl-faq-teaser {
   background: var(--bl-surface);
@@ -212,14 +204,18 @@ const STYLES = `
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
-  margin: 0 0 clamp(56px, 7vw, 88px);
+  margin: 0 0 clamp(40px, 5vw, 56px);
+  padding: clamp(40px, 5vw, 64px);
+  border: 1px solid var(--theme-border-subtle);
+  border-radius: 24px;
+  background: var(--theme-surface);
 }
 .bl-faq-split::before {
   content: '';
   position: absolute;
   left: 50%;
-  top: 0;
-  bottom: 0;
+  top: clamp(40px, 5vw, 64px);
+  bottom: clamp(40px, 5vw, 64px);
   width: 1px;
   background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
   pointer-events: none;
@@ -230,26 +226,35 @@ const STYLES = `
   gap: 14px;
   align-items: flex-start;
 }
-.bl-faq-split-eyebrow {
-  font-family: var(--bl-font-display);
+.bl-faq-split-label {
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: clamp(40px, 5vw, 64px);
-  line-height: 1.0;
-  letter-spacing: -0.025em;
-  text-transform: none;
+  font-size: 13px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--bl-accent-strong);
+  margin: 0;
+}
+.bl-faq-split-headline {
+  font-family: var(--bl-font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 3.2vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   color: var(--bl-ink);
   margin: 0;
+  max-width: 18ch;
   text-wrap: balance;
-  font-feature-settings: "kern", "liga", "calt";
+  font-feature-settings: "kern", "liga";
 }
 .bl-faq-split-invitation {
-  font-family: var(--bl-font-serif);
+  font-family: var(--bl-font-body);
   font-weight: 400;
-  font-size: clamp(17px, 1.4vw, 20px);
-  line-height: 1.5;
-  color: var(--bl-ink);
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.55;
+  color: var(--bl-ink-muted);
   margin: 0;
-  max-width: 38ch;
+  max-width: 34ch;
   text-wrap: pretty;
 }
 .bl-faq-split-cta {
@@ -286,63 +291,6 @@ const STYLES = `
   transform: translateX(4px);
 }
 
-.bl-faq-features {
-  list-style: none;
-  margin: 2px 0 4px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  max-width: 38ch;
-  font-family: var(--bl-font-body);
-  font-size: 15px;
-  line-height: 1.45;
-  color: var(--bl-ink-muted);
-}
-.bl-faq-features li {
-  position: relative;
-  padding-left: 18px;
-}
-.bl-faq-features li::before {
-  content: '';
-  position: absolute;
-  left: 1px;
-  top: 0.62em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--bl-accent);
-  opacity: 0.7;
-}
-.bl-faq-feature-link {
-  font: inherit;
-  color: var(--bl-ink);
-  background: none;
-  border: 0;
-  padding: 0;
-  cursor: pointer;
-  text-align: left;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  text-decoration-color: color-mix(in srgb, var(--bl-ink) 35%, transparent);
-  transition: text-decoration-color 200ms var(--bl-ease);
-}
-.bl-faq-feature-link:hover,
-.bl-faq-feature-link:focus-visible {
-  text-decoration-color: currentColor;
-  outline: none;
-}
-.bl-faq-feature-arrow {
-  display: inline-block;
-  margin-left: 5px;
-  transition: transform 200ms var(--bl-ease);
-}
-.bl-faq-feature-link:hover .bl-faq-feature-arrow,
-.bl-faq-feature-link:focus-visible .bl-faq-feature-arrow {
-  transform: translateX(3px);
-}
-
 @media (max-width: 760px) {
   .bl-faq-split { grid-template-columns: 1fr; gap: 40px; }
   .bl-faq-split::before { display: none; }
@@ -362,75 +310,6 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
     <section className="bl-faq-teaser" aria-label="Frequently asked questions">
       <style>{STYLES}</style>
       <div className="bl-faq-teaser-inner">
-        <div className="bl-faq-split">
-          <div className="bl-faq-split-col">
-            <h3 className="bl-faq-split-eyebrow">For writers</h3>
-            <p className="bl-faq-split-invitation">
-              Bring your work to a platform built for writers. Find readers who care.
-              Beta readers waiting. A community that reads seriously.
-            </p>
-            <ul className="bl-faq-features">
-              <li>Publish your work — reach readers who care.</li>
-              <li>Earn tips from readers who love your writing.</li>
-              <li>Find beta readers before you publish.</li>
-              <li>Discuss craft in writer pods.</li>
-              <li>
-                <button type="button" className="bl-faq-feature-link" onClick={onWriter}>
-                  Turn your book into an audiobook with Volume.
-                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
-                </button>
-              </li>
-              <li>
-                <a
-                  className="bl-faq-feature-link"
-                  href={INVITE_READERS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Invite your readers to follow you here.
-                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
-                </a>
-              </li>
-            </ul>
-            <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
-              Submit a manuscript <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <div className="bl-faq-split-col">
-            <h3 className="bl-faq-split-eyebrow">For readers</h3>
-            <p className="bl-faq-split-invitation">
-              Be among the first readers on BetweenReads. Help shape what a reading
-              community can be. Volunteer as a beta reader. Your taste matters here.
-            </p>
-            <ul className="bl-faq-features">
-              <li>Emerging authors, or self-published — read them free.</li>
-              <li>Tip your favorite authors.</li>
-              <li>Review and rate books.</li>
-              <li>The more you read, the more credits you earn.</li>
-              <li>
-                <button type="button" className="bl-faq-feature-link" onClick={onReader}>
-                  Recommend a book you love — tell us why.
-                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
-                </button>
-              </li>
-              <li>
-                <a
-                  className="bl-faq-feature-link"
-                  href={INVITE_AUTHORS_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Help us onboard your favorite authors.
-                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
-                </a>
-              </li>
-            </ul>
-            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
-              Open the shelf <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        </div>
-
         <div className="bl-faq-teaser-head">
           <span className="bl-faq-eyebrow">Frequently asked</span>
           <h2 className="bl-faq-title">Questions, answered.</h2>
@@ -438,6 +317,34 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
             Answers on credits, copyright, beta reading, AI policy, manuscript protection,
             and more.
           </p>
+        </div>
+
+        <div className="bl-faq-split">
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-label">For writers</span>
+            <h3 className="bl-faq-split-headline">
+              Publish your manuscript. Find your readers.
+            </h3>
+            <p className="bl-faq-split-invitation">
+              Reach readers who care — and beta readers before you publish.
+            </p>
+            <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
+              Submit a manuscript <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div className="bl-faq-split-col">
+            <span className="bl-faq-split-label">For readers</span>
+            <h3 className="bl-faq-split-headline">
+              Discover writers before the world does.
+            </h3>
+            <p className="bl-faq-split-invitation">
+              Read emerging authors first — and earn Early Discoverer credit when they
+              break out.
+            </p>
+            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
+              Open the shelf <span aria-hidden="true">→</span>
+            </button>
+          </div>
         </div>
 
         <Link href="/faq" className="bl-faq-all">
