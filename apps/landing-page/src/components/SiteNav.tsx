@@ -140,7 +140,7 @@ const BRNAV_CSS = `
   background: var(--theme-text);
   margin: 0 3px;
   vertical-align: middle;
-  transform: translateY(2px);
+  transform: translateY(0px);
 }
 .brnav-links {
   display: flex;

@@ -1,5 +1,12 @@
 import Link from 'next/link';
-import { FAQ_TEASERS } from '@/lib/faq';
+
+// Pre-filled social invites (X compose intents) for the actionable feature-list items.
+const INVITE_AUTHORS_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  'I want my favorite author on @betweenreads — a reader-first home for emerging writers. Come join us:',
+)}`;
+const INVITE_READERS_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  'I’m sharing my writing on @betweenreads — a reader-first home for emerging writers. Come read with me:',
+)}`;
 
 const STYLES = `
 .bl-faq-teaser {
@@ -279,6 +286,63 @@ const STYLES = `
   transform: translateX(4px);
 }
 
+.bl-faq-features {
+  list-style: none;
+  margin: 2px 0 4px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 38ch;
+  font-family: var(--bl-font-body);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--bl-ink-muted);
+}
+.bl-faq-features li {
+  position: relative;
+  padding-left: 18px;
+}
+.bl-faq-features li::before {
+  content: '';
+  position: absolute;
+  left: 1px;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--bl-accent);
+  opacity: 0.7;
+}
+.bl-faq-feature-link {
+  font: inherit;
+  color: var(--bl-ink);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--bl-ink) 35%, transparent);
+  transition: text-decoration-color 200ms var(--bl-ease);
+}
+.bl-faq-feature-link:hover,
+.bl-faq-feature-link:focus-visible {
+  text-decoration-color: currentColor;
+  outline: none;
+}
+.bl-faq-feature-arrow {
+  display: inline-block;
+  margin-left: 5px;
+  transition: transform 200ms var(--bl-ease);
+}
+.bl-faq-feature-link:hover .bl-faq-feature-arrow,
+.bl-faq-feature-link:focus-visible .bl-faq-feature-arrow {
+  transform: translateX(3px);
+}
+
 @media (max-width: 760px) {
   .bl-faq-split { grid-template-columns: 1fr; gap: 40px; }
   .bl-faq-split::before { display: none; }
@@ -305,6 +369,29 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Bring your work to a platform built for writers. Find readers who care.
               Beta readers waiting. A community that reads seriously.
             </p>
+            <ul className="bl-faq-features">
+              <li>Publish your work — reach readers who care.</li>
+              <li>Earn tips from readers who love your writing.</li>
+              <li>Find beta readers before you publish.</li>
+              <li>Discuss craft in writer pods.</li>
+              <li>
+                <button type="button" className="bl-faq-feature-link" onClick={onWriter}>
+                  Turn your book into an audiobook with Volume.
+                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
+                </button>
+              </li>
+              <li>
+                <a
+                  className="bl-faq-feature-link"
+                  href={INVITE_READERS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Invite your readers to follow you here.
+                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
+                </a>
+              </li>
+            </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
               Submit a manuscript <span aria-hidden="true">→</span>
             </button>
@@ -315,6 +402,29 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Be among the first readers on BetweenReads. Help shape what a reading
               community can be. Volunteer as a beta reader. Your taste matters here.
             </p>
+            <ul className="bl-faq-features">
+              <li>Emerging authors, or self-published — read them free.</li>
+              <li>Tip your favorite authors.</li>
+              <li>Review and rate books.</li>
+              <li>The more you read, the more credits you earn.</li>
+              <li>
+                <button type="button" className="bl-faq-feature-link" onClick={onReader}>
+                  Recommend a book you love — tell us why.
+                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
+                </button>
+              </li>
+              <li>
+                <a
+                  className="bl-faq-feature-link"
+                  href={INVITE_AUTHORS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Help us onboard your favorite authors.
+                  <span className="bl-faq-feature-arrow" aria-hidden="true">→</span>
+                </a>
+              </li>
+            </ul>
             <button type="button" className="bl-faq-split-cta" onClick={onReader}>
               Open the shelf <span aria-hidden="true">→</span>
             </button>
@@ -325,27 +435,9 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
           <span className="bl-faq-eyebrow">Frequently asked</span>
           <h2 className="bl-faq-title">Questions, answered.</h2>
           <p className="bl-faq-lede">
-            Browse by topic — credits, copyright, beta reading, AI policy, manuscript protection,
+            Answers on credits, copyright, beta reading, AI policy, manuscript protection,
             and more.
           </p>
-        </div>
-
-        <div className="bl-faq-grid">
-          {FAQ_TEASERS.map((t, i) => (
-            <Link
-              key={t.title}
-              href={t.href}
-              className="bl-faq-card"
-              aria-label={t.title}
-            >
-              <span className="bl-faq-card-index">{String(i + 1).padStart(2, '0')}</span>
-              <h3 className="bl-faq-card-title">{t.title}</h3>
-              <p className="bl-faq-card-blurb">{t.preview}</p>
-              <span className="bl-faq-card-arrow">
-                Browse <span className="bl-faq-card-arrow-glyph" aria-hidden="true">→</span>
-              </span>
-            </Link>
-          ))}
         </div>
 
         <Link href="/faq" className="bl-faq-all">

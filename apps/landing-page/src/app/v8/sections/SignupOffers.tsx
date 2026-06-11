@@ -14,12 +14,6 @@ type MiniBook = {
   coverFg: 'light' | 'dark';
 };
 
-// Pre-filled social invite for "help us onboard your favorite authors" (list item 6).
-// Opens an X compose intent in a new tab; a Bluesky intent is a trivial second option later.
-const AUTHOR_INVITE_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-  'I want my favorite author on @betweenreads — a reader-first home for emerging writers. Come join us:',
-)}`;
-
 const offerCover = (filename: string) =>
   `linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.38) 56%, rgba(8, 8, 8, 0.66) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
 
@@ -77,7 +71,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-reader-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Read them <em>free.</em> Then do more.
+            Six emerging authors, publishing here. Read them <em>free.</em>
           </h2>
           <div className="bl-offers-covers" aria-hidden="true">
             {MINI_BOOKS.map((book, i) => (
@@ -101,33 +95,10 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
               </div>
             ))}
           </div>
-          <ul className="bl-offers-list">
-            <li>Emerging authors, or self-published — read them free.</li>
-            <li>Tip your favorite authors.</li>
-            <li>Review and rate books.</li>
-            <li>The more you read, the more credits you earn.</li>
-            <li>
-              <a
-                href="/?intake=reader"
-                className="bl-offers-list-link"
-                onClick={handle(onReader)}
-              >
-                Recommend a book you love — tell us why.
-                <span className="bl-offers-list-arrow" aria-hidden="true">→</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href={AUTHOR_INVITE_URL}
-                className="bl-offers-list-link"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Help us onboard your favorite authors.
-                <span className="bl-offers-list-arrow" aria-hidden="true">→</span>
-              </a>
-            </li>
-          </ul>
+          <p className="bl-offers-lede">
+            Meet six debut authors — read them free when you join.
+            Hand-selected fiction, yours to keep. No trial, no card.
+          </p>
           <a
             href="/?intake=reader"
             className="bl-offers-cta"
@@ -232,7 +203,7 @@ const CSS = `
 .bl-offers-panel {
   display: flex;
   flex-direction: column;
-  gap: clamp(12px, 1.4vw, 18px);
+  gap: clamp(18px, 1.8vw, 24px);
   min-width: 0;
 }
 .bl-offers-divider {
@@ -307,54 +278,6 @@ const CSS = `
   text-wrap: pretty;
 }
 
-.bl-offers-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 46ch;
-  font-family: var(--bl-font-body);
-  font-size: 15px;
-  line-height: 1.45;
-  color: color-mix(in srgb, var(--bl-footer-fg) 80%, transparent);
-}
-.bl-offers-list li {
-  position: relative;
-  padding-left: 20px;
-}
-.bl-offers-list li::before {
-  content: '';
-  position: absolute;
-  left: 2px;
-  top: 0.62em;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: currentColor;
-  opacity: 0.6;
-}
-.bl-offers-list-link {
-  color: var(--bl-footer-fg);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  text-decoration-color: color-mix(in srgb, var(--bl-footer-fg) 45%, transparent);
-  transition: text-decoration-color 200ms ease;
-}
-.bl-offers-list-link:hover {
-  text-decoration-color: currentColor;
-}
-.bl-offers-list-arrow {
-  display: inline-block;
-  margin-left: 6px;
-  transition: transform 200ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-offers-list-link:hover .bl-offers-list-arrow {
-  transform: translateX(3px);
-}
-
 .bl-offers-covers {
   display: flex;
   gap: 12px;
@@ -364,7 +287,7 @@ const CSS = `
 }
 .bl-offers-cover {
   flex: 0 0 auto;
-  width: clamp(56px, 6.5vw, 84px);
+  width: clamp(72px, 9vw, 104px);
   aspect-ratio: 2 / 3;
   border-radius: 3px;
   padding: 9px 9px 8px;
