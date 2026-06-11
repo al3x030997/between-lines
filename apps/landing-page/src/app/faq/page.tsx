@@ -926,7 +926,7 @@ export default function FaqPage() {
             <h2 className="bl-faq-promo-title" id="bl-faq-promo-volume-title">
               <span className="bl-faq-promo-volume">Volume.</span>
               <span className="bl-faq-promo-volume-sub">
-                Audiobooks, voiced by <em>indie writers.</em>
+                Audiobooks, voiced by <em>writers.</em>
               </span>
             </h2>
             <div className="bl-faq-promo-audio" aria-hidden="true">
@@ -961,11 +961,10 @@ export default function FaqPage() {
               </span>
             </div>
             <p className="bl-faq-promo-body">
-              We&rsquo;re building an audiobook home for indie writers &mdash; record your own, or
-              get matched with a narrator. Keep your rights. Early roster now forming.
+              Narrate your work. Or choose a human narrator. Early access now forming.
             </p>
             <Link href="/?intake=writer" className="bl-faq-promo-cta bl-faq-promo-cta-ghost">
-              Get early access
+              Sign up for early access
               <span className="bl-faq-promo-cta-arrow" aria-hidden="true">→</span>
             </Link>
           </article>

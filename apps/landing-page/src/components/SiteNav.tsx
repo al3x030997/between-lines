@@ -24,7 +24,7 @@ const LINKS: NavLink[] = [
   { href: '/creators', label: 'Create' },
   { href: '/readers/kids', label: 'For Kids' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/faq', label: 'FAQ' },
+  { href: '/faq', label: 'Features' },
   { href: '/insider', label: 'Become a Member', modifier: 'member' },
   { href: '/about', label: 'Support Us', modifier: 'support' },
 ];
@@ -114,7 +114,7 @@ const BRNAV_CSS = `
 .brnav-inner {
   display: flex;
   align-items: center;
-  padding: 0 clamp(20px, 3vw, 40px);
+  padding: 0 clamp(12px, 2vw, 24px);
   height: 64px;
   max-width: 1440px;
   margin: 0 auto;
@@ -138,7 +138,7 @@ const BRNAV_CSS = `
   height: 5px;
   border-radius: 50%;
   background: var(--theme-text);
-  margin: 0 5px;
+  margin: 0 3px;
   vertical-align: middle;
   transform: translateY(2px);
 }
@@ -240,5 +240,11 @@ const BRNAV_CSS = `
 }
 @media (max-width: 900px) {
   .brnav-links { display: none; }
+}
+@media (max-width: 480px) {
+  .brnav-right { gap: 6px; margin-left: 12px; }
+  .brnav-join { padding: 7px 12px; }
+  .brnav-signin { padding: 7px 10px; }
+  .brnav-divider { margin: 0 1px; }
 }
 `;

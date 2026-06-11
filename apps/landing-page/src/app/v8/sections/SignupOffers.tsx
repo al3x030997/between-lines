@@ -14,6 +14,12 @@ type MiniBook = {
   coverFg: 'light' | 'dark';
 };
 
+// Pre-filled social invite for "help us onboard your favorite authors" (list item 6).
+// Opens an X compose intent in a new tab; a Bluesky intent is a trivial second option later.
+const AUTHOR_INVITE_URL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  'I want my favorite author on @betweenreads — a reader-first home for emerging writers. Come join us:',
+)}`;
+
 const offerCover = (filename: string) =>
   `linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.38) 56%, rgba(8, 8, 8, 0.66) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
 
@@ -70,10 +76,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           className="bl-offers-panel bl-offers-reader"
           aria-labelledby="bl-offers-reader-title"
         >
-          <p className="bl-offers-eyebrow">
-            <span className="bl-offers-eyebrow-mark" aria-hidden="true" />
-            Free on signup
-          </p>
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
             Six emerging authors, publishing here. Read them <em>free.</em>
           </h2>
@@ -99,10 +101,33 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
               </div>
             ))}
           </div>
-          <p className="bl-offers-lede">
-            Meet six debut authors — read them free when you join.
-            Hand-selected fiction, yours to keep. No trial, no card.
-          </p>
+          <ul className="bl-offers-list">
+            <li>Emerging authors, or self-published — read them free.</li>
+            <li>Tip your favorite authors.</li>
+            <li>Review and rate books.</li>
+            <li>The more you read, the more credits you earn.</li>
+            <li>
+              <a
+                href="/?intake=reader"
+                className="bl-offers-list-link"
+                onClick={handle(onReader)}
+              >
+                Recommend a book you love — tell us why.
+                <span className="bl-offers-list-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={AUTHOR_INVITE_URL}
+                className="bl-offers-list-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Help us onboard your favorite authors.
+                <span className="bl-offers-list-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
           <a
             href="/?intake=reader"
             className="bl-offers-cta"
@@ -126,7 +151,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           <h2 className="bl-offers-title" id="bl-offers-volume-title">
             <span className="bl-offers-volume-mark">Volume.</span>
             <span className="bl-offers-volume-sub">
-              Audiobooks, voiced by <em>indie writers.</em>
+              Audiobooks, voiced by <em>writers.</em>
             </span>
           </h2>
           <div className="bl-offers-audio" aria-hidden="true">
@@ -161,15 +186,14 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             </span>
           </div>
           <p className="bl-offers-lede">
-            We&rsquo;re building an audiobook home for indie writers — record your own, or get matched
-            with a narrator. Keep your rights. Early roster now forming.
+            Narrate your work. Or choose a human narrator. Early access now forming.
           </p>
           <a
             href="/?intake=writer"
             className="bl-offers-cta bl-offers-cta-ghost"
             onClick={handle(onWriter)}
           >
-            Get early access
+            Sign up for early access
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>
@@ -283,6 +307,54 @@ const CSS = `
   text-wrap: pretty;
 }
 
+.bl-offers-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 46ch;
+  font-family: var(--bl-font-body);
+  font-size: 15px;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--bl-footer-fg) 80%, transparent);
+}
+.bl-offers-list li {
+  position: relative;
+  padding-left: 20px;
+}
+.bl-offers-list li::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+.bl-offers-list-link {
+  color: var(--bl-footer-fg);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--bl-footer-fg) 45%, transparent);
+  transition: text-decoration-color 200ms ease;
+}
+.bl-offers-list-link:hover {
+  text-decoration-color: currentColor;
+}
+.bl-offers-list-arrow {
+  display: inline-block;
+  margin-left: 6px;
+  transition: transform 200ms cubic-bezier(.22, 1, .36, 1);
+}
+.bl-offers-list-link:hover .bl-offers-list-arrow {
+  transform: translateX(3px);
+}
+
 .bl-offers-covers {
   display: flex;
   gap: 12px;
@@ -370,17 +442,17 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  background: var(--bl-accent);
-  color: var(--theme-accent-contrast);
+  background: var(--bl-footer-fg);
+  color: var(--bl-footer-bg);
   padding: 15px 28px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--bl-accent) 28%, transparent);
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--bl-footer-fg) 28%, transparent);
 }
 .bl-offers-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px color-mix(in srgb, var(--bl-accent) 40%, transparent);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--bl-footer-fg) 40%, transparent);
 }
 .bl-offers-cta-ghost {
   background: transparent;

@@ -47,7 +47,7 @@ const V12_CSS = `
 /* === Hero (yellow, full screen) === */
 .v12-hero {
   background: var(--theme-hero);
-  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px);
+  padding: clamp(24px, 4vh, 52px) clamp(20px, 4vw, 40px);
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -78,20 +78,20 @@ const V12_CSS = `
   align-items: center;
 }
 .v12-hero-label {
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--v12-ink);
-  opacity: 0.55;
+  opacity: 0.65;
   margin-bottom: 6px;
 }
 .v12-hero-sub {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--v12-ink);
   opacity: 0.45;
   letter-spacing: 0.4px;
-  margin-bottom: clamp(28px, 5vh, 44px);
+  margin-bottom: clamp(18px, 3.5vh, 32px);
 }
 .v12-hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
@@ -117,7 +117,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   gap: clamp(20px, 3.4vh, 30px);
-  margin-top: clamp(48px, 9vh, 88px);
+  margin-top: clamp(24px, 4.5vh, 44px);
   width: 100%;
 }
 
@@ -216,10 +216,12 @@ const V12_CSS = `
 /* Trust commitments — three bullets */
 .v12-proof-strip {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
-  gap: clamp(10px, 1.6vh, 16px);
-  margin-top: clamp(72px, 12vh, 140px);
+  gap: clamp(14px, 2vw, 28px);
+  margin-top: clamp(28px, 5vh, 56px);
 }
 .v12-proof-note {
   display: inline-flex;
@@ -284,6 +286,10 @@ const V12_CSS = `
   }
   .v12-hero-actions {
     margin-top: 34px;
+  }
+  .v12-proof-strip {
+    flex-direction: column;
+    gap: 10px;
   }
   .v12-open-call {
     flex-wrap: wrap;
@@ -385,7 +391,7 @@ export default function V12Page() {
           <div className="v12-hero-inner">
             <p className="v12-hero-label">for the hidden creative</p>
             <p className="v12-hero-sub">
-              wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators
+              wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators &nbsp;·&nbsp; poets
             </p>
             <h1>
               <span className="v12-hero-line">Discover <em>new voices.</em></span>
@@ -417,8 +423,7 @@ export default function V12Page() {
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
               <span className="v12-proof-note">Always ad-free</span>
-              <span className="v12-proof-note">Always AI-free</span>
-              <span className="v12-proof-note">Always community first</span>
+              <span className="v12-proof-note">No AI-generated content</span>
             </div>
           </div>
         )}
