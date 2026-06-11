@@ -377,17 +377,6 @@ const CSS = `
   transform: translateY(-1px);
   box-shadow: 0 12px 28px color-mix(in srgb, var(--bl-footer-fg) 40%, transparent);
 }
-.bl-offers-cta-ghost {
-  background: transparent;
-  color: var(--bl-footer-fg);
-  box-shadow: none;
-  border: 1px solid color-mix(in srgb, var(--bl-footer-fg) 55%, transparent);
-}
-.bl-offers-cta-ghost:hover {
-  background: color-mix(in srgb, var(--bl-footer-fg) 6%, transparent);
-  border-color: color-mix(in srgb, var(--bl-footer-fg) 85%, transparent);
-  box-shadow: none;
-}
 .bl-offers-cta-arrow {
   display: inline-block;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
