@@ -156,18 +156,19 @@ const STYLES = `
   transform: translateX(4px);
 }
 .bl-faq-all {
-  margin-top: clamp(32px, 4vw, 48px);
-  display: inline-flex;
+  margin: clamp(12px, 2vw, 20px) auto 0;
+  display: flex;
+  width: fit-content;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   font-family: var(--bl-font-eyebrow);
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--bl-ink);
+  color: var(--bl-ink-muted);
   text-decoration: none;
-  padding: 12px 0;
+  padding: 10px 0;
   position: relative;
 }
 .bl-faq-all::after {
@@ -311,11 +312,11 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
       <style>{STYLES}</style>
       <div className="bl-faq-teaser-inner">
         <div className="bl-faq-teaser-head">
-          <span className="bl-faq-eyebrow">Frequently asked</span>
-          <h2 className="bl-faq-title">Questions, answered.</h2>
+          <span className="bl-faq-eyebrow">Writers &amp; readers</span>
+          <h2 className="bl-faq-title">Two ways in.</h2>
           <p className="bl-faq-lede">
-            Answers on credits, copyright, beta reading, AI policy, manuscript protection,
-            and more.
+            Whether you&rsquo;re here to publish or to discover, there&rsquo;s a path
+            built for you.
           </p>
         </div>
 
@@ -348,7 +349,7 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
         </div>
 
         <Link href="/faq" className="bl-faq-all">
-          Read all FAQs <span className="bl-faq-all-arrow" aria-hidden="true">→</span>
+          Questions? Read all FAQs <span className="bl-faq-all-arrow" aria-hidden="true">→</span>
         </Link>
       </div>
     </section>
