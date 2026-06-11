@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FAQ } from '@/lib/faq';
+import { FAQ_TEASERS } from '@/lib/faq';
 
 const STYLES = `
 .bl-faq-teaser {
@@ -26,7 +26,7 @@ const STYLES = `
   font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--bl-accent);
+  color: var(--bl-ink);
   position: relative;
   display: inline-block;
   padding-bottom: 8px;
@@ -37,9 +37,9 @@ const STYLES = `
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 2px;
-  width: 56px;
-  background: var(--bl-accent);
+  height: 3px;
+  width: 64px;
+  background: var(--bl-accent-strong);
 }
 .bl-faq-title {
   font-family: var(--bl-font-display);
@@ -205,7 +205,7 @@ const STYLES = `
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
-  margin: clamp(48px, 6vw, 72px) 0 clamp(56px, 7vw, 88px);
+  margin: 0 0 clamp(56px, 7vw, 88px);
 }
 .bl-faq-split::before {
   content: '';
@@ -298,6 +298,30 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
     <section className="bl-faq-teaser" aria-label="Frequently asked questions">
       <style>{STYLES}</style>
       <div className="bl-faq-teaser-inner">
+        <div className="bl-faq-split">
+          <div className="bl-faq-split-col">
+            <h3 className="bl-faq-split-eyebrow">For writers</h3>
+            <p className="bl-faq-split-invitation">
+              Share your best work. Find beta readers. Discuss craft in writer pods.
+              Interact with select readers. Earn tips. Sell your work. One platform to
+              rule ’em all. ;-)
+            </p>
+            <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
+              Share my work <span aria-hidden="true">→</span>
+            </button>
+          </div>
+          <div className="bl-faq-split-col">
+            <h3 className="bl-faq-split-eyebrow">For readers</h3>
+            <p className="bl-faq-split-invitation">
+              Shape your reading community. Volunteer as a beta reader. Your taste
+              matters here.
+            </p>
+            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
+              Start reading <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </div>
+
         <div className="bl-faq-teaser-head">
           <span className="bl-faq-eyebrow">Frequently asked</span>
           <h2 className="bl-faq-title">Questions, answered.</h2>
@@ -307,63 +331,22 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
           </p>
         </div>
 
-        <div className="bl-faq-split">
-          <div className="bl-faq-split-col">
-            <h3 className="bl-faq-split-eyebrow">For writers</h3>
-            <p className="bl-faq-split-invitation">
-              Bring your work to a platform built for writers. Find readers who care.
-              Beta readers waiting. A community that reads seriously.
-            </p>
-            <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
-              Submit a manuscript <span aria-hidden="true">→</span>
-            </button>
-          </div>
-          <div className="bl-faq-split-col">
-            <h3 className="bl-faq-split-eyebrow">For readers</h3>
-            <p className="bl-faq-split-invitation">
-              Be among the first readers on BetweenReads. Help shape what a reading
-              community can be. Volunteer as a beta reader. Your taste matters here.
-            </p>
-            <button type="button" className="bl-faq-split-cta" onClick={onReader}>
-              Open the shelf <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        </div>
-
         <div className="bl-faq-grid">
-          {FAQ.map((cat, i) => (
+          {FAQ_TEASERS.map((t, i) => (
             <Link
-              key={cat.slug}
-              href={`/faq#${cat.slug}`}
+              key={t.title}
+              href={t.href}
               className="bl-faq-card"
-              aria-label={`${cat.title} — ${cat.questions.length} questions`}
+              aria-label={t.title}
             >
-              <span className="bl-faq-card-index">
-                {String(i + 1).padStart(2, '0')} · {cat.questions.length} Q
-              </span>
-              <h3 className="bl-faq-card-title">{cat.title}</h3>
-              <p className="bl-faq-card-blurb">{cat.blurb}</p>
+              <span className="bl-faq-card-index">{String(i + 1).padStart(2, '0')}</span>
+              <h3 className="bl-faq-card-title">{t.title}</h3>
+              <p className="bl-faq-card-blurb">{t.preview}</p>
               <span className="bl-faq-card-arrow">
                 Browse <span className="bl-faq-card-arrow-glyph" aria-hidden="true">→</span>
               </span>
             </Link>
           ))}
-          <Link
-            href="/faq#what-is-agentready"
-            className="bl-faq-card"
-            aria-label="AgentReady — research, query, and submit in one place"
-          >
-            <span className="bl-faq-card-index">
-              {String(FAQ.length + 1).padStart(2, '0')} · TOOL
-            </span>
-            <h3 className="bl-faq-card-title">AgentReady</h3>
-            <p className="bl-faq-card-blurb">
-              Research, query, and submit in one place
-            </p>
-            <span className="bl-faq-card-arrow">
-              Browse <span className="bl-faq-card-arrow-glyph" aria-hidden="true">→</span>
-            </span>
-          </Link>
         </div>
 
         <Link href="/faq" className="bl-faq-all">

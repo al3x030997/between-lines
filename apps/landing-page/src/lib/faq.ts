@@ -420,3 +420,56 @@ export const FAQ: FaqCategory[] = [
     ],
   },
 ];
+
+export type FaqTeaser = {
+  title: string;
+  href: string;
+  preview: string;
+};
+
+/**
+ * Curated topic teasers for the homepage FAQ section. Organised by topic
+ * (not reader/writer role); each links into the relevant /faq anchor or page.
+ */
+export const FAQ_TEASERS: FaqTeaser[] = [
+  {
+    title: "How we're different",
+    href: '/faq#general',
+    preview: 'Curation and reader participation — not ads or algorithms. Built for people who read seriously.',
+  },
+  {
+    title: 'Rights',
+    href: '/faq#writers',
+    preview: 'Your copyright stays yours. Manuscripts upload watermarked, copy disabled, never used to train AI.',
+  },
+  {
+    title: 'Earning',
+    href: '/faq#writers',
+    preview: 'Earn tips, sell your work, trade Swap Credits. Readers earn by giving feedback; writers by reading.',
+  },
+  {
+    title: 'Beta reading',
+    href: '/faq#beta-readers',
+    preview: 'Read writers before they publish. Give feedback, earn credits, get named Early Discoverer for life.',
+  },
+  {
+    title: 'AgentReady',
+    href: '/faq#what-is-agentready',
+    preview: 'Build your agent list, draft tailored query letters, track submissions — one place, free to start.',
+  },
+  {
+    title: 'For Kids',
+    href: '/readers/kids',
+    preview: 'Fiction and art for younger readers, with safety built in — age tiers, story sparks, a calmer read.',
+  },
+  {
+    title: 'Support us',
+    href: '/faq#general',
+    preview: 'We run on readers, not advertisers. No ads, no algorithms — just writing worth reading.',
+  },
+  {
+    title: 'Listen',
+    href: '/readers/listen',
+    preview: 'Listen, don’t just read. We offer audiobooks and help authors turn manuscripts into audio.',
+  },
+];
