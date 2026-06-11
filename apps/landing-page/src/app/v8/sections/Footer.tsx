@@ -120,27 +120,29 @@ export default function Footer() {
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Product</h3>
             <ul>
-              <li><a href="/readers">For readers</a></li>
-              <li><a href="/creators">For writers</a></li>
+              <li><a href="/readers">Features</a></li>
+              <li><a href="/betweenlines">BetweenLines Journal</a></li>
               <li><a href="/creators/agent-readiness">AgentReady</a></li>
               <li><a href="/pricing">Pricing</a></li>
-              <li><a href="/faq">FAQ</a></li>
             </ul>
           </div>
           <div className="bl-footer-col">
             <h3 className="bl-footer-col-title">Company</h3>
             <ul>
               <li><a href="/about">About</a></li>
-              <li><a href="/betweenlines">BetweenLines</a></li>
-              <li><a href="/insider">Become a Member</a></li>
-            </ul>
-          </div>
-          <div className="bl-footer-col">
-            <h3 className="bl-footer-col-title">Legal</h3>
-            <ul>
+              <li><a href="/about">Support Us</a></li>
+              <li><a href="/faq">FAQ</a></li>
               <li><a href="/privacy">Privacy</a></li>
               <li><a href="/privacy">Terms</a></li>
               <li><a href="/privacy">Cookies</a></li>
+            </ul>
+          </div>
+          <div className="bl-footer-col">
+            <h3 className="bl-footer-col-title">Get Started</h3>
+            <ul>
+              <li><a href="/?join=reader">Start reading</a></li>
+              <li><a href="/?join=author">Start writing</a></li>
+              <li><a href="/insider">Become a Member</a></li>
             </ul>
           </div>
         </div>
