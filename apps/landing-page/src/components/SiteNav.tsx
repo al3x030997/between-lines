@@ -88,7 +88,7 @@ export function SiteNav({ onJoin, activeHref }: Props) {
               Join Free
             </button>
           ) : (
-            <Link className="brnav-join" href="/?join=reader">
+            <Link className="brnav-join" href="/start?mode=reader">
               Join Free
             </Link>
           )}

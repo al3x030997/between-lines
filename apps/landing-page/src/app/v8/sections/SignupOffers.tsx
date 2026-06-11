@@ -100,7 +100,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             Hand-selected fiction, yours to keep. No trial, no card.
           </p>
           <a
-            href="/?intake=reader"
+            href="/start?mode=reader"
             className="bl-offers-cta"
             onClick={handle(onReader)}
           >
@@ -160,7 +160,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             Narrate your work. Or choose a human narrator. Early access now forming.
           </p>
           <a
-            href="/?intake=writer"
+            href="/start?mode=writer"
             className="bl-offers-cta bl-offers-cta-ghost"
             onClick={handle(onWriter)}
           >

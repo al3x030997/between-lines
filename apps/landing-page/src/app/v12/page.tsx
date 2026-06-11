@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import IntakeFlow from './intake/IntakeFlow';
+import { useRouter } from 'next/navigation';
 import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
@@ -311,11 +310,15 @@ const V12_CSS = `
 `;
 
 type Region = 'author' | 'reader' | 'both';
-type Phase = 'choose' | 'leaving' | 'questions';
 
 export default function V12Page() {
-  const [phase, setPhase] = useState<Phase>('choose');
-  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  const router = useRouter();
+
+  // Every CTA now routes to the dedicated /start intake page rather than
+  // opening an inline flow, so the marketing sections never sit beneath it.
+  const open = (region: Region) => {
+    router.push(`/start?mode=${region === 'author' ? 'writer' : 'reader'}`);
+  };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
   useEffect(() => {
@@ -323,17 +326,14 @@ export default function V12Page() {
     const code = params.get('u');
     setBannerMessage(code ? (BANNER_MESSAGES[code] ?? null) : null);
 
-    // Deep-link from a subpage "Join Free" CTA: ?join=reader|author auto-opens
-    // the intake flow, then the param is stripped from the URL.
-    const join = params.get('join');
-    if (join === 'reader' || join === 'author') {
-      setSelectedRegion(join as Region);
-      setPhase('questions');
-      const url = new URL(window.location.href);
-      url.searchParams.delete('join');
-      window.history.replaceState(null, '', url.toString());
+    // Legacy deep-links from other pages' CTAs (?join=… / ?intake=…) now bounce
+    // to the dedicated /start intake page instead of opening inline.
+    const region = params.get('join') ?? params.get('intake');
+    if (region === 'reader' || region === 'author' || region === 'writer') {
+      router.replace(`/start?mode=${region === 'reader' ? 'reader' : 'writer'}`);
     }
-  }, []);
+  }, [router]);
+
   const dismissBanner = () => {
     setBannerMessage(null);
     if (typeof window !== 'undefined') {
@@ -343,28 +343,8 @@ export default function V12Page() {
     }
   };
 
-  const backToChoose = () => {
-    setPhase('choose');
-    setSelectedRegion(null);
-  };
-
-  const open = (region: Region) => {
-    if (phase !== 'choose') return;
-    setSelectedRegion(region);
-    setPhase('leaving');
-    if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    window.setTimeout(() => setPhase('questions'), 360);
-  };
-
-  const rootClass = [
-    'v12-root',
-    phase === 'questions' ? 'is-phase-questions' : '',
-  ].filter(Boolean).join(' ');
-
   return (
-    <main className={rootClass}>
+    <main className="v12-root">
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
       <SiteNav activeHref="/readers" onJoin={() => open('reader')} />
@@ -383,12 +363,8 @@ export default function V12Page() {
         </div>
       )}
 
-      <section
-        className={`v12-hero${phase === 'leaving' ? ' is-leaving' : ''}`}
-        aria-label="Choose your role"
-      >
-        {phase !== 'questions' && (
-          <div className="v12-hero-inner">
+      <section className="v12-hero" aria-label="Choose your role">
+        <div className="v12-hero-inner">
             <p className="v12-hero-label">for the hidden creative</p>
             <p className="v12-hero-sub">
               wandering readers &nbsp;·&nbsp; writers &nbsp;·&nbsp; illustrators &nbsp;·&nbsp; poets
@@ -425,15 +401,7 @@ export default function V12Page() {
               <span className="v12-proof-note">Always ad-free</span>
               <span className="v12-proof-note">No AI-generated content</span>
             </div>
-          </div>
-        )}
-
-        {phase === 'questions' && (
-          <IntakeFlow
-            initialMode={selectedRegion === 'author' ? 'writer' : 'reader'}
-            onBack={backToChoose}
-          />
-        )}
+        </div>
       </section>
 
       <BetweenReviews onReader={() => open('reader')} />
