@@ -431,13 +431,6 @@ export default function BetweenReviews({ onReader }: Props) {
                   ))}
                 </div>
               )}
-
-              <div className="bl-rev-meta">
-                <span className="bl-rev-score">
-                  {r.score}
-                  <span>/10</span>
-                </span>
-              </div>
             </article>
           ))}
         </div>
