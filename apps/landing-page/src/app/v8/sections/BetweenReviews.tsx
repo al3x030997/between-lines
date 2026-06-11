@@ -116,7 +116,7 @@ type Audience = 'all' | 'young';
 const STYLES = `
 .bl-reviews {
   --bl-rev-ink: var(--theme-text);
-  background: var(--theme-page-soft);
+  background: var(--theme-page);
   color: var(--bl-rev-ink);
   padding: clamp(72px, 10vh, 120px) clamp(24px, 5vw, 80px);
   font-family: var(--br-font-sans);
