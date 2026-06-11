@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 type Review = {
   book: string;
@@ -195,7 +195,7 @@ const STYLES = `
 .bl-reviews-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(16px, 2vw, 22px);
+  gap: clamp(32px, 4vw, 48px);
 }
 
 /* === Card (v11 brutalist) === */
@@ -346,10 +346,28 @@ type Props = {
 
 export default function BetweenReviews({ onReader }: Props) {
   const [audience, setAudience] = useState<Audience>('all');
+  // null until mounted → SSR and first client paint show a deterministic order
+  // (no hydration mismatch). After hydration we shuffle, so each load shows a
+  // fresh trio. Reshuffles when the audience toggle changes.
+  const [order, setOrder] = useState<number[] | null>(null);
+
+  const pool = useMemo(
+    () => REVIEWS.filter((r) => (audience === 'young' ? r.young : !r.young)),
+    [audience],
+  );
+
+  useEffect(() => {
+    const idx = pool.map((_, i) => i);
+    for (let i = idx.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    setOrder(idx);
+  }, [pool]);
 
   const shown = useMemo(
-    () => REVIEWS.filter((r) => (audience === 'young' ? r.young : !r.young)).slice(0, 6),
-    [audience],
+    () => (order ? order.map((i) => pool[i]) : pool).slice(0, 3),
+    [order, pool],
   );
 
   return (
@@ -427,7 +445,7 @@ export default function BetweenReviews({ onReader }: Props) {
         {onReader && (
           <div className="bl-reviews-foot">
             <button type="button" className="bl-reviews-cta" onClick={onReader}>
-              Share what you&rsquo;re reading →
+              More reviews →
             </button>
           </div>
         )}
