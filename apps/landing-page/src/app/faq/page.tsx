@@ -367,83 +367,6 @@ const CSS = `
   .bl-faq-split::before { display: none; }
 }
 
-/* AgentReady spotlight in the side nav */
-.bl-faq-spotlight {
-  margin-top: 28px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 18px 18px 16px;
-  background: #fbf6e8;
-  border: 1px solid rgba(31, 122, 62, 0.18);
-  border-radius: 10px;
-  color: var(--bl-ink);
-  text-decoration: none;
-  overflow: hidden;
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  transition: border-color 220ms ease, transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-}
-.bl-faq-spotlight::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--bl-accent);
-  opacity: 0.85;
-}
-.bl-faq-spotlight:hover {
-  border-color: rgba(31, 122, 62, 0.42);
-  transform: translateY(-1px);
-  box-shadow: 0 14px 30px rgba(14, 14, 12, 0.08);
-}
-.bl-faq-spotlight-tag {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 10px;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--bl-accent);
-}
-.bl-faq-spotlight-title {
-  font-family: var(--bl-font-display);
-  font-weight: 600;
-  font-size: 21px;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  color: var(--bl-ink);
-  margin: 0;
-}
-.bl-faq-spotlight-title em { font-style: italic; color: var(--bl-accent); }
-.bl-faq-spotlight-body {
-  font-family: var(--bl-font-body);
-  font-size: 13px;
-  line-height: 1.5;
-  color: var(--bl-paper-ink-muted);
-  margin: 0;
-}
-.bl-faq-spotlight-link {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--bl-ink);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 4px;
-  transition: color 200ms ease, gap 200ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-faq-spotlight:hover .bl-faq-spotlight-link {
-  color: var(--bl-accent);
-  gap: 10px;
-}
-
 /* Split promo card: 3 free reads + Volume audio */
 .bl-faq-promo-card {
   margin-top: clamp(64px, 9vw, 112px);
@@ -783,7 +706,6 @@ const CSS = `
 
 @media (max-width: 820px) {
   .bl-faq-cta-card { grid-template-columns: 1fr; gap: 24px; }
-  .bl-faq-spotlight { margin-top: 12px; }
 }
 
 @media (max-width: 820px) {
@@ -913,20 +835,6 @@ export default function FaqPage() {
                 <span>{cat.title}</span>
               </a>
             ))}
-            <Link href="#what-is-agentready" className="bl-faq-spotlight" aria-label="Learn about AgentReady">
-              <span className="bl-faq-spotlight-tag">Tool · spotlight</span>
-              <h3 className="bl-faq-spotlight-title">
-                <em>AgentReady</em> &mdash; research, query, submit.
-              </h3>
-              <p className="bl-faq-spotlight-body">
-                Build your agent list beyond QueryTracker. Generate tailored query letters,
-                synopses, and pitches. Free to start; Pro unlocks AI-assisted drafts.
-              </p>
-              <span className="bl-faq-spotlight-link">
-                Read how it works
-                <span aria-hidden="true">→</span>
-              </span>
-            </Link>
           </aside>
 
           <div className="bl-faq-main">
