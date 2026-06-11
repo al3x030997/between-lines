@@ -154,13 +154,14 @@ const STYLES = `
   color: var(--theme-text-muted);
 }
 
-/* === Audience toggle: brutalist segmented control === */
+/* === Audience toggle: clean segmented pill === */
 .bl-reviews-toggle {
   display: inline-flex;
   margin: clamp(22px, 3vh, 34px) 0 clamp(34px, 5vh, 52px);
-  border: 2px solid var(--bl-rev-ink);
-  box-shadow: 4px 4px 0 var(--bl-rev-ink);
+  border: 1px solid var(--theme-border-subtle);
+  border-radius: 999px;
   background: var(--theme-surface);
+  overflow: hidden;
 }
 .bl-reviews-toggle-wrap {
   display: flex;
@@ -177,11 +178,11 @@ const STYLES = `
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--bl-rev-ink);
-  padding: 10px 22px;
+  padding: 10px 24px;
   transition: background 160ms var(--v6-ease, ease), color 160ms var(--v6-ease, ease);
 }
 .bl-reviews-tab + .bl-reviews-tab {
-  border-left: 2px solid var(--bl-rev-ink);
+  border-left: 1px solid var(--theme-border-subtle);
 }
 .bl-reviews-tab[aria-pressed='true'] {
   background: var(--bl-rev-ink);
@@ -198,24 +199,39 @@ const STYLES = `
   gap: clamp(32px, 4vw, 48px);
 }
 
-/* === Card (v11 brutalist) === */
+/* === Card (clean surface, matching the writers/readers split card) === */
 .bl-reviews-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 16px;
   background: var(--theme-surface);
   color: var(--bl-rev-ink);
-  border: 2px solid var(--bl-rev-ink);
-  border-radius: 0;
+  border: 1px solid var(--theme-border-subtle);
+  border-radius: 16px;
   padding: 28px 30px 26px;
-  box-shadow: 6px 6px 0 var(--bl-rev-ink);
   transition:
+    border-color 220ms cubic-bezier(.22, 1, .36, 1),
     box-shadow 220ms cubic-bezier(.22, 1, .36, 1),
     transform 220ms cubic-bezier(.22, 1, .36, 1);
 }
+.bl-reviews-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  border-top: 2px solid var(--theme-accent);
+  opacity: 0;
+  transition: opacity 220ms cubic-bezier(.22, 1, .36, 1);
+  pointer-events: none;
+}
 .bl-reviews-card:hover {
-  box-shadow: 10px 10px 0 var(--bl-rev-ink);
-  transform: translate(-2px, -2px);
+  border-color: var(--theme-border);
+  box-shadow: 0 14px 32px rgb(var(--theme-shadow-rgb) / 0.16);
+  transform: translateY(-2px);
+}
+.bl-reviews-card:hover::before {
+  opacity: 1;
 }
 .bl-rev-book {
   font-family: var(--br-font-display);
@@ -276,7 +292,7 @@ const STYLES = `
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 5px 11px;
-  border: 1.5px solid var(--theme-accent);
+  border: 1px solid var(--theme-accent);
   border-radius: 999px;
   background: var(--theme-accent-soft);
   color: var(--bl-rev-ink);
