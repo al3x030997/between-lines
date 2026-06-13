@@ -80,6 +80,26 @@ export function applyKidsSkin(on: boolean): void {
 }
 
 /**
+ * Light, landing-matching gallery skin for logged-out visitors. The public
+ * gallery is the marketing site's "Read" destination, so guests should see it
+ * in the bright paper/ink/yellow landing aesthetic rather than the dark
+ * cinematic gallery that logged-in readers get. Toggled via
+ * `html[data-gallery-guest='on']` so the override stays isolated from
+ * `data-theme`/`data-kids`. Mounted only on /gallery and cleared on unmount.
+ */
+export function applyGalleryGuestSkin(on: boolean): void {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  if (on) {
+    root.dataset.galleryGuest = 'on';
+    root.dataset.theme = 'light';
+    root.style.colorScheme = 'light';
+  } else {
+    delete root.dataset.galleryGuest;
+  }
+}
+
+/**
  * Resolve the initial setting for a reader page: use the stored preference if
  * one exists, otherwise default to dark.
  */

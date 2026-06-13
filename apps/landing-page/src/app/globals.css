@@ -4364,6 +4364,63 @@ body[data-quiet="true"] .br-progress { display: none; }
 }
 
 /* ============================================================
+   GALLERY — LIGHT GUEST SKIN
+   Logged-out visitors reach /gallery from the marketing "Read" CTA, so they get
+   the bright paper/ink/yellow landing aesthetic instead of the dark cinematic
+   gallery (kept for logged-in readers). Toggled by GalleryGuestController via
+   html[data-gallery-guest='on']. Almost everything is a token remap; the few
+   selector overrides below handle rules that sit on the yellow hero band.
+   Values mirror the landing tokens (ink #0e0e0c, paper #F6F1E3, yellow #FFE600,
+   gold #d4aa18) in :root above.
+   ============================================================ */
+html[data-gallery-guest='on'] .br-gallery-page {
+  --gallery-ink: #0e0e0c;
+  --gallery-soft: #2a2a25;
+  --gallery-muted: #5a5a52;
+  --gallery-faint: rgba(14, 14, 12, 0.42);
+  --gallery-line: rgba(14, 14, 12, 0.14);
+  --gallery-surface: #ffffff;
+  --gallery-surface-strong: #faf8f4;
+  --gallery-accent: #d4aa18;          /* gold — legible for kickers/links on light */
+  --gallery-accent-strong: #d4aa18;
+  --gallery-accent-soft: rgba(243, 216, 74, 0.22);
+  --gallery-accent-line: rgba(212, 170, 24, 0.5);
+  --gallery-shadow: rgba(14, 14, 12, 0.12);
+  --gallery-shadow-strong: rgba(14, 14, 12, 0.18);
+  --gallery-grid-line: rgba(14, 14, 12, 0.04);
+  --gallery-grid-line-soft: rgba(14, 14, 12, 0.03);
+  /* Yellow hero band fading into paper/white for the rails below. px stops so the
+     hero (min-height ~590px) sits on yellow regardless of how many rails follow. */
+  --gallery-page-gradient:
+    linear-gradient(180deg, #FFE600 0, #FFE600 520px, #faf8f4 760px, #ffffff 1040px);
+  --gallery-vignette: linear-gradient(180deg, transparent, transparent); /* kill dark fade */
+  /* on-media + media-glass tokens intentionally left dark: they sit over book-cover
+     art, where cream text on a dark scrim stays legible in either theme. */
+}
+/* Hero eyebrow sits on the yellow band — keep it ink, not gold-on-yellow.
+   .br-gallery-kicker (rails, on white) stays gold via the token above. */
+html[data-gallery-guest='on'] .br-gallery-overline {
+  color: rgba(14, 14, 12, 0.6);
+}
+/* Primary CTA → landing strong-CTA (ink button, paper text); a gold button
+   would vanish on the yellow hero. */
+html[data-gallery-guest='on'] .br-gallery-primary {
+  background: #0e0e0c;
+  color: #F6F1E3;
+  box-shadow: 0 14px 34px rgba(14, 14, 12, 0.18);
+}
+/* Secondary CTA → quiet ink outline instead of dark glass on yellow. */
+html[data-gallery-guest='on'] .br-gallery-secondary {
+  background: transparent;
+  border-color: var(--gallery-line);
+  color: var(--gallery-ink);
+}
+html[data-gallery-guest='on'] .br-gallery-secondary:hover {
+  background: rgba(14, 14, 12, 0.04);
+  border-color: var(--gallery-accent-line);
+}
+
+/* ============================================================
    BOOK PAGE
    ============================================================ */
 .br-book-back {

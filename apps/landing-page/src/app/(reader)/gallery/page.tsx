@@ -6,6 +6,7 @@ import {
   getBooksBySection,
   type Book,
 } from '@/lib/mock-books';
+import { GalleryGuestController } from '@/components/GalleryGuestController';
 
 export const metadata: Metadata = {
   title: 'Gallery - BetweenReads',
@@ -94,6 +95,7 @@ export default function GalleryPage() {
   if (!hero) {
     return (
       <main className="br-gallery-page">
+        <GalleryGuestController />
         <section className="br-gallery-empty">
           <h1>BetweenReads Gallery</h1>
           <p>The gallery is waiting for its first titles.</p>
@@ -120,6 +122,7 @@ export default function GalleryPage() {
 
   return (
     <main className="br-gallery-page">
+      <GalleryGuestController />
       <section className="br-gallery-hero" aria-labelledby="br-gallery-title">
         <div className="br-gallery-hero-copy">
           <p className="br-gallery-overline">BetweenLines Journal</p>
