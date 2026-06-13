@@ -55,8 +55,8 @@ const STYLES = `
 }
 .bl-faq-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(15px, 1.05vw, 17px);
-  line-height: 1.6;
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.55;
   color: var(--bl-ink-muted);
   margin: 0;
   max-width: 52ch;
@@ -262,7 +262,7 @@ const STYLES = `
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 6px;
+  margin-top: auto;
   padding: 10px 22px;
   border: none;
   border-radius: 999px;
@@ -313,7 +313,7 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
       <div className="bl-faq-teaser-inner">
         <div className="bl-faq-teaser-head">
           <span className="bl-faq-eyebrow">Writers &amp; readers</span>
-          <h2 className="bl-faq-title">Two ways in.</h2>
+          <h2 className="bl-faq-title">About BetweenReads</h2>
           <p className="bl-faq-lede">
             Whether you&rsquo;re here to publish or to discover, there&rsquo;s a path
             built for you.
@@ -324,7 +324,7 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
           <div className="bl-faq-split-col">
             <span className="bl-faq-split-label">For writers</span>
             <h3 className="bl-faq-split-headline">
-              Publish your manuscript. Find your readers.
+              A place to show your work.
             </h3>
             <p className="bl-faq-split-invitation">
               Reach readers who care — and beta readers before you publish.

@@ -97,7 +97,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           </div>
           <p className="bl-offers-lede">
             Meet six debut authors when you join.
-            Hand-selected fiction, yours to keep. No trial, no card.
           </p>
           <a
             href="/start?mode=reader"

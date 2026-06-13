@@ -314,10 +314,14 @@ type Region = 'author' | 'reader' | 'both';
 export default function V12Page() {
   const router = useRouter();
 
-  // Every CTA now routes to the dedicated /start intake page rather than
-  // opening an inline flow, so the marketing sections never sit beneath it.
+  // Writer CTAs route to the dedicated /start intake page. Reader CTAs ("Read"
+  // / "Read now") go straight to the gallery view so readers land on the shelf.
   const open = (region: Region) => {
-    router.push(`/start?mode=${region === 'author' ? 'writer' : 'reader'}`);
+    if (region === 'reader') {
+      router.push('/gallery');
+      return;
+    }
+    router.push(`/start?mode=writer`);
   };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
