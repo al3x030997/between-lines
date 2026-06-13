@@ -21,7 +21,7 @@ type NavLink = { href: string; label: string; modifier?: 'member' | 'support' };
 
 const LINKS: NavLink[] = [
   { href: '/readers', label: 'Read' },
-  { href: '/creators', label: 'Create' },
+  { href: '/create', label: 'Create' },
   { href: '/readers/kids', label: 'For Kids' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/faq', label: 'Features' },
