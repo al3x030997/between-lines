@@ -52,7 +52,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 64px);
+  min-height: calc(100vh - 76px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -278,7 +278,7 @@ const V12_CSS = `
 
 @media (max-width: 760px) {
   .v12-hero {
-    min-height: calc(100svh - 64px);
+    min-height: calc(100svh - 76px);
   }
   .v12-hero h1 {
     font-size: clamp(52px, 15vw, 78px);
