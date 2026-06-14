@@ -155,63 +155,105 @@ const V12_CSS = `
 }
 .v12-read-now:hover .v12-read-now-arrow { transform: translateX(4px); }
 
-/* Secondary CTA — open-call badge + link */
-.v12-open-call {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  background: rgba(233, 75, 54, 0.08);
-  border: 1.5px solid rgba(233, 75, 54, 0.42);
-  border-radius: 999px;
-  padding: 10px 20px;
+/* === Open-call announcement bar — full-bleed red strip at the very top === */
+.v12-announce {
+  display: block;
+  width: 100%;
+  border: 0;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
-  color: #c43a26;
+  background: #e94b36;
+  color: #16110d;
   font-family: 'Outfit', system-ui, sans-serif;
-  transition: color 200ms var(--v6-ease),
-              background 200ms var(--v6-ease),
-              border-color 200ms var(--v6-ease);
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+  position: relative;
+  z-index: 40;
+  overflow: hidden;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.22);
+  transition: background 200ms var(--v6-ease);
 }
-.v12-open-call-tag {
+.v12-announce::after {
+  /* subtle moving sheen so the strip reads as "live" */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 70%
+  );
+  transform: translateX(-100%);
+  animation: v12-announce-sheen 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes v12-announce-sheen {
+  0%, 60%   { transform: translateX(-100%); }
+  100%      { transform: translateX(100%); }
+}
+.v12-announce-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 20px);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 11px clamp(20px, 4vw, 40px);
+}
+.v12-announce-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #c43a26;
+  color: #16110d;
+  background: rgba(0, 0, 0, 0.14);
+  border-radius: 999px;
+  padding: 4px 12px 4px 10px;
 }
-.v12-open-call-dot {
-  width: 9px;
-  height: 9px;
+.v12-announce-dot {
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: #e94b36;
-  box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 70%, transparent);
-  animation: v12-opencall-pulse 2.4s ease-out infinite;
+  background: #16110d;
+  box-shadow: 0 0 0 0 rgba(22, 17, 13, 0.55);
+  animation: v12-announce-pulse 2.2s ease-out infinite;
 }
-@keyframes v12-opencall-pulse {
-  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 60%, transparent); }
-  70%  { box-shadow: 0 0 0 9px color-mix(in srgb, #e94b36 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 0%, transparent); }
+@keyframes v12-announce-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(22, 17, 13, 0.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(22, 17, 13, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(22, 17, 13, 0); }
 }
-@media (prefers-reduced-motion: reduce) {
-  .v12-open-call-dot { animation: none; }
+.v12-announce-text {
+  font-size: clamp(14px, 1.55vw, 17px);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: #16110d;
 }
-.v12-open-call-text {
-  font-size: clamp(17px, 2.1vw, 22px);
-  font-weight: 700;
-  text-decoration: none;
-}
-.v12-open-call-arrow {
-  font-size: 1em;
+.v12-announce-arrow {
+  flex: 0 0 auto;
+  font-size: 1.15em;
+  font-weight: 900;
+  color: #16110d;
   transition: transform 200ms var(--v6-ease);
 }
-.v12-open-call:hover {
-  background: rgba(233, 75, 54, 0.14);
-  border-color: rgba(233, 75, 54, 0.6);
+.v12-announce:hover { background: #d8412d; }
+.v12-announce:hover .v12-announce-arrow { transform: translateX(4px); }
+.v12-announce:focus-visible {
+  outline: 2px solid #16110d;
+  outline-offset: -3px;
 }
-.v12-open-call:hover .v12-open-call-arrow { transform: translateX(3px); }
-.v12-open-call:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) {
+  .v12-announce-dot,
+  .v12-announce::after { animation: none; }
+  .v12-announce::after { display: none; }
+}
 
 /* Trust commitments — three bullets */
 .v12-proof-strip {
@@ -310,10 +352,15 @@ const V12_CSS = `
     flex-direction: column;
     gap: 10px;
   }
-  .v12-open-call {
+  .v12-announce-inner {
     flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 4px;
+    gap: 8px 12px;
+    padding: 10px 18px;
+  }
+  .v12-announce-text {
+    flex-basis: 100%;
+    text-align: center;
+    order: 3;
   }
 }
 
@@ -368,6 +415,23 @@ export default function V12Page() {
     <main className="v12-root">
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
+      <button
+        type="button"
+        className="v12-announce"
+        onClick={() => open('author')}
+      >
+        <span className="v12-announce-inner">
+          <span className="v12-announce-tag">
+            <span className="v12-announce-dot" aria-hidden="true" />
+            Open Call
+          </span>
+          <span className="v12-announce-text">
+            Publish your work and reach real readers — become a founding creator
+          </span>
+          <span className="v12-announce-arrow" aria-hidden="true">→</span>
+        </span>
+      </button>
+
       <SiteNav activeHref="/gallery" onJoin={() => open('reader')} />
 
       {bannerMessage && (
@@ -403,19 +467,6 @@ export default function V12Page() {
               >
                 <span>Read Now</span>
                 <span className="v12-read-now-arrow" aria-hidden="true">→</span>
-              </button>
-
-              <button
-                type="button"
-                className="v12-open-call"
-                onClick={() => open('author')}
-              >
-                <span className="v12-open-call-tag">
-                  <span className="v12-open-call-dot" aria-hidden="true" />
-                  Open Call
-                </span>
-                <span className="v12-open-call-text">Become a founding creator</span>
-                <span className="v12-open-call-arrow" aria-hidden="true">→</span>
               </button>
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
