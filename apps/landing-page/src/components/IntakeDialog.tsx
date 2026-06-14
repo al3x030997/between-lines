@@ -59,8 +59,41 @@ const DIALOG_CSS = `
   animation: intake-dialog-rise 260ms var(--v6-ease);
 }
 .intake-dialog-inner {
-  padding: clamp(24px, 4vw, 40px);
+  padding: clamp(18px, 2.6vw, 30px) clamp(20px, 3vw, 36px) clamp(20px, 2.6vw, 30px);
 }
+
+/* === Compact the intake flow so page 1 fits the pop-up without scrolling ===
+   These overrides are scoped to the dialog; the full-page /start route keeps
+   its roomier spacing. */
+.intake-dialog-root .v8-intake {
+  padding: 0;
+  gap: 14px;
+  max-width: none;
+}
+/* The ✕ already closes the pop-up — the BACK link is redundant here. */
+.intake-dialog-root .v8-intake-back { display: none; }
+.intake-dialog-root .v8-intake-form { gap: 14px; }
+.intake-dialog-root .v8-intake-group { gap: 8px; }
+.intake-dialog-root .v12-seg { margin-bottom: 2px; }
+.intake-dialog-root .v8-intake .v8-intake-prompt {
+  font-size: clamp(15px, 1.7vw, 18px);
+  margin-bottom: 2px;
+}
+.intake-dialog-root .v8-intake-chips { gap: 8px; }
+.intake-dialog-root .v8-chip { padding: 8px 14px; font-size: 14px; }
+.intake-dialog-root .v8-toggle-chip { padding: 9px 16px 9px 14px; font-size: 14px; }
+.intake-dialog-root .v8-favbooks { gap: 8px; }
+.intake-dialog-root .v8-favbooks-input input { padding: 10px 16px; font-size: 14px; }
+.intake-dialog-root .v8-favbooks-add { padding: 10px 18px; }
+.intake-dialog-root .v12-email-pitch { margin-top: 0; font-size: 14px; line-height: 1.45; }
+.intake-dialog-root .v12-email-form { gap: 10px; }
+.intake-dialog-root .v12-email-field { gap: 4px; }
+.intake-dialog-root .v12-email-input { padding: 10px 14px; }
+.intake-dialog-root .v8-intake-actions { margin-top: 2px; }
+.intake-dialog-root .v8-cta { padding: 12px 24px; }
+/* The "one more page after this" footnote is implied by the step rail — drop it
+   in the pop-up to save the row. */
+.intake-dialog-root .v8-intake-caption { display: none; }
 .intake-dialog-close {
   position: absolute;
   top: 14px;
