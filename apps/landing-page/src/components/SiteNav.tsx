@@ -122,7 +122,7 @@ const BRNAV_CSS = `
 }
 .brnav-brand {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 700;
   color: var(--theme-text);
   text-decoration: none;
@@ -150,7 +150,7 @@ const BRNAV_CSS = `
   gap: 2px;
 }
 .brnav-link {
-  font-size: 16px;
+  font-size: 17px;
   color: var(--theme-text-soft);
   text-decoration: none;
   padding: 6px 11px;
@@ -192,7 +192,7 @@ const BRNAV_CSS = `
   margin-left: 24px;
 }
 .brnav-join {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 800;
   color: var(--theme-on-yellow);
   background: var(--theme-yellow);
@@ -210,7 +210,7 @@ const BRNAV_CSS = `
 }
 .brnav-join:hover { background: var(--theme-yellow-strong); }
 .brnav-signin {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--theme-text);
   background: transparent;
@@ -236,7 +236,7 @@ const BRNAV_CSS = `
 }
 @media (max-width: 1100px) {
   .brnav-links { gap: 0; }
-  .brnav-link { padding: 6px 8px; font-size: 15px; }
+  .brnav-link { padding: 6px 8px; font-size: 16px; }
 }
 @media (max-width: 900px) {
   .brnav-links { display: none; }
