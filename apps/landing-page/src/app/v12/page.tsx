@@ -52,7 +52,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 76px);
+  min-height: calc(88vh - 76px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -70,35 +70,35 @@ const V12_CSS = `
   background: var(--theme-page);
 }
 .v12-hero-inner {
-  max-width: 980px;
+  max-width: 1040px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .v12-hero-label {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--v12-ink);
   opacity: 0.65;
   margin-bottom: 6px;
 }
 .v12-hero-sub {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--v12-ink);
   opacity: 0.45;
   letter-spacing: 0.4px;
-  margin-bottom: clamp(18px, 3.5vh, 32px);
+  margin-bottom: clamp(22px, 4vh, 40px);
 }
 .v12-hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(44px, 7.5vw, 82px);
+  font-size: clamp(48px, 8.2vw, 104px);
   font-weight: 900;
-  line-height: 1.0;
+  line-height: 0.95;
   color: var(--theme-hero-text);
-  letter-spacing: -2px;
+  letter-spacing: -2.5px;
   max-width: 960px;
   text-wrap: balance;
 }
@@ -115,8 +115,8 @@ const V12_CSS = `
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(20px, 3.4vh, 30px);
-  margin-top: clamp(24px, 4.5vh, 44px);
+  gap: clamp(24px, 4vh, 36px);
+  margin-top: clamp(32px, 5.5vh, 56px);
   width: 100%;
 }
 
@@ -159,58 +159,59 @@ const V12_CSS = `
 .v12-open-call {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
-  background: transparent;
-  border: 0;
-  padding: 6px 0;
+  gap: 14px;
+  background: rgba(233, 75, 54, 0.08);
+  border: 1.5px solid rgba(233, 75, 54, 0.42);
+  border-radius: 999px;
+  padding: 11px 22px;
   cursor: pointer;
-  color: var(--theme-hero-text);
+  color: #c43a26;
   font-family: 'Outfit', system-ui, sans-serif;
-  transition: color 200ms var(--v6-ease);
+  transition: color 200ms var(--v6-ease),
+              background 200ms var(--v6-ease),
+              border-color 200ms var(--v6-ease);
 }
 .v12-open-call-tag {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--theme-hero-text) 72%, transparent);
+  color: #c43a26;
 }
 .v12-open-call-dot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--theme-yellow-deep);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 70%, transparent);
+  background: #e94b36;
+  box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 70%, transparent);
   animation: v12-opencall-pulse 2.4s ease-out infinite;
 }
 @keyframes v12-opencall-pulse {
-  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 60%, transparent); }
-  70%  { box-shadow: 0 0 0 9px color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--theme-yellow-deep) 0%, transparent); }
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 60%, transparent); }
+  70%  { box-shadow: 0 0 0 9px color-mix(in srgb, #e94b36 0%, transparent); }
+  100% { box-shadow: 0 0 0 0 color-mix(in srgb, #e94b36 0%, transparent); }
 }
 @media (prefers-reduced-motion: reduce) {
   .v12-open-call-dot { animation: none; }
 }
 .v12-open-call-text {
-  font-size: clamp(18px, 2.3vw, 23px);
+  font-size: clamp(19px, 2.5vw, 26px);
   font-weight: 700;
-  text-decoration: underline;
-  text-decoration-thickness: 0.07em;
-  text-underline-offset: 0.18em;
-  text-decoration-color: color-mix(in srgb, var(--theme-hero-text) 42%, transparent);
+  text-decoration: none;
 }
 .v12-open-call-arrow {
   font-size: 1em;
   transition: transform 200ms var(--v6-ease);
 }
-.v12-open-call:hover { color: var(--theme-text); }
-.v12-open-call:hover .v12-open-call-text { text-decoration-color: currentColor; }
+.v12-open-call:hover {
+  background: rgba(233, 75, 54, 0.14);
+  border-color: rgba(233, 75, 54, 0.6);
+}
 .v12-open-call:hover .v12-open-call-arrow { transform: translateX(3px); }
 .v12-open-call:focus-visible { outline: none; }
-.v12-open-call:focus-visible .v12-open-call-text { text-decoration-color: currentColor; }
 
 /* Trust commitments — three bullets */
 .v12-proof-strip {
@@ -220,7 +221,7 @@ const V12_CSS = `
   justify-content: center;
   align-items: center;
   gap: clamp(14px, 2vw, 28px);
-  margin-top: clamp(28px, 5vh, 56px);
+  margin-top: clamp(36px, 6vh, 68px);
 }
 .v12-proof-note {
   display: inline-flex;
@@ -278,10 +279,10 @@ const V12_CSS = `
 
 @media (max-width: 760px) {
   .v12-hero {
-    min-height: calc(100svh - 76px);
+    min-height: calc(90svh - 76px);
   }
   .v12-hero h1 {
-    font-size: clamp(52px, 15vw, 78px);
+    font-size: clamp(52px, 15vw, 88px);
   }
   .v12-hero-actions {
     margin-top: 34px;
