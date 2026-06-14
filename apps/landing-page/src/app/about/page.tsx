@@ -57,21 +57,21 @@ const CSS = `
   opacity: 0.6;
 }
 .bl-about-hero-title {
-  font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+  font-family: var(--bl-font-serif);
   font-weight: 500;
-  font-size: clamp(40px, 5.4vw, 72px);
-  line-height: 1.04;
-  letter-spacing: -0.025em;
+  font-size: var(--bl-hero-title-size);
+  line-height: var(--bl-hero-title-line-height);
+  letter-spacing: var(--bl-hero-title-letter-spacing);
   color: #0e0e0c;
   margin: 0 0 24px;
-  max-width: 20ch;
+  max-width: 18ch;
   text-wrap: balance;
 }
 .bl-about-hero-title em { font-style: italic; color: #e94b36; }
 .bl-about-hero-lede {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(17px, 1.3vw, 20px);
-  line-height: 1.65;
+  font-family: var(--bl-font-body);
+  font-size: var(--bl-hero-lede-size);
+  line-height: var(--bl-hero-lede-line-height);
   color: #4a4640;
   margin: 0 0 18px;
   max-width: 60ch;

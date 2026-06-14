@@ -39,16 +39,16 @@ const CSS = `
 .bl-faq-hero-title {
   font-family: var(--bl-font-eyebrow);
   font-weight: 800;
-  font-size: clamp(44px, 6vw, 68px);
-  letter-spacing: -0.03em;
-  line-height: 1.05;
+  font-size: var(--bl-hero-title-size);
+  letter-spacing: var(--bl-hero-title-letter-spacing);
+  line-height: var(--bl-hero-title-line-height);
   color: var(--bl-ink);
-  margin: 0 0 clamp(28px, 3vw, 40px);
+  margin: 0 0 24px;
 }
 .bl-faq-hero-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(20px, 2.2vw, 30px);
-  line-height: 1.5;
+  font-size: var(--bl-hero-lede-size);
+  line-height: var(--bl-hero-lede-line-height);
   color: var(--bl-ink-soft);
   margin: 0;
   max-width: 60ch;

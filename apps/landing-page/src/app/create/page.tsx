@@ -119,9 +119,9 @@ const CSS = `
 .br-create-title {
   font-family: var(--bl-font-serif);
   font-weight: 500;
-  font-size: clamp(40px, 5.6vw, 76px);
-  line-height: 1.03;
-  letter-spacing: -0.025em;
+  font-size: var(--bl-hero-title-size);
+  line-height: var(--bl-hero-title-line-height);
+  letter-spacing: var(--bl-hero-title-letter-spacing);
   color: var(--theme-text);
   margin: 0 0 24px;
   max-width: 18ch;
@@ -132,8 +132,8 @@ const CSS = `
 }
 .br-create-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(17px, 1.4vw, 21px);
-  line-height: 1.6;
+  font-size: var(--bl-hero-lede-size);
+  line-height: var(--bl-hero-lede-line-height);
   color: var(--theme-text-muted);
   margin: 0;
   max-width: 60ch;

@@ -81,6 +81,12 @@
   --bl-font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
   --bl-font-script: 'Caveat', 'Brush Script MT', cursive;
 
+  --bl-hero-title-size: clamp(40px, 5.6vw, 76px);
+  --bl-hero-title-line-height: 1.03;
+  --bl-hero-title-letter-spacing: -0.025em;
+  --bl-hero-lede-size: clamp(17px, 1.4vw, 21px);
+  --bl-hero-lede-line-height: 1.6;
+
   --bl-ease: cubic-bezier(.22, 1, .36, 1);
 }
 
