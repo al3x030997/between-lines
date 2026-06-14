@@ -599,7 +599,7 @@ export default function CreatePage() {
       <section className="br-create-hero" aria-label="Create on BetweenReads">
         <p className="br-create-eyebrow">For creators</p>
         <h1 className="br-create-title">
-          Everything you need to <em>write, share, and grow.</em>
+          Create, share, learn and grow.
         </h1>
         <p className="br-create-lede">
           BetweenReads is built around what writers actually need: real readers, real feedback, and a
