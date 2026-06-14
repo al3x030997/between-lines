@@ -85,10 +85,12 @@ const DIALOG_CSS = `
 .intake-dialog-root .v8-favbooks { gap: 8px; }
 .intake-dialog-root .v8-favbooks-input input { padding: 10px 16px; font-size: 14px; }
 .intake-dialog-root .v8-favbooks-add { padding: 10px 18px; }
-.intake-dialog-root .v12-email-pitch { margin-top: 0; font-size: 14px; line-height: 1.45; }
-.intake-dialog-root .v12-email-form { gap: 10px; }
+.intake-dialog-root .v12-email-capture { gap: 12px; margin-top: 2px; }
+.intake-dialog-root .v12-email-title { font-size: clamp(26px, 3.4vw, 34px); }
+.intake-dialog-root .v12-email-form { gap: 11px; }
 .intake-dialog-root .v12-email-field { gap: 4px; }
-.intake-dialog-root .v12-email-input { padding: 10px 14px; }
+.intake-dialog-root .v12-email-input { padding: 13px 16px; font-size: 17px; }
+.intake-dialog-root .v12-email-consent { font-size: 12px; line-height: 1.4; }
 .intake-dialog-root .v8-intake-actions { margin-top: 2px; }
 .intake-dialog-root .v8-cta { padding: 12px 24px; }
 /* The "one more page after this" footnote is implied by the step rail — drop it

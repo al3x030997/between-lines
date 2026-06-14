@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { track } from '@vercel/analytics';
 import type { IntakePayload } from '@/lib/schemas';
 import { INTAKE_CSS } from '../../v8/intake/intakeCss';
-import { Chip, Chips, Group, Prompt, ToggleChip } from '../../v8/intake/shared/intakeAtoms';
+import { Chip, Chips, Group, Prompt } from '../../v8/intake/shared/intakeAtoms';
 import FavoriteBooks from '../../v8/intake/shared/FavoriteBooks';
 import {
   READER_INITIAL,
@@ -89,20 +89,33 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 
   // --- Writer hook helpers -------------------------------------------------
   const [wMoreOpen, setWMoreOpen] = useState(false);
-  const writerGenreAtCap = writer.genre.fictionPrimary.length >= GENRE_CAP;
+  const writerGenreAtCap = !writer.genre.openToAll && writer.genre.fictionPrimary.length >= GENRE_CAP;
   const setPractice = (p: WriterAnswers['practice']) =>
     setWriter({ ...writer, practice: p });
   const setGenre = (next: WriterAnswers['genre']) =>
     setWriter({ ...writer, genre: next });
+  const toggleAllGenres = () => {
+    setGenre({
+      ...writer.genre,
+      fictionPrimary: [],
+      nonfictionPrimary: [],
+      openToAll: !writer.genre.openToAll,
+    });
+  };
   const toggleFiction = (g: string) => {
     const has = writer.genre.fictionPrimary.includes(g);
     if (has) {
       setGenre({
         ...writer.genre,
         fictionPrimary: writer.genre.fictionPrimary.filter((x) => x !== g),
+        openToAll: false,
       });
     } else if (!writerGenreAtCap) {
-      setGenre({ ...writer.genre, fictionPrimary: [...writer.genre.fictionPrimary, g] });
+      setGenre({
+        ...writer.genre,
+        fictionPrimary: [...writer.genre.fictionPrimary, g],
+        openToAll: false,
+      });
     }
   };
 
@@ -323,61 +336,54 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
                   </Chips>
                 </Group>
 
-                {writer.practice !== 'illustration' && (
-                  <Group num="02" label="Genres">
-                    <Prompt>What genres? Pick up to three — or open to all.</Prompt>
-                    <Chips>
-                      {FICTION_GENRES_PRIMARY.map((g) => {
-                        const selected = writer.genre.fictionPrimary.includes(g);
-                        return (
-                          <Chip
-                            key={g}
-                            selected={selected}
-                            disabled={!selected && writerGenreAtCap}
-                            onClick={() => toggleFiction(g)}
-                          >
-                            {g}
-                          </Chip>
-                        );
-                      })}
-                      <button
-                        type="button"
-                        className={`v8-chip is-more${wMoreOpen ? ' is-open' : ''}`}
-                        aria-expanded={wMoreOpen}
-                        onClick={() => setWMoreOpen((v) => !v)}
-                      >
-                        {wMoreOpen ? 'Less' : 'More…'}
-                      </button>
-                    </Chips>
-                    <div className={`v8-intake-expand${wMoreOpen ? ' is-open' : ''}`}>
-                      <div className="v8-intake-expand-inner">
-                        <div className="v8-intake-chips">
-                          {FICTION_GENRES_MORE.map((g) => {
-                            const selected = writer.genre.fictionPrimary.includes(g);
-                            return (
-                              <Chip
-                                key={g}
-                                selected={selected}
-                                disabled={!selected && writerGenreAtCap}
-                                onClick={() => toggleFiction(g)}
-                              >
-                                {g}
-                              </Chip>
-                            );
-                          })}
-                        </div>
+                <Group num="02" label="Genres">
+                  <Prompt>What genres? Pick up to three.</Prompt>
+                  <Chips>
+                    <Chip selected={writer.genre.openToAll} onClick={toggleAllGenres}>
+                      All
+                    </Chip>
+                    {FICTION_GENRES_PRIMARY.map((g) => {
+                      const selected = writer.genre.fictionPrimary.includes(g);
+                      return (
+                        <Chip
+                          key={g}
+                          selected={selected}
+                          disabled={!selected && writerGenreAtCap}
+                          onClick={() => toggleFiction(g)}
+                        >
+                          {g}
+                        </Chip>
+                      );
+                    })}
+                    <button
+                      type="button"
+                      className={`v8-chip is-more${wMoreOpen ? ' is-open' : ''}`}
+                      aria-expanded={wMoreOpen}
+                      onClick={() => setWMoreOpen((v) => !v)}
+                    >
+                      {wMoreOpen ? 'Less' : 'More…'}
+                    </button>
+                  </Chips>
+                  <div className={`v8-intake-expand${wMoreOpen ? ' is-open' : ''}`}>
+                    <div className="v8-intake-expand-inner">
+                      <div className="v8-intake-chips">
+                        {FICTION_GENRES_MORE.map((g) => {
+                          const selected = writer.genre.fictionPrimary.includes(g);
+                          return (
+                            <Chip
+                              key={g}
+                              selected={selected}
+                              disabled={!selected && writerGenreAtCap}
+                              onClick={() => toggleFiction(g)}
+                            >
+                              {g}
+                            </Chip>
+                          );
+                        })}
                       </div>
                     </div>
-                    <ToggleChip
-                      on={writer.genre.openToAll}
-                      onClick={() =>
-                        setGenre({ ...writer.genre, openToAll: !writer.genre.openToAll })
-                      }
-                    >
-                      I&rsquo;m open to all genres
-                    </ToggleChip>
-                  </Group>
-                )}
+                  </div>
+                </Group>
 
                 <Group num="03" label="Journey">
                   <Prompt>Where are you on your writing journey?</Prompt>
@@ -398,78 +404,69 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
               </>
             )}
 
-            <Group num="04" label="Save your spot">
-              <Prompt>Save your spot.</Prompt>
-            </Group>
-            <p className="v12-email-pitch">
-              {mode === 'reader'
-                ? 'Drop your email to lock in your three free reads — then a couple of quick taps to tune your feed.'
-                : 'Drop your email to start your creator profile — then a couple of quick taps and you’re set.'}
-            </p>
+            <div className="v12-email-capture">
+              <h2 className="v12-email-title">Save your spot.</h2>
 
-            <form className="v12-email-form" onSubmit={submitEmail} noValidate>
-              <label className="v12-email-field">
-                <span className="v8-intake-sublabel">Email</span>
+              <form className="v12-email-form" onSubmit={submitEmail} noValidate>
+                <label className="v12-email-field">
+                  <span className="v8-intake-sublabel">Email</span>
+                  <input
+                    type="email"
+                    inputMode="email"
+                    spellCheck={false}
+                    autoCapitalize="none"
+                    className="v12-email-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@somewhere.com"
+                    autoComplete="email"
+                    required
+                  />
+                </label>
+
+                {/* Honeypot — humans never see this. */}
                 <input
-                  type="email"
-                  inputMode="email"
-                  spellCheck={false}
-                  autoCapitalize="none"
-                  className="v12-email-input"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="you@somewhere.com"
-                  autoComplete="email"
-                  required
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+                  aria-hidden="true"
                 />
-              </label>
 
-              {/* Honeypot — humans never see this. */}
-              <input
-                type="text"
-                name="website"
-                tabIndex={-1}
-                autoComplete="off"
-                value={website}
-                onChange={(e) => setWebsite(e.target.value)}
-                style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
-                aria-hidden="true"
-              />
+                <label className="v12-email-consent">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    required
+                  />
+                  <span>
+                    I agree to receive launch updates from Between Reads and to the processing
+                    described in our{' '}
+                    <a href="/privacy" target="_blank" rel="noopener">
+                      Privacy Policy
+                    </a>
+                    . Unsubscribe anytime.
+                  </span>
+                </label>
 
-              <label className="v12-email-consent">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  required
-                />
-                <span>
-                  I agree to receive launch updates from Between Reads and to the processing
-                  described in our{' '}
-                  <a href="/privacy" target="_blank" rel="noopener">
-                    Privacy Policy
-                  </a>
-                  . Unsubscribe anytime.
-                </span>
-              </label>
+                {error && <p className="v12-email-error">{error}</p>}
 
-              {error && <p className="v12-email-error">{error}</p>}
-
-              <div className="v8-intake-actions">
-                <button
-                  type="submit"
-                  className="v8-cta v8-cta-primary"
-                  disabled={!hookReady || !canSubmitEmail}
-                >
-                  {submitting ? 'Saving…' : 'Save my spot'}
-                  <span className="v8-cta-arrow" aria-hidden="true">→</span>
-                </button>
-              </div>
-            </form>
-            <p className="v8-intake-caption">
-              Just the essentials now — one more quick page after this, and the rest lives in your
-              profile whenever you like.
-            </p>
+                <div className="v8-intake-actions">
+                  <button
+                    type="submit"
+                    className="v8-cta v8-cta-primary"
+                    disabled={!hookReady || !canSubmitEmail}
+                  >
+                    {submitting ? 'Saving…' : 'Save my spot'}
+                    <span className="v8-cta-arrow" aria-hidden="true">→</span>
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
 
@@ -645,10 +642,10 @@ const FLOW_CSS = `
   grid-template-columns: 1fr 1fr;
   align-items: stretch;
   gap: 0;
-  padding: 4px;
-  margin: 0 auto 8px;
+  padding: 3px;
+  margin: 0 auto 4px;
   width: 100%;
-  max-width: 380px;
+  max-width: 320px;
   background: var(--theme-surface-muted);
   border: 1px solid var(--v6-divider);
   border-radius: 999px;
@@ -657,10 +654,10 @@ const FLOW_CSS = `
 .v12-seg-thumb {
   position: absolute;
   z-index: 0;
-  top: 4px;
-  bottom: 4px;
-  left: 4px;
-  width: calc(50% - 4px);
+  top: 3px;
+  bottom: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
   border-radius: 999px;
   background: var(--theme-surface, #fff);
   box-shadow: 0 1px 2px rgb(var(--theme-shadow-rgb, 0 0 0) / 0.10),
@@ -675,9 +672,9 @@ const FLOW_CSS = `
   background: transparent;
   border: 0;
   cursor: pointer;
-  padding: 11px 16px;
+  padding: 8px 12px;
   font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(14px, 1.5vw, 16px);
+  font-size: clamp(12px, 1.25vw, 14px);
   font-weight: 800;
   letter-spacing: -0.01em;
   color: var(--v6-text-muted);
@@ -746,28 +743,46 @@ const FLOW_CSS = `
   color: var(--v6-text-strong);
 }
 
-.v12-email-pitch {
-  font-family: 'Outfit', sans-serif;
-  font-size: 15.5px;
-  line-height: 1.55;
-  color: var(--v6-text-muted);
-  margin: -16px 0 0;
-  max-width: 46ch;
-  text-wrap: pretty;
+.v12-email-capture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 520px);
+  margin: clamp(2px, 1.5vw, 10px) auto 0;
+  text-align: center;
+}
+.v12-email-title {
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 850;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  color: var(--v6-text-strong);
+  margin: 0;
+  text-wrap: balance;
 }
 .v12-email-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
 }
-.v12-email-field { display: flex; flex-direction: column; gap: 6px; max-width: 420px; }
+.v12-email-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: min(100%, 460px);
+  text-align: left;
+}
 .v12-email-input {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
-  font-size: 16px;
-  padding: 13px 16px;
+  font-size: 18px;
+  padding: 16px 18px;
   border: 1px solid var(--v6-divider);
-  border-radius: 10px;
+  border-radius: 12px;
   background: var(--theme-surface-raised, var(--theme-surface-muted));
   color: var(--v6-text-strong);
   width: 100%;
@@ -787,7 +802,8 @@ const FLOW_CSS = `
   line-height: 1.45;
   color: var(--v6-text-muted);
   cursor: pointer;
-  max-width: 52ch;
+  max-width: 460px;
+  text-align: left;
 }
 .v12-email-consent input[type="checkbox"] {
   margin-top: 3px;
@@ -804,6 +820,11 @@ const FLOW_CSS = `
   font-size: 13px;
   color: var(--v6-accent);
   margin: 0;
+  text-align: center;
+}
+.v12-email-form .v8-intake-actions {
+  justify-content: center;
+  margin-top: 0;
 }
 
 .v12-saved {
