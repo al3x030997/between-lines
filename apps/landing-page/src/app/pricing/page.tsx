@@ -26,12 +26,12 @@ const PRICING_CSS = `
 .pricing-hero {
   text-align: center;
   padding: clamp(40px, 6vh, 64px) 2rem 1.5rem;
-  max-width: 660px;
+  max-width: 700px;
   margin: 0 auto;
 }
 .pricing-eyebrow {
   font-family: var(--bl-font-eyebrow);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -55,8 +55,8 @@ const PRICING_CSS = `
 .pricing-hero-sub {
   margin: 0;
   font-family: var(--bl-font-serif);
-  font-size: clamp(15px, 1.4vw, 18px);
-  line-height: 1.6;
+  font-size: clamp(17px, 1.45vw, 20px);
+  line-height: 1.62;
   color: rgba(14,14,12,0.55);
 }
 
@@ -77,11 +77,11 @@ const PRICING_CSS = `
 .pricing-aud-tab {
   appearance: none;
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  padding: 9px 28px;
+  padding: 10px 30px;
   border: none;
   background: #fff;
   cursor: pointer;
@@ -97,7 +97,7 @@ const PRICING_CSS = `
 }
 .pricing-billing-label {
   font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
+  font-size: 14px;
   color: rgba(14,14,12,0.45);
   font-weight: 500;
 }
@@ -128,7 +128,7 @@ const PRICING_CSS = `
 .pricing-billing-toggle.is-annual::after { transform: translateX(19px); }
 .pricing-billing-save {
   font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.04em;
   background: var(--bl-accent-soft);
@@ -138,20 +138,20 @@ const PRICING_CSS = `
 }
 .pricing-billing-note {
   font-family: var(--bl-font-eyebrow);
-  font-size: 11.5px;
+  font-size: 13px;
   color: rgba(14,14,12,0.45);
 }
 
 /* === plans === */
 .pricing-plans-section {
-  max-width: 840px;
+  max-width: 920px;
   margin: 2.5rem auto 0;
   padding: 0 2rem;
 }
 .pricing-plans-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 18px;
 }
 @media (max-width: 680px) { .pricing-plans-grid { grid-template-columns: 1fr; } }
 
@@ -160,7 +160,7 @@ const PRICING_CSS = `
   background: #fff;
   border-radius: 18px;
   border: 0.5px solid var(--pr-divider);
-  padding: 2rem;
+  padding: clamp(1.75rem, 2.6vw, 2.25rem);
   display: flex;
   flex-direction: column;
 }
@@ -173,7 +173,7 @@ const PRICING_CSS = `
   top: 1.5rem;
   right: 1.5rem;
   font-family: var(--bl-font-eyebrow);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -182,11 +182,11 @@ const PRICING_CSS = `
   padding: 4px 10px;
   border-radius: 20px;
 }
-.pricing-plan-icon { width: 30px; height: 30px; margin-bottom: 1.1rem; }
+.pricing-plan-icon { width: 32px; height: 32px; margin-bottom: 1.15rem; }
 .pricing-plan-icon svg { width: 100%; height: 100%; display: block; }
 .pricing-plan-name {
   font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -195,11 +195,11 @@ const PRICING_CSS = `
 }
 .pricing-plan-tagline {
   font-family: var(--bl-font-serif);
-  font-size: 13px;
+  font-size: 16px;
   color: rgba(14,14,12,0.55);
-  margin: 0 0 1.5rem;
-  line-height: 1.55;
-  min-height: 38px;
+  margin: 0 0 1.6rem;
+  line-height: 1.58;
+  min-height: 50px;
 }
 .pricing-plan.is-featured .pricing-plan-tagline { color: #6a5c00; }
 .pricing-plan-amount {
@@ -212,21 +212,21 @@ const PRICING_CSS = `
 .pricing-plan-amount.is-free { font-size: 40px; }
 .pricing-plan-period {
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(14,14,12,0.45);
   margin-top: 5px;
 }
 .pricing-plan.is-featured .pricing-plan-period { color: #7a6a10; }
 .pricing-plan-member {
   font-family: var(--bl-font-body);
-  font-size: 11px;
+  font-size: 14px;
   color: #9a7a1a;
   background: #fff8ee;
   border: 0.5px solid #f5dca8;
   border-radius: 8px;
-  padding: 7px 11px;
-  margin-top: 1.1rem;
-  line-height: 1.45;
+  padding: 10px 13px;
+  margin-top: 1.2rem;
+  line-height: 1.55;
 }
 .pricing-plan-member strong { color: #7a5b06; }
 .pricing-plan.is-featured .pricing-plan-member {
@@ -243,26 +243,26 @@ const PRICING_CSS = `
 .pricing-plan.is-featured .pricing-plan-divider { border-top-color: rgba(0,0,0,0.12); }
 .pricing-plan-features {
   list-style: none;
-  margin: 0 0 1.5rem;
+  margin: 0 0 1.7rem;
   padding: 0;
   flex: 1;
 }
 .pricing-plan-features li {
   font-family: var(--bl-font-body);
-  font-size: 12.5px;
+  font-size: 15.5px;
   color: rgba(14,14,12,0.66);
-  padding: 6px 0;
+  padding: 7px 0;
   display: flex;
   gap: 9px;
   align-items: flex-start;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 .pricing-plan-features li::before {
   content: '✓';
   color: var(--bl-accent);
   font-weight: 700;
   flex-shrink: 0;
-  font-size: 12px;
+  font-size: 13px;
   margin-top: 1px;
 }
 .pricing-plan.is-featured .pricing-plan-features li { color: #3a3000; }
@@ -270,10 +270,10 @@ const PRICING_CSS = `
 .pricing-plan-cta {
   appearance: none;
   width: 100%;
-  padding: 12px;
+  padding: 14px 16px;
   border-radius: 10px;
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -298,7 +298,7 @@ const PRICING_CSS = `
 
 /* === membership strip === */
 .pricing-mem-strip {
-  max-width: 840px;
+  max-width: 920px;
   margin: 2rem auto 0;
   padding: 0 2rem;
 }
@@ -314,7 +314,7 @@ const PRICING_CSS = `
 }
 .pricing-mem-badge {
   font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -324,14 +324,15 @@ const PRICING_CSS = `
 .pricing-mem-h {
   font-family: var(--bl-font-display);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 24px;
   letter-spacing: -0.01em;
   color: #fff;
   margin: 0 0 4px;
 }
 .pricing-mem-p {
   font-family: var(--bl-font-body);
-  font-size: 12px;
+  font-size: 15px;
+  line-height: 1.55;
   color: rgba(246,241,227,0.7);
   margin: 0;
 }
@@ -340,7 +341,7 @@ const PRICING_CSS = `
   background: #c8a96a;
   color: #1a1a1a;
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -358,14 +359,14 @@ const PRICING_CSS = `
 
 /* === kids line === */
 .pricing-kids-line {
-  max-width: 840px;
+  max-width: 920px;
   margin: 1.5rem auto 0;
   padding: 0 2rem;
   text-align: center;
 }
 .pricing-kids-line a {
   font-family: var(--bl-font-body);
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(14,14,12,0.55);
   text-decoration: none;
   border-bottom: 0.5px solid rgba(14,14,12,0.2);
@@ -376,7 +377,7 @@ const PRICING_CSS = `
 
 /* === FAQ === */
 .pricing-faq-section {
-  max-width: 840px;
+  max-width: 920px;
   margin: 3.5rem auto;
   padding: 0 2rem;
 }
@@ -391,13 +392,13 @@ const PRICING_CSS = `
 .pricing-faq-title {
   font-family: var(--bl-font-display);
   font-weight: 700;
-  font-size: clamp(22px, 2.4vw, 26px);
+  font-size: clamp(28px, 3vw, 34px);
   letter-spacing: -0.02em;
   margin: 0;
 }
 .pricing-faq-all {
   font-family: var(--bl-font-eyebrow);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -412,18 +413,18 @@ const PRICING_CSS = `
 }
 @media (max-width: 680px) { .pricing-faq-cards { grid-template-columns: 1fr; } }
 .pricing-faq-card {
-  padding: 1.5rem 1.75rem 1.5rem 0;
+  padding: 1.75rem 1.9rem 1.75rem 0;
   border-bottom: 0.5px solid var(--pr-divider);
 }
-.pricing-faq-card:nth-child(odd) { border-right: 0.5px solid var(--pr-divider); padding-right: 1.75rem; }
-.pricing-faq-card:nth-child(even) { padding-left: 1.75rem; }
+.pricing-faq-card:nth-child(odd) { border-right: 0.5px solid var(--pr-divider); padding-right: 1.9rem; }
+.pricing-faq-card:nth-child(even) { padding-left: 1.9rem; }
 @media (max-width: 680px) {
   .pricing-faq-card:nth-child(odd) { border-right: none; padding-right: 0; }
   .pricing-faq-card:nth-child(even) { padding-left: 0; }
 }
 .pricing-faq-k {
   font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -433,17 +434,39 @@ const PRICING_CSS = `
 .pricing-faq-cq {
   font-family: var(--bl-font-display);
   font-weight: 500;
-  font-size: 17px;
+  font-size: 21px;
   color: var(--pr-ink);
   margin: 0 0 8px;
   line-height: 1.3;
 }
 .pricing-faq-ca {
   font-family: var(--bl-font-serif);
-  font-size: 13px;
+  font-size: 16px;
   color: rgba(14,14,12,0.6);
   line-height: 1.65;
   margin: 0;
+}
+
+@media (max-width: 680px) {
+  .pricing-hero,
+  .pricing-plans-section,
+  .pricing-mem-strip,
+  .pricing-kids-line,
+  .pricing-faq-section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .pricing-billing {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .pricing-plan-tagline {
+    min-height: 0;
+  }
+  .pricing-faq-head {
+    align-items: flex-start;
+    gap: 1rem;
+  }
 }
 
 .pricing-root :where(button, a, [role="button"], input):focus-visible {
