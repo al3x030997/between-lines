@@ -314,14 +314,11 @@ type Region = 'author' | 'reader' | 'both';
 export default function V12Page() {
   const router = useRouter();
 
-  // Writer CTAs route to the dedicated /start intake page. Reader CTAs ("Read"
-  // / "Read now") go straight to the gallery view so readers land on the shelf.
+  // Every CTA ("Read Now", "Join Free", section CTAs) routes to the dedicated
+  // /start intake page in reader vs writer mode. The gallery is reached
+  // separately via the nav "Read" link, not these conversion CTAs.
   const open = (region: Region) => {
-    if (region === 'reader') {
-      router.push('/gallery');
-      return;
-    }
-    router.push(`/start?mode=writer`);
+    router.push(`/start?mode=${region === 'author' ? 'writer' : 'reader'}`);
   };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
@@ -351,7 +348,7 @@ export default function V12Page() {
     <main className="v12-root">
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
-      <SiteNav activeHref="/readers" onJoin={() => open('reader')} />
+      <SiteNav activeHref="/gallery" onJoin={() => open('reader')} />
 
       {bannerMessage && (
         <div className="bl-banner" role="status" aria-live="polite">
