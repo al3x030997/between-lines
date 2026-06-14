@@ -43,7 +43,7 @@ const CSS = `
   letter-spacing: -0.03em;
   line-height: 1.05;
   color: var(--bl-ink);
-  margin: 0 0 16px;
+  margin: 0 0 clamp(28px, 3vw, 40px);
 }
 .bl-faq-hero-lede {
   font-family: var(--bl-font-body);
@@ -53,6 +53,9 @@ const CSS = `
   margin: 0;
   max-width: 60ch;
   text-wrap: pretty;
+}
+.bl-faq-questions-head {
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
 .bl-faq-layout {
