@@ -20,7 +20,7 @@ import { SignInButton } from '@/components/SignInButton';
 type NavLink = { href: string; label: string; modifier?: 'member' | 'support' };
 
 const LINKS: NavLink[] = [
-  { href: '/gallery', label: 'Read' },
+  { href: '/read', label: 'Read' },
   { href: '/create', label: 'Create' },
   { href: '/readers/kids', label: 'For Kids' },
   { href: '/faq', label: 'About Us' },

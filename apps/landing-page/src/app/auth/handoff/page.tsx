@@ -23,14 +23,14 @@ function HandoffInner() {
 
   useEffect(() => {
     // Resolve the signed-in identity from the sign-in params (falling back to the
-    // first profile) and go straight to the reader — no account picker step.
+    // first profile) and go straight to the reader library — no account picker step.
     const requestedUser = params.get('u');
     const profile =
       ACCOUNT_PROFILES.find((p) => p.user === requestedUser) ?? ACCOUNT_PROFILES[0];
     if (profile) {
       setMockSession(sessionForAccountProfile(profile));
     }
-    router.replace('/read');
+    router.replace('/library');
   }, [params, router]);
 
   return <Splash />;

@@ -27,7 +27,7 @@ export default function BookPage({ params }: PageProps) {
 
   return (
     <div className="br-book-page">
-      <Link href="/read" className="br-book-back">
+      <Link href="/library" className="br-book-back">
         ← Back to discover
       </Link>
 

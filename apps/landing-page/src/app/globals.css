@@ -4371,9 +4371,9 @@ body[data-quiet="true"] .br-progress { display: none; }
 
 /* ============================================================
    GALLERY — LIGHT GUEST SKIN
-   Logged-out visitors reach /gallery from the marketing "Read" CTA, so they get
-   the bright paper/ink/yellow landing aesthetic instead of the dark cinematic
-   gallery (kept for logged-in readers). Toggled by GalleryGuestController via
+   Logged-out visitors can reach /gallery directly, so they get the bright
+   paper/ink/yellow landing aesthetic instead of the dark cinematic gallery
+   kept for logged-in readers. Toggled by GalleryGuestController via
    html[data-gallery-guest='on']. Almost everything is a token remap; the few
    selector overrides below handle rules that sit on the yellow hero band.
    Values mirror the landing tokens (ink #0e0e0c, paper #F6F1E3, yellow #FFE600,

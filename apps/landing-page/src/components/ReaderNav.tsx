@@ -11,10 +11,10 @@ import { useMockSession } from '@/lib/useMockSession';
 type NavLink = { href: string; label: string; requiresWriter?: boolean; hideForKids?: boolean };
 
 const links: NavLink[] = [
-  { href: '/read', label: 'Read' },
+  { href: '/library', label: 'Read' },
   { href: '/write', label: 'Write', hideForKids: true },
-  { href: '/read?tab=betareading', label: 'Beta Reading', hideForKids: true },
-  { href: '/read?tab=community', label: 'Community', hideForKids: true },
+  { href: '/library?tab=betareading', label: 'Beta Reading', hideForKids: true },
+  { href: '/library?tab=community', label: 'Community', hideForKids: true },
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
@@ -52,6 +52,7 @@ export function ReaderNav() {
           const hrefWithoutHash = l.href.split('#')[0] ?? l.href;
           const baseHref = hrefWithoutHash.split('?')[0] ?? hrefWithoutHash;
           const isActionLink = hrefWithoutHash.includes('?');
+          const isLibraryLink = baseHref === '/library';
           const currentIsSiblingAction = links.some((candidate) => {
             if (!candidate.href.includes('?')) return false;
             const candidateWithoutHash = candidate.href.split('#')[0] ?? candidate.href;
@@ -60,7 +61,8 @@ export function ReaderNav() {
           });
           const isActive = isActionLink
             ? currentTarget === l.href
-            : pathname.startsWith(baseHref) && !currentIsSiblingAction;
+            : (pathname.startsWith(baseHref) || (isLibraryLink && pathname.startsWith('/read/'))) &&
+              !currentIsSiblingAction;
           return (
             <Link
               key={l.href}

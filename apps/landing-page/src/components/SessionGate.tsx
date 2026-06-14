@@ -4,8 +4,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { getMockSession } from '@/lib/mock-session';
 
-// Routes inside the (reader) group that are reachable without a session, e.g.
-// the gallery is the public "Read" landing surface from the marketing site.
+// Routes inside the (reader) group that are reachable without a session.
 const PUBLIC_PREFIXES = ['/gallery'];
 
 export function SessionGate({ children }: { children: ReactNode }) {

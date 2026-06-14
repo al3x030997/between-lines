@@ -15,7 +15,7 @@ export default function BetaReadingRequestPage({ params }: PageProps) {
 
   return (
     <div>
-      <Link href="/read?tab=betareading" className="br-book-back">
+      <Link href="/library?tab=betareading" className="br-book-back">
         ← Back to beta reading
       </Link>
 

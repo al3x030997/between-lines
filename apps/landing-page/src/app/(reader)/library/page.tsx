@@ -197,7 +197,7 @@ function DiscoverContent() {
   const active: DiscoverTabId = isDiscoverTab(tabParam) ? tabParam : 'foryou';
   const setActive = useCallback(
     (id: DiscoverTabId) => {
-      router.replace(`/read?tab=${id}`, { scroll: false });
+      router.replace(`/library?tab=${id}`, { scroll: false });
     },
     [router],
   );

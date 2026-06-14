@@ -11,7 +11,6 @@ export type ResolvedTheme = 'light' | 'dark';
  * to dark and respect the stored preference.
  */
 export const READER_PATH_PREFIXES = [
-  '/read',
   '/gallery',
   '/write',
   '/account',
@@ -19,9 +18,11 @@ export const READER_PATH_PREFIXES = [
   '/reader',
   '/writer',
   '/store',
+  '/library',
 ];
 
 export function isReaderPath(path: string): boolean {
+  if (path.startsWith('/read/')) return true;
   return READER_PATH_PREFIXES.some((p) => path === p || path.startsWith(`${p}/`) || path.startsWith(`${p}?`));
 }
 
@@ -80,11 +81,10 @@ export function applyKidsSkin(on: boolean): void {
 }
 
 /**
- * Light, landing-matching gallery skin for logged-out visitors. The public
- * gallery is the marketing site's "Read" destination, so guests should see it
- * in the bright paper/ink/yellow landing aesthetic rather than the dark
- * cinematic gallery that logged-in readers get. Toggled via
- * `html[data-gallery-guest='on']` so the override stays isolated from
+ * Light, landing-matching gallery skin for logged-out visitors. The gallery is
+ * still public, so guests should see it in the bright paper/ink/yellow landing
+ * aesthetic rather than the dark cinematic gallery that logged-in readers get.
+ * Toggled via `html[data-gallery-guest='on']` so the override stays isolated from
  * `data-theme`/`data-kids`. Mounted only on /gallery and cleared on unmount.
  */
 export function applyGalleryGuestSkin(on: boolean): void {

@@ -11,10 +11,11 @@ const THEME_INIT_SCRIPT = `
   try {
     var key = 'betweenreads.theme';
     var path = window.location.pathname;
-    var readerPrefixes = ['/read','/gallery','/write','/account','/profile','/reader','/writer','/store'];
+    var readerPrefixes = ['/gallery','/write','/account','/profile','/reader','/writer','/store','/library'];
+    var isNestedRead = path.indexOf('/read/') === 0;
     var isReader = readerPrefixes.some(function (p) {
       return path === p || path.indexOf(p + '/') === 0 || path.indexOf(p + '?') === 0;
-    });
+    }) || isNestedRead;
     var isGallery = path === '/gallery' || path.indexOf('/gallery/') === 0 || path.indexOf('/gallery?') === 0;
     var root = document.documentElement;
     if (!isReader) {

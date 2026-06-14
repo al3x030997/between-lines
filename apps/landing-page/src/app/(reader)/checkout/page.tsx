@@ -79,7 +79,7 @@ function CheckoutContent() {
           <p>
             Your mock checkout is complete. The next stop returns you to the curated journal shelf.
           </p>
-          <Link className="br-btn br-btn-premium br-btn-lg" href="/read?tab=betweenlines">
+          <Link className="br-btn br-btn-premium br-btn-lg" href="/library?tab=betweenlines">
             Read BetweenLines
           </Link>
         </section>

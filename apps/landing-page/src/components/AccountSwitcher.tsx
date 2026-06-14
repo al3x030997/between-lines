@@ -61,7 +61,7 @@ export function AccountSwitcher() {
     setOpen(false);
     // Land on the reader home for the newly-selected profile so a kid profile
     // drops straight into the kid-skinned view (and adults into the full one).
-    router.push('/read');
+    router.push('/library');
   }
 
   const trigger = (
