@@ -29,7 +29,7 @@ const CSS = `
   max-width: 860px;
 }
 .bl-faq-hero-eyebrow {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -47,8 +47,8 @@ const CSS = `
 }
 .bl-faq-hero-lede {
   font-family: var(--bl-font-body);
-  font-size: var(--bl-hero-lede-size);
-  line-height: var(--bl-hero-lede-line-height);
+  font-size: clamp(18px, 1.5vw, 22px);
+  line-height: 1.64;
   color: var(--bl-ink-soft);
   margin: 0;
   max-width: 60ch;
@@ -77,7 +77,7 @@ const CSS = `
 }
 .bl-faq-side-label {
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -86,7 +86,7 @@ const CSS = `
 }
 .bl-faq-side a {
   font-family: var(--bl-font-eyebrow);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--bl-ink);
   text-decoration: none;
@@ -99,7 +99,7 @@ const CSS = `
 .bl-faq-side a:hover { color: var(--bl-accent); }
 .bl-faq-side-num {
   font-variant-numeric: tabular-nums;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--bl-ink-muted);
   letter-spacing: 0.1em;
 }
@@ -120,7 +120,7 @@ const CSS = `
 .bl-faq-section-eyebrow {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--bl-accent);
@@ -156,14 +156,14 @@ const CSS = `
 .bl-faq-q {
   list-style: none;
   cursor: pointer;
-  padding: 20px 4px;
+  padding: 22px 4px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: clamp(17px, 1.35vw, 20px);
+  font-size: clamp(19px, 1.45vw, 22px);
   line-height: 1.45;
   color: var(--bl-ink);
   transition: color 180ms ease;
@@ -203,10 +203,10 @@ const CSS = `
   transform: translateX(-50%) rotate(90deg);
 }
 .bl-faq-a {
-  padding: 6px 28px 24px 4px;
+  padding: 6px 32px 28px 4px;
   font-family: var(--bl-font-body);
-  font-size: 17px;
-  line-height: 1.65;
+  font-size: 18px;
+  line-height: 1.7;
   color: var(--bl-ink-soft);
 }
 .bl-faq-a p { margin: 0 0 12px; text-wrap: pretty; }
@@ -224,7 +224,7 @@ const CSS = `
   width: 100%;
   border-collapse: collapse;
   font-family: var(--bl-font-body);
-  font-size: 15px;
+  font-size: 16px;
   min-width: 360px;
 }
 .bl-faq-table th,
@@ -237,7 +237,7 @@ const CSS = `
 .bl-faq-table thead th {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--bl-ink-muted);
@@ -257,7 +257,7 @@ const CSS = `
 .bl-faq-cta-primary {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
@@ -273,7 +273,7 @@ const CSS = `
 .bl-faq-cta-ghost {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bl-ink);
@@ -316,7 +316,7 @@ const CSS = `
 .bl-faq-split-eyebrow {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--bl-accent);
@@ -326,7 +326,7 @@ const CSS = `
   font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
   font-weight: 500;
   font-variation-settings: 'opsz' 144, 'SOFT' 40;
-  font-size: clamp(24px, 2.6vw, 34px);
+  font-size: clamp(28px, 2.8vw, 36px);
   line-height: 1.12;
   letter-spacing: -0.01em;
   color: var(--bl-ink);
@@ -336,8 +336,8 @@ const CSS = `
 .bl-faq-split-invitation {
   font-family: var(--bl-font-body);
   font-weight: 400;
-  font-size: clamp(15px, 1.1vw, 17px);
-  line-height: 1.55;
+  font-size: clamp(17px, 1.2vw, 19px);
+  line-height: 1.6;
   color: var(--bl-ink-muted);
   margin: 0;
   max-width: 34ch;
@@ -354,7 +354,7 @@ const CSS = `
   background: var(--bl-accent);
   color: #fff;
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -418,7 +418,7 @@ const CSS = `
 .bl-faq-promo-eyebrow {
   font-family: var(--bl-font-eyebrow);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: #E9B547;
@@ -481,8 +481,8 @@ const CSS = `
 }
 .bl-faq-promo-body {
   font-family: var(--bl-font-body);
-  font-size: 15.5px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   color: rgba(244, 239, 227, 0.74);
   margin: 0;
   max-width: 44ch;
@@ -510,7 +510,7 @@ const CSS = `
 .bl-faq-promo-cover:hover { transform: translateY(-2px) rotate(0deg) !important; }
 .bl-faq-promo-cover-publisher {
   font-family: var(--bl-font-eyebrow);
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.22em;
   opacity: 0.85;
@@ -527,7 +527,7 @@ const CSS = `
 .bl-faq-promo-cover-rule { height: 1px; background: currentColor; opacity: 0.55; }
 .bl-faq-promo-cover-author {
   font-family: var(--bl-font-eyebrow);
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -563,7 +563,7 @@ const CSS = `
   align-self: flex-start;
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   display: inline-flex;
   align-items: center;
@@ -633,7 +633,7 @@ const CSS = `
 .bl-faq-cta-card-eyebrow {
   font-family: var(--bl-font-eyebrow);
   font-weight: 700;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.4em;
   text-transform: uppercase;
   color: #E9B547;
@@ -652,8 +652,8 @@ const CSS = `
 .bl-faq-cta-card-title em { font-style: italic; color: #E9B547; }
 .bl-faq-cta-card-body {
   font-family: var(--bl-font-body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
   color: rgba(244, 239, 227, 0.78);
   margin: 0;
   max-width: 48ch;
@@ -668,7 +668,7 @@ const CSS = `
 .bl-faq-cta-card-primary {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 15px;
   letter-spacing: 0.06em;
   background: #F4EFE3;
   color: var(--bl-ink);
@@ -686,7 +686,7 @@ const CSS = `
 .bl-faq-cta-card-ghost {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: rgba(244, 239, 227, 0.78);
@@ -707,7 +707,7 @@ const CSS = `
   justify-content: space-between;
   gap: 16px;
   font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--bl-ink-muted);
 }
 .bl-faq-foot a {
@@ -735,6 +735,35 @@ const CSS = `
   }
   .bl-faq-side-label { width: 100%; margin: 0; }
   .bl-faq-side a { padding: 0; }
+}
+
+@media (max-width: 640px) {
+  .bl-faq-shell {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .bl-faq-q {
+    padding: 20px 0;
+    gap: 12px;
+    font-size: 18px;
+  }
+  .bl-faq-a {
+    padding: 4px 0 26px;
+    font-size: 17.5px;
+  }
+  .bl-faq-side {
+    gap: 12px 18px;
+  }
+  .bl-faq-side a {
+    font-size: 16px;
+  }
+  .bl-faq-split-cta,
+  .bl-faq-promo-cta,
+  .bl-faq-cta-card-primary {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
 }
 `;
 
