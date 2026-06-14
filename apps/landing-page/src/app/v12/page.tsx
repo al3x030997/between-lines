@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqTeaser from '../v8/sections/FaqTeaser';
 import Footer from '../v8/sections/Footer';
 import { SiteNav } from '@/components/SiteNav';
+import IntakeDialog from '@/components/IntakeDialog';
 
 const BANNER_MESSAGES: Record<string, string> = {
   gate: 'Your insider access has expired. Re-enter your email to receive a new link.',
@@ -332,13 +332,13 @@ const V12_CSS = `
 type Region = 'author' | 'reader' | 'both';
 
 export default function V12Page() {
-  const router = useRouter();
-
-  // Every CTA ("Read Now", "Join Free", section CTAs) routes to the dedicated
-  // /start intake page in reader vs writer mode. The gallery is reached
-  // separately via the nav "Read" link, not these conversion CTAs.
+  // Every CTA ("Read Now", "Join Free", section CTAs) opens the intake as a
+  // pop-up over a blurred landing page in reader vs writer mode. The gallery is
+  // reached separately via the nav "Read" link, not these conversion CTAs.
+  // (/start remains a direct-link fallback rendering the same flow.)
+  const [intake, setIntake] = useState<{ mode: 'reader' | 'writer' } | null>(null);
   const open = (region: Region) => {
-    router.push(`/start?mode=${region === 'author' ? 'writer' : 'reader'}`);
+    setIntake({ mode: region === 'author' ? 'writer' : 'reader' });
   };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
@@ -347,13 +347,13 @@ export default function V12Page() {
     const code = params.get('u');
     setBannerMessage(code ? (BANNER_MESSAGES[code] ?? null) : null);
 
-    // Legacy deep-links from other pages' CTAs (?join=… / ?intake=…) now bounce
-    // to the dedicated /start intake page instead of opening inline.
+    // Legacy deep-links from other pages' CTAs (?join=… / ?intake=…) open the
+    // intake pop-up in place.
     const region = params.get('join') ?? params.get('intake');
     if (region === 'reader' || region === 'author' || region === 'writer') {
-      router.replace(`/start?mode=${region === 'reader' ? 'reader' : 'writer'}`);
+      setIntake({ mode: region === 'reader' ? 'reader' : 'writer' });
     }
-  }, [router]);
+  }, []);
 
   const dismissBanner = () => {
     setBannerMessage(null);
@@ -438,6 +438,10 @@ export default function V12Page() {
 
       <FaqTeaser onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />
+
+      {intake && (
+        <IntakeDialog mode={intake.mode} onClose={() => setIntake(null)} />
+      )}
     </main>
   );
 }
