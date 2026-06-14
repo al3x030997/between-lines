@@ -327,7 +327,9 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               A place to show your work.
             </h3>
             <p className="bl-faq-split-invitation">
-              Reach readers who care — and beta readers before you publish.
+              Share your best work. Find beta readers. Discuss craft in writer
+              pods. Interact with select readers. Earn tips. Sell your work. One
+              platform to rule &rsquo;em all. ;-)
             </p>
             <button type="button" className="bl-faq-split-cta" onClick={onWriter}>
               Submit a manuscript <span aria-hidden="true">→</span>
@@ -339,8 +341,9 @@ export default function FaqTeaser({ onReader, onWriter }: Props) {
               Discover writers before the world does.
             </h3>
             <p className="bl-faq-split-invitation">
-              Read emerging authors first — and earn Early Discoverer credit when they
-              break out.
+              Read fiction or poetry and enjoy illustrations. Help shape what a
+              reading community can be. Volunteer as a beta reader. Your taste
+              matters here.
             </p>
             <button type="button" className="bl-faq-split-cta" onClick={onReader}>
               Open the shelf <span aria-hidden="true">→</span>

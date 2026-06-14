@@ -5,7 +5,7 @@ import { FAQ, type FaqQuestion } from '@/lib/faq';
 import Footer from '../v8/sections/Footer';
 
 export const metadata: Metadata = {
-  title: 'FAQ — Between Lines',
+  title: 'About — BetweenReads',
   description:
     'Answers on reading, writing, beta reads, credits, copyright, AI policy, and platform standards.',
 };
@@ -26,7 +26,7 @@ const CSS = `
 }
 .bl-faq-hero {
   margin-bottom: clamp(40px, 5vw, 64px);
-  max-width: 760px;
+  max-width: 860px;
 }
 .bl-faq-hero-eyebrow {
   font-size: 12px;
@@ -47,11 +47,11 @@ const CSS = `
 }
 .bl-faq-hero-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(17px, 1.25vw, 20px);
-  line-height: 1.65;
-  color: var(--bl-ink-muted);
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.5;
+  color: var(--bl-ink-soft);
   margin: 0;
-  max-width: 56ch;
+  max-width: 60ch;
   text-wrap: pretty;
 }
 
@@ -329,6 +329,16 @@ const CSS = `
   color: var(--bl-ink);
   margin: 0;
   text-wrap: balance;
+}
+.bl-faq-split-invitation {
+  font-family: var(--bl-font-body);
+  font-weight: 400;
+  font-size: clamp(15px, 1.1vw, 17px);
+  line-height: 1.55;
+  color: var(--bl-ink-muted);
+  margin: 0;
+  max-width: 34ch;
+  text-wrap: pretty;
 }
 .bl-faq-split-cta {
   display: inline-flex;
@@ -787,30 +797,26 @@ export default function FaqPage() {
 
       <main className="bl-faq-shell">
         <div className="bl-faq-hero">
-          <p className="bl-faq-hero-eyebrow">Help</p>
-          <h1 className="bl-faq-hero-title">Frequently asked questions.</h1>
+          <p className="bl-faq-hero-eyebrow">Writers &amp; readers</p>
+          <h1 className="bl-faq-hero-title">About BetweenReads</h1>
           <p className="bl-faq-hero-lede">
-            Answers on what BetweenReads is, how reading and writing work on the platform, beta
-            reading, credits, copyright, manuscript protection, and our position on AI. Click any
-            question to expand.
+            In a world built to distract, we&rsquo;re a premium reading platform designed to
+            reduce noise and elevate quality. Imagine browsing an indie store: it&rsquo;s eclectic,
+            random, and rewards the wandering reader. We curate outstanding stories and spotlight
+            writers at every stage &mdash; from established authors to rising talent &mdash; helping
+            readers discover work that deserves attention.
           </p>
-          <div className="bl-faq-hero-actions">
-            <Link href="/" className="bl-faq-cta-primary">
-              Join the waitlist
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link href="/?intake=writer" className="bl-faq-cta-ghost">
-              Submit to between.lines
-            </Link>
-          </div>
         </div>
 
         <section className="bl-faq-split" aria-label="What BetweenReads gives writers and readers">
           <div className="bl-faq-split-col">
             <span className="bl-faq-split-eyebrow">For writers</span>
             <h2 className="bl-faq-split-headline">
-              Publish your manuscript. Find your readers.
+              A place to show your work.
             </h2>
+            <p className="bl-faq-split-invitation">
+              Reach readers who care &mdash; and beta readers before you publish.
+            </p>
             <Link href="/?intake=writer" className="bl-faq-split-cta">
               Submit a manuscript <span aria-hidden="true">→</span>
             </Link>
@@ -818,13 +824,27 @@ export default function FaqPage() {
           <div className="bl-faq-split-col">
             <span className="bl-faq-split-eyebrow">For readers</span>
             <h2 className="bl-faq-split-headline">
-              Read what no algorithm would surface.
+              Discover writers before the world does.
             </h2>
+            <p className="bl-faq-split-invitation">
+              Read emerging authors first &mdash; and earn Early Discoverer credit when they
+              break out.
+            </p>
             <Link href="/?intake=reader" className="bl-faq-split-cta">
               Open the shelf <span aria-hidden="true">→</span>
             </Link>
           </div>
         </section>
+
+        <div className="bl-faq-questions-head">
+          <p className="bl-faq-hero-eyebrow">Help</p>
+          <h2 className="bl-faq-hero-title">Frequently asked questions.</h2>
+          <p className="bl-faq-hero-lede bl-faq-questions-lede">
+            Answers on what BetweenReads is, how reading and writing work on the platform, beta
+            reading, credits, copyright, manuscript protection, and our position on AI. Click any
+            question to expand.
+          </p>
+        </div>
 
         <div className="bl-faq-layout">
           <aside className="bl-faq-side" aria-label="Sections">

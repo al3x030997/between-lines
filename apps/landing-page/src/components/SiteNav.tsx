@@ -23,8 +23,8 @@ const LINKS: NavLink[] = [
   { href: '/gallery', label: 'Read' },
   { href: '/create', label: 'Create' },
   { href: '/readers/kids', label: 'For Kids' },
+  { href: '/faq', label: 'About Us' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/faq', label: 'Features' },
   { href: '/insider', label: 'Become a Member', modifier: 'member' },
   { href: '/about', label: 'Support Us', modifier: 'support' },
 ];
@@ -176,13 +176,13 @@ const BRNAV_CSS = `
   font-weight: 500;
 }
 .brnav-link.support {
-  border: 1.5px solid var(--theme-accent-strong);
+  border: 1.5px solid var(--theme-yellow);
   border-radius: 6px;
   color: var(--theme-text);
   font-weight: 500;
 }
 .brnav-link.support:hover {
-  background: var(--theme-accent-soft);
+  background: color-mix(in srgb, var(--theme-yellow) 20%, transparent);
 }
 .brnav-right {
   display: flex;

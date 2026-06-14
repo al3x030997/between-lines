@@ -50,13 +50,11 @@ const PRICING_CSS = `
   text-wrap: balance;
 }
 .pricing-hero-title em {
-  font-style: italic;
-  font-family: var(--bl-font-serif);
+  font-style: normal;
 }
 .pricing-hero-sub {
   margin: 0;
   font-family: var(--bl-font-serif);
-  font-style: italic;
   font-size: clamp(15px, 1.4vw, 18px);
   line-height: 1.6;
   color: rgba(14,14,12,0.55);
@@ -197,7 +195,6 @@ const PRICING_CSS = `
 }
 .pricing-plan-tagline {
   font-family: var(--bl-font-serif);
-  font-style: italic;
   font-size: 13px;
   color: rgba(14,14,12,0.55);
   margin: 0 0 1.5rem;

@@ -95,7 +95,7 @@ const CSS = `
   font-weight: 700;
   letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: var(--theme-accent-strong, var(--theme-accent));
+  color: var(--theme-text-muted);
   margin: 0 0 18px;
   display: inline-flex;
   align-items: center;
@@ -120,8 +120,7 @@ const CSS = `
   text-wrap: balance;
 }
 .br-create-title em {
-  font-style: italic;
-  color: var(--theme-accent-strong, var(--theme-accent));
+  font-style: normal;
 }
 .br-create-lede {
   font-family: var(--bl-font-body);
