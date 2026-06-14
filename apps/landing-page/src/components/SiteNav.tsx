@@ -17,16 +17,16 @@ import { SignInButton } from '@/components/SignInButton';
  *   which the home page reads on mount to auto-open the reader intake.
  */
 
-type NavLink = { href: string; label: string; modifier?: 'member' | 'support' };
+type NavLink = { href: string; label: string; modifier?: 'support' };
 
 const LINKS: NavLink[] = [
   { href: '/read', label: 'Read' },
   { href: '/create', label: 'Create' },
-  { href: '/readers/kids', label: 'For Kids' },
-  { href: '/faq', label: 'About Us' },
+  { href: '/betweenreviews', label: 'betweenReviews' },
+  { href: '/about', label: 'About' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/pricing', label: 'Pricing' },
-  { href: '/insider', label: 'Become a Member', modifier: 'member' },
-  { href: '/about', label: 'Support Us', modifier: 'support' },
+  { href: '/support', label: 'Support Us', modifier: 'support' },
 ];
 
 type Props = {
@@ -171,18 +171,16 @@ const BRNAV_CSS = `
   color: var(--theme-text);
   font-weight: 500;
 }
-.brnav-link.member {
-  color: var(--theme-text);
-  font-weight: 500;
-}
 .brnav-link.support {
-  border: 1.5px solid var(--theme-yellow);
+  background: var(--theme-yellow);
+  color: var(--theme-on-yellow);
   border-radius: 6px;
-  color: var(--theme-text);
-  font-weight: 500;
+  font-weight: 800;
+  letter-spacing: 0.3px;
 }
 .brnav-link.support:hover {
-  background: color-mix(in srgb, var(--theme-yellow) 20%, transparent);
+  background: var(--theme-yellow-strong);
+  color: var(--theme-on-yellow);
 }
 .brnav-right {
   display: flex;

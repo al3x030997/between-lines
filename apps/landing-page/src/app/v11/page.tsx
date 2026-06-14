@@ -492,7 +492,7 @@ export default function V11Page() {
             <Link className="v11-nav-link" href="/pricing">Pricing</Link>
             <Link className="v11-nav-link" href="/faq">FAQ</Link>
             <Link className="v11-nav-link member" href="/insider">Become a Member</Link>
-            <Link className="v11-nav-link support" href="/about">Support Us</Link>
+            <Link className="v11-nav-link support" href="/support">Support Us</Link>
           </div>
           <div className="v11-nav-right">
             <button

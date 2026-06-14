@@ -130,7 +130,7 @@ export default function Footer() {
             <h3 className="bl-footer-col-title">Company</h3>
             <ul>
               <li><a href="/about">About</a></li>
-              <li><a href="/about">Support Us</a></li>
+              <li><a href="/support">Support Us</a></li>
               <li><a href="/faq">FAQ</a></li>
               <li><a href="/privacy">Privacy</a></li>
               <li><a href="/privacy">Terms</a></li>

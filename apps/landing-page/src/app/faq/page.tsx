@@ -5,7 +5,7 @@ import { FAQ, type FaqQuestion } from '@/lib/faq';
 import Footer from '../v8/sections/Footer';
 
 export const metadata: Metadata = {
-  title: 'About — BetweenReads',
+  title: 'FAQ — BetweenReads',
   description:
     'Answers on reading, writing, beta reads, credits, copyright, AI policy, and platform standards.',
 };
@@ -54,10 +54,6 @@ const CSS = `
   max-width: 60ch;
   text-wrap: pretty;
 }
-.bl-faq-questions-head {
-  margin-bottom: clamp(40px, 5vw, 64px);
-}
-
 .bl-faq-layout {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
@@ -285,100 +281,6 @@ const CSS = `
 .bl-faq-cta-ghost:hover { color: var(--bl-accent); }
 
 /* Writer/Reader value split — mirrors home-page FaqTeaser */
-.bl-faq-split {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  margin: clamp(40px, 5vw, 64px) 0 clamp(40px, 5vw, 64px);
-  padding: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 48px);
-  background: var(--bl-surface);
-  border: 1px solid rgba(14,14,12,0.08);
-  border-radius: 18px;
-  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 20px 50px -28px rgba(14,14,12,0.18);
-}
-.bl-faq-split::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: clamp(20px, 4vw, 40px);
-  bottom: clamp(20px, 4vw, 40px);
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
-  pointer-events: none;
-}
-.bl-faq-split-col {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  align-items: flex-start;
-}
-.bl-faq-split-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--bl-accent);
-  margin: 0;
-}
-.bl-faq-split-headline {
-  font-family: 'Fraunces', 'Cormorant Garamond', Georgia, serif;
-  font-weight: 500;
-  font-variation-settings: 'opsz' 144, 'SOFT' 40;
-  font-size: clamp(28px, 2.8vw, 36px);
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-  color: var(--bl-ink);
-  margin: 0;
-  text-wrap: balance;
-}
-.bl-faq-split-invitation {
-  font-family: var(--bl-font-body);
-  font-weight: 400;
-  font-size: clamp(17px, 1.2vw, 19px);
-  line-height: 1.6;
-  color: var(--bl-ink-muted);
-  margin: 0;
-  max-width: 34ch;
-  text-wrap: pretty;
-}
-.bl-faq-split-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 6px;
-  padding: 11px 24px;
-  border: none;
-  border-radius: 999px;
-  background: var(--bl-accent);
-  color: #fff;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 220ms cubic-bezier(.22,1,.36,1), transform 220ms cubic-bezier(.22,1,.36,1);
-}
-.bl-faq-split-cta:hover,
-.bl-faq-split-cta:focus-visible {
-  background: var(--bl-accent-strong);
-  transform: translateY(-1px);
-  outline: none;
-}
-.bl-faq-split-cta > span {
-  transition: transform 240ms cubic-bezier(.22,1,.36,1);
-}
-.bl-faq-split-cta:hover > span,
-.bl-faq-split-cta:focus-visible > span {
-  transform: translateX(4px);
-}
-@media (max-width: 760px) {
-  .bl-faq-split { grid-template-columns: 1fr; gap: 40px; padding: 32px 24px; }
-  .bl-faq-split::before { display: none; }
-}
 
 /* Split promo card: 3 free reads + Volume audio */
 .bl-faq-promo-card {
@@ -829,49 +731,9 @@ export default function FaqPage() {
 
       <main className="bl-faq-shell">
         <div className="bl-faq-hero">
-          <p className="bl-faq-hero-eyebrow">Writers &amp; readers</p>
-          <h1 className="bl-faq-hero-title">About BetweenReads</h1>
-          <p className="bl-faq-hero-lede">
-            In a world built to distract, we&rsquo;re a premium reading platform designed to
-            reduce noise and elevate quality. Imagine browsing an indie store: it&rsquo;s eclectic,
-            random, and rewards the wandering reader. We curate outstanding stories and spotlight
-            writers at every stage &mdash; from established authors to rising talent &mdash; helping
-            readers discover work that deserves attention.
-          </p>
-        </div>
-
-        <section className="bl-faq-split" aria-label="What BetweenReads gives writers and readers">
-          <div className="bl-faq-split-col">
-            <span className="bl-faq-split-eyebrow">For writers</span>
-            <h2 className="bl-faq-split-headline">
-              A place to show your work.
-            </h2>
-            <p className="bl-faq-split-invitation">
-              Reach readers who care &mdash; and beta readers before you publish.
-            </p>
-            <Link href="/?intake=writer" className="bl-faq-split-cta">
-              Submit a manuscript <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-          <div className="bl-faq-split-col">
-            <span className="bl-faq-split-eyebrow">For readers</span>
-            <h2 className="bl-faq-split-headline">
-              Discover writers before the world does.
-            </h2>
-            <p className="bl-faq-split-invitation">
-              Read emerging authors first &mdash; and earn Early Discoverer credit when they
-              break out.
-            </p>
-            <Link href="/?intake=reader" className="bl-faq-split-cta">
-              Open the shelf <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        </section>
-
-        <div className="bl-faq-questions-head">
           <p className="bl-faq-hero-eyebrow">Help</p>
-          <h2 className="bl-faq-hero-title">Frequently asked questions.</h2>
-          <p className="bl-faq-hero-lede bl-faq-questions-lede">
+          <h1 className="bl-faq-hero-title">Frequently asked questions.</h1>
+          <p className="bl-faq-hero-lede">
             Answers on what BetweenReads is, how reading and writing work on the platform, beta
             reading, credits, copyright, manuscript protection, and our position on AI. Click any
             question to expand.

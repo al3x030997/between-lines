@@ -426,7 +426,7 @@ export default function V12Page() {
             Open Call
           </span>
           <span className="v12-announce-text">
-            Publish your work and reach real readers — become a founding creator
+            Publish your work and reach real readers today
           </span>
           <span className="v12-announce-arrow" aria-hidden="true">→</span>
         </span>
@@ -471,7 +471,6 @@ export default function V12Page() {
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
               <span className="v12-proof-note">Always ad-free</span>
-              <span className="v12-proof-note">No AI-generated content</span>
             </div>
         </div>
         <div className="v12-scroll-cue" aria-hidden="true">
