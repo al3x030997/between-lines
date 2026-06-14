@@ -20,10 +20,11 @@ import { SignInButton } from '@/components/SignInButton';
 type NavLink = { href: string; label: string; modifier?: 'support' };
 
 const LINKS: NavLink[] = [
-  { href: '/read', label: 'Read' },
-  { href: '/create', label: 'Create' },
-  { href: '/betweenreviews', label: 'betweenReviews' },
   { href: '/about', label: 'About' },
+  { href: '/read', label: 'Read' },
+  { href: '/create', label: 'Write' },
+  { href: '/betweenlines', label: 'Submit' },
+  { href: '/betweenreviews', label: 'BetweenReviews' },
   { href: '/faq', label: 'FAQ' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/support', label: 'Support Us', modifier: 'support' },
@@ -175,8 +176,10 @@ const BRNAV_CSS = `
   background: var(--theme-yellow);
   color: var(--theme-on-yellow);
   border-radius: 6px;
+  font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.3px;
+  padding: 8px 18px;
 }
 .brnav-link.support:hover {
   background: var(--theme-yellow-strong);

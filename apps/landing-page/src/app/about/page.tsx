@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteNav } from '@/components/SiteNav';
-import { FAQ } from '@/lib/faq';
 import Footer from '../v8/sections/Footer';
 
 export const metadata: Metadata = {
@@ -349,30 +348,6 @@ export default function AboutPage() {
             </Link>
           </div>
         </section>
-
-        <div className="bl-about-faq-head">
-          <p className="bl-about-eyebrow">FAQ</p>
-          <h2 className="bl-about-faq-title">Questions, answered.</h2>
-        </div>
-
-        <div className="bl-about-faq-grid">
-          {FAQ.slice(0, 4).map((cat, i) => (
-            <Link key={cat.slug} href={`/faq#${cat.slug}`} className="bl-about-faq-card">
-              <span className="bl-about-faq-card-meta">
-                {String(i + 1).padStart(2, '0')} &middot; {cat.questions.length} Q
-              </span>
-              <h3 className="bl-about-faq-card-title">{cat.title}</h3>
-              <p className="bl-about-faq-card-blurb">{cat.blurb}</p>
-              <span className="bl-about-faq-card-browse">
-                Browse <span aria-hidden="true">→</span>
-              </span>
-            </Link>
-          ))}
-        </div>
-
-        <Link href="/faq" className="bl-about-faq-all">
-          Read all FAQs <span aria-hidden="true">→</span>
-        </Link>
       </main>
 
       <Footer />
