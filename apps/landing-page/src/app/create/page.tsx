@@ -14,7 +14,10 @@ type Feature = {
   title: string;
   blurb: string;
   highlights: string[];
+  illustration: FeatureIllustration;
 };
+
+type FeatureIllustration = 'publish' | 'beta' | 'audio' | 'journal' | 'monetization';
 
 const FEATURES: Feature[] = [
   {
@@ -27,6 +30,7 @@ const FEATURES: Feature[] = [
       'A generated, customisable author page for your whole catalogue',
       'Build agent-ready bios and highlight your best work for agents',
     ],
+    illustration: 'publish',
   },
   {
     index: '02',
@@ -38,6 +42,7 @@ const FEATURES: Feature[] = [
       'Structured feedback, from emoji reactions to deep thoughts',
       'First three chapters read free; no copy-paste, no AI training',
     ],
+    illustration: 'beta',
   },
   {
     index: '03',
@@ -49,6 +54,7 @@ const FEATURES: Feature[] = [
       'Voiced by writers — or a narrator you pick',
       'Early access now forming',
     ],
+    illustration: 'audio',
   },
   {
     index: '04',
@@ -60,6 +66,7 @@ const FEATURES: Feature[] = [
       'Chosen on quality and editorial fit, not platform metrics',
       'Readers can recommend your work for free',
     ],
+    illustration: 'journal',
   },
   {
     index: '05',
@@ -71,6 +78,7 @@ const FEATURES: Feature[] = [
       'Journal — featured writers share new-subscription revenue',
       'Tips from readers, plus a 10% referral fee',
     ],
+    illustration: 'monetization',
   },
 ];
 
@@ -207,7 +215,7 @@ const CSS = `
 
 /* === Features === */
 .br-create-features {
-  max-width: 1280px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: clamp(24px, 4vw, 48px) clamp(20px, 5vw, 48px) clamp(64px, 9vw, 112px);
 }
@@ -237,83 +245,114 @@ const CSS = `
   margin: 0;
   text-wrap: balance;
 }
-.br-create-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: clamp(16px, 1.8vw, 22px);
-}
-.br-create-card {
+.br-create-feature-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: clamp(24px, 2.4vw, 32px);
-  background: var(--theme-surface);
-  border: 1px solid var(--theme-border-subtle, var(--theme-border));
-  border-radius: 16px;
-  position: relative;
-  transition: border-color 220ms var(--br-create-ease), box-shadow 220ms var(--br-create-ease),
-    transform 220ms var(--br-create-ease);
+  border-top: 1px solid var(--theme-border-subtle, var(--theme-border));
 }
-.br-create-card::before {
+.br-create-feature-row {
+  --br-illo-wash: #dceee7;
+  --br-illo-wash-2: #f7e2cf;
+  --br-illo-pop: var(--theme-accent);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 340px);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: center;
+  position: relative;
+  padding: clamp(34px, 6vw, 66px) 0;
+  border-bottom: 1px solid var(--theme-border-subtle, var(--theme-border));
+}
+.br-create-feature-row:nth-child(2) {
+  --br-illo-wash: #dce8f5;
+  --br-illo-wash-2: #d9efe7;
+  --br-illo-pop: #e9c34a;
+}
+.br-create-feature-row:nth-child(3) {
+  --br-illo-wash: #e8e1f1;
+  --br-illo-wash-2: #d8eef2;
+  --br-illo-pop: #efc36a;
+}
+.br-create-feature-row:nth-child(4) {
+  --br-illo-wash: #e6ecd6;
+  --br-illo-wash-2: #f2ded5;
+  --br-illo-pop: var(--theme-accent);
+}
+.br-create-feature-row:nth-child(5) {
+  --br-illo-wash: #f5e1d2;
+  --br-illo-wash-2: #dce8f5;
+  --br-illo-pop: #d6b23f;
+}
+.br-create-feature-row::before {
   content: '';
   position: absolute;
-  inset: 0;
-  border-radius: 16px;
-  border-top: 2px solid var(--theme-accent);
-  opacity: 0;
-  transition: opacity 220ms var(--br-create-ease);
+  left: 0;
+  top: -1px;
+  width: 0;
+  height: 1px;
+  background: var(--theme-text);
+  transition: width 320ms var(--br-create-ease);
   pointer-events: none;
 }
-.br-create-card:hover {
-  border-color: var(--theme-border);
-  box-shadow: 0 14px 32px rgb(var(--theme-shadow-rgb, 14 14 12) / 0.16);
-  transform: translateY(-2px);
+.br-create-feature-row:hover::before {
+  width: 100%;
 }
-.br-create-card:hover::before { opacity: 1; }
-.br-create-card-index {
+.br-create-feature-copy {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 660px);
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+}
+.br-create-feature-index {
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 11px;
-  letter-spacing: 0.24em;
-  color: var(--theme-accent);
+  font-size: 13px;
+  letter-spacing: 0.18em;
+  line-height: 1;
+  color: var(--theme-accent-strong, var(--theme-accent));
   font-variant-numeric: tabular-nums;
   text-transform: uppercase;
+  padding-top: 8px;
 }
-.br-create-card-title {
+.br-create-feature-body {
+  min-width: 0;
+}
+.br-create-feature-title {
   font-family: var(--bl-font-display);
   font-weight: 600;
-  font-size: clamp(21px, 1.8vw, 26px);
-  line-height: 1.12;
-  letter-spacing: -0.015em;
+  font-size: 32px;
+  line-height: 1.08;
+  letter-spacing: 0;
   color: var(--theme-text);
   margin: 0;
+  text-wrap: balance;
 }
-.br-create-card-blurb {
+.br-create-feature-blurb {
   font-family: var(--bl-font-body);
-  font-size: 15px;
-  line-height: 1.55;
+  font-size: 16px;
+  line-height: 1.62;
   color: var(--theme-text-muted);
-  margin: 0;
+  margin: 12px 0 0;
+  max-width: 58ch;
   text-wrap: pretty;
 }
-.br-create-card-list {
+.br-create-feature-points {
   list-style: none;
-  margin: 6px 0 0;
+  margin: 18px 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 9px;
+  gap: 10px;
 }
-.br-create-card-list li {
+.br-create-feature-points li {
   position: relative;
-  padding-left: 22px;
+  padding-left: 24px;
   font-family: var(--bl-font-body);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--theme-text-soft, var(--theme-text-muted));
   text-wrap: pretty;
 }
-.br-create-card-list li::before {
+.br-create-feature-points li::before {
   content: '';
   position: absolute;
   left: 2px;
@@ -322,6 +361,59 @@ const CSS = `
   height: 6px;
   border-radius: 50%;
   background: var(--theme-accent);
+}
+.br-create-feature-art {
+  justify-self: end;
+  width: min(100%, 340px);
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.br-create-illo {
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  overflow: visible;
+  color: var(--theme-text);
+}
+.br-create-illo .line,
+.br-create-illo .thin,
+.br-create-illo .pop-stroke,
+.br-create-illo .soft-stroke {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.br-create-illo .line {
+  stroke: currentColor;
+  stroke-width: 2.4;
+}
+.br-create-illo .thin {
+  stroke: color-mix(in srgb, var(--theme-text) 48%, transparent);
+  stroke-width: 1.6;
+}
+.br-create-illo .paper {
+  fill: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-page));
+  stroke: color-mix(in srgb, var(--theme-text) 72%, transparent);
+  stroke-width: 2;
+}
+.br-create-illo .wash {
+  fill: color-mix(in srgb, var(--br-illo-wash) 76%, var(--theme-page));
+}
+.br-create-illo .wash-2 {
+  fill: color-mix(in srgb, var(--br-illo-wash-2) 78%, var(--theme-page));
+}
+.br-create-illo .pop {
+  fill: color-mix(in srgb, var(--br-illo-pop) 88%, var(--theme-page));
+}
+.br-create-illo .pop-stroke {
+  stroke: color-mix(in srgb, var(--br-illo-pop) 92%, var(--theme-text));
+  stroke-width: 2.4;
+}
+.br-create-illo .soft-stroke {
+  stroke: color-mix(in srgb, var(--theme-text) 28%, transparent);
+  stroke-width: 1.4;
 }
 
 /* === Closing CTA band === */
@@ -358,8 +450,30 @@ const CSS = `
   text-wrap: pretty;
 }
 
-@media (max-width: 600px) {
-  .br-create-grid { grid-template-columns: 1fr; }
+@media (max-width: 760px) {
+  .br-create-feature-row {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    padding: 34px 0;
+  }
+  .br-create-feature-copy {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .br-create-feature-index {
+    padding-top: 0;
+  }
+  .br-create-feature-title {
+    font-size: 25px;
+  }
+  .br-create-feature-art {
+    justify-self: start;
+    width: min(100%, 288px);
+    min-height: 0;
+  }
+  .br-create-illo {
+    max-width: 288px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -369,6 +483,111 @@ const CSS = `
   }
 }
 `;
+
+function CreatorFeatureIllustration({ kind }: { kind: FeatureIllustration }) {
+  if (kind === 'publish') {
+    return (
+      <svg
+        className="br-create-illo br-create-illo-publish"
+        viewBox="0 0 320 220"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <ellipse className="wash" cx="160" cy="184" rx="108" ry="20" />
+        <path className="paper" d="M86 42h106l34 34v94H86z" />
+        <path className="soft-stroke" d="M192 43v34h34" />
+        <path className="thin" d="M108 94h80M108 116h92M108 138h60" />
+        <path className="line" d="M209 147l39-39 17 17-39 39-27 9z" />
+        <path className="pop-stroke" d="M245 111l17 17" />
+        <circle className="pop" cx="63" cy="154" r="8" />
+        <circle className="wash-2" cx="48" cy="178" r="10" />
+        <circle className="wash-2" cx="78" cy="178" r="10" />
+        <path className="thin" d="M39 198c8-16 39-16 48 0M27 198c6-11 22-11 28-1M75 197c6-10 23-10 29 1" />
+      </svg>
+    );
+  }
+
+  if (kind === 'beta') {
+    return (
+      <svg
+        className="br-create-illo br-create-illo-beta"
+        viewBox="0 0 320 220"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <ellipse className="wash-2" cx="160" cy="184" rx="106" ry="20" />
+        <path className="thin" d="M76 84l51 32M76 139l51-19M233 116l-72 2" />
+        <circle className="wash" cx="72" cy="80" r="20" />
+        <circle className="wash" cx="64" cy="144" r="20" />
+        <circle className="pop" cx="238" cy="116" r="22" />
+        <path className="paper" d="M116 50h106v126H116z" />
+        <path className="thin" d="M137 82h62M137 104h42M137 126h68M137 148h54" />
+        <path className="line" d="M221 76l38 12v29c0 27-18 45-38 55-20-10-38-28-38-55V88z" />
+        <path className="pop-stroke" d="M208 122l10 10 21-28" />
+      </svg>
+    );
+  }
+
+  if (kind === 'audio') {
+    return (
+      <svg
+        className="br-create-illo br-create-illo-audio"
+        viewBox="0 0 320 220"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <ellipse className="wash" cx="162" cy="184" rx="110" ry="20" />
+        <path className="paper" d="M76 64h70c16 0 28 12 28 28v66H76z" />
+        <path className="thin" d="M98 94h50M98 116h42M98 138h54" />
+        <rect className="wash-2" x="201" y="54" width="44" height="88" rx="22" />
+        <rect className="line" x="209" y="43" width="56" height="106" rx="28" />
+        <path className="line" d="M237 149v28M215 177h44M192 115c0 25 20 45 45 45s45-20 45-45" />
+        <path className="pop-stroke" d="M84 180c10-29 24-29 34 0s24 29 34 0 24-29 34 0" />
+        <path className="thin" d="M91 164c9-17 21-17 30 0s21 17 30 0 21-17 30 0" />
+      </svg>
+    );
+  }
+
+  if (kind === 'journal') {
+    return (
+      <svg
+        className="br-create-illo br-create-illo-journal"
+        viewBox="0 0 320 220"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <ellipse className="wash-2" cx="160" cy="184" rx="110" ry="20" />
+        <path className="paper" d="M58 62c35-14 69-12 102 6v104c-33-18-67-20-102-6z" />
+        <path className="paper" d="M160 68c33-18 67-20 102-6v104c-35-14-69-12-102 6z" />
+        <path className="soft-stroke" d="M160 68v104" />
+        <path className="thin" d="M82 96c18-5 35-4 52 2M82 118c18-5 35-4 52 2M186 94c18-7 35-8 52-4M186 118c18-7 35-8 52-4" />
+        <path className="pop" d="M111 137l8 16 18 3-13 13 3 18-16-8-16 8 3-18-13-13 18-3z" />
+        <path className="line" d="M226 160h43v15c0 13-10 23-23 23s-23-10-23-23v-15z" />
+        <path className="thin" d="M269 166h10c0 13-7 22-20 22M232 147c-8-9 8-13 0-22M252 147c-8-9 8-13 0-22" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg
+      className="br-create-illo br-create-illo-monetization"
+      viewBox="0 0 320 220"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <ellipse className="wash" cx="160" cy="184" rx="110" ry="20" />
+      <path className="paper" d="M72 82h138v88H72z" />
+      <path className="pop" d="M61 56h160l-13 36H74z" />
+      <path className="line" d="M61 56h160l-13 36H74zM88 92v78M194 92v78M72 170h138" />
+      <path className="thin" d="M95 119h90M95 142h90" />
+      <circle className="wash-2" cx="243" cy="78" r="20" />
+      <circle className="pop" cx="267" cy="124" r="18" />
+      <circle className="wash-2" cx="237" cy="164" r="16" />
+      <path className="line" d="M210 124h39M228 89c-8 17-4 29 12 36M226 156c-5-16 0-27 16-32" />
+      <path className="pop-stroke" d="M259 124h17M267 116v16" />
+    </svg>
+  );
+}
 
 export default function CreatePage() {
   return (
@@ -408,17 +627,24 @@ export default function CreatePage() {
           <p className="br-create-features-eyebrow">Five ways to build your career</p>
           <h2 className="br-create-features-title">What you can do here.</h2>
         </div>
-        <div className="br-create-grid">
+        <div className="br-create-feature-list">
           {FEATURES.map((feature) => (
-            <article key={feature.index} className="br-create-card">
-              <span className="br-create-card-index">{feature.index}</span>
-              <h3 className="br-create-card-title">{feature.title}</h3>
-              <p className="br-create-card-blurb">{feature.blurb}</p>
-              <ul className="br-create-card-list">
-                {feature.highlights.map((h) => (
-                  <li key={h}>{h}</li>
-                ))}
-              </ul>
+            <article key={feature.index} className="br-create-feature-row">
+              <div className="br-create-feature-copy">
+                <span className="br-create-feature-index">{feature.index}</span>
+                <div className="br-create-feature-body">
+                  <h3 className="br-create-feature-title">{feature.title}</h3>
+                  <p className="br-create-feature-blurb">{feature.blurb}</p>
+                  <ul className="br-create-feature-points">
+                    {feature.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+              <div className="br-create-feature-art">
+                <CreatorFeatureIllustration kind={feature.illustration} />
+              </div>
             </article>
           ))}
         </div>

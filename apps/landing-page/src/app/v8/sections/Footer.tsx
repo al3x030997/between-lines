@@ -109,7 +109,7 @@ const STYLES = `
 export default function Footer() {
   return (
     <footer className="bl-footer">
-      <style>{STYLES}</style>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div className="bl-footer-inner">
         <div className="bl-footer-top">
           <h2 className="bl-footer-mark">BetweenReads</h2>
