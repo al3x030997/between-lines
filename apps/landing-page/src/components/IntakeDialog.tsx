@@ -85,7 +85,7 @@ const DIALOG_CSS = `
 .intake-dialog-root .v8-favbooks { gap: 8px; }
 .intake-dialog-root .v8-favbooks-input input { padding: 10px 16px; font-size: 14px; }
 .intake-dialog-root .v8-favbooks-add { padding: 10px 18px; }
-.intake-dialog-root .v12-email-capture { gap: 12px; margin-top: 2px; }
+.intake-dialog-root .v12-email-capture { gap: 12px; margin-top: 12px; }
 .intake-dialog-root .v12-email-title { font-size: clamp(26px, 3.4vw, 34px); }
 .intake-dialog-root .v12-email-form { gap: 11px; }
 .intake-dialog-root .v12-email-field { gap: 4px; }

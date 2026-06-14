@@ -748,8 +748,10 @@ const FLOW_CSS = `
   flex-direction: column;
   align-items: center;
   gap: 14px;
-  width: min(100%, 520px);
-  margin: clamp(2px, 1.5vw, 10px) auto 0;
+  width: min(100%, 680px);
+  margin: clamp(14px, 2vw, 24px) auto 0;
+  padding-top: clamp(18px, 2.4vw, 28px);
+  border-top: 1px solid color-mix(in srgb, var(--v6-divider) 82%, transparent);
   text-align: center;
 }
 .v12-email-title {
