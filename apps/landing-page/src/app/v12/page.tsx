@@ -77,16 +77,16 @@ const V12_CSS = `
   align-items: center;
 }
 .v12-hero-label {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
-  letter-spacing: 3px;
+  letter-spacing: 3.2px;
   text-transform: uppercase;
   color: var(--v12-ink);
   opacity: 0.65;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .v12-hero-sub {
-  font-size: 16px;
+  font-size: 19px;
   color: var(--v12-ink);
   opacity: 0.45;
   letter-spacing: 0.4px;
@@ -94,7 +94,7 @@ const V12_CSS = `
 }
 .v12-hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(48px, 8.2vw, 104px);
+  font-size: clamp(46px, 7.6vw, 94px);
   font-weight: 900;
   line-height: 0.95;
   color: var(--theme-hero-text);
@@ -127,14 +127,14 @@ const V12_CSS = `
   align-items: center;
   gap: 12px;
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(18px, 2.1vw, 22px);
+  font-size: clamp(16px, 1.9vw, 20px);
   font-weight: 800;
   letter-spacing: 0.2px;
   color: var(--theme-paper-bg);
   background: var(--theme-strong-cta-bg);
   border: none;
   border-radius: 999px;
-  padding: clamp(15px, 1.9vh, 19px) clamp(36px, 4.4vw, 48px);
+  padding: clamp(13px, 1.7vh, 17px) clamp(32px, 4vw, 44px);
   cursor: pointer;
   box-shadow: 0 14px 34px -14px color-mix(in srgb, var(--v12-ink) 70%, transparent);
   transition: transform 220ms var(--v6-ease),
@@ -163,7 +163,7 @@ const V12_CSS = `
   background: rgba(233, 75, 54, 0.08);
   border: 1.5px solid rgba(233, 75, 54, 0.42);
   border-radius: 999px;
-  padding: 11px 22px;
+  padding: 10px 20px;
   cursor: pointer;
   color: #c43a26;
   font-family: 'Outfit', system-ui, sans-serif;
@@ -175,7 +175,7 @@ const V12_CSS = `
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -198,7 +198,7 @@ const V12_CSS = `
   .v12-open-call-dot { animation: none; }
 }
 .v12-open-call-text {
-  font-size: clamp(19px, 2.5vw, 26px);
+  font-size: clamp(17px, 2.1vw, 22px);
   font-weight: 700;
   text-decoration: none;
 }
@@ -282,7 +282,7 @@ const V12_CSS = `
     min-height: calc(90svh - 76px);
   }
   .v12-hero h1 {
-    font-size: clamp(52px, 15vw, 88px);
+    font-size: clamp(48px, 14vw, 80px);
   }
   .v12-hero-actions {
     margin-top: 34px;
