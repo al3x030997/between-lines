@@ -5,6 +5,7 @@ import { track } from '@vercel/analytics';
 import type { IntakePayload } from '@/lib/schemas';
 import { INTAKE_CSS } from '../../v8/intake/intakeCss';
 import { Chip, Chips, Group, Prompt, ToggleChip } from '../../v8/intake/shared/intakeAtoms';
+import FavoriteBooks from '../../v8/intake/shared/FavoriteBooks';
 import {
   READER_INITIAL,
   type ReaderAnswers,
@@ -31,7 +32,10 @@ import {
 } from '../../v8/intake/writer/writerConstants';
 
 export type IntakeRegion = 'reader' | 'writer';
-type Step = 'hook' | 'email' | 'more' | 'pending';
+// Page 1 ('profile') captures the opening questions + email in one slide; once the
+// email is saved we advance to page 2 ('more', the follow-up questions) or, if Kit
+// is reconciling by email, the 'pending' check-inbox state.
+type Step = 'profile' | 'more' | 'pending';
 
 type Props = {
   initialMode?: IntakeRegion;
@@ -53,7 +57,7 @@ function buildIntake(
 
 export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   const [mode, setMode] = useState<IntakeRegion>(initialMode);
-  const [step, setStep] = useState<Step>('hook');
+  const [step, setStep] = useState<Step>('profile');
   const [reader, setReader] = useState<ReaderAnswers>(READER_INITIAL);
   const [writer, setWriter] = useState<WriterAnswers>(WRITER_INITIAL);
   const [moreOpen, setMoreOpen] = useState(false);
@@ -169,16 +173,16 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
       <style dangerouslySetInnerHTML={{ __html: INTAKE_CSS }} />
       <style dangerouslySetInnerHTML={{ __html: FLOW_CSS }} />
       <div className="v8-intake" role="region" aria-label="Get started">
-        {onBack && step === 'hook' && (
+        {onBack && step === 'profile' && (
           <button type="button" className="v8-intake-back" onClick={onBack}>
             <span aria-hidden="true">←</span> back
           </button>
         )}
 
         {/* Role toggle — modern segmented control, kept constant across steps.
-            Interaction is locked once the hook is answered (mode commits at email capture). */}
+            Interaction is locked once the spot is saved (mode commits at email capture). */}
         {(() => {
-          const locked = step !== 'hook';
+          const locked = step !== 'profile';
           return (
             <div
               className={`v12-seg${mode === 'reader' ? ' is-reader' : ''}${locked ? ' is-locked' : ''}`}
@@ -212,11 +216,11 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 
         {/* Step rail */}
         <ol className="v12-steps" aria-label="Progress">
-          {(['hook', 'email', 'more'] as const).map((s, i) => {
-            const order: Step[] = ['hook', 'email', 'more'];
-            const currentIdx = step === 'pending' ? 2 : order.indexOf(step);
+          {(['profile', 'more'] as const).map((s, i) => {
+            const order: Step[] = ['profile', 'more'];
+            const currentIdx = step === 'pending' ? 1 : order.indexOf(step);
             const state = i < currentIdx ? 'done' : i === currentIdx ? 'current' : 'todo';
-            const labels = ['You', 'Email', 'A bit more'];
+            const labels = ['You', 'A bit more'];
             return (
               <li key={s} className={`v12-step is-${state}`}>
                 <span className="v12-step-dot" aria-hidden="true">
@@ -228,9 +232,9 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
           })}
         </ol>
 
-        {/* ============ STEP 1 — HOOK ============ */}
-        {step === 'hook' && (
-          <div className="v8-intake-form" key={`hook-${mode}`}>
+        {/* ============ PAGE 1 — PROFILE (questions + email) ============ */}
+        {step === 'profile' && (
+          <div className="v8-intake-form" key={`profile-${mode}`}>
             {mode === 'reader' ? (
               <>
                 <Group num="01" label="Audience">
@@ -292,6 +296,14 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
                       </div>
                     </div>
                   </div>
+                </Group>
+
+                <Group num="03" label="Favorite books">
+                  <Prompt>A few books you already love.</Prompt>
+                  <FavoriteBooks
+                    value={reader.favoriteBooks}
+                    onChange={(next) => setReader({ ...reader, favoriteBooks: next })}
+                  />
                 </Group>
               </>
             ) : (
@@ -386,28 +398,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
               </>
             )}
 
-            <div className="v8-intake-actions">
-              <button
-                type="button"
-                className="v8-cta v8-cta-primary"
-                disabled={!hookReady}
-                onClick={() => setStep('email')}
-              >
-                Continue
-                <span className="v8-cta-arrow" aria-hidden="true">→</span>
-              </button>
-            </div>
-            <p className="v8-intake-caption">
-              Just one question first. You&rsquo;ll grab your spot next — the rest you can set in
-              your profile any time.
-            </p>
-          </div>
-        )}
-
-        {/* ============ STEP 2 — EMAIL ============ */}
-        {step === 'email' && (
-          <div className="v8-intake-form" key="email">
-            <Group num="03" label="Save your spot">
+            <Group num="04" label="Save your spot">
               <Prompt>Save your spot.</Prompt>
             </Group>
             <p className="v12-email-pitch">
@@ -466,26 +457,23 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 
               <div className="v8-intake-actions">
                 <button
-                  type="button"
-                  className="v8-cta v8-cta-secondary"
-                  onClick={() => setStep('hook')}
-                >
-                  <span aria-hidden="true">←</span> Back
-                </button>
-                <button
                   type="submit"
                   className="v8-cta v8-cta-primary"
-                  disabled={!canSubmitEmail}
+                  disabled={!hookReady || !canSubmitEmail}
                 >
                   {submitting ? 'Saving…' : 'Save my spot'}
                   <span className="v8-cta-arrow" aria-hidden="true">→</span>
                 </button>
               </div>
             </form>
+            <p className="v8-intake-caption">
+              Just the essentials now — one more quick page after this, and the rest lives in your
+              profile whenever you like.
+            </p>
           </div>
         )}
 
-        {/* ============ STEP 3 — A BIT MORE ============ */}
+        {/* ============ PAGE 2 — A BIT MORE (follow-up) ============ */}
         {step === 'more' && (
           <div className="v8-intake-form" key="more">
             <div className="v12-saved" role="status">

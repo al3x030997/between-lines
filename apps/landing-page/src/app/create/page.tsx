@@ -79,7 +79,7 @@ const CSS = `
   min-height: 100vh;
   background: var(--theme-page);
   color: var(--theme-text);
-  font-family: var(--bl-font-display, 'Outfit', system-ui, sans-serif);
+  font-family: var(--bl-font-display);
   --br-create-ease: var(--bl-ease, cubic-bezier(.22, 1, .36, 1));
 }
 
@@ -90,7 +90,7 @@ const CSS = `
   padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 48px) clamp(40px, 6vw, 72px);
 }
 .br-create-eyebrow {
-  font-family: var(--bl-font-eyebrow, 'Outfit', sans-serif);
+  font-family: var(--bl-font-eyebrow);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -109,7 +109,7 @@ const CSS = `
   opacity: 0.6;
 }
 .br-create-title {
-  font-family: var(--bl-font-serif, 'Playfair Display', Georgia, serif);
+  font-family: var(--bl-font-serif);
   font-weight: 500;
   font-size: clamp(40px, 5.6vw, 76px);
   line-height: 1.03;
@@ -124,7 +124,7 @@ const CSS = `
   color: var(--theme-accent-strong, var(--theme-accent));
 }
 .br-create-lede {
-  font-family: var(--bl-font-body, 'Outfit', sans-serif);
+  font-family: var(--bl-font-body);
   font-size: clamp(17px, 1.4vw, 21px);
   line-height: 1.6;
   color: var(--theme-text-muted);
@@ -140,7 +140,7 @@ const CSS = `
   align-items: center;
 }
 .br-create-cta {
-  font-family: var(--bl-font-display, 'Outfit', sans-serif);
+  font-family: var(--bl-font-display);
   font-size: clamp(15px, 1.3vw, 17px);
   font-weight: 800;
   letter-spacing: 0.2px;
@@ -172,7 +172,7 @@ const CSS = `
   transform: translateX(4px);
 }
 .br-create-ghost {
-  font-family: var(--bl-font-eyebrow, 'Outfit', sans-serif);
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.18em;
@@ -220,7 +220,7 @@ const CSS = `
   margin-bottom: clamp(32px, 4vw, 52px);
 }
 .br-create-features-eyebrow {
-  font-family: var(--bl-font-eyebrow, 'Outfit', sans-serif);
+  font-family: var(--bl-font-eyebrow);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.28em;
@@ -229,7 +229,7 @@ const CSS = `
   margin: 0;
 }
 .br-create-features-title {
-  font-family: var(--bl-font-display, 'Outfit', sans-serif);
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: clamp(30px, 3.8vw, 48px);
   line-height: 1.06;
@@ -272,7 +272,7 @@ const CSS = `
 }
 .br-create-card:hover::before { opacity: 1; }
 .br-create-card-index {
-  font-family: var(--bl-font-eyebrow, 'Outfit', sans-serif);
+  font-family: var(--bl-font-eyebrow);
   font-weight: 600;
   font-size: 11px;
   letter-spacing: 0.24em;
@@ -281,7 +281,7 @@ const CSS = `
   text-transform: uppercase;
 }
 .br-create-card-title {
-  font-family: var(--bl-font-display, 'Outfit', sans-serif);
+  font-family: var(--bl-font-display);
   font-weight: 600;
   font-size: clamp(21px, 1.8vw, 26px);
   line-height: 1.12;
@@ -290,7 +290,7 @@ const CSS = `
   margin: 0;
 }
 .br-create-card-blurb {
-  font-family: var(--bl-font-body, 'Outfit', sans-serif);
+  font-family: var(--bl-font-body);
   font-size: 15px;
   line-height: 1.55;
   color: var(--theme-text-muted);
@@ -308,7 +308,7 @@ const CSS = `
 .br-create-card-list li {
   position: relative;
   padding-left: 22px;
-  font-family: var(--bl-font-body, 'Outfit', sans-serif);
+  font-family: var(--bl-font-body);
   font-size: 14px;
   line-height: 1.5;
   color: var(--theme-text-soft, var(--theme-text-muted));
@@ -341,7 +341,7 @@ const CSS = `
   gap: 20px;
 }
 .br-create-band-title {
-  font-family: var(--bl-font-serif, 'Playfair Display', Georgia, serif);
+  font-family: var(--bl-font-serif);
   font-weight: 500;
   font-size: clamp(30px, 4vw, 52px);
   line-height: 1.06;
@@ -350,7 +350,7 @@ const CSS = `
   text-wrap: balance;
 }
 .br-create-band-sub {
-  font-family: var(--bl-font-body, 'Outfit', sans-serif);
+  font-family: var(--bl-font-body);
   font-size: clamp(16px, 1.4vw, 19px);
   line-height: 1.55;
   margin: 0;

@@ -43,7 +43,6 @@ const PRICING_CSS = `
   margin: 0 0 14px;
   font-family: var(--bl-font-display);
   font-weight: 800;
-  font-variation-settings: 'wdth' 92, 'opsz' 96;
   font-size: clamp(34px, 4.6vw, 50px);
   line-height: 1.08;
   letter-spacing: -0.035em;
@@ -53,13 +52,11 @@ const PRICING_CSS = `
 .pricing-hero-title em {
   font-style: italic;
   font-family: var(--bl-font-serif);
-  font-variation-settings: 'opsz' 96, 'SOFT' 60;
 }
 .pricing-hero-sub {
   margin: 0;
   font-family: var(--bl-font-serif);
   font-style: italic;
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: clamp(15px, 1.4vw, 18px);
   line-height: 1.6;
   color: rgba(14,14,12,0.55);
@@ -210,7 +207,6 @@ const PRICING_CSS = `
 .pricing-plan.is-featured .pricing-plan-tagline { color: #6a5c00; }
 .pricing-plan-amount {
   font-family: var(--bl-font-serif);
-  font-variation-settings: 'opsz' 96, 'SOFT' 40;
   font-size: 46px;
   font-weight: 500;
   color: var(--pr-ink);

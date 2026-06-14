@@ -52,7 +52,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(88vh - 76px);
+  min-height: calc(93vh - 76px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -240,6 +240,25 @@ const V12_CSS = `
   color: color-mix(in srgb, var(--theme-hero-text) 80%, transparent);
 }
 
+/* Scroll affordance — gentle bouncing chevron at the hero base */
+.v12-scroll-cue {
+  position: absolute;
+  bottom: clamp(14px, 2.4vh, 26px);
+  left: 50%;
+  color: var(--theme-hero-text);
+  opacity: 0.45;
+  pointer-events: none;
+  animation: v12-scroll-bounce 2.2s ease-in-out infinite;
+}
+.v12-scroll-cue svg { display: block; }
+@keyframes v12-scroll-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v12-scroll-cue { animation: none; transform: translateX(-50%); }
+}
+
 /* Banner reused */
 .bl-banner {
   position: relative;
@@ -279,7 +298,7 @@ const V12_CSS = `
 
 @media (max-width: 760px) {
   .v12-hero {
-    min-height: calc(90svh - 76px);
+    min-height: calc(94svh - 76px);
   }
   .v12-hero h1 {
     font-size: clamp(48px, 14vw, 80px);
@@ -403,6 +422,13 @@ export default function V12Page() {
               <span className="v12-proof-note">Always ad-free</span>
               <span className="v12-proof-note">No AI-generated content</span>
             </div>
+        </div>
+        <div className="v12-scroll-cue" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" strokeWidth="2.2"
+               strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
         </div>
       </section>
 
