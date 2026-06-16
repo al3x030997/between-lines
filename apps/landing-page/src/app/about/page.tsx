@@ -85,7 +85,7 @@ const CSS = `
 
 /* === Manifesto body === */
 .bl-about-body {
-  max-width: 940px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(24px, 3vw, 36px) clamp(20px, 5vw, 48px) clamp(36px, 5vw, 48px);
 }
@@ -118,7 +118,7 @@ const CSS = `
 
 /* === Signatures === */
 .bl-about-sigs {
-  max-width: 940px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 8px clamp(20px, 5vw, 48px) clamp(40px, 6vw, 56px);
   display: grid;
@@ -247,7 +247,7 @@ const CSS = `
 
 /* === Closing CTA === */
 .bl-about-cta {
-  max-width: 940px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(52px, 6vw, 72px) clamp(20px, 5vw, 48px) clamp(40px, 5vw, 48px);
   text-align: center;
