@@ -71,7 +71,7 @@ const CSS = `
   line-height: 1.58;
   color: var(--theme-text-muted);
   margin: 0;
-  max-width: 680px;
+  max-width: 880px;
   text-wrap: pretty;
 }
 
