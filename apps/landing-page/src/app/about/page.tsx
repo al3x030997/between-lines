@@ -65,22 +65,23 @@ const CSS = `
   background: linear-gradient(to bottom, transparent 60%, var(--theme-yellow) 60%);
   padding: 0 2px;
 }
+/* === Mission card === */
+.bl-about-mission {
+  margin-top: clamp(28px, 4vw, 40px);
+  padding: clamp(26px, 3.2vw, 38px) clamp(28px, 3.6vw, 44px);
+  background: var(--theme-paper-bg);
+  border-radius: 16px;
+  border-left: 4px solid var(--theme-yellow);
+  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 24px 56px -32px rgba(14,14,12,0.18);
+}
 .bl-about-lede {
   font-family: var(--bl-font-body);
   font-size: clamp(20px, 1.8vw, 25px);
   line-height: 1.58;
-  color: var(--theme-text-muted);
+  color: var(--theme-paper-ink);
   margin: 0;
-  max-width: 880px;
+  max-width: 820px;
   text-wrap: pretty;
-}
-
-/* === Center rule === */
-.bl-about-rule {
-  width: 40px;
-  height: 1px;
-  background: var(--theme-text);
-  margin: clamp(20px, 2.5vw, 28px) auto;
 }
 
 /* === Manifesto body === */
@@ -298,14 +299,14 @@ export default function AboutPage() {
               we&rsquo;re built to <em>read.</em>
             </span>
           </h1>
-          <p className="bl-about-lede">
-            BetweenReads is an ad-free home for readers, writers, poets, and illustrators, where
-            great work is discovered through community, conversation, and thoughtful participation
-            &mdash; not visibility-driven algorithms.
-          </p>
+          <div className="bl-about-mission">
+            <p className="bl-about-lede">
+              BetweenReads is an ad-free home for readers, writers, poets, and illustrators, where
+              great work is discovered through community, conversation, and thoughtful
+              participation &mdash; not visibility-driven algorithms.
+            </p>
+          </div>
         </section>
-
-        <div className="bl-about-rule" aria-hidden="true" />
 
         <div className="bl-about-body">
           <div className="bl-about-section">
