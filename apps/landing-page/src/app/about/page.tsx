@@ -25,9 +25,9 @@ const CSS = `
 
 /* === Hero === */
 .bl-about-hero {
-  max-width: 760px;
+  max-width: 940px;
   margin: 0 auto;
-  padding: clamp(56px, 8vw, 110px) clamp(20px, 5vw, 40px) clamp(48px, 6vw, 60px);
+  padding: clamp(56px, 8vw, 110px) clamp(20px, 5vw, 48px) clamp(48px, 6vw, 60px);
 }
 .bl-about-eyebrow {
   font-family: var(--bl-font-eyebrow);
@@ -53,11 +53,11 @@ const CSS = `
 .bl-about-title {
   font-family: var(--bl-font-serif);
   font-weight: 900;
-  font-size: clamp(36px, 6vw, 64px);
+  font-size: clamp(42px, 6.6vw, 80px);
   line-height: 1.04;
   letter-spacing: -0.02em;
   color: var(--theme-text);
-  margin: 0 0 24px;
+  margin: 0 0 28px;
   text-wrap: balance;
 }
 .bl-about-title em { font-style: italic; font-weight: 700; }
@@ -67,11 +67,11 @@ const CSS = `
 }
 .bl-about-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(17px, 1.6vw, 20px);
-  line-height: 1.65;
+  font-size: clamp(19px, 1.7vw, 23px);
+  line-height: 1.6;
   color: var(--theme-text-muted);
   margin: 0;
-  max-width: 560px;
+  max-width: 660px;
   text-wrap: pretty;
 }
 
@@ -85,18 +85,18 @@ const CSS = `
 
 /* === Manifesto body === */
 .bl-about-body {
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: clamp(40px, 6vw, 52px) clamp(20px, 5vw, 40px);
+  padding: clamp(40px, 6vw, 52px) clamp(20px, 5vw, 48px);
 }
 .bl-about-h2 {
   font-family: var(--bl-font-serif);
-  font-size: clamp(24px, 2.6vw, 32px);
+  font-size: clamp(28px, 3vw, 40px);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.18;
   letter-spacing: -0.01em;
   color: var(--theme-text);
-  margin: 0 0 16px;
+  margin: 0 0 18px;
   text-wrap: balance;
 }
 .bl-about-h2 + .bl-about-p { margin-top: 0; }
@@ -104,10 +104,10 @@ const CSS = `
 .bl-about-section:first-child { margin-top: 0; }
 .bl-about-p {
   font-family: var(--bl-font-body);
-  font-size: clamp(16px, 1.2vw, 18px);
+  font-size: clamp(18px, 1.35vw, 21px);
   color: var(--theme-text-muted);
-  line-height: 1.75;
-  margin: 0 0 16px;
+  line-height: 1.72;
+  margin: 0 0 18px;
   text-wrap: pretty;
 }
 .bl-about-p:last-child { margin-bottom: 0; }
@@ -118,9 +118,9 @@ const CSS = `
 
 /* === Signatures === */
 .bl-about-sigs {
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 8px clamp(20px, 5vw, 40px) clamp(40px, 6vw, 56px);
+  padding: 8px clamp(20px, 5vw, 48px) clamp(40px, 6vw, 56px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 32px;
@@ -247,9 +247,9 @@ const CSS = `
 
 /* === Closing CTA === */
 .bl-about-cta {
-  max-width: 640px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: clamp(52px, 6vw, 72px) clamp(20px, 5vw, 40px) clamp(40px, 5vw, 48px);
+  padding: clamp(52px, 6vw, 72px) clamp(20px, 5vw, 48px) clamp(40px, 5vw, 48px);
   text-align: center;
   border-top: 1px solid var(--theme-border-subtle);
 }
@@ -263,11 +263,11 @@ const CSS = `
 }
 .bl-about-cta-p {
   font-family: var(--bl-font-body);
-  font-size: 15px;
+  font-size: clamp(16px, 1.2vw, 18px);
   color: var(--theme-text-muted);
   line-height: 1.65;
   margin: 0 auto 28px;
-  max-width: 52ch;
+  max-width: 56ch;
   text-wrap: pretty;
 }
 .bl-about-cta-actions {
