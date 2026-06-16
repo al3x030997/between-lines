@@ -25,9 +25,9 @@ const CSS = `
 
 /* === Hero === */
 .bl-about-hero {
-  max-width: 940px;
+  max-width: 1040px;
   margin: 0 auto;
-  padding: clamp(56px, 8vw, 110px) clamp(20px, 5vw, 48px) clamp(48px, 6vw, 60px);
+  padding: clamp(48px, 6vw, 84px) clamp(20px, 5vw, 48px) clamp(24px, 3vw, 36px);
 }
 .bl-about-eyebrow {
   font-family: var(--bl-font-eyebrow);
@@ -67,11 +67,11 @@ const CSS = `
 }
 .bl-about-lede {
   font-family: var(--bl-font-body);
-  font-size: clamp(19px, 1.7vw, 23px);
-  line-height: 1.6;
+  font-size: clamp(20px, 1.8vw, 25px);
+  line-height: 1.58;
   color: var(--theme-text-muted);
   margin: 0;
-  max-width: 660px;
+  max-width: 680px;
   text-wrap: pretty;
 }
 
@@ -80,18 +80,18 @@ const CSS = `
   width: 40px;
   height: 1px;
   background: var(--theme-text);
-  margin: clamp(40px, 6vw, 52px) auto;
+  margin: clamp(20px, 2.5vw, 28px) auto;
 }
 
 /* === Manifesto body === */
 .bl-about-body {
-  max-width: 800px;
+  max-width: 940px;
   margin: 0 auto;
-  padding: clamp(40px, 6vw, 52px) clamp(20px, 5vw, 48px);
+  padding: clamp(24px, 3vw, 36px) clamp(20px, 5vw, 48px) clamp(36px, 5vw, 48px);
 }
 .bl-about-h2 {
   font-family: var(--bl-font-serif);
-  font-size: clamp(28px, 3vw, 40px);
+  font-size: clamp(30px, 3.4vw, 44px);
   font-weight: 700;
   line-height: 1.18;
   letter-spacing: -0.01em;
@@ -104,10 +104,10 @@ const CSS = `
 .bl-about-section:first-child { margin-top: 0; }
 .bl-about-p {
   font-family: var(--bl-font-body);
-  font-size: clamp(18px, 1.35vw, 21px);
+  font-size: clamp(19px, 1.5vw, 23px);
   color: var(--theme-text-muted);
-  line-height: 1.72;
-  margin: 0 0 18px;
+  line-height: 1.7;
+  margin: 0 0 20px;
   text-wrap: pretty;
 }
 .bl-about-p:last-child { margin-bottom: 0; }
@@ -118,7 +118,7 @@ const CSS = `
 
 /* === Signatures === */
 .bl-about-sigs {
-  max-width: 800px;
+  max-width: 940px;
   margin: 0 auto;
   padding: 8px clamp(20px, 5vw, 48px) clamp(40px, 6vw, 56px);
   display: grid;
@@ -247,7 +247,7 @@ const CSS = `
 
 /* === Closing CTA === */
 .bl-about-cta {
-  max-width: 800px;
+  max-width: 940px;
   margin: 0 auto;
   padding: clamp(52px, 6vw, 72px) clamp(20px, 5vw, 48px) clamp(40px, 5vw, 48px);
   text-align: center;
