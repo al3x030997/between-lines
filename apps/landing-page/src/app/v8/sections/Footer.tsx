@@ -36,7 +36,7 @@ const STYLES = `
 .bl-footer-tag {
   font-family: var(--bl-font-serif);
   font-style: italic;
-  font-size: clamp(16px, 1.4vw, 20px);
+  font-size: clamp(18px, 1.4vw, 20px);
   color: var(--bl-footer-muted);
   max-width: 36ch;
   text-align: right;
@@ -69,7 +69,7 @@ const STYLES = `
 .bl-footer-col a {
   color: var(--bl-footer-fg);
   text-decoration: none;
-  font-size: 15px;
+  font-size: 18px;
   transition: color 180ms var(--v6-ease, ease);
 }
 .bl-footer-col a:hover { color: var(--bl-footer-accent); }

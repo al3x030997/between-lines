@@ -149,7 +149,7 @@ const STYLES = `
 .bl-reviews-sub {
   margin: 14px auto 0;
   max-width: 46ch;
-  font-size: 14.5px;
+  font-size: 18px;
   line-height: 1.55;
   color: var(--theme-text-muted);
 }
@@ -252,7 +252,7 @@ const STYLES = `
 .bl-rev-quote {
   font-family: var(--br-font-serif);
   font-style: normal;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.6;
   color: var(--bl-rev-ink);
   border-left: 3px solid var(--theme-accent);

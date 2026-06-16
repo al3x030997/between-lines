@@ -44,7 +44,7 @@ const CSS = `
 .bl-support-hero-title em { font-style: italic; }
 .bl-support-hero-sub {
   font-family: var(--bl-font-body);
-  font-size: clamp(17px, 1.6vw, 20px);
+  font-size: clamp(18px, 1.6vw, 20px);
   color: var(--theme-on-yellow);
   opacity: 0.78;
   line-height: 1.65;
@@ -72,7 +72,7 @@ const CSS = `
 }
 .bl-support-intro {
   font-family: var(--bl-font-body);
-  font-size: clamp(16px, 1.2vw, 18px);
+  font-size: clamp(18px, 1.2vw, 20px);
   color: var(--theme-text-muted);
   line-height: 1.75;
   max-width: 620px;
@@ -125,7 +125,7 @@ const CSS = `
   margin-bottom: 14px;
 }
 .bl-support-tier-benefits {
-  font-size: 13px;
+  font-size: 18px;
   color: var(--theme-text-muted);
   line-height: 1.7;
   flex: 1;
@@ -188,7 +188,7 @@ const CSS = `
 /* === Note === */
 .bl-support-note {
   font-family: var(--bl-font-body);
-  font-size: clamp(15px, 1.2vw, 17px);
+  font-size: clamp(18px, 1.2vw, 20px);
   color: var(--theme-text-muted);
   line-height: 1.75;
   border-top: 1px solid var(--theme-border-subtle);
@@ -216,7 +216,7 @@ const CSS = `
 }
 .bl-support-other-p {
   font-family: var(--bl-font-body);
-  font-size: clamp(15px, 1.2vw, 17px);
+  font-size: clamp(18px, 1.2vw, 20px);
   color: var(--theme-text-muted);
   line-height: 1.7;
   max-width: 560px;
@@ -243,7 +243,7 @@ const CSS = `
   margin-bottom: 8px;
 }
 .bl-support-way-desc {
-  font-size: 14px;
+  font-size: 18px;
   color: var(--theme-text-muted);
   line-height: 1.7;
 }

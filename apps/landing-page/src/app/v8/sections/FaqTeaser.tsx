@@ -126,7 +126,7 @@ const STYLES = `
 }
 .bl-faq-card-blurb {
   font-family: var(--bl-font-body);
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.55;
   color: var(--bl-ink-muted);
   margin: 0;
@@ -251,7 +251,7 @@ const STYLES = `
 .bl-faq-split-invitation {
   font-family: var(--bl-font-body);
   font-weight: 400;
-  font-size: clamp(15px, 1.1vw, 17px);
+  font-size: clamp(18px, 1.1vw, 20px);
   line-height: 1.55;
   color: var(--bl-ink-muted);
   margin: 0;

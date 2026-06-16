@@ -269,7 +269,7 @@ const CSS = `
 
 .bl-offers-lede {
   font-family: var(--bl-font-body);
-  font-size: 15.5px;
+  font-size: 18px;
   line-height: 1.6;
   color: color-mix(in srgb, var(--bl-footer-fg) 74%, transparent);
   margin: 0;

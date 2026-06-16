@@ -82,7 +82,7 @@ const CSS = `
 }
 .bl-faq-side a {
   font-family: var(--bl-font-eyebrow);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--bl-ink);
   text-decoration: none;
@@ -220,7 +220,7 @@ const CSS = `
   width: 100%;
   border-collapse: collapse;
   font-family: var(--bl-font-body);
-  font-size: 16px;
+  font-size: 18px;
   min-width: 360px;
 }
 .bl-faq-table th,
@@ -383,7 +383,7 @@ const CSS = `
 }
 .bl-faq-promo-body {
   font-family: var(--bl-font-body);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.65;
   color: rgba(244, 239, 227, 0.74);
   margin: 0;
@@ -554,7 +554,7 @@ const CSS = `
 .bl-faq-cta-card-title em { font-style: italic; color: #E9B547; }
 .bl-faq-cta-card-body {
   font-family: var(--bl-font-body);
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.65;
   color: rgba(244, 239, 227, 0.78);
   margin: 0;

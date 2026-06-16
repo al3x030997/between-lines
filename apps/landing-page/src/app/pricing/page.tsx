@@ -55,7 +55,7 @@ const PRICING_CSS = `
 .pricing-hero-sub {
   margin: 0;
   font-family: var(--bl-font-serif);
-  font-size: clamp(17px, 1.45vw, 20px);
+  font-size: clamp(18px, 1.45vw, 20px);
   line-height: 1.62;
   color: rgba(14,14,12,0.55);
 }
@@ -195,7 +195,7 @@ const PRICING_CSS = `
 }
 .pricing-plan-tagline {
   font-family: var(--bl-font-serif);
-  font-size: 16px;
+  font-size: 18px;
   color: rgba(14,14,12,0.55);
   margin: 0 0 1.6rem;
   line-height: 1.58;
@@ -219,7 +219,7 @@ const PRICING_CSS = `
 .pricing-plan.is-featured .pricing-plan-period { color: #7a6a10; }
 .pricing-plan-member {
   font-family: var(--bl-font-body);
-  font-size: 14px;
+  font-size: 18px;
   color: #9a7a1a;
   background: #fff8ee;
   border: 0.5px solid #f5dca8;
@@ -249,7 +249,7 @@ const PRICING_CSS = `
 }
 .pricing-plan-features li {
   font-family: var(--bl-font-body);
-  font-size: 15.5px;
+  font-size: 18px;
   color: rgba(14,14,12,0.66);
   padding: 7px 0;
   display: flex;

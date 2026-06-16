@@ -127,7 +127,7 @@ const V12_CSS = `
   align-items: center;
   gap: 12px;
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(16px, 1.9vw, 20px);
+  font-size: clamp(18px, 1.9vw, 20px);
   font-weight: 800;
   letter-spacing: 0.2px;
   color: var(--theme-paper-bg);
@@ -231,7 +231,7 @@ const V12_CSS = `
   100% { box-shadow: 0 0 0 0 rgba(22, 17, 13, 0); }
 }
 .v12-announce-text {
-  font-size: clamp(14px, 1.55vw, 17px);
+  font-size: clamp(18px, 1.55vw, 20px);
   font-weight: 800;
   letter-spacing: 0.01em;
   color: #16110d;
