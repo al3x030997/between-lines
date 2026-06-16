@@ -153,99 +153,6 @@ const CSS = `
   margin: 0;
 }
 
-/* === Writer / reader split === */
-.bl-about-split-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: clamp(8px, 2vw, 16px) clamp(20px, 5vw, 40px) clamp(48px, 6vw, 72px);
-}
-.bl-about-split {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(40px, 6vw, 80px);
-  padding: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 48px);
-  background: var(--theme-surface);
-  border: 1px solid var(--theme-border-subtle);
-  border-radius: 20px;
-  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 24px 56px -32px rgba(14,14,12,0.20);
-}
-.bl-about-split::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: clamp(24px, 4vw, 44px);
-  bottom: clamp(24px, 4vw, 44px);
-  width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
-  pointer-events: none;
-}
-.bl-about-split-col {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  align-items: flex-start;
-}
-.bl-about-split-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--bl-accent-strong);
-  margin: 0;
-}
-.bl-about-split-headline {
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
-  font-size: clamp(28px, 2.9vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  color: var(--theme-text);
-  margin: 0;
-  text-wrap: balance;
-  font-feature-settings: "kern", "liga";
-}
-.bl-about-split-invitation {
-  font-family: var(--bl-font-body);
-  font-weight: 400;
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.6;
-  color: var(--theme-text-muted);
-  margin: 0;
-  max-width: 36ch;
-  text-wrap: pretty;
-}
-.bl-about-split-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  margin-top: 8px;
-  padding: 12px 26px;
-  border: none;
-  border-radius: 999px;
-  background: var(--bl-accent);
-  color: var(--theme-on-yellow);
-  font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background 220ms var(--bl-ease), color 180ms ease, transform 220ms var(--bl-ease);
-}
-.bl-about-split-cta:hover,
-.bl-about-split-cta:focus-visible {
-  background: var(--theme-yellow-strong);
-  color: var(--theme-on-yellow);
-  transform: translateY(-1px);
-  outline: none;
-}
-.bl-about-split-cta > span { transition: transform 240ms var(--bl-ease); }
-.bl-about-split-cta:hover > span,
-.bl-about-split-cta:focus-visible > span { transform: translateX(4px); }
-
 /* === Closing CTA (dark card) === */
 .bl-about-cta-wrap {
   max-width: 1040px;
@@ -369,10 +276,6 @@ const CSS = `
 }
 .bl-about-band a:hover { color: var(--bl-accent-strong); border-color: var(--bl-accent-strong); }
 
-@media (max-width: 760px) {
-  .bl-about-split { grid-template-columns: 1fr; gap: 40px; padding: 32px 24px; }
-  .bl-about-split::before { display: none; }
-}
 @media (max-width: 600px) {
   .bl-about-sigs { grid-template-columns: 1fr; gap: 20px; }
 }
@@ -495,35 +398,6 @@ export default function AboutPage() {
             <p className="bl-about-sig-desc">Reader. Builder. Lifelong learner.</p>
           </div>
         </div>
-
-        <section
-          className="bl-about-split-wrap"
-          aria-label="What BetweenReads gives writers and readers"
-        >
-          <div className="bl-about-split">
-            <div className="bl-about-split-col">
-              <span className="bl-about-split-eyebrow">For writers</span>
-              <h2 className="bl-about-split-headline">A place to show your work.</h2>
-              <p className="bl-about-split-invitation">
-                Reach readers who care &mdash; and beta readers before you publish.
-              </p>
-              <Link href="/?intake=writer" className="bl-about-split-cta">
-                Submit a manuscript <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-            <div className="bl-about-split-col">
-              <span className="bl-about-split-eyebrow">For readers</span>
-              <h2 className="bl-about-split-headline">Read writers worth reading.</h2>
-              <p className="bl-about-split-invitation">
-                Read emerging authors first &mdash; and earn Early Discoverer credit when they break
-                out.
-              </p>
-              <Link href="/?intake=reader" className="bl-about-split-cta">
-                Open the shelf <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </div>
-        </section>
 
         <section className="bl-about-cta-wrap">
           <div className="bl-about-cta">
