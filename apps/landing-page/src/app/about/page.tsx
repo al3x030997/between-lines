@@ -48,7 +48,7 @@ const CSS = `
   bottom: 0;
   height: 3px;
   width: 56px;
-  background: var(--bl-accent);
+  background: var(--theme-yellow);
 }
 .bl-about-title {
   font-family: var(--bl-font-serif);
