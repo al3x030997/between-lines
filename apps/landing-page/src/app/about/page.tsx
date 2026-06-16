@@ -106,7 +106,7 @@ const CSS = `
 .bl-about-p {
   font-family: var(--bl-font-body);
   font-size: clamp(19px, 1.5vw, 23px);
-  color: var(--theme-text-muted);
+  color: #000;
   line-height: 1.7;
   margin: 0 0 20px;
   text-wrap: pretty;
@@ -128,7 +128,7 @@ const CSS = `
 }
 .bl-about-sig-name {
   font-family: var(--bl-font-display);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--theme-text);
   margin: 0 0 10px;
@@ -178,7 +178,7 @@ const CSS = `
 }
 .bl-about-cta-p {
   font-family: var(--bl-font-body);
-  font-size: clamp(16px, 1.2vw, 18px);
+  font-size: clamp(18px, 1.2vw, 20px);
   color: rgba(244, 239, 227, 0.78);
   line-height: 1.65;
   margin: 0 auto 28px;
@@ -258,7 +258,7 @@ const CSS = `
 }
 .bl-about-band p {
   font-family: var(--bl-font-body);
-  font-size: clamp(15px, 1.1vw, 17px);
+  font-size: clamp(18px, 1.1vw, 20px);
   color: var(--theme-text-muted);
   line-height: 1.6;
   margin: 0 auto 20px;
