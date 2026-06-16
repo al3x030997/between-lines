@@ -164,13 +164,11 @@ const CSS = `
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
-  padding: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 56px);
-  background: var(--bl-paper-ink);
-  color: #F4EFE3;
-  border: none;
+  padding: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 48px);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-subtle);
   border-radius: 20px;
-  box-shadow: 0 24px 56px -32px rgba(14,14,12,0.45);
-  overflow: hidden;
+  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 24px 56px -32px rgba(14,14,12,0.20);
 }
 .bl-about-split::before {
   content: '';
@@ -179,7 +177,7 @@ const CSS = `
   top: clamp(24px, 4vw, 44px);
   bottom: clamp(24px, 4vw, 44px);
   width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(244, 239, 227, 0.18), transparent);
+  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
   pointer-events: none;
 }
 .bl-about-split-col {
@@ -194,7 +192,7 @@ const CSS = `
   font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: #E9B547;
+  color: var(--bl-accent-strong);
   margin: 0;
 }
 .bl-about-split-headline {
@@ -203,7 +201,7 @@ const CSS = `
   font-size: clamp(28px, 2.9vw, 38px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: #F4EFE3;
+  color: var(--theme-text);
   margin: 0;
   text-wrap: balance;
   font-feature-settings: "kern", "liga";
@@ -213,7 +211,7 @@ const CSS = `
   font-weight: 400;
   font-size: clamp(16px, 1.2vw, 18px);
   line-height: 1.6;
-  color: rgba(244, 239, 227, 0.78);
+  color: var(--theme-text-muted);
   margin: 0;
   max-width: 36ch;
   text-wrap: pretty;
@@ -226,8 +224,8 @@ const CSS = `
   padding: 12px 26px;
   border: none;
   border-radius: 999px;
-  background: #F4EFE3;
-  color: var(--bl-paper-ink);
+  background: var(--bl-accent);
+  color: var(--theme-on-yellow);
   font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 700;
@@ -239,8 +237,8 @@ const CSS = `
 }
 .bl-about-split-cta:hover,
 .bl-about-split-cta:focus-visible {
-  background: #E9B547;
-  color: var(--bl-paper-ink);
+  background: var(--theme-yellow-strong);
+  color: var(--theme-on-yellow);
   transform: translateY(-1px);
   outline: none;
 }
@@ -248,26 +246,32 @@ const CSS = `
 .bl-about-split-cta:hover > span,
 .bl-about-split-cta:focus-visible > span { transform: translateX(4px); }
 
-/* === Closing CTA === */
-.bl-about-cta {
+/* === Closing CTA (dark card) === */
+.bl-about-cta-wrap {
   max-width: 1040px;
   margin: 0 auto;
-  padding: clamp(52px, 6vw, 72px) clamp(20px, 5vw, 48px) clamp(40px, 5vw, 48px);
+  padding: clamp(8px, 2vw, 16px) clamp(20px, 5vw, 48px) clamp(48px, 6vw, 72px);
+}
+.bl-about-cta {
+  background: var(--bl-paper-ink);
+  color: #F4EFE3;
+  border-radius: 20px;
+  padding: clamp(48px, 6vw, 76px) clamp(28px, 5vw, 56px);
   text-align: center;
-  border-top: 1px solid var(--theme-border-subtle);
+  box-shadow: 0 24px 56px -32px rgba(14,14,12,0.45);
 }
 .bl-about-cta-h {
   font-family: var(--bl-font-serif);
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: clamp(28px, 3.2vw, 42px);
   font-weight: 700;
   letter-spacing: -0.01em;
-  color: var(--theme-text);
-  margin: 0 0 12px;
+  color: #F4EFE3;
+  margin: 0 0 14px;
 }
 .bl-about-cta-p {
   font-family: var(--bl-font-body);
   font-size: clamp(16px, 1.2vw, 18px);
-  color: var(--theme-text-muted);
+  color: rgba(244, 239, 227, 0.78);
   line-height: 1.65;
   margin: 0 auto 28px;
   max-width: 56ch;
@@ -320,41 +324,50 @@ const CSS = `
   transform: translateY(-2px);
   outline: none;
 }
+.bl-about-cta .bl-about-btn-ghost {
+  color: #F4EFE3;
+  background: transparent;
+  border-color: rgba(244, 239, 227, 0.5);
+}
+.bl-about-cta .bl-about-btn-ghost:hover,
+.bl-about-cta .bl-about-btn-ghost:focus-visible {
+  background: rgba(244, 239, 227, 0.12);
+}
 
-/* === Yellow CTA band === */
+/* === CTA band (white) === */
 .bl-about-band {
-  background: var(--theme-yellow);
-  padding: clamp(32px, 5vw, 40px) clamp(20px, 5vw, 40px);
+  background: var(--theme-surface);
+  padding: clamp(40px, 6vw, 64px) clamp(20px, 5vw, 40px);
   text-align: center;
+  border-top: 1px solid var(--theme-border-subtle);
 }
 .bl-about-band h3 {
   font-family: var(--bl-font-serif);
-  font-size: clamp(20px, 2.4vw, 26px);
+  font-size: clamp(22px, 2.6vw, 30px);
   font-weight: 800;
-  color: var(--theme-on-yellow);
-  margin: 0 0 8px;
+  color: var(--theme-text);
+  margin: 0 0 10px;
 }
 .bl-about-band p {
   font-family: var(--bl-font-body);
-  font-size: 15px;
-  color: var(--theme-on-yellow);
-  opacity: 0.72;
-  line-height: 1.55;
-  margin: 0 auto 18px;
-  max-width: 520px;
+  font-size: clamp(15px, 1.1vw, 17px);
+  color: var(--theme-text-muted);
+  line-height: 1.6;
+  margin: 0 auto 20px;
+  max-width: 560px;
   text-wrap: pretty;
 }
 .bl-about-band a {
   font-family: var(--bl-font-eyebrow);
   font-size: 14px;
   font-weight: 700;
-  color: var(--theme-on-yellow);
-  border-bottom: 2px solid var(--theme-on-yellow);
+  color: var(--theme-text);
+  border-bottom: 2px solid var(--theme-text);
   text-decoration: none;
   padding-bottom: 2px;
-  transition: opacity 180ms ease;
+  transition: color 180ms ease, border-color 180ms ease;
 }
-.bl-about-band a:hover { opacity: 0.7; }
+.bl-about-band a:hover { color: var(--bl-accent-strong); border-color: var(--bl-accent-strong); }
 
 @media (max-width: 760px) {
   .bl-about-split { grid-template-columns: 1fr; gap: 40px; padding: 32px 24px; }
@@ -512,20 +525,22 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bl-about-cta">
-          <h2 className="bl-about-cta-h">Welcome to the journey.</h2>
-          <p className="bl-about-cta-p">
-            Whether you join as a reader, writer, poet, illustrator, supporter, or simply a curious
-            visitor &mdash; we hope BetweenReads becomes a place where curiosity is rewarded, great
-            work is discovered, and reading remains a source of wonder.
-          </p>
-          <div className="bl-about-cta-actions">
-            <Link href="/support" className="bl-about-btn-ghost">
-              Support Us
-            </Link>
-            <Link href="/start?mode=reader" className="bl-about-btn-primary">
-              Join Free
-            </Link>
+        <section className="bl-about-cta-wrap">
+          <div className="bl-about-cta">
+            <h2 className="bl-about-cta-h">Welcome to the journey.</h2>
+            <p className="bl-about-cta-p">
+              Whether you join as a reader, writer, poet, illustrator, supporter, or simply a
+              curious visitor &mdash; we hope BetweenReads becomes a place where curiosity is
+              rewarded, great work is discovered, and reading remains a source of wonder.
+            </p>
+            <div className="bl-about-cta-actions">
+              <Link href="/support" className="bl-about-btn-ghost">
+                Support Us
+              </Link>
+              <Link href="/start?mode=reader" className="bl-about-btn-primary">
+                Join Free
+              </Link>
+            </div>
           </div>
         </section>
 
