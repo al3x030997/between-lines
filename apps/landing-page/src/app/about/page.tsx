@@ -164,11 +164,13 @@ const CSS = `
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: clamp(40px, 6vw, 80px);
-  padding: clamp(36px, 4vw, 56px) clamp(28px, 4vw, 48px);
-  background: var(--theme-surface);
-  border: 1px solid var(--theme-border-subtle);
+  padding: clamp(40px, 5vw, 64px) clamp(32px, 4vw, 56px);
+  background: var(--bl-paper-ink);
+  color: #F4EFE3;
+  border: none;
   border-radius: 20px;
-  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 24px 56px -32px rgba(14,14,12,0.20);
+  box-shadow: 0 24px 56px -32px rgba(14,14,12,0.45);
+  overflow: hidden;
 }
 .bl-about-split::before {
   content: '';
@@ -177,7 +179,7 @@ const CSS = `
   top: clamp(24px, 4vw, 44px);
   bottom: clamp(24px, 4vw, 44px);
   width: 1px;
-  background: linear-gradient(to bottom, transparent, var(--bl-divider), transparent);
+  background: linear-gradient(to bottom, transparent, rgba(244, 239, 227, 0.18), transparent);
   pointer-events: none;
 }
 .bl-about-split-col {
@@ -192,7 +194,7 @@ const CSS = `
   font-size: 13px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
-  color: var(--bl-accent-strong);
+  color: #E9B547;
   margin: 0;
 }
 .bl-about-split-headline {
@@ -201,7 +203,7 @@ const CSS = `
   font-size: clamp(28px, 2.9vw, 38px);
   line-height: 1.1;
   letter-spacing: -0.01em;
-  color: var(--theme-text);
+  color: #F4EFE3;
   margin: 0;
   text-wrap: balance;
   font-feature-settings: "kern", "liga";
@@ -211,7 +213,7 @@ const CSS = `
   font-weight: 400;
   font-size: clamp(16px, 1.2vw, 18px);
   line-height: 1.6;
-  color: var(--theme-text-muted);
+  color: rgba(244, 239, 227, 0.78);
   margin: 0;
   max-width: 36ch;
   text-wrap: pretty;
@@ -224,8 +226,8 @@ const CSS = `
   padding: 12px 26px;
   border: none;
   border-radius: 999px;
-  background: var(--bl-accent);
-  color: var(--theme-on-yellow);
+  background: #F4EFE3;
+  color: var(--bl-paper-ink);
   font-family: var(--bl-font-eyebrow);
   font-size: 13px;
   font-weight: 700;
@@ -233,11 +235,12 @@ const CSS = `
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: background 220ms var(--bl-ease), transform 220ms var(--bl-ease);
+  transition: background 220ms var(--bl-ease), color 180ms ease, transform 220ms var(--bl-ease);
 }
 .bl-about-split-cta:hover,
 .bl-about-split-cta:focus-visible {
-  background: var(--theme-yellow-strong);
+  background: #E9B547;
+  color: var(--bl-paper-ink);
   transform: translateY(-1px);
   outline: none;
 }
@@ -497,7 +500,7 @@ export default function AboutPage() {
             </div>
             <div className="bl-about-split-col">
               <span className="bl-about-split-eyebrow">For readers</span>
-              <h2 className="bl-about-split-headline">Discover writers before the world does.</h2>
+              <h2 className="bl-about-split-headline">Read writers worth reading.</h2>
               <p className="bl-about-split-invitation">
                 Read emerging authors first &mdash; and earn Early Discoverer credit when they break
                 out.
