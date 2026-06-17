@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
-import FaqTeaser from '../v8/sections/FaqTeaser';
+import ClosingCta from '../v8/sections/ClosingCta';
 import Footer from '../v8/sections/Footer';
 import { SiteNav } from '@/components/SiteNav';
 import IntakeDialog from '@/components/IntakeDialog';
@@ -359,7 +359,7 @@ export default function V12Page() {
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 
-      <FaqTeaser onReader={() => open('reader')} onWriter={() => open('author')} />
+      <ClosingCta onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />
 
       {intake && (
