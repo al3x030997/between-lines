@@ -53,7 +53,7 @@ const CSS = `
 .bl-about-title {
   font-family: var(--bl-font-serif);
   font-weight: 900;
-  font-size: clamp(42px, 6.6vw, 80px);
+  font-size: clamp(34px, 4.7vw, 64px);
   line-height: 1.04;
   letter-spacing: -0.02em;
   color: var(--theme-text);

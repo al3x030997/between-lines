@@ -154,7 +154,7 @@ const CSS = `
   letter-spacing: var(--bl-hero-title-letter-spacing);
   color: var(--br-readm-ink);
   margin: 0 0 24px;
-  max-width: 17ch;
+  max-width: 100%;
   text-wrap: balance;
 }
 .br-readm-lede {

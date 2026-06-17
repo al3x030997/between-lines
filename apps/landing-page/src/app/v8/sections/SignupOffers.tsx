@@ -102,10 +102,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           className="bl-offers-panel bl-offers-clubs"
           aria-labelledby="bl-offers-clubs-title"
         >
-          <p className="bl-offers-eyebrow">
-            <span className="bl-offers-eyebrow-mark" aria-hidden="true" />
-            Reading Clubs
-          </p>
           <h2 className="bl-offers-title" id="bl-offers-clubs-title">
             Your book club, <em>but bigger.</em>
           </h2>
@@ -178,10 +174,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           className="bl-offers-panel bl-offers-pods-panel"
           aria-labelledby="bl-offers-pods-title"
         >
-          <p className="bl-offers-eyebrow">
-            <span className="bl-offers-eyebrow-mark" aria-hidden="true" />
-            Pods
-          </p>
           <h2 className="bl-offers-title" id="bl-offers-pods-title">
             <span className="bl-offers-mark">Pods.</span>
             <span className="bl-offers-sub">
@@ -249,38 +241,31 @@ const CSS = `
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
-  gap: clamp(28px, 4vw, 64px);
-  align-items: stretch;
+  /* shared row tracks: title · illustration · lede · cta */
+  grid-template-rows: auto auto 1fr auto;
+  gap: clamp(22px, 2.6vw, 32px) clamp(28px, 4vw, 64px);
 }
+/* Both panels borrow the inner grid's rows so title/art/lede/cta line up
+   across the divider regardless of how tall each side's content runs. */
 .bl-offers-panel {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(18px, 1.8vw, 24px);
+  display: grid;
+  grid-row: 1 / 5;
+  grid-template-rows: subgrid;
+  row-gap: clamp(22px, 2.6vw, 32px);
   min-width: 0;
 }
+.bl-offers-clubs { grid-column: 1; }
+.bl-offers-pods-panel { grid-column: 3; }
+/* titles sit on the same baseline by bottom-aligning in their shared row */
+.bl-offers-title { align-self: end; }
+.bl-offers-club-art,
+.bl-offers-pods { align-self: start; }
+.bl-offers-lede { align-self: start; }
 .bl-offers-divider {
+  grid-column: 2;
+  grid-row: 1 / 5;
   background: color-mix(in srgb, var(--bl-footer-fg) 18%, transparent);
   width: 1px;
-  align-self: stretch;
-}
-.bl-offers-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.46em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--bl-footer-fg) 72%, transparent);
-  margin: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 16px;
-}
-.bl-offers-eyebrow-mark {
-  display: inline-block;
-  width: 36px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
 }
 .bl-offers-title {
   font-family: var(--bl-font-serif);
@@ -344,10 +329,10 @@ const CSS = `
 }
 .bl-offers-cover {
   flex: 0 0 auto;
-  width: clamp(72px, 9vw, 104px);
+  width: clamp(96px, 11vw, 132px);
   aspect-ratio: 2 / 3;
-  border-radius: 3px;
-  padding: 9px 9px 8px;
+  border-radius: 4px;
+  padding: 11px 11px 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -365,7 +350,7 @@ const CSS = `
   text-transform: uppercase;
 }
 .bl-offers-cover-title {
-  font-size: clamp(13px, 1.3vw, 17px);
+  font-size: clamp(15px, 1.5vw, 19px);
   font-weight: 500;
   line-height: 1.05;
   letter-spacing: -0.01em;
@@ -443,10 +428,10 @@ const CSS = `
 }
 .bl-pod-ring {
   position: relative;
-  width: 122px;
-  height: 122px;
+  width: 152px;
+  height: 152px;
 }
-.bl-pod-ring.is-small { width: 106px; height: 106px; }
+.bl-pod-ring.is-small { width: 132px; height: 132px; }
 .bl-pod-ring::before {
   content: '';
   position: absolute;
@@ -456,8 +441,8 @@ const CSS = `
 }
 .bl-pod-dot {
   position: absolute;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   border: 2px solid var(--bl-footer-bg);
@@ -471,7 +456,7 @@ const CSS = `
   font-family: var(--bl-font-serif);
   font-style: italic;
   font-weight: 500;
-  font-size: 30px;
+  font-size: 38px;
   color: var(--bl-footer-fg);
 }
 .bl-pod-cap {
@@ -496,22 +481,22 @@ const CSS = `
 }
 
 .bl-offers-cta {
-  margin-top: auto;
-  align-self: flex-start;
+  justify-self: start;
+  align-self: end;
   font-family: var(--bl-font-eyebrow);
-  font-weight: 600;
-  font-size: 17px;
-  letter-spacing: 0.05em;
+  font-weight: 700;
+  font-size: 19px;
+  letter-spacing: 0.04em;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   background: var(--bl-footer-fg);
   color: var(--bl-footer-bg);
-  padding: 18px 36px;
+  padding: 23px 48px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
-  box-shadow: 0 6px 18px color-mix(in srgb, var(--bl-footer-fg) 28%, transparent);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--bl-footer-fg) 30%, transparent);
 }
 .bl-offers-cta:hover {
   transform: translateY(-1px);
@@ -526,9 +511,24 @@ const CSS = `
 @media (max-width: 820px) {
   .bl-offers-inner {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
     gap: clamp(40px, 6vw, 56px);
   }
+  .bl-offers-panel {
+    display: flex;
+    flex-direction: column;
+    grid-row: auto;
+    grid-column: 1;
+    gap: clamp(18px, 2.4vw, 26px);
+  }
+  .bl-offers-title { align-self: start; }
+  .bl-offers-cta {
+    margin-top: 6px;
+    align-self: start;
+  }
   .bl-offers-divider {
+    grid-row: auto;
+    grid-column: 1;
     width: auto;
     height: 1px;
   }

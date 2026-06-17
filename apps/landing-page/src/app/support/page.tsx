@@ -33,7 +33,7 @@ const CSS = `
 }
 .bl-support-hero-title {
   font-family: var(--bl-font-serif);
-  font-size: clamp(36px, 5.5vw, 62px);
+  font-size: var(--bl-hero-title-size);
   font-weight: 800;
   line-height: 1.08;
   letter-spacing: -0.02em;

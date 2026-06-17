@@ -119,14 +119,13 @@ const CSS = `
 .br-create-title {
   font-family: var(--bl-font-serif);
   font-weight: 500;
-  font-size: clamp(27px, 6.35vw, 76px);
+  font-size: var(--bl-hero-title-size);
   line-height: var(--bl-hero-title-line-height);
   letter-spacing: var(--bl-hero-title-letter-spacing);
   color: var(--theme-text);
   margin: 0 0 24px;
   max-width: 100%;
-  white-space: nowrap;
-  text-wrap: nowrap;
+  text-wrap: balance;
 }
 .br-create-title em {
   font-style: normal;

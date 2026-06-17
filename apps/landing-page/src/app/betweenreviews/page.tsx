@@ -570,7 +570,7 @@ const REVIEW_CSS = `
 
 .brv-masthead {
   font-family: var(--brv-display);
-  font-size: 64px;
+  font-size: var(--bl-hero-title-size);
   line-height: 1;
   letter-spacing: 0;
   margin: 0 0 14px;
@@ -1110,10 +1110,6 @@ const REVIEW_CSS = `
 
   .brv-cover-name {
     font-size: 30px;
-  }
-
-  .brv-masthead {
-    font-size: 44px;
   }
 
   .brv-meta-row {
