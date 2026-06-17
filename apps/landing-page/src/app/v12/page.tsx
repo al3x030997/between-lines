@@ -155,56 +155,6 @@ const V12_CSS = `
 }
 .v12-read-now:hover .v12-read-now-arrow { transform: translateX(4px); }
 
-/* === Submissions announcement bar — full-bleed near-black strip at the top === */
-.v12-announce {
-  display: block;
-  width: 100%;
-  margin: 0;
-  background: #16110d;
-  color: #f3ede2;
-  font-family: 'Outfit', system-ui, sans-serif;
-  text-align: left;
-  position: relative;
-  z-index: 40;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
-}
-.v12-announce-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 12px clamp(20px, 4vw, 40px);
-}
-.v12-announce-text {
-  font-size: clamp(18px, 1.55vw, 20px);
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: #f3ede2;
-  text-align: center;
-}
-.v12-announce-cta {
-  font-weight: 800;
-  color: var(--v12-accent);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-  white-space: nowrap;
-  transition: color 200ms var(--v6-ease);
-}
-.v12-announce-arrow {
-  display: inline-block;
-  margin-left: 7px;
-  font-weight: 900;
-  transition: transform 200ms var(--v6-ease);
-}
-.v12-announce-cta:hover { color: var(--v12-accent-strong); }
-.v12-announce-cta:hover .v12-announce-arrow { transform: translateX(4px); }
-.v12-announce-cta:focus-visible {
-  outline: 2px solid var(--v12-accent);
-  outline-offset: 3px;
-}
-
 /* Trust commitments — three bullets */
 .v12-proof-strip {
   display: flex;
@@ -302,9 +252,6 @@ const V12_CSS = `
     flex-direction: column;
     gap: 10px;
   }
-  .v12-announce-inner {
-    padding: 10px 18px;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -357,18 +304,6 @@ export default function V12Page() {
   return (
     <main className="v12-root">
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
-
-      <div className="v12-announce">
-        <span className="v12-announce-inner">
-          <span className="v12-announce-text">
-            BetweenLines Journal is now open for submissions.{' '}
-            <a className="v12-announce-cta" href="/betweenlines#journal-submission">
-              Submit your work
-              <span className="v12-announce-arrow" aria-hidden="true">→</span>
-            </a>
-          </span>
-        </span>
-      </div>
 
       <SiteNav activeHref="/gallery" onJoin={() => open('reader')} />
 
