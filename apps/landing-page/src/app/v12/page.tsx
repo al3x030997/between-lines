@@ -155,104 +155,54 @@ const V12_CSS = `
 }
 .v12-read-now:hover .v12-read-now-arrow { transform: translateX(4px); }
 
-/* === Open-call announcement bar — full-bleed red strip at the very top === */
+/* === Submissions announcement bar — full-bleed near-black strip at the top === */
 .v12-announce {
   display: block;
   width: 100%;
-  border: 0;
   margin: 0;
-  padding: 0;
-  cursor: pointer;
-  background: #e94b36;
-  color: #16110d;
+  background: #16110d;
+  color: #f3ede2;
   font-family: 'Outfit', system-ui, sans-serif;
-  -webkit-appearance: none;
-  appearance: none;
   text-align: left;
   position: relative;
   z-index: 40;
-  overflow: hidden;
-  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.22);
-  transition: background 200ms var(--v6-ease);
-}
-.v12-announce::after {
-  /* subtle moving sheen so the strip reads as "live" */
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.16) 50%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  animation: v12-announce-sheen 6.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes v12-announce-sheen {
-  0%, 60%   { transform: translateX(-100%); }
-  100%      { transform: translateX(100%); }
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
 }
 .v12-announce-inner {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(12px, 2vw, 20px);
   max-width: 1100px;
   margin: 0 auto;
-  padding: 11px clamp(20px, 4vw, 40px);
-}
-.v12-announce-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #16110d;
-  background: rgba(0, 0, 0, 0.14);
-  border-radius: 999px;
-  padding: 4px 12px 4px 10px;
-}
-.v12-announce-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #16110d;
-  box-shadow: 0 0 0 0 rgba(22, 17, 13, 0.55);
-  animation: v12-announce-pulse 2.2s ease-out infinite;
-}
-@keyframes v12-announce-pulse {
-  0%   { box-shadow: 0 0 0 0 rgba(22, 17, 13, 0.5); }
-  70%  { box-shadow: 0 0 0 8px rgba(22, 17, 13, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(22, 17, 13, 0); }
+  padding: 12px clamp(20px, 4vw, 40px);
 }
 .v12-announce-text {
   font-size: clamp(18px, 1.55vw, 20px);
-  font-weight: 800;
+  font-weight: 500;
   letter-spacing: 0.01em;
-  color: #16110d;
+  color: #f3ede2;
+  text-align: center;
+}
+.v12-announce-cta {
+  font-weight: 800;
+  color: var(--v12-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  white-space: nowrap;
+  transition: color 200ms var(--v6-ease);
 }
 .v12-announce-arrow {
-  flex: 0 0 auto;
-  font-size: 1.15em;
+  display: inline-block;
+  margin-left: 7px;
   font-weight: 900;
-  color: #16110d;
   transition: transform 200ms var(--v6-ease);
 }
-.v12-announce:hover { background: #d8412d; }
-.v12-announce:hover .v12-announce-arrow { transform: translateX(4px); }
-.v12-announce:focus-visible {
-  outline: 2px solid #16110d;
-  outline-offset: -3px;
-}
-@media (prefers-reduced-motion: reduce) {
-  .v12-announce-dot,
-  .v12-announce::after { animation: none; }
-  .v12-announce::after { display: none; }
+.v12-announce-cta:hover { color: var(--v12-accent-strong); }
+.v12-announce-cta:hover .v12-announce-arrow { transform: translateX(4px); }
+.v12-announce-cta:focus-visible {
+  outline: 2px solid var(--v12-accent);
+  outline-offset: 3px;
 }
 
 /* Trust commitments — three bullets */
@@ -353,14 +303,7 @@ const V12_CSS = `
     gap: 10px;
   }
   .v12-announce-inner {
-    flex-wrap: wrap;
-    gap: 8px 12px;
     padding: 10px 18px;
-  }
-  .v12-announce-text {
-    flex-basis: 100%;
-    text-align: center;
-    order: 3;
   }
 }
 
@@ -415,22 +358,17 @@ export default function V12Page() {
     <main className="v12-root">
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
-      <button
-        type="button"
-        className="v12-announce"
-        onClick={() => open('author')}
-      >
+      <div className="v12-announce">
         <span className="v12-announce-inner">
-          <span className="v12-announce-tag">
-            <span className="v12-announce-dot" aria-hidden="true" />
-            Open Call
-          </span>
           <span className="v12-announce-text">
-            Publish your work and reach real readers today
+            BetweenLines Journal is now open for submissions.{' '}
+            <a className="v12-announce-cta" href="/betweenlines#journal-submission">
+              Submit your work
+              <span className="v12-announce-arrow" aria-hidden="true">→</span>
+            </a>
           </span>
-          <span className="v12-announce-arrow" aria-hidden="true">→</span>
         </span>
-      </button>
+      </div>
 
       <SiteNav activeHref="/gallery" onJoin={() => open('reader')} />
 
