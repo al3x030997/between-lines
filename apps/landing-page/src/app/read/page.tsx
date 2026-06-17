@@ -103,9 +103,7 @@ const FEATURES: Feature[] = [
 const CSS = `
 .br-readm-root {
   min-height: 100vh;
-  background:
-    linear-gradient(180deg, color-mix(in srgb, var(--theme-yellow) 18%, var(--theme-page)) 0%, var(--theme-page) 42%),
-    var(--theme-page);
+  background: var(--theme-page);
   color: var(--theme-text);
   font-family: var(--bl-font-display);
   --br-readm-ease: var(--bl-ease, cubic-bezier(.22, 1, .36, 1));
@@ -125,7 +123,7 @@ const CSS = `
 
 /* === Hero === */
 .br-readm-hero {
-  max-width: 1100px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 48px) clamp(40px, 6vw, 72px);
 }
@@ -165,7 +163,7 @@ const CSS = `
   line-height: var(--bl-hero-lede-line-height);
   color: var(--br-readm-muted);
   margin: 0;
-  max-width: 62ch;
+  max-width: none;
   text-wrap: pretty;
 }
 .br-readm-actions {
@@ -252,7 +250,7 @@ const CSS = `
 
 /* === Features === */
 .br-readm-features {
-  max-width: 1120px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(24px, 4vw, 48px) clamp(20px, 5vw, 48px) clamp(64px, 9vw, 112px);
 }
@@ -340,7 +338,7 @@ const CSS = `
 }
 .br-readm-feature-copy {
   display: grid;
-  grid-template-columns: 64px minmax(0, 660px);
+  grid-template-columns: 64px minmax(0, 1fr);
   gap: clamp(16px, 3vw, 32px);
   align-items: start;
 }
@@ -374,7 +372,7 @@ const CSS = `
   line-height: 1.62;
   color: var(--br-readm-muted);
   margin: 12px 0 0;
-  max-width: 58ch;
+  max-width: none;
   text-wrap: pretty;
 }
 .br-readm-feature-points {
