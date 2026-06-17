@@ -10,12 +10,12 @@
   --theme-surface-raised: #ffffff;
   --theme-surface-subtle: #f8f5ee;
   --theme-surface-muted: #f5f3ef;
-  --theme-text: #0e0e0c;
-  --theme-text-rgb: 14 14 12;
-  --theme-text-strong: #0e0e0c;
-  --theme-text-soft: #2a2a25;
-  --theme-text-muted: #5a5a52;
-  --theme-text-faint: #888888;
+  --theme-text: #1a1714;
+  --theme-text-rgb: 26 23 20;
+  --theme-text-strong: #1a1714;
+  --theme-text-soft: #3a342c;
+  --theme-text-muted: #6b6358;
+  --theme-text-faint: #948b7c;
   --theme-border: rgba(14, 14, 12, 0.18);
   --theme-border-subtle: rgba(14, 14, 12, 0.10);
   --theme-border-strong: rgba(14, 14, 12, 0.32);

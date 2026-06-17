@@ -106,7 +106,7 @@ const CSS = `
 .bl-about-p {
   font-family: var(--bl-font-body);
   font-size: clamp(19px, 1.5vw, 23px);
-  color: #000;
+  color: var(--theme-text);
   line-height: 1.7;
   margin: 0 0 20px;
   text-wrap: pretty;

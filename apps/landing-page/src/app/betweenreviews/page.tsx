@@ -514,9 +514,9 @@ const REVIEW_CSS = `
 .brv-page {
   --brv-paper: #faf8f4;
   --brv-card: #ffffff;
-  --brv-ink: #1c1a17;
-  --brv-muted: #6f6a61;
-  --brv-faint: #9a9489;
+  --brv-ink: var(--theme-text);
+  --brv-muted: var(--theme-text-muted);
+  --brv-faint: var(--theme-text-faint);
   --brv-line: #e7e2d8;
   --brv-gold: #a9842f;
   --brv-gold-soft: #f3ecda;
@@ -660,7 +660,7 @@ const REVIEW_CSS = `
   font-size: 10px;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--brv-ink);
   font-weight: 700;
 }
 
@@ -677,7 +677,7 @@ const REVIEW_CSS = `
   font-size: 36px;
   line-height: 0.9;
   letter-spacing: 0;
-  color: #1a1a1a;
+  color: var(--brv-ink);
 }
 
 .brv-cover-name em {
@@ -691,7 +691,7 @@ const REVIEW_CSS = `
   font-family: var(--brv-display);
   font-style: italic;
   font-size: 13px;
-  color: #1a1a1a;
+  color: var(--brv-ink);
 }
 
 .brv-cover-issue {
@@ -699,7 +699,7 @@ const REVIEW_CSS = `
   font-size: 11px;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--brv-ink);
   font-weight: 700;
 }
 
@@ -708,7 +708,7 @@ const REVIEW_CSS = `
   font-family: var(--brv-display);
   font-style: italic;
   font-size: 12.5px;
-  color: rgba(26, 26, 26, 0.72);
+  color: var(--brv-muted);
 }
 
 .brv-section {

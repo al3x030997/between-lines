@@ -517,9 +517,9 @@ const SUBMISSION_CSS = `
 .bls-page {
   --bls-paper: #faf8f4;
   --bls-card: #ffffff;
-  --bls-ink: #1c1a17;
-  --bls-muted: #6f6a61;
-  --bls-faint: #9a9489;
+  --bls-ink: var(--theme-text);
+  --bls-muted: var(--theme-text-muted);
+  --bls-faint: var(--theme-text-faint);
   --bls-line: #e7e2d8;
   --bls-gold: #a9842f;
   --bls-gold-soft: #f3ecda;
@@ -663,7 +663,7 @@ const SUBMISSION_CSS = `
   font-size: 10px;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--bls-ink);
   font-weight: 700;
 }
 
@@ -680,7 +680,7 @@ const SUBMISSION_CSS = `
   font-size: 36px;
   line-height: 0.9;
   letter-spacing: 0;
-  color: #1a1a1a;
+  color: var(--bls-ink);
 }
 
 .bls-cover-name em {
@@ -694,7 +694,7 @@ const SUBMISSION_CSS = `
   font-family: var(--bls-display);
   font-style: italic;
   font-size: 13px;
-  color: #1a1a1a;
+  color: var(--bls-ink);
 }
 
 .bls-cover-issue {
@@ -702,7 +702,7 @@ const SUBMISSION_CSS = `
   font-size: 11px;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: #1a1a1a;
+  color: var(--bls-ink);
   font-weight: 700;
 }
 
@@ -711,7 +711,7 @@ const SUBMISSION_CSS = `
   font-family: var(--bls-display);
   font-style: italic;
   font-size: 12.5px;
-  color: rgba(26, 26, 26, 0.72);
+  color: var(--bls-muted);
 }
 
 .bls-section {
