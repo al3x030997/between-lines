@@ -93,25 +93,27 @@ const STYLES = `
   max-width: 46ch;
 }
 .bl-closing-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
+  font-family: var(--bl-font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
   color: var(--bl-ink);
   position: relative;
   display: inline-block;
-  padding-bottom: 8px;
+  padding-bottom: 16px;
   margin: 0;
   align-self: flex-start;
+  text-wrap: balance;
+  font-feature-settings: "kern", "liga", "calt", "dlig";
 }
 .bl-closing-eyebrow::after {
   content: '';
   position: absolute;
   left: 0;
   bottom: 0;
-  height: 3px;
-  width: 64px;
+  height: 4px;
+  width: 96px;
   background: var(--bl-accent-strong);
 }
 .bl-closing-socials-blurb {
@@ -126,7 +128,7 @@ const STYLES = `
   list-style: none;
   display: flex;
   align-items: center;
-  gap: clamp(10px, 1.4vw, 18px);
+  gap: clamp(12px, 1.6vw, 22px);
   margin: 0;
   padding: 0;
 }
@@ -134,8 +136,8 @@ const STYLES = `
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   border-radius: 999px;
   border: 1px solid var(--theme-border-subtle);
   color: var(--bl-ink);
@@ -156,6 +158,10 @@ const STYLES = `
 }
 .bl-closing-social:focus-visible {
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--bl-accent) 45%, transparent);
+}
+.bl-closing-social svg {
+  width: 28px;
+  height: 28px;
 }
 
 /* ---- B. Final CTA band ---- */
@@ -334,33 +340,6 @@ export default function ClosingCta({ onReader, onWriter }: Props) {
     <section className="bl-closing" aria-label="Connect with us and sign up">
       <style>{STYLES}</style>
 
-      <div className="bl-closing-socials">
-        <div className="bl-closing-socials-inner">
-          <div className="bl-closing-socials-text">
-            <span className="bl-closing-eyebrow">Join us on socials</span>
-            <p className="bl-closing-socials-blurb">
-              Writing tips, sneak peeks, and a community that reads before the world
-              does.
-            </p>
-          </div>
-          <ul className="bl-closing-socials-icons">
-            {SOCIALS.map((social) => (
-              <li key={social.name}>
-                <a
-                  href={social.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={social.label}
-                  className="bl-closing-social"
-                >
-                  {social.icon}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       <div className="bl-closing-cta">
         <div className="bl-closing-cta-inner">
           <p className="bl-closing-cta-eyebrow">Begin today</p>
@@ -387,6 +366,33 @@ export default function ClosingCta({ onReader, onWriter }: Props) {
               Start writing <span className="bl-closing-pill-arrow" aria-hidden="true">→</span>
             </button>
           </div>
+        </div>
+      </div>
+
+      <div className="bl-closing-socials">
+        <div className="bl-closing-socials-inner">
+          <div className="bl-closing-socials-text">
+            <span className="bl-closing-eyebrow">Join us on socials</span>
+            <p className="bl-closing-socials-blurb">
+              Writing tips, sneak peeks, and a community that reads before the world
+              does.
+            </p>
+          </div>
+          <ul className="bl-closing-socials-icons">
+            {SOCIALS.map((social) => (
+              <li key={social.name}>
+                <a
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={social.label}
+                  className="bl-closing-social"
+                >
+                  {social.icon}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

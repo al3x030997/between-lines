@@ -17,6 +17,7 @@ type MiniBook = {
 const offerCover = (filename: string) =>
   `linear-gradient(180deg, rgba(8, 8, 8, 0.04) 0%, rgba(8, 8, 8, 0.38) 56%, rgba(8, 8, 8, 0.66) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
 
+// The two covers a club gathers around — the "book" in book club.
 const MINI_BOOKS: MiniBook[] = [
   {
     title: 'Hollow Latitude',
@@ -34,15 +35,26 @@ const MINI_BOOKS: MiniBook[] = [
     coverBg: offerCover('ash-and-anise'),
     coverFg: 'light',
   },
-  {
-    title: 'The Undertow Hours',
-    italicWords: [1],
-    authorMono: 'J.T. CALLOWAY',
-    publisher: 'BETWEENREADS',
-    coverBg: offerCover('the-undertow-hours'),
-    coverFg: 'light',
-  },
 ];
+
+// Member-avatar tints for the club huddle and the pod rings.
+const DOT_TINTS = [
+  'var(--bl-accent)',
+  'color-mix(in srgb, var(--bl-footer-fg) 68%, transparent)',
+  'color-mix(in srgb, var(--bl-accent) 58%, var(--bl-footer-fg))',
+  'color-mix(in srgb, var(--bl-footer-fg) 42%, transparent)',
+  'color-mix(in srgb, var(--bl-accent) 80%, var(--bl-surface))',
+];
+
+// Lay out N dots evenly around a ring, starting at the top.
+const ringDots = (n: number, radius = 38) =>
+  Array.from({ length: n }).map((_, i) => {
+    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+    return {
+      x: 50 + Math.cos(angle) * radius,
+      y: 50 + Math.sin(angle) * radius,
+    };
+  });
 
 function renderTitle(title: string, italicWords?: number[]) {
   if (!italicWords || italicWords.length === 0) return title;
@@ -56,6 +68,25 @@ function renderTitle(title: string, italicWords?: number[]) {
   });
 }
 
+function PodRing({ n, small }: { n: number; small?: boolean }) {
+  return (
+    <div className={`bl-pod-ring${small ? ' is-small' : ''}`}>
+      {ringDots(n).map((dot, i) => (
+        <span
+          key={i}
+          className="bl-pod-dot"
+          style={{
+            left: `${dot.x}%`,
+            top: `${dot.y}%`,
+            background: DOT_TINTS[i % DOT_TINTS.length],
+          }}
+        />
+      ))}
+      <span className="bl-pod-count">{n}</span>
+    </div>
+  );
+}
+
 export default function SignupOffers({ onReader, onWriter }: Props) {
   const handle = (cb?: () => void) => (e: React.MouseEvent) => {
     e.preventDefault();
@@ -63,108 +94,129 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
   };
 
   return (
-    <section className="bl-offers" aria-label="Free reads and Volume audiobooks">
+    <section className="bl-offers" aria-label="Reading clubs and pods">
       <style>{CSS}</style>
       <div className="bl-offers-inner">
+        {/* LEFT — Reading Clubs: the open, wide community */}
         <article
-          className="bl-offers-panel bl-offers-reader"
-          aria-labelledby="bl-offers-reader-title"
+          className="bl-offers-panel bl-offers-clubs"
+          aria-labelledby="bl-offers-clubs-title"
         >
-          <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Emerging authors, <em>publishing here.</em>
+          <p className="bl-offers-eyebrow">
+            <span className="bl-offers-eyebrow-mark" aria-hidden="true" />
+            Reading Clubs
+          </p>
+          <h2 className="bl-offers-title" id="bl-offers-clubs-title">
+            Your book club, <em>but bigger.</em>
           </h2>
-          <div className="bl-offers-covers" aria-hidden="true">
-            {MINI_BOOKS.map((book, i) => (
-              <div
-                key={book.title}
-                className={`bl-offers-cover${book.coverFg === 'dark' ? ' is-light' : ''}`}
-                style={{
-                  background: book.coverBg,
-                  color: book.coverFg === 'light' ? '#F3EFE6' : '#0e0e0c',
-                  transform: `rotate(${[-3, 0.5, 2.5][i]}deg)`,
-                }}
-              >
-                <div className="bl-offers-cover-publisher">{book.publisher}</div>
-                <div className="bl-offers-cover-title">
-                  {renderTitle(book.title, book.italicWords)}
+
+          <div className="bl-offers-club-art" aria-hidden="true">
+            <div className="bl-offers-covers">
+              {MINI_BOOKS.map((book, i) => (
+                <div
+                  key={book.title}
+                  className={`bl-offers-cover${book.coverFg === 'dark' ? ' is-light' : ''}`}
+                  style={{
+                    background: book.coverBg,
+                    color: book.coverFg === 'light' ? '#F3EFE6' : '#0e0e0c',
+                    transform: `rotate(${[-3, 2.5][i]}deg)`,
+                  }}
+                >
+                  <div className="bl-offers-cover-publisher">{book.publisher}</div>
+                  <div className="bl-offers-cover-title">
+                    {renderTitle(book.title, book.italicWords)}
+                  </div>
+                  <div className="bl-offers-cover-foot">
+                    <div className="bl-offers-cover-rule" />
+                    <div className="bl-offers-cover-author">{book.authorMono}</div>
+                  </div>
                 </div>
-                <div className="bl-offers-cover-foot">
-                  <div className="bl-offers-cover-rule" />
-                  <div className="bl-offers-cover-author">{book.authorMono}</div>
+              ))}
+              <div className="bl-offers-club-meta">
+                <div className="bl-offers-members">
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className="bl-offers-member"
+                      style={{ background: DOT_TINTS[i % DOT_TINTS.length] }}
+                    />
+                  ))}
+                  <span className="bl-offers-members-more">+ many</span>
                 </div>
+                <span className="bl-offers-chip">
+                  <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+                    <path
+                      d="M12 20s-7-4.35-9.5-8.5C1 8.5 2.5 5.5 5.5 5.5 7.5 5.5 9 7 12 9.5 15 7 16.5 5.5 18.5 5.5c3 0 4.5 3 3 6C19 15.65 12 20 12 20z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  couldn’t put it down
+                </span>
               </div>
-            ))}
+            </div>
           </div>
+
           <p className="bl-offers-lede">
-            Discover debut authors and the stories worth your time &mdash; chosen by taste, not
-            algorithms.
+            Gather around any book, genre, or author &mdash; published, indie, or just
+            discovered. Read together, react in the margins, and unpack every twist in a
+            private thread. Free to join, or start your own.
           </p>
           <a
             href="/start?mode=reader"
             className="bl-offers-cta"
             onClick={handle(onReader)}
           >
-            Come to read
+            Find your club
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>
 
         <div className="bl-offers-divider" aria-hidden="true" />
 
+        {/* RIGHT — Pods: the small, intimate, by-invitation counter-move */}
         <article
-          className="bl-offers-panel bl-offers-volume"
-          aria-labelledby="bl-offers-volume-title"
+          className="bl-offers-panel bl-offers-pods-panel"
+          aria-labelledby="bl-offers-pods-title"
         >
           <p className="bl-offers-eyebrow">
             <span className="bl-offers-eyebrow-mark" aria-hidden="true" />
-            Introducing
+            Pods
           </p>
-          <h2 className="bl-offers-title" id="bl-offers-volume-title">
-            <span className="bl-offers-volume-mark">Volume.</span>
-            <span className="bl-offers-volume-sub">
-              Audiobooks, voiced by <em>writers.</em>
+          <h2 className="bl-offers-title" id="bl-offers-pods-title">
+            <span className="bl-offers-mark">Pods.</span>
+            <span className="bl-offers-sub">
+              An inner circle, <em>by invitation.</em>
             </span>
           </h2>
-          <div className="bl-offers-audio" aria-hidden="true">
-            <svg
-              className="bl-offers-wave"
-              viewBox="0 0 320 56"
-              preserveAspectRatio="none"
-              role="presentation"
-            >
-              {Array.from({ length: 48 }).map((_, i) => {
-                const t = i / 47;
-                const base = Math.sin(t * Math.PI * 3.2) * 0.45 + 0.55;
-                const jitter = Math.sin(i * 7.13) * 0.18;
-                const h = Math.max(0.08, Math.min(1, base + jitter));
-                const height = 4 + h * 44;
-                return (
-                  <rect
-                    key={i}
-                    x={i * 6.4 + 1}
-                    y={(56 - height) / 2}
-                    width="3"
-                    height={height}
-                    rx="1.5"
-                  />
-                );
-              })}
-            </svg>
-            <span className="bl-offers-play">
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path d="M8 5.5v13l11-6.5L8 5.5z" fill="currentColor" />
-              </svg>
-            </span>
+
+          <div className="bl-offers-pods" aria-hidden="true">
+            <div className="bl-pod">
+              <PodRing n={6} />
+              <div className="bl-pod-cap">
+                <strong>Reader Pod</strong>
+                <span>up to 6 readers</span>
+              </div>
+            </div>
+            <div className="bl-pod">
+              <PodRing n={4} small />
+              <div className="bl-pod-cap">
+                <strong>Writer Pod</strong>
+                <span>up to 4 writers</span>
+              </div>
+            </div>
           </div>
+
           <p className="bl-offers-lede">
-            Narrate your work. Or choose a human narrator. Early access now forming.
+            <strong>Reader Pods</strong> bring up to six readers around a writer’s work
+            &mdash; a trusted circle, not a public feed. <strong>Writer Pods</strong> keep
+            four writers close for honest craft talk. Small on purpose.
           </p>
           <a
             href="/start?mode=writer"
             className="bl-offers-cta"
             onClick={handle(onWriter)}
           >
-            Sign up for early access
+            Start a pod
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>
@@ -246,7 +298,7 @@ const CSS = `
   font-weight: 500;
   color: var(--bl-footer-fg);
 }
-.bl-offers-volume-mark {
+.bl-offers-mark {
   display: block;
   font-family: var(--bl-font-serif);
   font-style: italic;
@@ -256,7 +308,7 @@ const CSS = `
   letter-spacing: -0.03em;
   color: var(--bl-footer-fg);
 }
-.bl-offers-volume-sub {
+.bl-offers-sub {
   display: block;
   margin-top: 8px;
   font-family: var(--bl-font-serif);
@@ -266,7 +318,7 @@ const CSS = `
   letter-spacing: -0.015em;
   color: var(--bl-footer-fg);
 }
-.bl-offers-volume-sub em { color: var(--bl-footer-fg); }
+.bl-offers-sub em { color: var(--bl-footer-fg); }
 
 .bl-offers-lede {
   font-family: var(--bl-font-body);
@@ -277,13 +329,18 @@ const CSS = `
   max-width: 46ch;
   text-wrap: pretty;
 }
+.bl-offers-lede strong {
+  color: var(--bl-footer-fg);
+  font-weight: 600;
+}
 
+/* ── Left: Reading Clubs ── */
+.bl-offers-club-art { margin: 2px 0 4px; }
 .bl-offers-covers {
   display: flex;
-  gap: 12px;
-  margin: 4px 0 6px;
-  padding: 6px 0 4px;
+  gap: 14px;
   align-items: flex-end;
+  flex-wrap: wrap;
 }
 .bl-offers-cover {
   flex: 0 0 auto;
@@ -327,32 +384,115 @@ const CSS = `
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
-
-.bl-offers-audio {
-  position: relative;
+.bl-offers-club-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 4px;
+}
+.bl-offers-members {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 6px 0;
-  margin: 2px 0 2px;
 }
-.bl-offers-wave {
-  flex: 1;
-  height: 48px;
-  fill: color-mix(in srgb, var(--bl-footer-fg) 40%, transparent);
-  display: block;
+.bl-offers-member {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-left: -9px;
+  border: 2px solid var(--bl-footer-bg);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.22);
 }
-.bl-offers-play {
+.bl-offers-member:first-child { margin-left: 0; }
+.bl-offers-members-more {
+  margin-left: 12px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--bl-footer-fg) 66%, transparent);
+}
+.bl-offers-chip {
+  align-self: flex-start;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
+  gap: 8px;
+  background: var(--bl-surface);
+  color: #1a1a18;
+  padding: 8px 15px;
   border-radius: 999px;
-  background: var(--bl-accent);
-  color: var(--bl-surface);
-  flex: 0 0 auto;
-  box-shadow: 0 8px 22px color-mix(in srgb, var(--bl-accent) 32%, transparent);
+  font-family: var(--bl-font-body);
+  font-style: italic;
+  font-size: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+.bl-offers-chip svg { color: var(--bl-accent); flex: 0 0 auto; }
+
+/* ── Right: Pods ── */
+.bl-offers-pods {
+  display: flex;
+  gap: clamp(20px, 3vw, 44px);
+  align-items: flex-start;
+  flex-wrap: wrap;
+  padding: 6px 0 2px;
+}
+.bl-pod {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.bl-pod-ring {
+  position: relative;
+  width: 122px;
+  height: 122px;
+}
+.bl-pod-ring.is-small { width: 106px; height: 106px; }
+.bl-pod-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px dashed color-mix(in srgb, var(--bl-footer-fg) 26%, transparent);
+}
+.bl-pod-dot {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--bl-footer-bg);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.26);
+}
+.bl-pod-count {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--bl-font-serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 30px;
+  color: var(--bl-footer-fg);
+}
+.bl-pod-cap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+.bl-pod-cap strong {
+  font-family: var(--bl-font-eyebrow);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bl-footer-fg);
+}
+.bl-pod-cap span {
+  font-family: var(--bl-font-body);
+  font-size: 13px;
+  color: color-mix(in srgb, var(--bl-footer-fg) 64%, transparent);
 }
 
 .bl-offers-cta {
