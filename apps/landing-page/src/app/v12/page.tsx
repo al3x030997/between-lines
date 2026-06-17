@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import BetweenReviews from '../v8/sections/BetweenReviews';
 import SignupOffers from '../v8/sections/SignupOffers';
+import FaqDirectory from '../v8/sections/FaqDirectory';
 import ClosingCta from '../v8/sections/ClosingCta';
 import Footer from '../v8/sections/Footer';
 import { SiteNav } from '@/components/SiteNav';
@@ -358,6 +359,8 @@ export default function V12Page() {
       <BetweenReviews onReader={() => open('reader')} />
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
+
+      <FaqDirectory />
 
       <ClosingCta onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />
