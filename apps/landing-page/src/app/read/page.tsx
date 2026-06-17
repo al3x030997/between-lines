@@ -368,9 +368,9 @@ const CSS = `
 }
 .br-readm-feature-blurb {
   font-family: var(--bl-font-body);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.62;
-  color: var(--br-readm-muted);
+  color: var(--theme-text);
   margin: 12px 0 0;
   max-width: none;
   text-wrap: pretty;
@@ -387,9 +387,9 @@ const CSS = `
   position: relative;
   padding-left: 24px;
   font-family: var(--bl-font-body);
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.5;
-  color: var(--theme-text-soft, var(--br-readm-muted));
+  color: var(--theme-text);
   text-wrap: pretty;
 }
 .br-readm-feature-points li::before {
