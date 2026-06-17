@@ -76,8 +76,22 @@ const CSS = `
   color: var(--theme-text-muted);
   line-height: 1.75;
   max-width: 620px;
-  margin: 0 0 48px;
+  margin: 0 0 20px;
   text-wrap: pretty;
+}
+.bl-support-disclaimer {
+  font-family: var(--bl-font-body);
+  font-size: 13px;
+  color: var(--theme-text-faint);
+  line-height: 1.7;
+  max-width: 620px;
+  margin: 0 0 40px;
+  text-wrap: pretty;
+}
+.bl-support-disclaimer a {
+  color: var(--theme-text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* === Tiers === */
@@ -185,6 +199,34 @@ const CSS = `
 }
 .bl-support-learn-more:hover { color: var(--bl-accent-strong); border-color: var(--bl-accent-strong); }
 
+/* Literary Patron — full-width featured row */
+.bl-support-tier.is-patron {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border: 2px solid var(--theme-strong-cta-bg);
+  margin-bottom: 40px;
+}
+.bl-support-tier.is-patron:hover { transform: none; box-shadow: none; }
+.bl-support-patron-info { flex: 1; }
+.bl-support-tier.is-patron .bl-support-tier-price span {
+  font-size: 11px;
+  color: var(--theme-text-faint);
+}
+.bl-support-tier.is-patron .bl-support-tier-benefits { margin-top: 12px; max-width: 640px; }
+.bl-support-tier-btn.is-patron-btn {
+  width: auto;
+  margin-top: 0;
+  align-self: center;
+  white-space: nowrap;
+  padding: 11px 28px;
+}
+@media (max-width: 600px) {
+  .bl-support-tier.is-patron { flex-direction: column; align-items: flex-start; }
+  .bl-support-tier-btn.is-patron-btn { width: 100%; }
+}
+
 /* === Note === */
 .bl-support-note {
   font-family: var(--bl-font-body);
@@ -247,6 +289,56 @@ const CSS = `
   color: var(--theme-text-muted);
   line-height: 1.7;
 }
+.bl-support-way-cta {
+  display: inline-block;
+  margin-top: 16px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--theme-text);
+  border-bottom: 1.5px solid var(--theme-text);
+  text-decoration: none;
+  padding-bottom: 2px;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.bl-support-way-cta:hover { color: var(--bl-accent-strong); border-color: var(--bl-accent-strong); }
+.bl-support-share { position: relative; display: inline-block; margin-top: 16px; }
+.bl-support-share-btn {
+  font-family: var(--bl-font-eyebrow);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--theme-on-yellow);
+  background: var(--theme-yellow);
+  border: none;
+  border-radius: 999px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background 180ms ease, transform 220ms var(--bl-ease);
+}
+.bl-support-share-btn:hover { background: var(--theme-yellow-strong); transform: translateY(-1px); }
+.bl-support-share-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-subtle);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgb(var(--theme-shadow-rgb) / 0.12);
+  min-width: 180px;
+  z-index: 100;
+  overflow: hidden;
+}
+.bl-support-share-menu a {
+  display: block;
+  padding: 11px 16px;
+  font-size: 13px;
+  color: var(--theme-text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--theme-border-subtle);
+  transition: background 150ms ease;
+}
+.bl-support-share-menu a:last-child { border-bottom: none; }
+.bl-support-share-menu a:hover { background: var(--theme-surface-muted); }
 
 /* === Yellow CTA band === */
 .bl-support-band {
@@ -351,16 +443,23 @@ const CSS = `
   margin-bottom: 4px;
 }
 .bl-support-modal-tier-name span { font-size: 12px; font-weight: 500; color: var(--theme-text-faint); }
-.bl-support-modal-tier-tag {
-  font-size: 13px;
-  color: var(--theme-text-faint);
-  margin-bottom: 10px;
-}
 .bl-support-modal-tier-desc {
   font-size: 14px;
   color: var(--theme-text-muted);
   line-height: 1.75;
   margin: 0;
+}
+.bl-support-modal-note {
+  font-size: 12px;
+  color: var(--theme-text-faint);
+  line-height: 1.7;
+  margin: 24px 0 0;
+}
+.bl-support-modal-note a {
+  color: var(--theme-text);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* Compare table */
@@ -409,68 +508,91 @@ const TIERS: Tier[] = [
     price: '$100 one-time',
     avail: 'Open',
     benefits:
-      '1 year membership · Believer badge · founding recognition · early platform updates · annual founder letter',
+      'Named on the Believer Wall with badge and linked profile · 1 year Power Reader · early platform updates · annual founder letter',
     cta: 'Become a Believer',
   },
   {
-    name: 'Early Reader',
+    name: 'First Reader',
     price: '$250 one-time',
     avail: 'Open',
     benefits:
-      'Everything in Believer · 1 year unlimited reading · Early Reader badge · Founding Reader Circle · inaugural issue recognition',
-    cta: 'Become an Early Reader',
+      'Everything in Believer · named in BetweenLines Journal · First Reader badge',
+    cta: 'Become a First Reader',
   },
   {
-    name: 'Early Writer',
+    name: 'First Voice',
     price: '$250 one-time',
     avail: 'Open',
     benefits:
-      'Everything in Believer · 1 year Writer Pro · Early Writer badge · priority onboarding · launch bonuses',
-    cta: 'Become an Early Writer',
+      'Everything in Believer · 1 year PowerWriter · 1 year Power Reader · named in BetweenLines Journal · priority access to ReaderScouts, Reader Pods, and Writer Pods · First Voice badge',
+    cta: 'Become a First Voice',
   },
 ];
 
 const TIERS_TWO: (Tier & { featured?: boolean })[] = [
   {
-    name: 'Founding Member',
+    name: 'Friends of BetweenReads',
     price: '$500 one-time',
     avail: 'Limited to 100',
     benefits:
-      'Everything above · Founding Member badge · inaugural journal recognition · annual founder gathering · quarterly updates',
-    cta: 'Become a Founding Member',
+      'Everything above · named in BetweenLines Journal year one issues · access to the Insider Page · annual founder Zoom invite · Friends badge',
+    cta: 'Become a Friend',
     featured: true,
   },
   {
-    name: 'Literary Patron',
-    price: '$2,500 one-time',
-    avail: 'Limited to 25',
+    name: 'Founding Member',
+    price: '$1,000 one-time',
+    avail: 'Limited to 50',
     benefits:
-      'Everything above · Patron recognition · editorial roundtable invitations · direct founder updates',
-    cta: 'Become a Literary Patron',
+      'Everything above · quarterly founder letter · one vote on proposed platform features · private Founding Member community · named in every BetweenLines issue year one · eligible to guest edit one issue of BetweenLines Journal · Founding Member badge',
+    cta: 'Become a Founding Member',
   },
 ];
 
+const PATRON: Tier = {
+  name: 'Literary Patron',
+  price: '$2,500 one-time',
+  avail: 'Limited to 25',
+  benefits:
+    'Everything above · named in every BetweenLines issue in year one · eligible to guest edit two issues of BetweenLines Journal · personal founder call · Literary Patron badge',
+  cta: 'Become a Literary Patron',
+};
+
 const COMPARE_ROWS: { label: string; cells: boolean[] }[] = [
-  { label: '1 year membership', cells: [true, true, true, true, true] },
-  { label: 'Founding badge', cells: [true, true, true, true, true] },
-  { label: 'Founding recognition', cells: [true, true, true, true, true] },
-  { label: 'Early platform updates', cells: [true, true, true, true, true] },
-  { label: 'Annual founder letter', cells: [true, true, true, true, true] },
-  { label: '1 year unlimited reading', cells: [false, true, false, true, true] },
-  { label: '1 year Writer Pro', cells: [false, false, true, true, true] },
-  { label: 'Priority onboarding', cells: [false, false, true, true, true] },
-  { label: 'Inaugural journal recognition', cells: [false, false, false, true, true] },
-  { label: 'Annual founder gathering', cells: [false, false, false, true, true] },
-  { label: 'Quarterly updates', cells: [false, false, false, true, true] },
-  { label: 'Editorial roundtable invitations', cells: [false, false, false, false, true] },
-  { label: 'Direct founder updates', cells: [false, false, false, false, true] },
+  { label: 'Named on Believer Wall with linked profile', cells: [true, true, true, true, true, true] },
+  { label: 'Tier badge on profile', cells: [true, true, true, true, true, true] },
+  { label: '1 year Power Reader', cells: [true, true, true, true, true, true] },
+  { label: 'Early platform updates', cells: [true, true, true, true, true, true] },
+  { label: 'Annual founder letter', cells: [true, true, true, true, true, true] },
+  { label: 'Recognition in BetweenLines Journal', cells: [false, true, true, true, true, true] },
+  { label: '1 year PowerWriter', cells: [false, false, true, true, true, true] },
+  {
+    label: 'Priority access to ReaderScouts, Reader Pods & Writer Pods',
+    cells: [false, false, true, true, true, true],
+  },
+  { label: 'Access to Insider Page', cells: [false, false, false, true, true, true] },
+  { label: 'Annual founder Zoom invite', cells: [false, false, false, true, true, true] },
+  { label: 'Quarterly founder letter', cells: [false, false, false, false, true, true] },
+  { label: 'Vote on proposed platform features', cells: [false, false, false, false, true, true] },
+  { label: 'Private Founding Member community', cells: [false, false, false, false, true, true] },
+  { label: 'Named in every BetweenLines issue year one', cells: [false, false, false, false, true, true] },
+  {
+    label: 'Eligible to guest edit one issue of BetweenLines Journal',
+    cells: [false, false, false, false, true, true],
+  },
+  {
+    label: 'Eligible to guest edit two issues of BetweenLines Journal',
+    cells: [false, false, false, false, false, true],
+  },
+  { label: 'Personal founder call', cells: [false, false, false, false, false, true] },
 ];
 
 const COMPARE_COLS = [
   { name: 'Believer', price: '$100' },
-  { name: 'Early Reader', price: '$250' },
-  { name: 'Early Writer', price: '$250' },
-  { name: 'Founding Member', price: '$500', featured: true },
+  { name: 'First Reader', price: '$250' },
+  { name: 'First Voice', price: '$250' },
+  { name: 'Friends', price: '$500', featured: true },
+  { name: 'Founding Member', price: '$1,000' },
   { name: 'Literary Patron', price: '$2,500' },
 ];
 
@@ -478,41 +600,64 @@ const LEARN_TIERS = [
   {
     name: 'Believer',
     price: '$100',
-    tag: 'Open',
-    desc: 'The best way to say you believe in what we’re building. Believers receive a one-year membership, a Believer badge, founding recognition on the platform, early platform updates, and an annual letter from the founders.',
+    avail: 'Open',
+    desc: 'The best way to say you believe in what we’re building. Believers receive one year of Power Reader, a Believer badge, a named linked profile on the Believer Wall, early platform updates, and an annual letter from the founders.',
   },
   {
-    name: 'Early Reader',
+    name: 'First Reader',
     price: '$250',
-    tag: 'Open',
-    desc: 'For readers who want to be part of the founding story. Includes everything in Believer, plus one year of unlimited reading, an Early Reader badge, a place in the Founding Reader Circle, and recognition in our inaugural issue.',
+    avail: 'Open',
+    desc: 'For readers who want to be part of the founding story. Includes everything in Believer, plus a First Reader badge and recognition in BetweenLines Journal.',
   },
   {
-    name: 'Early Writer',
+    name: 'First Voice',
     price: '$250',
-    tag: 'Open',
-    desc: 'For writers, poets, and illustrators who want to be among the first to build on BetweenReads. Includes everything in Believer, plus one year of Writer Pro, an Early Writer badge, priority onboarding, and launch bonuses.',
+    avail: 'Open',
+    desc: 'For writers, poets, and illustrators who want to be among the first to build on BetweenReads. Includes everything in Believer, plus one year of PowerWriter and Power Reader, priority access to ReaderScouts, Reader Pods and Writer Pods, recognition in BetweenLines Journal, and a First Voice badge.',
+  },
+  {
+    name: 'Friends of BetweenReads',
+    price: '$500',
+    avail: 'Limited to 100',
+    desc: 'Includes everything above, plus recognition in BetweenLines Journal year one issues, access to the Insider Page — where we share platform updates, ideas and product evolution — an annual founder Zoom invite, and a Friends badge.',
+    featured: true,
   },
   {
     name: 'Founding Member',
-    price: '$500',
-    limit: 'Limited to 100',
-    tag: 'Our most complete founding tier',
-    desc: 'Includes everything above, plus a Founding Member badge, recognition in the inaugural journal, an invitation to our annual founder gathering, and quarterly updates direct from the team.',
-    featured: true,
+    price: '$1,000',
+    avail: 'Limited to 50',
+    desc: 'Includes everything above, plus a quarterly founder letter, one vote on proposed platform features — one member, one vote — a private Founding Member community space, named in every BetweenLines issue in year one, eligibility to guest edit one issue of BetweenLines Journal, and a Founding Member badge.',
   },
   {
     name: 'Literary Patron',
     price: '$2,500',
-    limit: 'Limited to 25',
-    tag: 'For those who want to shape the platform',
-    desc: 'Includes everything above, plus Patron recognition, invitations to editorial roundtable discussions, and direct updates from the founders. A rare opportunity to be part of shaping BetweenReads from the inside.',
+    avail: 'Limited to 25',
+    desc: 'Our most exclusive tier. Includes everything above, plus recognition in every BetweenLines issue in year one, eligibility to guest edit two issues of BetweenLines Journal, a personal founder call, and a Literary Patron badge.',
+  },
+];
+
+const SHARE_TEXT =
+  'I just joined BetweenReads — an ad-free home for readers, writers, poets and illustrators. If you love books and great writing, come find me there. https://betweenreads.com';
+const SHARE_URL = 'https://betweenreads.com';
+
+const SHARE_LINKS = [
+  { label: 'Bluesky', href: `https://bsky.app/intent/compose?text=${encodeURIComponent(SHARE_TEXT)}` },
+  { label: 'Instagram', href: 'https://www.instagram.com/' },
+  {
+    label: 'LinkedIn',
+    href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHARE_URL)}`,
+  },
+  { label: 'X', href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(SHARE_TEXT)}` },
+  {
+    label: 'Email',
+    href: `mailto:?subject=${encodeURIComponent('You should know about BetweenReads')}&body=${encodeURIComponent(SHARE_TEXT)}`,
   },
 ];
 
 export default function SupportPage() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [learnMoreOpen, setLearnMoreOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const anyOpen = compareOpen || learnMoreOpen;
 
   useEffect(() => {
@@ -562,6 +707,12 @@ export default function SupportPage() {
           Whether you join as a reader, writer, or simply a believer in better reading culture
           &mdash; we would be honoured to have your support.
         </p>
+        <p className="bl-support-disclaimer">
+          All contributions are one-time and non-refundable. Supporting BetweenReads does not
+          influence editorial decisions, curation, or discovery &mdash; all editorial choices remain
+          independent. By contributing you agree to our{' '}
+          <a href="/terms">Terms &amp; Conditions</a>.
+        </p>
 
         <div className="bl-support-tiers">
           {[...TIERS, ...TIERS_TWO].map((tier) => (
@@ -601,6 +752,19 @@ export default function SupportPage() {
           </div>
         </div>
 
+        <div className="bl-support-tier is-patron">
+          <div className="bl-support-patron-info">
+            <div className="bl-support-tier-name">{PATRON.name}</div>
+            <div className="bl-support-tier-price">
+              {PATRON.price} &nbsp;&middot;&nbsp; <span>{PATRON.avail}</span>
+            </div>
+            <div className="bl-support-tier-benefits">{PATRON.benefits}</div>
+          </div>
+          <button type="button" className="bl-support-tier-btn is-patron-btn">
+            {PATRON.cta}
+          </button>
+        </div>
+
         <div className="bl-support-note">
           Interested in supporting BetweenReads at a deeper level? We would love to hear from you
           &mdash; <a href="mailto:supportus@betweenreads.com">supportus@betweenreads.com</a>
@@ -608,6 +772,13 @@ export default function SupportPage() {
           <br />
           All support goes directly toward building the platform, funding BetweenLines, and keeping
           BetweenReads ad-free. We are grateful for every Believer who helps make this possible.
+          <br />
+          <br />
+          <strong>
+            Supporting BetweenReads never influences editorial decisions or discovery.
+          </strong>{' '}
+          All curation, featuring, and editorial selection remains merit-based and
+          community-driven.
         </div>
 
         <div className="bl-support-other">
@@ -618,24 +789,58 @@ export default function SupportPage() {
           </p>
           <div className="bl-support-ways">
             <div className="bl-support-way">
-              <div className="bl-support-way-name">Beta Reader</div>
+              <div className="bl-support-way-name">ReaderScout</div>
               <div className="bl-support-way-desc">
-                Sign up as a beta reader, help writers refine their work before it reaches a wider
-                audience, and earn reader credits on the platform.
+                Be the first to discover extraordinary voices. Sign up as a ReaderScout, receive
+                access to unpublished work, help writers refine it before it reaches a wider
+                audience, and earn more reader credits than regular members &mdash; plus an
+                exclusive ReaderScout badge on your profile.
               </div>
+              <a className="bl-support-way-cta" href="mailto:readerscout@betweenreads.com">
+                Sign Up &rarr;
+              </a>
             </div>
             <div className="bl-support-way">
               <div className="bl-support-way-name">Host a Reader Club</div>
               <div className="bl-support-way-desc">
-                Host a reader club on BetweenReads, bring readers together around great books and
-                stories, and earn reader credits along the way.
+                Love reading? Host a Reader Club on BetweenReads, bring readers together around great
+                books and stories, earn more reader credits than regular members &mdash; and wear a
+                Reader Club Host badge on your profile.
               </div>
+              <a className="bl-support-way-cta" href="mailto:hostreaderclub@betweenreads.com">
+                I&rsquo;m Interested &rarr;
+              </a>
             </div>
             <div className="bl-support-way">
               <div className="bl-support-way-name">Spread the Word</div>
               <div className="bl-support-way-desc">
-                Invite your favourite writers to the platform. Share BetweenReads with fellow
-                readers. Every introduction helps the community grow.
+                Do you believe the best things in life are shared? Invite your favourite writers and
+                readers to BetweenReads and help the community find its people.
+              </div>
+              <div className="bl-support-share">
+                <button
+                  type="button"
+                  className="bl-support-share-btn"
+                  aria-expanded={shareOpen}
+                  onClick={() => setShareOpen((v) => !v)}
+                >
+                  Share
+                </button>
+                {shareOpen && (
+                  <div className="bl-support-share-menu">
+                    {SHARE_LINKS.map((s) => (
+                      <a
+                        key={s.label}
+                        href={s.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        onClick={() => setShareOpen(false)}
+                      >
+                        {s.label}
+                      </a>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -672,8 +877,8 @@ export default function SupportPage() {
             </button>
             <h2 className="bl-support-modal-h">Our support tiers</h2>
             <p className="bl-support-modal-sub">
-              All contributions are one-time. Every tier includes founding recognition and helps
-              keep BetweenReads independent and ad-free.
+              All contributions are one-time. Every tier includes a named, linked profile on the
+              Believer Wall with your tier badge.
             </p>
             {LEARN_TIERS.map((t) => (
               <div
@@ -681,13 +886,17 @@ export default function SupportPage() {
                 className={`bl-support-modal-tier${t.featured ? ' is-featured' : ''}`}
               >
                 <div className="bl-support-modal-tier-name">
-                  {t.name} &mdash; {t.price}
-                  {t.limit ? <span> {t.limit}</span> : null}
+                  {t.name} &mdash; {t.price} &middot; {t.avail}
                 </div>
-                <div className="bl-support-modal-tier-tag">{t.tag}</div>
                 <p className="bl-support-modal-tier-desc">{t.desc}</p>
               </div>
             ))}
+            <p className="bl-support-modal-note">
+              All contributions are one-time and non-refundable. Supporting BetweenReads does not
+              influence editorial decisions or discovery.{' '}
+              <a href="mailto:questions@betweenreads.com">Still have questions? Email us</a> &mdash;
+              we&rsquo;d love to hear from you.
+            </p>
           </div>
         </div>
       )}
@@ -747,6 +956,10 @@ export default function SupportPage() {
                 </tbody>
               </table>
             </div>
+            <p className="bl-support-modal-note">
+              All contributions are one-time and non-refundable. Supporting BetweenReads does not
+              influence editorial decisions or discovery.
+            </p>
           </div>
         </div>
       )}

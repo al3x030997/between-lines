@@ -153,6 +153,19 @@ const CSS = `
   color: var(--theme-text-faint);
   margin: 0;
 }
+.bl-about-sig-bio {
+  font-family: var(--bl-font-body);
+  font-size: 15px;
+  color: var(--theme-text-muted);
+  line-height: 1.7;
+  margin: 12px 0 0;
+  text-wrap: pretty;
+}
+.bl-about-sig-bio a {
+  color: var(--theme-text);
+  border-bottom: 1px solid var(--theme-text);
+  text-decoration: none;
+}
 
 /* === Closing CTA (dark card) === */
 .bl-about-cta-wrap {
@@ -301,9 +314,9 @@ export default function AboutPage() {
           </h1>
           <div className="bl-about-mission">
             <p className="bl-about-lede">
-              BetweenReads is an ad-free home for readers, writers, poets, and illustrators, where
-              great work is discovered through community, conversation, and thoughtful
-              participation &mdash; not visibility-driven algorithms.
+              BetweenReads is an ad-free home for readers, writers, poets, and illustrators &mdash;
+              where the best work rises through tailored reading, honest recommendations, and
+              community trust.
             </p>
           </div>
         </section>
@@ -316,30 +329,33 @@ export default function AboutPage() {
               three others you never knew you needed.
             </p>
             <p className="bl-about-p">
-              That&rsquo;s the experience we&rsquo;re building. We curate outstanding books, stories,
-              poetry, and illustration alongside readers&rsquo; picks and community recommendations,
-              and spotlight creators at every stage &mdash; from established authors and
-              self-published writers to emerging voices pursuing traditional publication.
-            </p>
-            <p className="bl-about-p">
-              Our goal is simple: help readers discover work that deserves attention.
+              That&rsquo;s the experience we&rsquo;re building &mdash; curating outstanding books,
+              stories, poetry, and illustration alongside readers&rsquo; picks and community
+              recommendations, and spotlighting creators at every stage of their journey.
             </p>
           </div>
 
           <div className="bl-about-section">
             <h2 className="bl-about-h2">We believe there is a better way.</h2>
             <p className="bl-about-p">
-              Readers today are overwhelmed by algorithms, endless recommendations, popularity
-              metrics, and platforms designed to maximize engagement rather than meaningful
-              discovery. Writers, poets, and illustrators face a different challenge &mdash; they are
-              often expected to spend as much time promoting their work as creating it.
+              Readers today are overwhelmed by algorithms, endless recommendations, and platforms
+              designed to maximize engagement rather than meaningful discovery. Writers, poets, and
+              illustrators face a different challenge &mdash; they are often expected to spend as
+              much time promoting their work as creating it.
             </p>
             <p className="bl-about-p">
-              BetweenReads is a reading platform built around discovery, thoughtful participation,
-              and meaningful connections between readers and creators. We help readers discover
-              books, stories, poetry, and illustration from emerging voices, self-published
-              creators, established authors, and literary classics alike.
+              Readers shouldn&rsquo;t have to juggle multiple subscriptions &mdash; and the cost that
+              comes with them &mdash; just to read the work they love. BetweenReads brings it
+              together &mdash; a single home where great writing is discovered on demand, curated to
+              your taste, and experienced like a magazine built just for you.
             </p>
+            <p className="bl-about-p">
+              Writers shouldn&rsquo;t have to master digital marketing, self-promote across
+              platforms, post on social media, seek collabs on one site, and sell on another &mdash;
+              just to find readers. BetweenReads handles the rest, enabling tips, ebook sales, and
+              meaningful reader connections, so writers can focus on what they do best: write.
+            </p>
+            <p className="bl-about-p">BetweenReads is our attempt to change that.</p>
           </div>
 
           <div className="bl-about-section">
@@ -348,36 +364,38 @@ export default function AboutPage() {
               Not just as consumers, but as participants. Readers recommend books, share reviews,
               contribute feedback, highlight memorable passages, and help surface exceptional work.
               Their contributions shape discovery across the platform and create richer experiences
-              for other readers.
+              for everyone.
             </p>
           </div>
 
           <div className="bl-about-section">
-            <h2 className="bl-about-h2">For writers, poets, and illustrators.</h2>
+            <h2 className="bl-about-h2">So do writers, poets, and illustrators.</h2>
             <p className="bl-about-p">
               BetweenReads offers more than a place to publish. It provides a place to build
-              readership, receive meaningful feedback, connect with beta readers, develop works in
-              progress, and share finished work with an engaged community.
-            </p>
-            <p className="bl-about-p">
-              Some creators arrive with completed work. Others arrive with early drafts. Some are
-              pursuing traditional publication. Others choose to publish independently. BetweenReads
-              supports them all.
+              readership, receive meaningful feedback, connect with ReaderScouts, develop works in
+              progress, and share finished work with an engaged community &mdash; whether you arrive
+              with a completed manuscript or an early draft, whether you&rsquo;re pursuing
+              traditional publication or choosing to publish independently.
             </p>
             <p className="bl-about-p">
               Our literary journal, BetweenLines, highlights exceptional work from across the
-              community, while our editorial and community curation helps readers uncover new voices
-              and overlooked books based on taste, recommendations, and shared reading experiences
-              &mdash; not popularity contests.
+              community, helping readers uncover new voices and overlooked books based on taste and
+              shared reading experiences.
             </p>
           </div>
 
           <div className="bl-about-section">
             <p className="bl-about-p">
-              We believe readers are more than data points, creators are more than content
-              producers, and books deserve better ways to be found. Most of all, we believe reading
-              remains one of the most powerful ways people connect with ideas, stories, and each
-              other.
+              In the dawn of AI, reading and critical thinking matter more than ever. Those who
+              write and create with heart, and readers who engage with depth, acknowledge that we
+              are still the guardians of culture.
+            </p>
+            <p className="bl-about-p">
+              Reading and creating is personal. Discovery should be too.
+            </p>
+            <p className="bl-about-p">
+              Reading remains one of the most powerful ways we connect &mdash; with ideas, with
+              stories, with each other.
             </p>
             <p className="bl-about-p is-emphasis">
               We hope you will join us on this journey and help shape the community.
@@ -388,15 +406,43 @@ export default function AboutPage() {
         <div className="bl-about-sigs">
           <div>
             <p className="bl-about-sig-name">
-              <span className="bl-about-brush">Jayshree [Surname]</span>
+              <span className="bl-about-brush">Jayshree</span>
             </p>
             <p className="bl-about-sig-desc">Reader. Writer. Curious wanderer.</p>
+            <p className="bl-about-sig-bio">
+              Jayshree has published over 250,000 words across Substack and Medium &mdash; short
+              stories, original fiction, modern tales of ancient stories, and essays on business and
+              technology &mdash; to an audience of 2,800+ subscribers. She has edited print
+              magazines, founded newsletters, and lived and worked across the Americas, Europe, and
+              Asia. She is currently balancing writing with building this platform.
+            </p>
+            <p className="bl-about-sig-bio">
+              She holds a Computer Engineering degree, a Master&rsquo;s in Computer and Information
+              Science, and an MBA from The Ohio State University. Her experience spans Fortune 100
+              companies including Amazon, HP, and AT&amp;T &mdash; defining, designing, and deploying
+              innovative products globally. She bootstrapped{' '}
+              <a href="https://kindeeds.com" target="_blank" rel="noreferrer">
+                kindeeds.com
+              </a>
+              , a community-based platform for in-kind giving.
+            </p>
           </div>
           <div>
             <p className="bl-about-sig-name">
-              <span className="bl-about-brush">Alex [Surname]</span>
+              <span className="bl-about-brush">Alex</span>
             </p>
             <p className="bl-about-sig-desc">Reader. Builder. Lifelong learner.</p>
+            <p className="bl-about-sig-bio">
+              Alex brings go-to-market expertise and a second-time founder&rsquo;s instinct to
+              BetweenReads. He has raised &euro;100k, collaborated with major German mobility
+              companies including Deutsche Bahn, and led growth at one of Germany&rsquo;s
+              fastest-growing scale-ups. He brings a builder&rsquo;s eye and a healthy respect for
+              what doesn&rsquo;t work &mdash; having navigated ventures in Travel and FinTech.
+            </p>
+            <p className="bl-about-sig-bio">
+              He studied Economics, Computer Science, and Business Administration across the
+              Technical University of Munich, Uni Mannheim, and Paris Dauphine PSL.
+            </p>
           </div>
         </div>
 
@@ -422,9 +468,9 @@ export default function AboutPage() {
         <section className="bl-about-band">
           <h3>Believe in what we&rsquo;re building?</h3>
           <p>
-            Help us keep BetweenReads independent and ad-free &mdash; from a one-time Believer
-            contribution to a Founding Membership, everything goes toward building a better home for
-            readers and writers.
+            Help us keep BetweenReads independent and ad-free &mdash; from a Believer contribution
+            to becoming a Literary Patron, everything goes toward building a better home for readers,
+            writers, poets, and illustrators.
           </p>
           <Link href="/support">Support BetweenReads &rarr;</Link>
         </section>
