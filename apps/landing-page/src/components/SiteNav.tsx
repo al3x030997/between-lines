@@ -23,10 +23,8 @@ const LINKS: NavLink[] = [
   { href: '/about', label: 'About' },
   { href: '/read', label: 'Read' },
   { href: '/create', label: 'Write' },
-  { href: '/betweenlines', label: 'Submit' },
-  { href: '/betweenreviews', label: 'BetweenReviews' },
+  { href: '/betweenreviews', label: 'Reviews' },
   { href: '/faq', label: 'FAQ' },
-  { href: '/pricing', label: 'Pricing' },
   { href: '/support', label: 'Support Us', modifier: 'support' },
 ];
 
@@ -54,8 +52,20 @@ export function SiteNav({ onJoin, activeHref }: Props) {
     }, null);
 
   return (
-    <nav className="brnav" aria-label="Primary">
+    <>
       <style dangerouslySetInnerHTML={{ __html: BRNAV_CSS }} />
+      <div className="br-subbanner">
+        <span className="br-subbanner-inner">
+          <span className="br-subbanner-text">
+            BetweenLines Journal is now open for submissions.{' '}
+            <Link className="br-subbanner-cta" href="/betweenlines#journal-submission">
+              Submit your work
+              <span className="br-subbanner-arrow" aria-hidden="true">→</span>
+            </Link>
+          </span>
+        </span>
+      </div>
+      <nav className="brnav" aria-label="Primary">
       <div className="brnav-inner">
         <Link className="brnav-brand" href="/" aria-label="BetweenReads, home">
           <span>between</span>
@@ -97,11 +107,58 @@ export function SiteNav({ onJoin, activeHref }: Props) {
           <SignInButton className="brnav-signin">Sign In</SignInButton>
         </div>
       </div>
-    </nav>
+      </nav>
+    </>
   );
 }
 
 const BRNAV_CSS = `
+/* Submissions announcement bar — full-bleed near-black strip above the nav.
+   Scrolls away while the nav below stays sticky. Shown on every page that
+   renders SiteNav, so the journal call follows the visitor across the site. */
+.br-subbanner {
+  width: 100%;
+  background: #16110d;
+  color: #f3ede2;
+  font-family: 'Outfit', system-ui, sans-serif;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+.br-subbanner-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 12px clamp(18px, 4vw, 40px);
+}
+.br-subbanner-text {
+  font-size: clamp(16px, 1.4vw, 19px);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #f3ede2;
+  text-align: center;
+}
+.br-subbanner-cta {
+  font-weight: 800;
+  color: var(--theme-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+.br-subbanner-arrow {
+  display: inline-block;
+  margin-left: 7px;
+  font-weight: 900;
+  transition: transform 200ms ease;
+}
+.br-subbanner-cta:hover { color: var(--theme-accent-strong); }
+.br-subbanner-cta:hover .br-subbanner-arrow { transform: translateX(4px); }
+.br-subbanner-cta:focus-visible {
+  outline: 2px solid var(--theme-accent);
+  outline-offset: 3px;
+}
 .brnav {
   position: sticky;
   top: 0;
