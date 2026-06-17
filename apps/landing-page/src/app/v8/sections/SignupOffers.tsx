@@ -71,7 +71,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-reader-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-reader-title">
-            Six emerging authors, <em>publishing here.</em>
+            Emerging authors, <em>publishing here.</em>
           </h2>
           <div className="bl-offers-covers" aria-hidden="true">
             {MINI_BOOKS.map((book, i) => (
@@ -96,14 +96,15 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             ))}
           </div>
           <p className="bl-offers-lede">
-            Meet six debut authors when you join.
+            Discover debut authors and the stories worth your time &mdash; chosen by taste, not
+            algorithms.
           </p>
           <a
             href="/start?mode=reader"
             className="bl-offers-cta"
             onClick={handle(onReader)}
           >
-            Read now
+            Come to read
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>
@@ -269,8 +270,8 @@ const CSS = `
 
 .bl-offers-lede {
   font-family: var(--bl-font-body);
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: clamp(20px, 1.5vw, 24px);
+  line-height: 1.55;
   color: color-mix(in srgb, var(--bl-footer-fg) 74%, transparent);
   margin: 0;
   max-width: 46ch;
@@ -359,14 +360,14 @@ const CSS = `
   align-self: flex-start;
   font-family: var(--bl-font-eyebrow);
   font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.06em;
+  font-size: 17px;
+  letter-spacing: 0.05em;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   background: var(--bl-footer-fg);
   color: var(--bl-footer-bg);
-  padding: 15px 28px;
+  padding: 18px 36px;
   border-radius: 999px;
   text-decoration: none;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms ease;
