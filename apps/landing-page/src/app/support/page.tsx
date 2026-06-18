@@ -97,7 +97,7 @@ const CSS = `
 /* === Tiers === */
 .bl-support-tiers {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: calc((100% - 32px) / 3);
   gap: 16px;
   margin-bottom: 40px;
 }
@@ -342,21 +342,39 @@ const CSS = `
 
 /* === Yellow CTA band === */
 .bl-support-band {
-  background: var(--theme-yellow);
-  padding: clamp(32px, 5vw, 40px) clamp(20px, 5vw, 40px);
+  position: relative;
+  overflow: hidden;
+  background: #0b0b0c;
+  padding: clamp(48px, 7vw, 72px) clamp(20px, 5vw, 40px);
   text-align: center;
+}
+.bl-support-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 140% at 50% -10%, rgba(250, 218, 70, 0.32) 0%, rgba(250, 218, 70, 0.08) 38%, transparent 64%),
+    linear-gradient(180deg, rgba(250, 218, 70, 0.10) 0%, transparent 46%);
+  pointer-events: none;
+}
+.bl-support-band > * {
+  position: relative;
+  z-index: 1;
 }
 .bl-support-band h3 {
   font-family: var(--bl-font-serif);
   font-size: clamp(20px, 2.4vw, 26px);
   font-weight: 800;
-  color: var(--theme-on-yellow);
+  background: linear-gradient(180deg, #fff8e1 0%, #fada46 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   margin: 0 0 8px;
 }
 .bl-support-band p {
   font-family: var(--bl-font-body);
   font-size: 15px;
-  color: var(--theme-on-yellow);
+  color: #fff8e1;
   opacity: 0.72;
   line-height: 1.55;
   margin: 0 auto 18px;
@@ -367,8 +385,8 @@ const CSS = `
   font-family: var(--bl-font-eyebrow);
   font-size: 14px;
   font-weight: 700;
-  color: var(--theme-on-yellow);
-  border-bottom: 2px solid var(--theme-on-yellow);
+  color: #fada46;
+  border-bottom: 2px solid #fada46;
   text-decoration: none;
   padding-bottom: 2px;
   transition: opacity 180ms ease;
@@ -486,7 +504,6 @@ const CSS = `
 .bl-support-table td.cell-featured { background: var(--theme-accent-soft); }
 .bl-support-table td.no { color: var(--theme-border); }
 
-@media (max-width: 860px) { .bl-support-tiers { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 600px) {
   .bl-support-tiers { grid-template-columns: 1fr; }
   .bl-support-ways { grid-template-columns: 1fr; }
