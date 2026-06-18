@@ -235,16 +235,10 @@ export default function SignupOffers() {
             would keep reading for. <strong>Early Discoverer</strong> credit is the bonus
             when a work later breaks out.
           </p>
-          <div className="bl-offers-cta-row">
-            <a href="/faq#beta-readers" className="bl-offers-cta">
-              How beta reading works
-              <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
-            </a>
-            <a href="/faq#writers" className="bl-offers-cta bl-offers-cta-ghost">
-              For writers
-              <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
+          <a href="/faq#beta-readers" className="bl-offers-cta">
+            How beta reading works
+            <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
+          </a>
         </article>
       </div>
     </section>
@@ -707,33 +701,6 @@ const CSS = `
 }
 .bl-offers-cta:hover .bl-offers-cta-arrow { transform: translateX(3px); }
 
-/* Dual CTA: filled primary (reader) + ghost secondary (writer) */
-.bl-offers-cta-row {
-  justify-self: start;
-  align-self: end;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  width: min(100%, 340px);
-}
-.bl-offers-cta-row .bl-offers-cta {
-  justify-self: auto;
-  align-self: auto;
-  width: 100%;
-}
-.bl-offers-cta-ghost {
-  background: transparent;
-  color: var(--bl-footer-fg);
-  box-shadow: none;
-  border: 1.5px solid color-mix(in srgb, var(--bl-footer-fg) 38%, transparent);
-}
-.bl-offers-cta-ghost:hover {
-  background: var(--bl-footer-fg);
-  color: var(--bl-footer-bg);
-  box-shadow: 0 10px 26px color-mix(in srgb, var(--bl-footer-fg) 32%, transparent);
-}
-
 @media (max-width: 980px) {
   .bl-offers-inner {
     grid-template-columns: 1fr;
@@ -759,11 +726,6 @@ const CSS = `
     margin-top: 6px;
     align-self: start;
   }
-  .bl-offers-cta-row {
-    margin-top: 6px;
-    align-self: start;
-  }
-  .bl-offers-cta-row .bl-offers-cta { margin-top: 0; }
   .bl-offers-divider {
     grid-row: auto;
     grid-column: 1;
@@ -842,11 +804,8 @@ const CSS = `
   .bl-offers-beta-line {
     display: none;
   }
-  .bl-offers-cta,
-  .bl-offers-cta-row {
-    width: 100%;
-  }
   .bl-offers-cta {
+    width: 100%;
     min-width: 0;
     padding-inline: 28px;
   }
