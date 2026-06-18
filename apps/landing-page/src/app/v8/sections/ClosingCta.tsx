@@ -338,7 +338,7 @@ const STYLES = `
 export default function ClosingCta({ onReader, onWriter }: Props) {
   return (
     <section className="bl-closing" aria-label="Connect with us and sign up">
-      <style>{STYLES}</style>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <div className="bl-closing-cta">
         <div className="bl-closing-cta-inner">

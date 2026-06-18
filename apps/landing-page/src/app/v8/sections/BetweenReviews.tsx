@@ -277,7 +277,7 @@ export default function BetweenReviews() {
 
   return (
     <section className="bl-reviews" aria-label="Community reviews">
-      <style>{STYLES}</style>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div className="bl-reviews-inner">
         <header className="bl-reviews-head">
           <p className="bl-reviews-eyebrow">Between Reads</p>
