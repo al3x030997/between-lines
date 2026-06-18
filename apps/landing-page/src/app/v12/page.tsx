@@ -356,7 +356,7 @@ export default function V12Page() {
         </div>
       </section>
 
-      <BetweenReviews onReader={() => open('reader')} />
+      <BetweenReviews />
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 

@@ -568,7 +568,7 @@ export default function V11Page() {
         )}
       </section>
 
-      <BetweenReviews onReader={() => open('reader')} />
+      <BetweenReviews />
 
       <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
 

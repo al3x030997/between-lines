@@ -23,7 +23,7 @@ const LINKS: NavLink[] = [
   { href: '/about', label: 'About' },
   { href: '/read', label: 'Read' },
   { href: '/create', label: 'Write' },
-  { href: '/betweenreviews', label: 'Reviews' },
+  { href: '/reviews', label: 'Reviews' },
   { href: '/support', label: 'Support Us', modifier: 'support' },
 ];
 
