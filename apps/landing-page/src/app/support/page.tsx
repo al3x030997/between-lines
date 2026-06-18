@@ -97,7 +97,7 @@ const CSS = `
 /* === Tiers === */
 .bl-support-tiers {
   display: grid;
-  grid-template-columns: calc((100% - 32px) / 3);
+  grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 40px;
 }
