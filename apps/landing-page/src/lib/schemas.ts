@@ -14,6 +14,22 @@ const readerAnswersSchema = z.object({
   club: z.boolean(),
   newsletter: z.boolean(),
   favoriteBooks: z.array(z.string().max(120)).max(10),
+  // Optional — the v12 4-role pop-up's richer "Discover" answers. Older
+  // payloads (v8/v11) omit this; kept optional so they still validate.
+  discover: z
+    .object({
+      bookLove: z
+        .object({
+          title: z.string().max(200),
+          author: z.string().max(200),
+          why: z.string().max(2000),
+        })
+        .optional(),
+      formats: z.array(z.string().max(64)).max(10).optional(),
+      goals: z.array(z.string().max(120)).max(12).optional(),
+      goalsOther: z.string().max(500).optional(),
+    })
+    .optional(),
 });
 
 const fileMetaSchema = z
@@ -97,6 +113,41 @@ const writerAnswersSchema = z.object({
         .max(3),
     }),
   }),
+  // Optional — the v12 4-role pop-up's creator answers (writer / poet /
+  // illustrator). All three creator roles serialize to region 'writer';
+  // practice (above) distinguishes them. Optional so legacy payloads validate.
+  creator: z
+    .object({
+      stage: z.enum(['emerging', 'established']).nullable(),
+      credits: z.array(z.string().max(64)).max(10),
+      bio: z.string().max(2000),
+      links: z.array(z.string().max(300)).max(8),
+      goals: z.array(z.string().max(120)).max(12),
+      goalsOther: z.string().max(500),
+      work: z
+        .object({
+          title: z.string().max(200),
+          genres: z.array(z.string().max(64)).max(20),
+          moods: z.array(z.string().max(64)).max(20),
+          format: z.string().max(64).nullable(),
+        })
+        .optional(),
+      poetry: z
+        .object({
+          forms: z.array(z.string().max(64)).max(20),
+          moods: z.array(z.string().max(64)).max(20),
+          themes: z.array(z.string().max(64)).max(20),
+        })
+        .optional(),
+      illustration: z
+        .object({
+          mediums: z.array(z.string().max(64)).max(20),
+          styles: z.array(z.string().max(64)).max(20),
+          uses: z.array(z.string().max(64)).max(20),
+        })
+        .optional(),
+    })
+    .optional(),
 });
 
 export const intakeSchema = z.discriminatedUnion('region', [

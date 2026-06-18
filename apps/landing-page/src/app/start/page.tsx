@@ -40,7 +40,11 @@ const START_CSS = `
 function StartIntake() {
   const router = useRouter();
   const params = useSearchParams();
-  const mode = params.get('mode') === 'writer' ? 'writer' : 'reader';
+  const requested = params.get('mode');
+  const mode =
+    requested === 'writer' || requested === 'poet' || requested === 'illustrator'
+      ? requested
+      : 'reader';
   return (
     <div className="start-intake-wrap">
       <IntakeFlow initialMode={mode} onBack={() => router.push('/')} />

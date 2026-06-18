@@ -212,6 +212,23 @@ export function intakeToKit(intake: IntakePayload): {
     fields.reader_club = a.club ? 'yes' : 'no';
     fields.reader_newsletter = a.newsletter ? 'yes' : 'no';
     fields.reader_favorite_books = a.favoriteBooks.join(' | ');
+
+    // v12 4-role pop-up: richer "Discover" answers.
+    const d = a.discover;
+    if (d) {
+      if (d.bookLove?.title) fields.reader_book_love = d.bookLove.title;
+      if (d.bookLove?.author) fields.reader_book_love_author = d.bookLove.author;
+      if (d.bookLove?.why) fields.reader_book_love_why = d.bookLove.why;
+      if (d.formats?.length) {
+        fields.reader_formats = d.formats.join(', ');
+        for (const f of d.formats) tags.push(`reader-format-${slug(f)}`);
+      }
+      if (d.goals?.length) {
+        fields.reader_goals = d.goals.join(', ');
+        for (const g of d.goals) tags.push(`reader-goal-${slug(g)}`);
+      }
+      if (d.goalsOther) fields.reader_goals_other = d.goalsOther;
+    }
   } else {
     const a = intake.answers;
     tags.push('audience-writer');
@@ -299,6 +316,46 @@ export function intakeToKit(intake: IntakePayload): {
     fields.writer_ai_tier_interest =
       a.goals.uploadSample.helpKit.aiTierInterest.join(', ');
     fields.writer_also_choose = a.goals.uploadSample.alsoChoose.join(', ');
+
+    // v12 4-role pop-up: creator answers (writer / poet / illustrator). The
+    // role is carried by `practice` (prose / poetry / illustration) above.
+    const c = a.creator;
+    if (c) {
+      if (c.stage) {
+        fields.creator_stage = c.stage;
+        tags.push(`creator-stage-${c.stage}`);
+      }
+      if (c.credits.length) {
+        fields.creator_credits = c.credits.join(', ');
+        for (const cr of c.credits) tags.push(`creator-credit-${slug(cr)}`);
+      }
+      if (c.bio) fields.creator_bio = c.bio;
+      if (c.links.length) fields.creator_links = c.links.join(' | ');
+      if (c.goals.length) {
+        fields.creator_goals = c.goals.join(', ');
+        for (const g of c.goals) tags.push(`creator-goal-${slug(g)}`);
+      }
+      if (c.goalsOther) fields.creator_goals_other = c.goalsOther;
+      if (c.work) {
+        fields.creator_work_title = c.work.title;
+        fields.creator_work_genres = c.work.genres.join(', ');
+        fields.creator_work_moods = c.work.moods.join(', ');
+        fields.creator_work_format = c.work.format ?? '';
+        for (const g of c.work.genres.slice(0, 3)) tags.push(`genre-${slug(g)}`);
+      }
+      if (c.poetry) {
+        fields.creator_poetry_forms = c.poetry.forms.join(', ');
+        fields.creator_poetry_moods = c.poetry.moods.join(', ');
+        fields.creator_poetry_themes = c.poetry.themes.join(', ');
+        for (const f of c.poetry.forms) tags.push(`poetry-form-${slug(f)}`);
+      }
+      if (c.illustration) {
+        fields.creator_illo_mediums = c.illustration.mediums.join(', ');
+        fields.creator_illo_styles = c.illustration.styles.join(', ');
+        fields.creator_illo_uses = c.illustration.uses.join(', ');
+        for (const m of c.illustration.mediums) tags.push(`illo-medium-${slug(m)}`);
+      }
+    }
   }
 
   return { tags, fields };

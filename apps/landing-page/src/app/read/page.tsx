@@ -117,10 +117,11 @@ const CSS = `
   --br-readm-lilac: #e8e1f1;
 }
 
-/* Inline links inherit the page ink, but the filled CTA keeps its own
-   foreground — without the :not() the descendant selector (0,1,1) outranks
-   .br-readm-cta (0,1,0) and the button text renders dark-on-dark. */
-.br-readm-root a:not(.br-readm-cta) {
+/* Inline links inherit the page ink, but elements with their own foreground
+   keep it — without the :not()s this descendant selector (0,2,1) outranks the
+   CTA (.br-readm-cta) and the shared nav's announcement CTA (.br-subbanner-cta,
+   yellow on a dark strip), rendering them dark-on-dark / un-themed. */
+.br-readm-root a:not(.br-readm-cta):not(.br-subbanner-cta) {
   color: inherit;
 }
 
