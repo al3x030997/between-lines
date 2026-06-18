@@ -37,7 +37,7 @@ const MINI_BOOKS: MiniBook[] = [
   },
 ];
 
-// The manuscript a beta reader discovers first — published later, credited forever.
+// The manuscript a writer needs real reader feedback on before querying.
 const BETA_BOOK: MiniBook = {
   title: 'The Undertow Hours',
   italicWords: [1],
@@ -190,21 +190,21 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
 
         <div className="bl-offers-divider" aria-hidden="true" />
 
-        {/* RIGHT — Beta reading: discovery on one side, real readers on the other */}
+        {/* RIGHT — Beta reading: useful feedback first, discovery credit second */}
         <article
           className="bl-offers-panel bl-offers-beta-panel"
           aria-labelledby="bl-offers-beta-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-beta-title">
-            <span className="bl-offers-mark">Read it first.</span>
+            <span className="bl-offers-mark">Real feedback,</span>
             <span className="bl-offers-sub">
-              Discovery, <em>both ways.</em>
+              before <em>you query.</em>
             </span>
           </h2>
 
           <div className="bl-offers-beta-art" aria-hidden="true">
             <div className="bl-offers-art-stage bl-offers-beta-stage">
-              <span className="bl-offers-art-label">Manuscript discovery</span>
+              <span className="bl-offers-art-label">Beta feedback</span>
               <div className="bl-offers-dossier">
                 <span className="bl-offers-page bl-offers-page-back" />
                 <span className="bl-offers-page bl-offers-page-front">
@@ -212,7 +212,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
                   <span className="bl-offers-page-line" />
                   <span className="bl-offers-page-line" />
                   <span className="bl-offers-page-line is-short" />
-                  <span className="bl-offers-page-note">Reader note</span>
+                  <span className="bl-offers-page-note">Specific note</span>
                 </span>
               </div>
               <div className="bl-offers-manuscript">
@@ -236,7 +236,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
                 <EarlyDiscovererSeal />
               </div>
               <span className="bl-offers-credit-card">
-                <span className="bl-offers-credit-kicker">Author page credit</span>
+                <span className="bl-offers-credit-kicker">Bonus if it breaks out</span>
                 <span className="bl-offers-credit-name">Early Discoverer</span>
               </span>
               <span className="bl-offers-beta-line" />
@@ -244,10 +244,11 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           </div>
 
           <p className="bl-offers-lede">
-            Readers find writers before they break out &mdash; beta read a manuscript and,
-            if it goes on to be agented or published, you&rsquo;re named an{' '}
-            <strong>Early Discoverer</strong> on their page, for life. Writers get real
-            readers and honest feedback before they ever query.
+            Useful beta feedback is hard to find: friends are kind, strangers disappear,
+            and vague notes don&rsquo;t move a draft. BetweenReads gets manuscripts to real
+            readers who can say where they were hooked, where they got lost, and what they
+            would keep reading for. <strong>Early Discoverer</strong> credit is the bonus
+            when a work later breaks out.
           </p>
           <div className="bl-offers-cta-row">
             <a
@@ -325,10 +326,10 @@ const CSS = `
 }
 .bl-offers-title {
   font-family: var(--bl-font-serif);
-  font-weight: 500;
+  font-weight: 900;
   font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
   color: var(--bl-footer-fg);
   margin: 0;
   min-height: clamp(92px, 8vw, 116px);
@@ -340,30 +341,33 @@ const CSS = `
 }
 .bl-offers-title em {
   font-style: italic;
-  font-weight: 500;
+  font-weight: 700;
   color: var(--bl-footer-fg);
 }
 .bl-offers-mark {
   display: block;
   font-family: var(--bl-font-serif);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 900;
   font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
   color: var(--bl-footer-fg);
 }
 .bl-offers-sub {
   display: block;
   margin-top: 6px;
   font-family: var(--bl-font-serif);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(21px, 1.9vw, 28px);
   line-height: 1.15;
   letter-spacing: -0.015em;
   color: var(--bl-footer-fg);
 }
-.bl-offers-sub em { color: var(--bl-footer-fg); }
+.bl-offers-sub em {
+  color: var(--bl-footer-fg);
+  font-weight: 700;
+}
 
 .bl-offers-lede {
   font-family: var(--bl-font-body);
@@ -376,7 +380,7 @@ const CSS = `
 }
 .bl-offers-lede strong {
   color: var(--bl-footer-fg);
-  font-weight: 600;
+  font-weight: 800;
 }
 
 /* ── Shared illustration language ── */
@@ -719,17 +723,17 @@ const CSS = `
   margin-top: 2px;
   font-family: var(--bl-font-serif);
   font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-weight: 900;
+  letter-spacing: -0.02em;
 }
 
 .bl-offers-cta {
   justify-self: start;
   align-self: end;
-  font-family: var(--bl-font-eyebrow);
-  font-weight: 700;
+  font-family: var(--bl-font-body);
+  font-weight: 800;
   font-size: 17px;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.012em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
