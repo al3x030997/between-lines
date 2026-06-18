@@ -401,11 +401,27 @@ const CSS = `
 
 /* === Closing CTA band === */
 .br-create-band {
-  background: var(--theme-hero, var(--theme-yellow));
-  color: var(--theme-hero-text, var(--theme-on-yellow, var(--theme-text)));
+  position: relative;
+  overflow: hidden;
+  background: #161410;
+  color: #f6f1e3;
   padding: clamp(56px, 8vw, 96px) clamp(20px, 5vw, 48px);
 }
+/* Warm radial glow at the top, matching the main-page closing CTA. */
+.br-create-band::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -40%;
+  width: min(680px, 90%);
+  height: 80%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--theme-accent) 18%, transparent), transparent 70%);
+  pointer-events: none;
+}
 .br-create-band-inner {
+  position: relative;
+  z-index: 1;
   max-width: 760px;
   margin: 0 auto;
   text-align: center;
@@ -413,6 +429,17 @@ const CSS = `
   flex-direction: column;
   align-items: center;
   gap: 20px;
+}
+.br-create-band .br-create-cta {
+  background: var(--theme-accent);
+  color: #161410;
+  border: 1px solid var(--theme-accent);
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--theme-accent) 30%, transparent);
+}
+.br-create-band .br-create-cta:hover,
+.br-create-band .br-create-cta:focus-visible {
+  background: var(--theme-accent-strong);
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--theme-accent) 42%, transparent);
 }
 .br-create-band-title {
   font-family: var(--bl-font-serif);
@@ -429,7 +456,7 @@ const CSS = `
   line-height: 1.55;
   margin: 0;
   max-width: 48ch;
-  color: color-mix(in srgb, var(--theme-hero-text, var(--theme-text)) 78%, transparent);
+  color: color-mix(in srgb, #f6f1e3 76%, transparent);
   text-wrap: pretty;
 }
 

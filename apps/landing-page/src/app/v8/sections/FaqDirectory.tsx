@@ -42,11 +42,12 @@ const STYLES = `
   background: var(--bl-accent-strong);
 }
 .bl-qa-title {
+  /* Match the hero headline treatment: Playfair Display at the heavy display weight. */
   font-family: var(--bl-font-serif);
-  font-weight: 500;
+  font-weight: 900;
   font-size: clamp(36px, 4.6vw, 60px);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--bl-ink);
   margin: 0;
   text-wrap: balance;
@@ -71,7 +72,7 @@ const STYLES = `
   flex-direction: column;
   gap: 10px;
   padding: 28px 28px 24px;
-  background: color-mix(in srgb, var(--bl-accent-soft) 35%, var(--theme-surface));
+  background: var(--theme-surface-subtle, var(--theme-surface));
   border: 1px solid var(--theme-border-subtle);
   border-radius: 16px;
   text-decoration: none;
