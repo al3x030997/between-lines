@@ -1,12 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { SiteNav } from '@/components/SiteNav';
 import Footer from '../v8/sections/Footer';
 import { REVIEWS, starsFor, type Review } from '../v8/sections/reviewsData';
-
-type Audience = 'all' | 'young';
 
 function StarIcon({ className }: { className: string }) {
   return (
@@ -77,13 +74,6 @@ function ReviewCard({ r }: { r: Review }) {
 }
 
 export default function ReviewsBrowser() {
-  const [audience, setAudience] = useState<Audience>('all');
-
-  const shown = useMemo(
-    () => REVIEWS.filter((r) => (audience === 'young' ? r.young : !r.young)),
-    [audience],
-  );
-
   return (
     <main className="br-reviewspage">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
@@ -96,37 +86,18 @@ export default function ReviewsBrowser() {
           booksellers genuinely pressed into each other’s hands.
         </p>
 
-        <div className="rev-toggle" role="group" aria-label="Filter reviews by audience">
-          <button
-            type="button"
-            className="rev-tab"
-            aria-pressed={audience === 'all'}
-            onClick={() => setAudience('all')}
-          >
-            All
-          </button>
-          <button
-            type="button"
-            className="rev-tab"
-            aria-pressed={audience === 'young'}
-            onClick={() => setAudience('young')}
-          >
-            Young Readers
-          </button>
+        <div className="rev-masthead-cta">
+          <p className="rev-cta-lead">Have a book worth reviewing?</p>
+          <Link href="/betweenreviews" className="rev-cta-link">
+            Write a review →
+          </Link>
         </div>
       </header>
 
       <section className="rev-list" aria-label="Community reviews">
-        {shown.map((r) => (
+        {REVIEWS.map((r) => (
           <ReviewCard key={`${r.book}-${r.reviewer}`} r={r} />
         ))}
-      </section>
-
-      <section className="rev-cta">
-        <p className="rev-cta-lead">Have a book worth reviewing?</p>
-        <Link href="/betweenreviews" className="rev-cta-link">
-          Write a review →
-        </Link>
       </section>
 
       <Footer />
@@ -167,35 +138,14 @@ const CSS = `
   color: var(--theme-text-muted);
 }
 
-/* === Audience toggle (segmented pill) === */
-.rev-toggle {
-  display: inline-flex;
+/* === Masthead CTA === */
+.rev-masthead-cta {
   margin-top: clamp(26px, 4vw, 38px);
-  border: 1px solid var(--theme-border-subtle);
-  border-radius: 999px;
-  background: var(--theme-surface);
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
 }
-.rev-tab {
-  appearance: none;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--theme-text);
-  padding: 10px 24px;
-  transition: background 160ms ease, color 160ms ease;
-}
-.rev-tab + .rev-tab { border-left: 1px solid var(--theme-border-subtle); }
-.rev-tab[aria-pressed='true'] {
-  background: var(--theme-text);
-  color: var(--theme-page);
-}
-.rev-tab:hover:not([aria-pressed='true']) { background: var(--theme-surface-muted); }
 
 /* === Review list (single column, Goodreads-style) === */
 .rev-list {
@@ -312,18 +262,12 @@ const CSS = `
   color: var(--theme-text);
 }
 
-/* === Closing CTA === */
-.rev-cta {
-  max-width: 1040px;
-  margin: clamp(36px, 5vw, 56px) auto 0;
-  padding: clamp(40px, 6vw, 64px) clamp(22px, 5vw, 40px) clamp(64px, 9vw, 96px);
-  text-align: center;
-}
+/* === Write-a-review CTA (in masthead) === */
 .rev-cta-lead {
   font-family: var(--br-font-serif);
   font-size: 16px;
   color: var(--theme-text-muted);
-  margin: 0 0 10px;
+  margin: 0;
 }
 .rev-cta-link {
   font-family: var(--br-font-display);
