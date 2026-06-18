@@ -100,6 +100,27 @@ export default function ReviewsBrowser() {
         ))}
       </section>
 
+      <section className="rev-closing" aria-label="Join BetweenReads">
+        <div className="rev-closing-inner">
+          <p className="rev-closing-eyebrow">Reader-first, always</p>
+          <h2 className="rev-closing-title">
+            Find your next favourite book — recommended by real readers.
+          </h2>
+          <p className="rev-closing-sub">
+            Free, ad-free, and curated by humans. No ranked feed, no pay-to-play — just books
+            worth pressing into someone’s hands.
+          </p>
+          <div className="rev-closing-actions">
+            <Link href="/?join=reader" className="rev-closing-cta">
+              Start reading free
+            </Link>
+            <Link href="/betweenreviews" className="rev-closing-cta-ghost">
+              Write a review →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
@@ -150,12 +171,107 @@ const CSS = `
 /* === Review list (single column, Goodreads-style) === */
 .rev-list {
   max-width: 760px;
-  margin: 0 auto;
+  margin: 0 auto clamp(64px, 9vw, 112px);
   padding: 0 clamp(22px, 5vw, 40px);
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(18px, 2.5vw, 26px);
   align-items: start;
+}
+
+/* === Closing CTA band (black + yellow gradient) === */
+.rev-closing {
+  position: relative;
+  overflow: hidden;
+  background: #0b0b0c;
+  color: #fff8e1;
+  padding: clamp(64px, 10vw, 132px) clamp(22px, 5vw, 40px);
+}
+.rev-closing::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 140% at 50% -10%, rgba(250, 218, 70, 0.32) 0%, rgba(250, 218, 70, 0.08) 38%, transparent 64%),
+    linear-gradient(180deg, rgba(250, 218, 70, 0.10) 0%, transparent 46%);
+  pointer-events: none;
+}
+.rev-closing-inner {
+  position: relative;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+.rev-closing-eyebrow {
+  font-family: var(--br-font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #fada46;
+  margin: 0 0 18px;
+}
+.rev-closing-title {
+  font-family: var(--br-font-display);
+  font-size: clamp(32px, 5.4vw, 60px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+  background: linear-gradient(180deg, #fff8e1 0%, #fada46 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rev-closing-sub {
+  font-family: var(--br-font-serif);
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 1.6;
+  color: rgba(255, 248, 225, 0.72);
+  max-width: 54ch;
+  margin: 20px auto 0;
+  text-wrap: pretty;
+}
+.rev-closing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: clamp(28px, 4vw, 40px);
+}
+.rev-closing-cta {
+  font-family: var(--br-font-display);
+  font-size: clamp(16px, 1.7vw, 19px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #0b0b0c;
+  background: #fada46;
+  padding: 15px 30px;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 12px 34px rgba(250, 218, 70, 0.28);
+  transition: transform 200ms cubic-bezier(.22, 1, .36, 1), box-shadow 200ms ease, background-color 200ms ease;
+}
+.rev-closing-cta:hover {
+  transform: translateY(-2px);
+  background: #ffe65c;
+  box-shadow: 0 18px 44px rgba(250, 218, 70, 0.4);
+}
+.rev-closing-cta-ghost {
+  font-family: var(--br-font-display);
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 700;
+  color: #fff8e1;
+  text-decoration: none;
+  padding: 14px 8px;
+  border-bottom: 2px solid rgba(250, 218, 70, 0.5);
+  transition: color 180ms ease, border-color 180ms ease;
+}
+.rev-closing-cta-ghost:hover {
+  color: #fada46;
+  border-color: #fada46;
 }
 .rev-card {
   background: var(--theme-surface);
@@ -289,6 +405,8 @@ const CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rev-card { transition: none; }
+  .rev-card,
+  .rev-closing-cta { transition: none; }
+  .rev-closing-cta:hover { transform: none; }
 }
 `;
