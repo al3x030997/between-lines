@@ -353,7 +353,7 @@ const CSS = `
   font-family: var(--bl-font-body);
   font-size: 18px;
   line-height: 1.62;
-  color: var(--theme-text);
+  color: var(--theme-text-muted);
   margin: 12px 0 0;
   max-width: none;
   text-wrap: pretty;
@@ -372,7 +372,7 @@ const CSS = `
   font-family: var(--bl-font-body);
   font-size: 18px;
   line-height: 1.5;
-  color: var(--theme-text);
+  color: var(--theme-text-muted);
   text-wrap: pretty;
 }
 .br-readm-feature-points li::before {

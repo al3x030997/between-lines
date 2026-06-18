@@ -311,7 +311,7 @@ const CSS = `
 }
 .br-create-feature-blurb {
   font-family: var(--bl-font-body);
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.62;
   color: var(--theme-text-muted);
   margin: 12px 0 0;
@@ -330,9 +330,9 @@ const CSS = `
   position: relative;
   padding-left: 24px;
   font-family: var(--bl-font-body);
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.5;
-  color: var(--theme-text-soft, var(--theme-text-muted));
+  color: var(--theme-text-muted);
   text-wrap: pretty;
 }
 .br-create-feature-points li::before {
