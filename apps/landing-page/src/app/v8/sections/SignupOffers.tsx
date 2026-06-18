@@ -198,7 +198,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           <h2 className="bl-offers-title" id="bl-offers-beta-title">
             <span className="bl-offers-mark">Real Feedback,</span>
             <span className="bl-offers-sub">
-              before <em>you publish.</em>
+              before you publish.
             </span>
           </h2>
 
@@ -359,14 +359,10 @@ const CSS = `
   margin-top: 6px;
   font-family: var(--bl-font-serif);
   font-weight: 500;
-  font-size: clamp(21px, 1.9vw, 28px);
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  font-size: clamp(40px, 4.1vw, 58px);
+  line-height: 1.03;
+  letter-spacing: -0.022em;
   color: var(--bl-footer-fg);
-}
-.bl-offers-sub em {
-  color: var(--bl-footer-fg);
-  font-weight: 500;
 }
 
 .bl-offers-lede {
@@ -828,11 +824,9 @@ const CSS = `
     padding: 64px 20px;
   }
   .bl-offers-title,
-  .bl-offers-mark {
-    font-size: clamp(36px, 11vw, 48px);
-  }
+  .bl-offers-mark,
   .bl-offers-sub {
-    font-size: clamp(20px, 6vw, 24px);
+    font-size: clamp(36px, 11vw, 48px);
   }
   .bl-offers-art-stage {
     height: 352px;
