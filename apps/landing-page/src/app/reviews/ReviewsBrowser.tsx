@@ -91,10 +91,10 @@ export default function ReviewsBrowser() {
 
       <header className="rev-masthead">
         <p className="rev-eyebrow">Between Reads</p>
-        <h1 className="rev-title">What our community is reading</h1>
+        <h1 className="rev-title">Recommendations you can’t buy</h1>
         <p className="rev-sub">
-          Honest, reader-first takes on the books worth your time — what readers, writers and our
-          team are loving and pressing into each other’s hands.
+          No sponsored slots, no algorithm deciding what you see. Just books our readers and
+          booksellers genuinely pressed into each other’s hands.
         </p>
 
         <div className="rev-toggle" role="group" aria-label="Filter reviews by audience">
@@ -208,11 +208,11 @@ const CSS = `
 
 /* === Review list (single column, Goodreads-style) === */
 .rev-list {
-  max-width: 1040px;
+  max-width: 760px;
   margin: 0 auto;
   padding: 0 clamp(22px, 5vw, 40px);
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: clamp(18px, 2.5vw, 26px);
   align-items: start;
 }
@@ -351,10 +351,6 @@ const CSS = `
 .br-reviewspage :where(button, a):focus-visible {
   outline: 2px solid var(--theme-accent-strong);
   outline-offset: 3px;
-}
-
-@media (max-width: 820px) {
-  .rev-list { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
