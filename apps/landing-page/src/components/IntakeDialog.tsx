@@ -48,7 +48,7 @@ const DIALOG_CSS = `
 .intake-dialog-panel {
   position: relative;
   z-index: 1;
-  width: min(94vw, 640px);
+  width: min(94vw, 760px);
   max-height: min(92vh, 880px);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -67,32 +67,38 @@ const DIALOG_CSS = `
    its roomier spacing. */
 .intake-dialog-root .v8-intake {
   padding: 0;
-  gap: 14px;
+  gap: 18px;
   max-width: none;
 }
 /* The ✕ already closes the pop-up — the BACK link is redundant here. */
 .intake-dialog-root .v8-intake-back { display: none; }
-.intake-dialog-root .v8-intake-form { gap: 14px; }
-.intake-dialog-root .v8-intake-group { gap: 8px; }
+.intake-dialog-root .v8-intake-form { gap: 18px; }
+.intake-dialog-root .v8-intake-group { gap: 12px; }
 .intake-dialog-root .v12-seg { margin-bottom: 2px; }
+/* One chapter per slide leaves room — let the headline and body breathe. */
 .intake-dialog-root .v8-intake .v8-intake-prompt {
-  font-size: clamp(15px, 1.7vw, 18px);
-  margin-bottom: 2px;
+  font-size: clamp(24px, 3.2vw, 32px);
+  margin-bottom: 8px;
 }
-.intake-dialog-root .v8-intake-chips { gap: 8px; }
-.intake-dialog-root .v8-chip { padding: 8px 14px; font-size: 14px; }
-.intake-dialog-root .v8-toggle-chip { padding: 9px 16px 9px 14px; font-size: 14px; }
-.intake-dialog-root .v8-favbooks { gap: 8px; }
-.intake-dialog-root .v8-favbooks-input input { padding: 10px 16px; font-size: 14px; }
-.intake-dialog-root .v8-favbooks-add { padding: 10px 18px; }
-.intake-dialog-root .v12-email-capture { gap: 12px; margin-top: 12px; }
-.intake-dialog-root .v12-email-title { font-size: clamp(26px, 3.4vw, 34px); }
-.intake-dialog-root .v12-email-form { gap: 11px; }
-.intake-dialog-root .v12-email-field { gap: 4px; }
-.intake-dialog-root .v12-email-input { padding: 13px 16px; font-size: 17px; }
-.intake-dialog-root .v12-email-consent { font-size: 12px; line-height: 1.4; }
+.intake-dialog-root .v8-intake-sublabel { font-size: 15px; }
+.intake-dialog-root .v12-hint { font-size: 16px; }
+.intake-dialog-root .v12-fieldnote { font-size: 14px; }
+.intake-dialog-root .v12-field-input,
+.intake-dialog-root .v12-field-textarea { font-size: 17px; padding: 14px 18px; }
+.intake-dialog-root .v8-intake-chips { gap: 10px; }
+.intake-dialog-root .v8-chip { padding: 12px 20px; font-size: 16px; }
+.intake-dialog-root .v8-toggle-chip { padding: 12px 20px 12px 16px; font-size: 16px; }
+.intake-dialog-root .v8-favbooks { gap: 10px; }
+.intake-dialog-root .v8-favbooks-input input { padding: 13px 18px; font-size: 16px; }
+.intake-dialog-root .v8-favbooks-add { padding: 13px 20px; }
+.intake-dialog-root .v12-email-capture { gap: 14px; margin-top: 12px; }
+.intake-dialog-root .v12-email-title { font-size: clamp(30px, 3.8vw, 40px); }
+.intake-dialog-root .v12-email-form { gap: 13px; }
+.intake-dialog-root .v12-email-field { gap: 5px; }
+.intake-dialog-root .v12-email-input { padding: 15px 18px; font-size: 18px; }
+.intake-dialog-root .v12-email-consent { font-size: 13px; line-height: 1.45; }
 .intake-dialog-root .v8-intake-actions { margin-top: 2px; }
-.intake-dialog-root .v8-cta { padding: 12px 24px; }
+.intake-dialog-root .v8-cta { padding: 14px 28px; font-size: 16px; }
 /* The "one more page after this" footnote is implied by the step rail — drop it
    in the pop-up to save the row. */
 .intake-dialog-root .v8-intake-caption { display: none; }

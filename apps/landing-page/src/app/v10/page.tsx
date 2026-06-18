@@ -868,7 +868,7 @@ export default function V10Page() {
 
       <OpenCall onReader={() => open('reader')} onWriter={() => open('author')} />
 
-      <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
+      <SignupOffers />
 
       <FaqTeaser onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />

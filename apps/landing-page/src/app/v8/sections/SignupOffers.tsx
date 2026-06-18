@@ -1,10 +1,5 @@
 'use client';
 
-type Props = {
-  onReader?: () => void;
-  onWriter?: () => void;
-};
-
 type MiniBook = {
   title: string;
   italicWords?: number[];
@@ -99,12 +94,7 @@ function EarlyDiscovererSeal() {
   );
 }
 
-export default function SignupOffers({ onReader, onWriter }: Props) {
-  const handle = (cb?: () => void) => (e: React.MouseEvent) => {
-    e.preventDefault();
-    cb?.();
-  };
-
+export default function SignupOffers() {
   return (
     <section className="bl-offers" aria-label="Reading clubs and beta reading">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
@@ -178,12 +168,8 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             discovered. Read together, share reactions, and unpack every twist in a private
             thread. Free to join, or start your own.
           </p>
-          <a
-            href="/start?mode=reader"
-            className="bl-offers-cta"
-            onClick={handle(onReader)}
-          >
-            Find your club
+          <a href="/faq#how-do-virtual-book-clubs-work" className="bl-offers-cta">
+            How clubs work
             <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
           </a>
         </article>
@@ -250,20 +236,12 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
             when a work later breaks out.
           </p>
           <div className="bl-offers-cta-row">
-            <a
-              href="/start?mode=reader"
-              className="bl-offers-cta"
-              onClick={handle(onReader)}
-            >
-              Become a beta reader
+            <a href="/faq#beta-readers" className="bl-offers-cta">
+              How beta reading works
               <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
             </a>
-            <a
-              href="/start?mode=writer"
-              className="bl-offers-cta bl-offers-cta-ghost"
-              onClick={handle(onWriter)}
-            >
-              Get your work read
+            <a href="/faq#writers" className="bl-offers-cta bl-offers-cta-ghost">
+              For writers
               <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
             </a>
           </div>

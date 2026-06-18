@@ -570,7 +570,7 @@ export default function V11Page() {
 
       <BetweenReviews />
 
-      <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
+      <SignupOffers />
 
       <FaqTeaser onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />

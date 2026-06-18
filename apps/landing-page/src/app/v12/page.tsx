@@ -358,7 +358,7 @@ export default function V12Page() {
 
       <BetweenReviews />
 
-      <SignupOffers onReader={() => open('reader')} onWriter={() => open('author')} />
+      <SignupOffers />
 
       <FaqDirectory />
 

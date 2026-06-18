@@ -185,7 +185,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 
   // Shared creator identity block (stage + credits + bio + links).
   const identityBlock = (
-    <Group num="01" label="About you">
+    <Group num="" label="About you">
       <Prompt>Who are you as a {ROLE_NOUN[role]}?</Prompt>
       <Chips>
         {stageOptions(role).map((s) => (
@@ -257,7 +257,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   );
 
   const goalsBlock = (
-    <Group num="03" label="Goals">
+    <Group num="" label="Goals">
       <Prompt>What would you like to do on Between Reads?</Prompt>
       <p className="v12-hint">Pick as many as apply.</p>
       <Chips>
@@ -285,7 +285,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   // --- Per-role question sections (one per slide) ------------------------
 
   const readerBook = (
-    <Group num="01" label="A book you love">
+    <Group num="" label="A book you love">
       <Prompt>What&rsquo;s a book you love?</Prompt>
       <p className="v12-hint">Helps us find the right reads for you.</p>
       <div className="v12-field">
@@ -321,7 +321,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   );
 
   const readerRead = (
-    <Group num="02" label="What you read">
+    <Group num="" label="What you read">
       <Prompt>What do you mostly read?</Prompt>
       <span className="v8-intake-sublabel">Genre</span>
       <Chips>
@@ -363,7 +363,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   );
 
   const writerWork = (
-    <Group num="02" label="Your work">
+    <Group num="" label="Your work">
       <Prompt>What would you like to upload?</Prompt>
       <span className="v8-intake-sublabel">Title</span>
       <div className="v12-field">
@@ -420,7 +420,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   );
 
   const poetWork = (
-    <Group num="02" label="What you write">
+    <Group num="" label="What you write">
       <Prompt>What do you write?</Prompt>
       <span className="v8-intake-sublabel">Form</span>
       <Chips>
@@ -476,7 +476,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   );
 
   const illoWork = (
-    <Group num="02" label="What you create">
+    <Group num="" label="What you create">
       <Prompt>What do you create?</Prompt>
       <span className="v8-intake-sublabel">Medium</span>
       <Chips>
@@ -697,17 +697,24 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
 }
 
 const FLOW_CSS = `
-/* Prompt text: black + bold + larger instead of the small yellow accent */
+/* Prompt text: black + bold + large — the headline of each slide. */
 .v8-intake .v8-intake-prompt {
   color: var(--v6-text-strong);
   font-weight: 800;
-  font-size: clamp(19px, 2.2vw, 24px);
-  line-height: 1.2;
-  margin-bottom: 8px;
+  font-size: clamp(26px, 3vw, 34px);
+  line-height: 1.15;
+  margin-bottom: 10px;
 }
 .v8-intake .v8-intake-prompt-num {
   font-size: 0.8em;
 }
+
+/* Larger body copy across the flow — sublabels, hints, field notes. */
+.v8-intake .v8-intake-sublabel { font-size: 15px; }
+.v8-intake .v12-hint { font-size: 16px; margin: -2px 0 6px; }
+.v8-intake .v12-fieldnote { font-size: 14px; }
+.v8-intake .v8-chip { font-size: 16px; padding: 12px 20px; }
+.v8-intake .v8-toggle-chip { font-size: 16px; }
 
 /* === Role tabs (reader / writer / poet / illustrator) === */
 .v12-roletabs {
@@ -752,8 +759,8 @@ const FLOW_CSS = `
 .v12-field-textarea {
   font-family: 'Outfit', sans-serif;
   font-weight: 500;
-  font-size: 15px;
-  padding: 12px 16px;
+  font-size: 17px;
+  padding: 14px 18px;
   border: 1px solid var(--v6-divider);
   border-radius: 12px;
   background: var(--theme-surface-raised, var(--theme-surface-muted));
