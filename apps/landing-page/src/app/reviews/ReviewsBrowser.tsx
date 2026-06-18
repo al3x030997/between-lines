@@ -90,7 +90,6 @@ export default function ReviewsBrowser() {
       <SiteNav />
 
       <header className="rev-masthead">
-        <p className="rev-eyebrow">Between Reads</p>
         <h1 className="rev-title">Recommendations you can’t buy</h1>
         <p className="rev-sub">
           No sponsored slots, no algorithm deciding what you see. Just books our readers and
@@ -150,14 +149,6 @@ const CSS = `
   margin: 0 auto;
   padding: clamp(48px, 7vw, 88px) clamp(22px, 5vw, 40px) clamp(28px, 4vw, 40px);
   text-align: center;
-}
-.rev-eyebrow {
-  font-size: 11px;
-  font-weight: 900;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--theme-text) 55%, transparent);
-  margin: 0 0 12px;
 }
 .rev-title {
   font-family: var(--br-font-display);

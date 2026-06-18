@@ -93,28 +93,10 @@ const CSS = `
 
 /* === Hero === */
 .br-create-hero {
-  max-width: 1100px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 48px) clamp(40px, 6vw, 72px);
-}
-.br-create-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--theme-text-muted);
-  margin: 0 0 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-}
-.br-create-eyebrow::before {
-  content: '';
-  width: 32px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
+  text-align: center;
 }
 .br-create-title {
   font-family: var(--br-font-display);
@@ -135,7 +117,7 @@ const CSS = `
   font-size: var(--bl-hero-lede-size);
   line-height: var(--bl-hero-lede-line-height);
   color: var(--theme-text-muted);
-  margin: 0;
+  margin: 0 auto;
   max-width: 60ch;
   text-wrap: pretty;
 }
@@ -194,6 +176,7 @@ const CSS = `
 .br-create-proof {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: clamp(14px, 2vw, 28px);
   margin-top: clamp(28px, 4vw, 40px);
 }
@@ -597,7 +580,6 @@ export default function CreatePage() {
       <SiteNav activeHref="/write" />
 
       <section className="br-create-hero" aria-label="Create on BetweenReads">
-        <p className="br-create-eyebrow">For creators</p>
         <h1 className="br-create-title">
           Create, share, learn and grow.
         </h1>

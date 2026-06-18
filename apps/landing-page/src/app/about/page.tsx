@@ -28,27 +28,7 @@ const CSS = `
   max-width: 1040px;
   margin: 0 auto;
   padding: clamp(48px, 6vw, 84px) clamp(20px, 5vw, 48px) clamp(24px, 3vw, 36px);
-}
-.bl-about-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--bl-accent-strong);
-  margin: 0 0 20px;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 9px;
-}
-.bl-about-eyebrow::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 3px;
-  width: 56px;
-  background: var(--theme-yellow);
+  text-align: center;
 }
 .bl-about-title {
   font-family: var(--br-font-display);
@@ -65,22 +45,13 @@ const CSS = `
   background: linear-gradient(to bottom, transparent 60%, var(--theme-yellow) 60%);
   padding: 0 2px;
 }
-/* === Mission card === */
-.bl-about-mission {
-  margin-top: clamp(28px, 4vw, 40px);
-  padding: clamp(26px, 3.2vw, 38px) clamp(28px, 3.6vw, 44px);
-  background: var(--theme-paper-bg);
-  border-radius: 16px;
-  border-left: 4px solid var(--theme-yellow);
-  box-shadow: 0 1px 0 rgba(14,14,12,0.02), 0 24px 56px -32px rgba(14,14,12,0.18);
-}
 .bl-about-lede {
   font-family: var(--bl-font-body);
   font-size: clamp(20px, 1.8vw, 25px);
   line-height: 1.58;
-  color: var(--theme-paper-ink);
-  margin: 0;
-  max-width: 820px;
+  color: var(--theme-text-muted);
+  margin: clamp(20px, 3vw, 28px) auto 0;
+  max-width: 52ch;
   text-wrap: pretty;
 }
 
@@ -304,7 +275,6 @@ export default function AboutPage() {
 
       <main>
         <section className="bl-about-hero">
-          <p className="bl-about-eyebrow">About BetweenReads</p>
           <h1 className="bl-about-title">
             In a world of distractions,
             <br />
@@ -312,13 +282,11 @@ export default function AboutPage() {
               we&rsquo;re built to <em>read.</em>
             </span>
           </h1>
-          <div className="bl-about-mission">
-            <p className="bl-about-lede">
-              BetweenReads is an ad-free home for readers, writers, poets, and illustrators &mdash;
-              where the best work rises through tailored reading, honest recommendations, and
-              community trust.
-            </p>
-          </div>
+          <p className="bl-about-lede">
+            BetweenReads is an ad-free home for readers, writers, poets, and illustrators &mdash;
+            where the best work rises through tailored reading, honest recommendations, and
+            community trust.
+          </p>
         </section>
 
         <div className="bl-about-body">

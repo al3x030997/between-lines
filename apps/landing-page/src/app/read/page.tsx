@@ -126,25 +126,7 @@ const CSS = `
   max-width: 1040px;
   margin: 0 auto;
   padding: clamp(56px, 8vw, 104px) clamp(20px, 5vw, 48px) clamp(40px, 6vw, 72px);
-}
-.br-readm-eyebrow {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--br-readm-muted);
-  margin: 0 0 18px;
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-}
-.br-readm-eyebrow::before {
-  content: '';
-  width: 32px;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.6;
+  text-align: center;
 }
 .br-readm-title {
   font-family: var(--br-font-display);
@@ -162,8 +144,8 @@ const CSS = `
   font-size: var(--bl-hero-lede-size);
   line-height: var(--bl-hero-lede-line-height);
   color: var(--br-readm-muted);
-  margin: 0;
-  max-width: none;
+  margin: 0 auto;
+  max-width: 60ch;
   text-wrap: pretty;
 }
 .br-readm-actions {
@@ -227,6 +209,7 @@ const CSS = `
 .br-readm-proof {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: clamp(14px, 2vw, 28px);
   margin-top: clamp(28px, 4vw, 40px);
 }
@@ -650,7 +633,6 @@ export default function ReadPage() {
       <SiteNav activeHref="/read" />
 
       <section className="br-readm-hero" aria-label="Read on BetweenReads">
-        <p className="br-readm-eyebrow">For readers</p>
         <h1 className="br-readm-title">Read first. Shape what lasts.</h1>
         <p className="br-readm-lede">
           BetweenReads is built for readers who want discovery without noise: curated writing,
