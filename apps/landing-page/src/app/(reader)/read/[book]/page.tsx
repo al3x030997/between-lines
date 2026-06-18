@@ -147,7 +147,8 @@ export default function BookPage({ params }: PageProps) {
 
       <CommunityVoices
         rating={communityRating}
-        addCommentHref={`${readHref}#br-fp-title`}
+        addCommentHref={`/write_review?book=${book.slug}`}
+        actionLabel="Write review"
       />
 
       <div className="br-chapters">

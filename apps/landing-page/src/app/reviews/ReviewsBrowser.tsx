@@ -88,7 +88,7 @@ export default function ReviewsBrowser() {
 
         <div className="rev-masthead-cta">
           <p className="rev-cta-lead">Have a book worth reviewing?</p>
-          <Link href="/betweenreviews" className="rev-cta-link">
+          <Link href="/write_review" className="rev-cta-link">
             Write a review →
           </Link>
         </div>
@@ -114,7 +114,7 @@ export default function ReviewsBrowser() {
             <Link href="/?join=reader" className="rev-closing-cta">
               Start reading free
             </Link>
-            <Link href="/betweenreviews" className="rev-closing-cta-ghost">
+            <Link href="/write_review" className="rev-closing-cta-ghost">
               Write a review →
             </Link>
           </div>

@@ -53,9 +53,10 @@ const AUTO_ADVANCE_MS = 12_000;
 type CommunityVoicesProps = {
   rating?: number;
   addCommentHref?: string;
+  actionLabel?: string;
 };
 
-export function CommunityVoices({ rating = 4.7, addCommentHref }: CommunityVoicesProps) {
+export function CommunityVoices({ rating = 4.7, addCommentHref, actionLabel = 'Add comment' }: CommunityVoicesProps) {
   const [active, setActive] = useState(0);
   const count = VOICES.length;
   const ratingLabel = rating.toFixed(1);
@@ -144,11 +145,11 @@ export function CommunityVoices({ rating = 4.7, addCommentHref }: CommunityVoice
         </div>
         {addCommentHref ? (
           <Link href={addCommentHref} className="br-community-add">
-            Add comment
+            {actionLabel}
           </Link>
         ) : (
           <button type="button" className="br-community-add">
-            Add comment
+            {actionLabel}
           </button>
         )}
       </div>
