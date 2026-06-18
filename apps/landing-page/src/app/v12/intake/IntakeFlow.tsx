@@ -62,6 +62,10 @@ function toggle(list: string[], value: string, cap?: number): string[] {
 export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   const [role, setRole] = useState<IntakeRole>(initialMode);
   const [step, setStep] = useState<Step>('profile');
+
+  // Slider — each question section (chapter) is one slide; email is the last.
+  const [slide, setSlide] = useState(0);
+  const [dir, setDir] = useState<1 | -1>(1);
   const [reader, setReader] = useState<ReaderState>(READER_STATE_INITIAL);
   const [creator, setCreator] = useState<CreatorState>(CREATOR_STATE_INITIAL);
 
@@ -278,257 +282,318 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
     </Group>
   );
 
-  // --- Per-role question pages -------------------------------------------
+  // --- Per-role question sections (one per slide) ------------------------
 
-  const readerPage = (
-    <>
-      <Group num="01" label="A book you love">
-        <Prompt>What&rsquo;s a book you love?</Prompt>
-        <p className="v12-hint">Helps us find the right reads for you.</p>
-        <div className="v12-field">
-          <input
-            className="v12-field-input v12-field-title"
-            value={reader.bookTitle}
-            onChange={(e) => setR({ bookTitle: e.target.value })}
-            placeholder="Title…"
-          />
+  const readerBook = (
+    <Group num="01" label="A book you love">
+      <Prompt>What&rsquo;s a book you love?</Prompt>
+      <p className="v12-hint">Helps us find the right reads for you.</p>
+      <div className="v12-field">
+        <input
+          className="v12-field-input v12-field-title"
+          value={reader.bookTitle}
+          onChange={(e) => setR({ bookTitle: e.target.value })}
+          placeholder="Title…"
+        />
+      </div>
+      <div className="v12-field">
+        <input
+          className="v12-field-input"
+          value={reader.bookAuthor}
+          onChange={(e) => setR({ bookAuthor: e.target.value })}
+          placeholder="Author (optional)"
+        />
+      </div>
+      <div className="v12-field">
+        <span className="v8-intake-sublabel">Why do you love it? (optional)</span>
+        <textarea
+          className="v12-field-textarea"
+          rows={2}
+          value={reader.bookWhy}
+          onChange={(e) => setR({ bookWhy: e.target.value })}
+          placeholder="What stayed with you…"
+        />
+        <div className={`v12-wordcount${whyOver ? ' is-over' : ''}`}>
+          {whyWords}/{WHY_WORD_CAP} words
         </div>
-        <div className="v12-field">
-          <input
-            className="v12-field-input"
-            value={reader.bookAuthor}
-            onChange={(e) => setR({ bookAuthor: e.target.value })}
-            placeholder="Author (optional)"
-          />
-        </div>
-        <div className="v12-field">
-          <span className="v8-intake-sublabel">Why do you love it? (optional)</span>
-          <textarea
-            className="v12-field-textarea"
-            rows={2}
-            value={reader.bookWhy}
-            onChange={(e) => setR({ bookWhy: e.target.value })}
-            placeholder="What stayed with you…"
-          />
-          <div className={`v12-wordcount${whyOver ? ' is-over' : ''}`}>
-            {whyWords}/{WHY_WORD_CAP} words
-          </div>
-        </div>
-      </Group>
+      </div>
+    </Group>
+  );
 
-      <Group num="02" label="What you read">
-        <Prompt>What do you mostly read?</Prompt>
-        <span className="v8-intake-sublabel">Genre</span>
-        <Chips>
-          {multiChips(GENRES_PRIMARY, reader.genres, (v) =>
+  const readerRead = (
+    <Group num="02" label="What you read">
+      <Prompt>What do you mostly read?</Prompt>
+      <span className="v8-intake-sublabel">Genre</span>
+      <Chips>
+        {multiChips(GENRES_PRIMARY, reader.genres, (v) =>
+          setR({ genres: toggle(reader.genres, v) }),
+        )}
+        <button
+          type="button"
+          className={`v8-chip is-more${moreGenres ? ' is-open' : ''}`}
+          aria-expanded={moreGenres}
+          onClick={() => setMoreGenres((v) => !v)}
+        >
+          {moreGenres ? 'Less' : 'More…'}
+        </button>
+      </Chips>
+      <ExpandRow open={moreGenres}>
+        <div className="v8-intake-chips">
+          {multiChips(GENRES_MORE, reader.genres, (v) =>
             setR({ genres: toggle(reader.genres, v) }),
           )}
-          <button
-            type="button"
-            className={`v8-chip is-more${moreGenres ? ' is-open' : ''}`}
-            aria-expanded={moreGenres}
-            onClick={() => setMoreGenres((v) => !v)}
-          >
-            {moreGenres ? 'Less' : 'More…'}
-          </button>
-        </Chips>
-        <ExpandRow open={moreGenres}>
-          <div className="v8-intake-chips">
-            {multiChips(GENRES_MORE, reader.genres, (v) =>
-              setR({ genres: toggle(reader.genres, v) }),
-            )}
-          </div>
-        </ExpandRow>
+        </div>
+      </ExpandRow>
 
-        <span className="v8-intake-sublabel">Format</span>
-        <p className="v12-fieldnote">{FORMAT_TIP}</p>
-        <Chips>
-          {multiChips(FORMATS, reader.formats, (v) =>
-            setR({ formats: toggle(reader.formats, v) }),
-          )}
-        </Chips>
+      <span className="v8-intake-sublabel">Format</span>
+      <p className="v12-fieldnote">{FORMAT_TIP}</p>
+      <Chips>
+        {multiChips(FORMATS, reader.formats, (v) =>
+          setR({ formats: toggle(reader.formats, v) }),
+        )}
+      </Chips>
 
-        <span className="v8-intake-sublabel">When</span>
-        <Chips>
-          {multiChips(READER_WHENS, reader.whens, (v) =>
-            setR({ whens: toggle(reader.whens, v) }),
-          )}
-        </Chips>
-      </Group>
-
-      {goalsBlock}
-    </>
+      <span className="v8-intake-sublabel">When</span>
+      <Chips>
+        {multiChips(READER_WHENS, reader.whens, (v) =>
+          setR({ whens: toggle(reader.whens, v) }),
+        )}
+      </Chips>
+    </Group>
   );
 
-  const writerPage = (
-    <>
-      {identityBlock}
-      <Group num="02" label="Your work">
-        <Prompt>What would you like to upload?</Prompt>
-        <span className="v8-intake-sublabel">Title</span>
-        <div className="v12-field">
-          <input
-            className="v12-field-input v12-field-title"
-            value={creator.workTitle}
-            onChange={(e) => setC({ workTitle: e.target.value })}
-            placeholder="Title…"
-          />
-        </div>
-        <span className="v8-intake-sublabel">Genre</span>
-        <Chips>
-          {multiChips(GENRES_PRIMARY, creator.workGenres, (v) =>
+  const writerWork = (
+    <Group num="02" label="Your work">
+      <Prompt>What would you like to upload?</Prompt>
+      <span className="v8-intake-sublabel">Title</span>
+      <div className="v12-field">
+        <input
+          className="v12-field-input v12-field-title"
+          value={creator.workTitle}
+          onChange={(e) => setC({ workTitle: e.target.value })}
+          placeholder="Title…"
+        />
+      </div>
+      <span className="v8-intake-sublabel">Genre</span>
+      <Chips>
+        {multiChips(GENRES_PRIMARY, creator.workGenres, (v) =>
+          setC({ workGenres: toggle(creator.workGenres, v) }),
+        )}
+        <button
+          type="button"
+          className={`v8-chip is-more${moreGenres ? ' is-open' : ''}`}
+          aria-expanded={moreGenres}
+          onClick={() => setMoreGenres((v) => !v)}
+        >
+          {moreGenres ? 'Less' : 'More…'}
+        </button>
+      </Chips>
+      <ExpandRow open={moreGenres}>
+        <div className="v8-intake-chips">
+          {multiChips(GENRES_MORE, creator.workGenres, (v) =>
             setC({ workGenres: toggle(creator.workGenres, v) }),
           )}
-          <button
-            type="button"
-            className={`v8-chip is-more${moreGenres ? ' is-open' : ''}`}
-            aria-expanded={moreGenres}
-            onClick={() => setMoreGenres((v) => !v)}
+        </div>
+      </ExpandRow>
+
+      <span className="v8-intake-sublabel">Mood</span>
+      <Chips>
+        {multiChips(MOODS, creator.workMoods, (v) =>
+          setC({ workMoods: toggle(creator.workMoods, v) }),
+        )}
+      </Chips>
+
+      <span className="v8-intake-sublabel">Format</span>
+      <p className="v12-fieldnote">{FORMAT_TIP}</p>
+      <Chips>
+        {FORMATS.map((f) => (
+          <Chip
+            key={f}
+            selected={creator.workFormat === f}
+            onClick={() => setC({ workFormat: creator.workFormat === f ? null : f })}
           >
-            {moreGenres ? 'Less' : 'More…'}
-          </button>
-        </Chips>
-        <ExpandRow open={moreGenres}>
-          <div className="v8-intake-chips">
-            {multiChips(GENRES_MORE, creator.workGenres, (v) =>
-              setC({ workGenres: toggle(creator.workGenres, v) }),
-            )}
-          </div>
-        </ExpandRow>
-
-        <span className="v8-intake-sublabel">Mood</span>
-        <Chips>
-          {multiChips(MOODS, creator.workMoods, (v) =>
-            setC({ workMoods: toggle(creator.workMoods, v) }),
-          )}
-        </Chips>
-
-        <span className="v8-intake-sublabel">Format</span>
-        <p className="v12-fieldnote">{FORMAT_TIP}</p>
-        <Chips>
-          {FORMATS.map((f) => (
-            <Chip
-              key={f}
-              selected={creator.workFormat === f}
-              onClick={() => setC({ workFormat: creator.workFormat === f ? null : f })}
-            >
-              {f}
-            </Chip>
-          ))}
-        </Chips>
-      </Group>
-      {goalsBlock}
-    </>
+            {f}
+          </Chip>
+        ))}
+      </Chips>
+    </Group>
   );
 
-  const poetPage = (
-    <>
-      {identityBlock}
-      <Group num="02" label="What you write">
-        <Prompt>What do you write?</Prompt>
-        <span className="v8-intake-sublabel">Form</span>
-        <Chips>
-          {multiChips(POET_FORMS_PRIMARY, creator.poetForms, (v) =>
+  const poetWork = (
+    <Group num="02" label="What you write">
+      <Prompt>What do you write?</Prompt>
+      <span className="v8-intake-sublabel">Form</span>
+      <Chips>
+        {multiChips(POET_FORMS_PRIMARY, creator.poetForms, (v) =>
+          setC({ poetForms: toggle(creator.poetForms, v) }),
+        )}
+        <button
+          type="button"
+          className={`v8-chip is-more${morePoetForms ? ' is-open' : ''}`}
+          aria-expanded={morePoetForms}
+          onClick={() => setMorePoetForms((v) => !v)}
+        >
+          {morePoetForms ? 'Less' : 'More…'}
+        </button>
+      </Chips>
+      <ExpandRow open={morePoetForms}>
+        <div className="v8-intake-chips">
+          {multiChips(POET_FORMS_MORE, creator.poetForms, (v) =>
             setC({ poetForms: toggle(creator.poetForms, v) }),
           )}
-          <button
-            type="button"
-            className={`v8-chip is-more${morePoetForms ? ' is-open' : ''}`}
-            aria-expanded={morePoetForms}
-            onClick={() => setMorePoetForms((v) => !v)}
-          >
-            {morePoetForms ? 'Less' : 'More…'}
-          </button>
-        </Chips>
-        <ExpandRow open={morePoetForms}>
-          <div className="v8-intake-chips">
-            {multiChips(POET_FORMS_MORE, creator.poetForms, (v) =>
-              setC({ poetForms: toggle(creator.poetForms, v) }),
-            )}
-          </div>
-        </ExpandRow>
+        </div>
+      </ExpandRow>
 
-        <span className="v8-intake-sublabel">Mood</span>
-        <Chips>
-          {multiChips(MOODS, creator.poetMoods, (v) =>
-            setC({ poetMoods: toggle(creator.poetMoods, v) }),
-          )}
-        </Chips>
+      <span className="v8-intake-sublabel">Mood</span>
+      <Chips>
+        {multiChips(MOODS, creator.poetMoods, (v) =>
+          setC({ poetMoods: toggle(creator.poetMoods, v) }),
+        )}
+      </Chips>
 
-        <span className="v8-intake-sublabel">Theme</span>
-        <Chips>
-          {multiChips(POET_THEMES_PRIMARY, creator.poetThemes, (v) =>
+      <span className="v8-intake-sublabel">Theme</span>
+      <Chips>
+        {multiChips(POET_THEMES_PRIMARY, creator.poetThemes, (v) =>
+          setC({ poetThemes: toggle(creator.poetThemes, v) }),
+        )}
+        <button
+          type="button"
+          className={`v8-chip is-more${morePoetThemes ? ' is-open' : ''}`}
+          aria-expanded={morePoetThemes}
+          onClick={() => setMorePoetThemes((v) => !v)}
+        >
+          {morePoetThemes ? 'Less' : 'More…'}
+        </button>
+      </Chips>
+      <ExpandRow open={morePoetThemes}>
+        <div className="v8-intake-chips">
+          {multiChips(POET_THEMES_MORE, creator.poetThemes, (v) =>
             setC({ poetThemes: toggle(creator.poetThemes, v) }),
           )}
-          <button
-            type="button"
-            className={`v8-chip is-more${morePoetThemes ? ' is-open' : ''}`}
-            aria-expanded={morePoetThemes}
-            onClick={() => setMorePoetThemes((v) => !v)}
-          >
-            {morePoetThemes ? 'Less' : 'More…'}
-          </button>
-        </Chips>
-        <ExpandRow open={morePoetThemes}>
-          <div className="v8-intake-chips">
-            {multiChips(POET_THEMES_MORE, creator.poetThemes, (v) =>
-              setC({ poetThemes: toggle(creator.poetThemes, v) }),
-            )}
-          </div>
-        </ExpandRow>
-      </Group>
-      {goalsBlock}
-    </>
+        </div>
+      </ExpandRow>
+    </Group>
   );
 
-  const illustratorPage = (
-    <>
-      {identityBlock}
-      <Group num="02" label="What you create">
-        <Prompt>What do you create?</Prompt>
-        <span className="v8-intake-sublabel">Medium</span>
-        <Chips>
-          {multiChips(ILLO_MEDIUMS, creator.illoMediums, (v) =>
-            setC({ illoMediums: toggle(creator.illoMediums, v) }),
-          )}
-        </Chips>
-        <span className="v8-intake-sublabel">Style</span>
-        <Chips>
-          {multiChips(ILLO_STYLES, creator.illoStyles, (v) =>
-            setC({ illoStyles: toggle(creator.illoStyles, v) }),
-          )}
-        </Chips>
-        <span className="v8-intake-sublabel">For</span>
-        <Chips>
-          {multiChips(ILLO_USES, creator.illoUses, (v) =>
-            setC({ illoUses: toggle(creator.illoUses, v) }),
-          )}
-        </Chips>
-      </Group>
-      {goalsBlock}
-    </>
+  const illoWork = (
+    <Group num="02" label="What you create">
+      <Prompt>What do you create?</Prompt>
+      <span className="v8-intake-sublabel">Medium</span>
+      <Chips>
+        {multiChips(ILLO_MEDIUMS, creator.illoMediums, (v) =>
+          setC({ illoMediums: toggle(creator.illoMediums, v) }),
+        )}
+      </Chips>
+      <span className="v8-intake-sublabel">Style</span>
+      <Chips>
+        {multiChips(ILLO_STYLES, creator.illoStyles, (v) =>
+          setC({ illoStyles: toggle(creator.illoStyles, v) }),
+        )}
+      </Chips>
+      <span className="v8-intake-sublabel">For</span>
+      <Chips>
+        {multiChips(ILLO_USES, creator.illoUses, (v) =>
+          setC({ illoUses: toggle(creator.illoUses, v) }),
+        )}
+      </Chips>
+    </Group>
   );
 
-  const rolePage =
+  // --- Email capture — the final slide -----------------------------------
+
+  const emailSlide = (
+    <div className="v12-email-capture">
+      <h2 className="v12-email-title">Save your spot.</h2>
+
+      <form id="intake-email" className="v12-email-form" onSubmit={submitEmail} noValidate>
+        <label className="v12-email-field">
+          <span className="v8-intake-sublabel">Email</span>
+          <input
+            type="email"
+            inputMode="email"
+            spellCheck={false}
+            autoCapitalize="none"
+            className="v12-email-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="you@somewhere.com"
+            autoComplete="email"
+            required
+          />
+        </label>
+
+        {/* Honeypot — humans never see this. */}
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+          aria-hidden="true"
+        />
+
+        <label className="v12-email-consent">
+          <input
+            type="checkbox"
+            checked={consent}
+            onChange={(e) => setConsent(e.target.checked)}
+            required
+          />
+          <span>
+            I agree to receive launch updates from Between Reads and to the processing described in
+            our{' '}
+            <a href="/privacy" target="_blank" rel="noopener">
+              Privacy Policy
+            </a>
+            . Unsubscribe anytime.
+          </span>
+        </label>
+
+        {error && <p className="v12-email-error">{error}</p>}
+      </form>
+    </div>
+  );
+
+  // --- Assemble the slide deck for the active role -----------------------
+
+  const slides: ReactNode[] =
     role === 'reader'
-      ? readerPage
+      ? [readerBook, readerRead, goalsBlock, emailSlide]
       : role === 'writer'
-        ? writerPage
+        ? [identityBlock, writerWork, goalsBlock, emailSlide]
         : role === 'poet'
-          ? poetPage
-          : illustratorPage;
+          ? [identityBlock, poetWork, goalsBlock, emailSlide]
+          : [identityBlock, illoWork, goalsBlock, emailSlide];
+
+  const lastIndex = slides.length - 1;
+  const current = Math.min(slide, lastIndex);
+  const isLast = current === lastIndex;
+
+  const goNext = () => {
+    setDir(1);
+    setSlide((s) => Math.min(s + 1, lastIndex));
+  };
+  const goPrev = () => {
+    setDir(-1);
+    setSlide((s) => Math.max(s - 1, 0));
+  };
+  const goTo = (i: number) => {
+    setDir(i > current ? 1 : -1);
+    setSlide(i);
+  };
+  const pickRole = (r: IntakeRole) => {
+    setRole(r);
+    setSlide(0);
+    setDir(1);
+  };
 
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: INTAKE_CSS }} />
       <style dangerouslySetInnerHTML={{ __html: FLOW_CSS }} />
       <div className="v8-intake" role="region" aria-label="Get started">
-        {onBack && step === 'profile' && (
-          <button type="button" className="v8-intake-back" onClick={onBack}>
-            <span aria-hidden="true">←</span> back
-          </button>
-        )}
-
         {/* Role tabs — pick the path. Locked once the spot is saved. */}
         {step === 'profile' && (
           <div className="v12-roletabs" role="tablist" aria-label="Choose your path">
@@ -539,7 +604,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
                 role="tab"
                 aria-selected={role === r}
                 className={`v12-roletab${role === r ? ' is-active' : ''}`}
-                onClick={() => setRole(r)}
+                onClick={() => pickRole(r)}
               >
                 {ROLE_TAB_LABEL[r]}
               </button>
@@ -547,73 +612,62 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
           </div>
         )}
 
-        {/* ============ PROFILE — questions + email ============ */}
+        {/* ============ PROFILE — one chapter per slide ============ */}
         {step === 'profile' && (
-          <div className="v8-intake-form" key={`profile-${role}`}>
-            {rolePage}
+          <div className="v12-slider">
+            <div className="v12-slide-viewport">
+              <div
+                className={`v8-intake-form v12-slide${dir > 0 ? ' from-right' : ' from-left'}`}
+                key={`profile-${role}-${current}`}
+              >
+                {slides[current]}
+              </div>
+            </div>
 
-            <div className="v12-email-capture">
-              <h2 className="v12-email-title">Save your spot.</h2>
+            <div className="v12-slide-nav">
+              <div className="v12-nav-side v12-nav-left">
+                {(current > 0 || onBack) && (
+                  <button
+                    type="button"
+                    className="v8-cta v8-cta-secondary"
+                    onClick={current > 0 ? goPrev : onBack}
+                  >
+                    <span aria-hidden="true">←</span> Back
+                  </button>
+                )}
+              </div>
 
-              <form className="v12-email-form" onSubmit={submitEmail} noValidate>
-                <label className="v12-email-field">
-                  <span className="v8-intake-sublabel">Email</span>
-                  <input
-                    type="email"
-                    inputMode="email"
-                    spellCheck={false}
-                    autoCapitalize="none"
-                    className="v12-email-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@somewhere.com"
-                    autoComplete="email"
-                    required
+              <div className="v12-dots" role="tablist" aria-label="Progress">
+                {slides.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`v12-dot${i === current ? ' is-on' : i < current ? ' is-done' : ''}`}
+                    aria-current={i === current}
+                    aria-label={`Step ${i + 1} of ${slides.length}`}
+                    onClick={() => goTo(i)}
                   />
-                </label>
+                ))}
+              </div>
 
-                {/* Honeypot — humans never see this. */}
-                <input
-                  type="text"
-                  name="website"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value={website}
-                  onChange={(e) => setWebsite(e.target.value)}
-                  style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
-                  aria-hidden="true"
-                />
-
-                <label className="v12-email-consent">
-                  <input
-                    type="checkbox"
-                    checked={consent}
-                    onChange={(e) => setConsent(e.target.checked)}
-                    required
-                  />
-                  <span>
-                    I agree to receive launch updates from Between Reads and to the processing
-                    described in our{' '}
-                    <a href="/privacy" target="_blank" rel="noopener">
-                      Privacy Policy
-                    </a>
-                    . Unsubscribe anytime.
-                  </span>
-                </label>
-
-                {error && <p className="v12-email-error">{error}</p>}
-
-                <div className="v8-intake-actions">
+              <div className="v12-nav-side v12-nav-right">
+                {isLast ? (
                   <button
                     type="submit"
+                    form="intake-email"
                     className="v8-cta v8-cta-primary"
                     disabled={!hookReady || !canSubmitEmail}
                   >
                     {submitting ? 'Saving…' : 'Save my spot'}
                     <span className="v8-cta-arrow" aria-hidden="true">→</span>
                   </button>
-                </div>
-              </form>
+                ) : (
+                  <button type="button" className="v8-cta v8-cta-primary" onClick={goNext}>
+                    Continue
+                    <span className="v8-cta-arrow" aria-hidden="true">→</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -875,5 +929,85 @@ const FLOW_CSS = `
   font-size: 14px;
   line-height: 1.5;
   color: var(--v6-text-muted);
+}
+
+/* === Slider — one chapter per slide === */
+.v12-slider {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(16px, 2.4vw, 24px);
+}
+.v12-slide-viewport {
+  overflow: hidden;
+}
+.v12-slide {
+  animation: v12-slide-in 320ms var(--v6-ease) both;
+}
+.v12-slide.from-left {
+  animation-name: v12-slide-in-left;
+}
+@keyframes v12-slide-in {
+  from { opacity: 0; transform: translateX(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes v12-slide-in-left {
+  from { opacity: 0; transform: translateX(-26px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .v12-slide { animation-duration: 1ms; }
+}
+
+/* The email block sits alone on its slide — drop the in-form divider. */
+.v12-slider .v12-email-capture {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Footer nav: Back · dots · Continue/Submit */
+.v12-slide-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: clamp(12px, 2vw, 18px);
+  border-top: 1px solid color-mix(in srgb, var(--v6-divider) 82%, transparent);
+}
+.v12-nav-side {
+  flex: 1 1 0;
+  display: flex;
+  min-width: 0;
+}
+.v12-nav-left { justify-content: flex-start; }
+.v12-nav-right { justify-content: flex-end; }
+.v12-slide-nav .v8-cta { margin: 0; }
+
+.v12-dots {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 0 0 auto;
+}
+.v12-dot {
+  appearance: none;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--v6-divider);
+  cursor: pointer;
+  transition: background 180ms var(--v6-ease), transform 180ms var(--v6-ease);
+  -webkit-tap-highlight-color: transparent;
+}
+.v12-dot.is-done { background: color-mix(in srgb, var(--v6-accent) 55%, var(--v6-divider)); }
+.v12-dot.is-on {
+  background: var(--v6-accent);
+  transform: scale(1.4);
+}
+
+@media (max-width: 460px) {
+  .v12-slide-nav { gap: 8px; }
+  .v12-slide-nav .v8-cta { padding-left: 16px; padding-right: 16px; }
 }
 `;

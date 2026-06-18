@@ -617,7 +617,7 @@ export default function CreatePage() {
         </p>
         <div className="br-create-actions">
           <Link href="/start?mode=writer" className="br-create-cta">
-            Join free
+            Join as a writer
             <span className="br-create-cta-arrow" aria-hidden="true">→</span>
           </Link>
           <Link href="/faq" className="br-create-ghost">
@@ -666,7 +666,7 @@ export default function CreatePage() {
             free to write, and your work is yours.
           </p>
           <Link href="/start?mode=writer" className="br-create-cta">
-            Join free
+            Join as a writer
             <span className="br-create-cta-arrow" aria-hidden="true">→</span>
           </Link>
         </div>
