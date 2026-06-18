@@ -37,7 +37,7 @@ const MINI_BOOKS: MiniBook[] = [
   },
 ];
 
-// The manuscript a writer needs real reader feedback on before querying.
+// The manuscript a writer needs real reader feedback on before publishing.
 const BETA_BOOK: MiniBook = {
   title: 'The Undertow Hours',
   italicWords: [1],
@@ -196,9 +196,9 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-beta-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-beta-title">
-            <span className="bl-offers-mark">Real feedback,</span>
+            <span className="bl-offers-mark">Real Feedback,</span>
             <span className="bl-offers-sub">
-              before <em>you query.</em>
+              before <em>you publish.</em>
             </span>
           </h2>
 
@@ -326,10 +326,10 @@ const CSS = `
 }
 .bl-offers-title {
   font-family: var(--bl-font-serif);
-  font-weight: 900;
+  font-weight: 500;
   font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  line-height: 1.03;
+  letter-spacing: -0.022em;
   color: var(--bl-footer-fg);
   margin: 0;
   min-height: clamp(92px, 8vw, 116px);
@@ -341,24 +341,24 @@ const CSS = `
 }
 .bl-offers-title em {
   font-style: italic;
-  font-weight: 700;
+  font-weight: 500;
   color: var(--bl-footer-fg);
 }
 .bl-offers-mark {
   display: block;
   font-family: var(--bl-font-serif);
   font-style: normal;
-  font-weight: 900;
+  font-weight: 500;
   font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 0.98;
-  letter-spacing: -0.03em;
+  line-height: 1.03;
+  letter-spacing: -0.022em;
   color: var(--bl-footer-fg);
 }
 .bl-offers-sub {
   display: block;
   margin-top: 6px;
   font-family: var(--bl-font-serif);
-  font-weight: 700;
+  font-weight: 500;
   font-size: clamp(21px, 1.9vw, 28px);
   line-height: 1.15;
   letter-spacing: -0.015em;
@@ -366,7 +366,7 @@ const CSS = `
 }
 .bl-offers-sub em {
   color: var(--bl-footer-fg);
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .bl-offers-lede {
@@ -723,8 +723,8 @@ const CSS = `
   margin-top: 2px;
   font-family: var(--bl-font-serif);
   font-size: 20px;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  letter-spacing: -0.012em;
 }
 
 .bl-offers-cta {
