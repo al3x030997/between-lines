@@ -162,8 +162,8 @@ const CSS = `
 .rev-sub {
   margin: 16px auto 0;
   max-width: 52ch;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: var(--bl-hero-lede-size);
+  line-height: var(--bl-hero-lede-line-height);
   color: var(--theme-text-muted);
 }
 
