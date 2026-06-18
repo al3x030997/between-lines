@@ -117,11 +117,11 @@ const CSS = `
   opacity: 0.6;
 }
 .br-create-title {
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
+  font-family: var(--br-font-display);
+  font-weight: 900;
   font-size: var(--bl-hero-title-size);
   line-height: var(--bl-hero-title-line-height);
-  letter-spacing: var(--bl-hero-title-letter-spacing);
+  letter-spacing: -0.03em;
   color: var(--theme-text);
   margin: 0 0 24px;
   max-width: 100%;
@@ -594,7 +594,7 @@ export default function CreatePage() {
     <div className="br-create-root">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
 
-      <SiteNav activeHref="/create" />
+      <SiteNav activeHref="/write" />
 
       <section className="br-create-hero" aria-label="Create on BetweenReads">
         <p className="br-create-eyebrow">For creators</p>

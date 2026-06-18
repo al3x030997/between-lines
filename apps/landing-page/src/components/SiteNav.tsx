@@ -22,7 +22,7 @@ type NavLink = { href: string; label: string; modifier?: 'support' };
 const LINKS: NavLink[] = [
   { href: '/about', label: 'About' },
   { href: '/read', label: 'Read' },
-  { href: '/create', label: 'Write' },
+  { href: '/write', label: 'Write' },
   { href: '/reviews', label: 'Reviews' },
   { href: '/support', label: 'Support Us', modifier: 'support' },
 ];

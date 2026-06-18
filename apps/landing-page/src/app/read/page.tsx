@@ -147,11 +147,11 @@ const CSS = `
   opacity: 0.6;
 }
 .br-readm-title {
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
+  font-family: var(--br-font-display);
+  font-weight: 900;
   font-size: var(--bl-hero-title-size);
   line-height: var(--bl-hero-title-line-height);
-  letter-spacing: var(--bl-hero-title-letter-spacing);
+  letter-spacing: -0.03em;
   color: var(--br-readm-ink);
   margin: 0 0 24px;
   max-width: 100%;
