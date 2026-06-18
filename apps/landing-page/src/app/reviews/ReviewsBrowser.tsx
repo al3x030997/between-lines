@@ -146,7 +146,7 @@ const CSS = `
 
 /* === Masthead === */
 .rev-masthead {
-  max-width: 760px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: clamp(48px, 7vw, 88px) clamp(22px, 5vw, 40px) clamp(28px, 4vw, 40px);
   text-align: center;
@@ -208,12 +208,13 @@ const CSS = `
 
 /* === Review list (single column, Goodreads-style) === */
 .rev-list {
-  max-width: 760px;
+  max-width: 1040px;
   margin: 0 auto;
   padding: 0 clamp(22px, 5vw, 40px);
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(18px, 2.5vw, 26px);
+  align-items: start;
 }
 .rev-card {
   background: var(--theme-surface);
@@ -288,9 +289,9 @@ const CSS = `
 }
 .rev-quote {
   font-family: var(--br-font-serif);
-  font-size: 17px;
+  font-size: 16px;
   line-height: 1.62;
-  color: var(--theme-text);
+  color: var(--theme-text-muted);
   border-left: 3px solid var(--theme-accent);
   padding-left: 16px;
   margin: 12px 0 0;
@@ -322,14 +323,14 @@ const CSS = `
 
 /* === Closing CTA === */
 .rev-cta {
-  max-width: 760px;
+  max-width: 1040px;
   margin: clamp(36px, 5vw, 56px) auto 0;
   padding: clamp(40px, 6vw, 64px) clamp(22px, 5vw, 40px) clamp(64px, 9vw, 96px);
   text-align: center;
 }
 .rev-cta-lead {
   font-family: var(--br-font-serif);
-  font-size: 17px;
+  font-size: 16px;
   color: var(--theme-text-muted);
   margin: 0 0 10px;
 }
@@ -350,6 +351,10 @@ const CSS = `
 .br-reviewspage :where(button, a):focus-visible {
   outline: 2px solid var(--theme-accent-strong);
   outline-offset: 3px;
+}
+
+@media (max-width: 820px) {
+  .rev-list { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

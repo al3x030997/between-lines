@@ -37,7 +37,17 @@ const MINI_BOOKS: MiniBook[] = [
   },
 ];
 
-// Member-avatar tints for the club huddle and the pod rings.
+// The manuscript a beta reader discovers first — published later, credited forever.
+const BETA_BOOK: MiniBook = {
+  title: 'The Undertow Hours',
+  italicWords: [1],
+  authorMono: 'J.T. CALLOWAY',
+  publisher: 'BETWEENREADS',
+  coverBg: offerCover('the-undertow-hours'),
+  coverFg: 'light',
+};
+
+// Member-avatar tints for the club huddle.
 const DOT_TINTS = [
   'var(--bl-accent)',
   'color-mix(in srgb, var(--bl-footer-fg) 68%, transparent)',
@@ -45,16 +55,6 @@ const DOT_TINTS = [
   'color-mix(in srgb, var(--bl-footer-fg) 42%, transparent)',
   'color-mix(in srgb, var(--bl-accent) 80%, var(--bl-surface))',
 ];
-
-// Lay out N dots evenly around a ring, starting at the top.
-const ringDots = (n: number, radius = 38) =>
-  Array.from({ length: n }).map((_, i) => {
-    const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
-    return {
-      x: 50 + Math.cos(angle) * radius,
-      y: 50 + Math.sin(angle) * radius,
-    };
-  });
 
 function renderTitle(title: string, italicWords?: number[]) {
   if (!italicWords || italicWords.length === 0) return title;
@@ -68,22 +68,34 @@ function renderTitle(title: string, italicWords?: number[]) {
   });
 }
 
-function PodRing({ n, small }: { n: number; small?: boolean }) {
+// Circular "stamp" that names the reader on a writer's page once they break out.
+function EarlyDiscovererSeal() {
   return (
-    <div className={`bl-pod-ring${small ? ' is-small' : ''}`}>
-      {ringDots(n).map((dot, i) => (
-        <span
-          key={i}
-          className="bl-pod-dot"
-          style={{
-            left: `${dot.x}%`,
-            top: `${dot.y}%`,
-            background: DOT_TINTS[i % DOT_TINTS.length],
-          }}
-        />
-      ))}
-      <span className="bl-pod-count">{n}</span>
-    </div>
+    <span className="bl-offers-seal" aria-hidden="true">
+      <svg viewBox="0 0 100 100" width="100%" height="100%">
+        <defs>
+          <path
+            id="bl-seal-ring"
+            d="M50,50 m-32,0 a32,32 0 1,1 64,0 a32,32 0 1,1 -64,0"
+            fill="none"
+          />
+        </defs>
+        <circle cx="50" cy="50" r="47" className="bl-offers-seal-disc" />
+        <circle cx="50" cy="50" r="47" className="bl-offers-seal-rim" />
+        <circle cx="50" cy="50" r="38" className="bl-offers-seal-rim-inner" />
+        <text className="bl-offers-seal-text">
+          <textPath href="#bl-seal-ring" startOffset="0%">
+            EARLY&nbsp;DISCOVERER&nbsp;·&nbsp;BETWEENREADS&nbsp;·&nbsp;
+          </textPath>
+        </text>
+        <text x="50" y="45" textAnchor="middle" className="bl-offers-seal-star">
+          ★
+        </text>
+        <text x="50" y="62" textAnchor="middle" className="bl-offers-seal-foot">
+          FOR LIFE
+        </text>
+      </svg>
+    </span>
   );
 }
 
@@ -94,7 +106,7 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
   };
 
   return (
-    <section className="bl-offers" aria-label="Reading clubs and pods">
+    <section className="bl-offers" aria-label="Reading clubs and beta reading">
       <style>{CSS}</style>
       <div className="bl-offers-inner">
         {/* LEFT — Reading Clubs: the open, wide community */}
@@ -169,48 +181,74 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
 
         <div className="bl-offers-divider" aria-hidden="true" />
 
-        {/* RIGHT — Pods: the small, intimate, by-invitation counter-move */}
+        {/* RIGHT — Beta reading: discovery on one side, real readers on the other */}
         <article
-          className="bl-offers-panel bl-offers-pods-panel"
-          aria-labelledby="bl-offers-pods-title"
+          className="bl-offers-panel bl-offers-beta-panel"
+          aria-labelledby="bl-offers-beta-title"
         >
-          <h2 className="bl-offers-title" id="bl-offers-pods-title">
-            <span className="bl-offers-mark">Pods.</span>
+          <h2 className="bl-offers-title" id="bl-offers-beta-title">
+            <span className="bl-offers-mark">Read it first.</span>
             <span className="bl-offers-sub">
-              An inner circle, <em>by invitation.</em>
+              Discovery, <em>both ways.</em>
             </span>
           </h2>
 
-          <div className="bl-offers-pods" aria-hidden="true">
-            <div className="bl-pod">
-              <PodRing n={6} />
-              <div className="bl-pod-cap">
-                <strong>Reader Pod</strong>
-                <span>up to 6 readers</span>
+          <div className="bl-offers-beta-art" aria-hidden="true">
+            <div className="bl-offers-manuscript">
+              <div
+                className="bl-offers-cover"
+                style={{
+                  background: BETA_BOOK.coverBg,
+                  color: '#F3EFE6',
+                  transform: 'rotate(-3.5deg)',
+                }}
+              >
+                <div className="bl-offers-cover-publisher">{BETA_BOOK.publisher}</div>
+                <div className="bl-offers-cover-title">
+                  {renderTitle(BETA_BOOK.title, BETA_BOOK.italicWords)}
+                </div>
+                <div className="bl-offers-cover-foot">
+                  <div className="bl-offers-cover-rule" />
+                  <div className="bl-offers-cover-author">{BETA_BOOK.authorMono}</div>
+                </div>
               </div>
+              <EarlyDiscovererSeal />
             </div>
-            <div className="bl-pod">
-              <PodRing n={4} small />
-              <div className="bl-pod-cap">
-                <strong>Writer Pod</strong>
-                <span>up to 4 writers</span>
-              </div>
-            </div>
+            <span className="bl-offers-chip">
+              <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true">
+                <path
+                  d="M12 2l2.9 6.26L21.5 9l-5 4.6L18 21l-6-3.4L6 21l1.5-7.4-5-4.6 6.6-.74L12 2z"
+                  fill="currentColor"
+                />
+              </svg>
+              named on their page
+            </span>
           </div>
 
           <p className="bl-offers-lede">
-            <strong>Reader Pods</strong> bring up to six readers around a writer’s work
-            &mdash; a trusted circle, not a public feed. <strong>Writer Pods</strong> keep
-            four writers close for honest craft talk. Small on purpose.
+            Readers find writers before they break out &mdash; beta read a manuscript and,
+            if it goes on to be agented or published, you&rsquo;re named an{' '}
+            <strong>Early Discoverer</strong> on their page, for life. Writers get real
+            readers and honest feedback before they ever query.
           </p>
-          <a
-            href="/start?mode=writer"
-            className="bl-offers-cta"
-            onClick={handle(onWriter)}
-          >
-            Start a pod
-            <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
-          </a>
+          <div className="bl-offers-cta-row">
+            <a
+              href="/start?mode=reader"
+              className="bl-offers-cta"
+              onClick={handle(onReader)}
+            >
+              Become a beta reader
+              <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <a
+              href="/start?mode=writer"
+              className="bl-offers-cta bl-offers-cta-ghost"
+              onClick={handle(onWriter)}
+            >
+              Get your work read
+              <span className="bl-offers-cta-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
         </article>
       </div>
     </section>
@@ -255,11 +293,11 @@ const CSS = `
   min-width: 0;
 }
 .bl-offers-clubs { grid-column: 1; }
-.bl-offers-pods-panel { grid-column: 3; }
+.bl-offers-beta-panel { grid-column: 3; }
 /* titles sit on the same baseline by bottom-aligning in their shared row */
 .bl-offers-title { align-self: end; }
 .bl-offers-club-art,
-.bl-offers-pods { align-self: start; }
+.bl-offers-beta-art { align-self: start; }
 .bl-offers-lede { align-self: start; }
 .bl-offers-divider {
   grid-column: 2;
@@ -412,72 +450,61 @@ const CSS = `
 }
 .bl-offers-chip svg { color: var(--bl-accent); flex: 0 0 auto; }
 
-/* ── Right: Pods ── */
-.bl-offers-pods {
-  display: flex;
-  gap: clamp(20px, 3vw, 44px);
-  align-items: flex-start;
-  flex-wrap: wrap;
-  padding: 6px 0 2px;
-}
-.bl-pod {
+/* ── Right: Beta reading — manuscript stamped with the Early Discoverer seal ── */
+.bl-offers-beta-art {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 14px;
+  gap: 16px;
+  padding: 2px 0;
 }
-.bl-pod-ring {
+.bl-offers-manuscript {
   position: relative;
-  width: 152px;
-  height: 152px;
+  width: max-content;
+  padding: 6px 44px 30px 0;
 }
-.bl-pod-ring.is-small { width: 132px; height: 132px; }
-.bl-pod-ring::before {
-  content: '';
+/* A cream medallion stamped over the cover's lower-right corner so the ink
+   rim + text stay legible against both the dark cover and the yellow ground. */
+.bl-offers-seal {
   position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 1px dashed color-mix(in srgb, var(--bl-footer-fg) 26%, transparent);
-}
-.bl-pod-dot {
-  position: absolute;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  border: 2px solid var(--bl-footer-bg);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.26);
-}
-.bl-pod-count {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  font-family: var(--bl-font-serif);
-  font-style: italic;
-  font-weight: 500;
-  font-size: 38px;
+  right: 0;
+  bottom: 0;
+  width: clamp(86px, 9vw, 104px);
+  height: clamp(86px, 9vw, 104px);
   color: var(--bl-footer-fg);
+  transform: rotate(-8deg);
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.28));
 }
-.bl-pod-cap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  text-align: center;
+.bl-offers-seal-disc { fill: var(--bl-paper-bg, #F6F1E3); }
+.bl-offers-seal-rim {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
 }
-.bl-pod-cap strong {
+.bl-offers-seal-rim-inner {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  stroke-dasharray: 2 3.2;
+  opacity: 0.85;
+}
+.bl-offers-seal-text {
+  fill: currentColor;
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+  font-weight: 800;
+  font-size: 9px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--bl-footer-fg);
 }
-.bl-pod-cap span {
-  font-family: var(--bl-font-body);
-  font-size: 13px;
-  color: color-mix(in srgb, var(--bl-footer-fg) 64%, transparent);
+.bl-offers-seal-star {
+  fill: currentColor;
+  font-size: 19px;
+}
+.bl-offers-seal-foot {
+  fill: currentColor;
+  font-family: var(--bl-font-eyebrow);
+  font-weight: 800;
+  font-size: 7.6px;
+  letter-spacing: 0.2em;
 }
 
 .bl-offers-cta {
@@ -508,6 +535,31 @@ const CSS = `
 }
 .bl-offers-cta:hover .bl-offers-cta-arrow { transform: translateX(3px); }
 
+/* Dual CTA: filled primary (reader) + ghost secondary (writer) */
+.bl-offers-cta-row {
+  justify-self: start;
+  align-self: end;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.bl-offers-cta-row .bl-offers-cta {
+  justify-self: auto;
+  align-self: auto;
+}
+.bl-offers-cta-ghost {
+  background: transparent;
+  color: var(--bl-footer-fg);
+  box-shadow: none;
+  border: 1.5px solid color-mix(in srgb, var(--bl-footer-fg) 38%, transparent);
+}
+.bl-offers-cta-ghost:hover {
+  background: var(--bl-footer-fg);
+  color: var(--bl-footer-bg);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--bl-footer-fg) 32%, transparent);
+}
+
 @media (max-width: 820px) {
   .bl-offers-inner {
     grid-template-columns: 1fr;
@@ -526,6 +578,11 @@ const CSS = `
     margin-top: 6px;
     align-self: start;
   }
+  .bl-offers-cta-row {
+    margin-top: 6px;
+    align-self: start;
+  }
+  .bl-offers-cta-row .bl-offers-cta { margin-top: 0; }
   .bl-offers-divider {
     grid-row: auto;
     grid-column: 1;

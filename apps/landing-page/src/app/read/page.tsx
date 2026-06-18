@@ -271,7 +271,7 @@ const CSS = `
   margin: 0;
 }
 .br-readm-features-title {
-  font-family: var(--bl-font-display);
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: clamp(30px, 3.8vw, 48px);
   line-height: 1.06;
@@ -357,7 +357,7 @@ const CSS = `
   min-width: 0;
 }
 .br-readm-feature-title {
-  font-family: var(--bl-font-display);
+  font-family: var(--bl-font-serif);
   font-weight: 600;
   font-size: 32px;
   line-height: 1.08;
