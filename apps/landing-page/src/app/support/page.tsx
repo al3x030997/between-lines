@@ -199,21 +199,26 @@ const CSS = `
 }
 .bl-support-learn-more:hover { color: var(--bl-accent-strong); border-color: var(--bl-accent-strong); }
 
-/* Literary Patron — full-width featured row */
+/* Full-width tier rows (Literary Patron + stacked tiers) */
+.bl-support-tier.is-row,
 .bl-support-tier.is-patron {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
+}
+.bl-support-tier.is-patron {
   border: 2px solid var(--theme-strong-cta-bg);
   margin-bottom: 40px;
 }
+.bl-support-tier.is-row:hover,
 .bl-support-tier.is-patron:hover { transform: none; box-shadow: none; }
 .bl-support-patron-info { flex: 1; }
 .bl-support-tier.is-patron .bl-support-tier-price span {
   font-size: 11px;
   color: var(--theme-text-faint);
 }
+.bl-support-tier.is-row .bl-support-tier-benefits,
 .bl-support-tier.is-patron .bl-support-tier-benefits { margin-top: 12px; max-width: 640px; }
 .bl-support-tier-btn.is-patron-btn {
   width: auto;
@@ -222,9 +227,18 @@ const CSS = `
   white-space: nowrap;
   padding: 11px 28px;
 }
+.bl-support-compare-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.bl-support-compare-actions .bl-support-learn-more { margin: 0; }
 @media (max-width: 600px) {
+  .bl-support-tier.is-row,
   .bl-support-tier.is-patron { flex-direction: column; align-items: flex-start; }
   .bl-support-tier-btn.is-patron-btn { width: 100%; }
+  .bl-support-compare-actions { width: 100%; }
 }
 
 /* === Note === */
@@ -735,37 +749,43 @@ export default function SupportPage() {
           {[...TIERS, ...TIERS_TWO].map((tier) => (
             <div
               key={tier.name}
-              className={`bl-support-tier${'featured' in tier && tier.featured ? ' featured' : ''}`}
+              className={`bl-support-tier is-row${'featured' in tier && tier.featured ? ' featured' : ''}`}
             >
-              <div className="bl-support-tier-name">{tier.name}</div>
-              <div className="bl-support-tier-price">{tier.price}</div>
-              <div className="bl-support-tier-avail">{tier.avail}</div>
-              <div className="bl-support-tier-benefits">{tier.benefits}</div>
-              <button type="button" className="bl-support-tier-btn">
+              <div className="bl-support-patron-info">
+                <div className="bl-support-tier-name">{tier.name}</div>
+                <div className="bl-support-tier-price">{tier.price}</div>
+                <div className="bl-support-tier-avail">{tier.avail}</div>
+                <div className="bl-support-tier-benefits">{tier.benefits}</div>
+              </div>
+              <button type="button" className="bl-support-tier-btn is-patron-btn">
                 {tier.cta}
               </button>
             </div>
           ))}
 
-          <div className="bl-support-tier is-compare">
-            <div className="bl-support-tier-name">Not sure which tier?</div>
-            <div className="bl-support-tier-benefits" style={{ marginTop: 8 }}>
-              See exactly what&rsquo;s included in each tier, side by side.
+          <div className="bl-support-tier is-compare is-row">
+            <div className="bl-support-patron-info">
+              <div className="bl-support-tier-name">Not sure which tier?</div>
+              <div className="bl-support-tier-benefits" style={{ marginTop: 8 }}>
+                See exactly what&rsquo;s included in each tier, side by side.
+              </div>
             </div>
-            <button
-              type="button"
-              className="bl-support-tier-btn is-dark"
-              onClick={() => setCompareOpen(true)}
-            >
-              Compare Tiers
-            </button>
-            <button
-              type="button"
-              className="bl-support-learn-more"
-              onClick={() => setLearnMoreOpen(true)}
-            >
-              Learn More
-            </button>
+            <div className="bl-support-compare-actions">
+              <button
+                type="button"
+                className="bl-support-tier-btn is-dark is-patron-btn"
+                onClick={() => setCompareOpen(true)}
+              >
+                Compare Tiers
+              </button>
+              <button
+                type="button"
+                className="bl-support-learn-more"
+                onClick={() => setLearnMoreOpen(true)}
+              >
+                Learn More
+              </button>
+            </div>
           </div>
         </div>
 
