@@ -119,8 +119,8 @@ const CSS = `
 .br-create-title {
   font-family: var(--br-font-display);
   font-weight: 900;
-  font-size: var(--bl-hero-title-size);
-  line-height: var(--bl-hero-title-line-height);
+  font-size: clamp(34px, 5.6vw, 56px);
+  line-height: 1.02;
   letter-spacing: -0.03em;
   color: var(--theme-text);
   margin: 0 0 24px;

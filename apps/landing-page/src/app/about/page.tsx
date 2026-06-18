@@ -51,11 +51,11 @@ const CSS = `
   background: var(--theme-yellow);
 }
 .bl-about-title {
-  font-family: var(--bl-font-serif);
+  font-family: var(--br-font-display);
   font-weight: 900;
-  font-size: clamp(34px, 4.7vw, 64px);
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  font-size: clamp(34px, 5.6vw, 56px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
   color: var(--theme-text);
   margin: 0 0 28px;
   text-wrap: balance;
