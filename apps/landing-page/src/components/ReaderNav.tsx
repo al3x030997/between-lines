@@ -12,7 +12,7 @@ type NavLink = { href: string; label: string; requiresWriter?: boolean; hideForK
 
 const links: NavLink[] = [
   { href: '/library', label: 'Read' },
-  { href: '/write', label: 'Write', hideForKids: true },
+  { href: '/studio', label: 'Write', hideForKids: true },
   { href: '/library?tab=betareading', label: 'Beta Reading', hideForKids: true },
   { href: '/library?tab=community', label: 'Community', hideForKids: true },
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },

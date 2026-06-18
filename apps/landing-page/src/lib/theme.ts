@@ -12,7 +12,7 @@ export type ResolvedTheme = 'light' | 'dark';
  */
 export const READER_PATH_PREFIXES = [
   '/gallery',
-  '/write',
+  '/studio',
   '/account',
   '/profile',
   '/reader',

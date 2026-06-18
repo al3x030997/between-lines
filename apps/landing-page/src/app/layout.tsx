@@ -11,7 +11,7 @@ const THEME_INIT_SCRIPT = `
   try {
     var key = 'betweenreads.theme';
     var path = window.location.pathname;
-    var readerPrefixes = ['/gallery','/write','/account','/profile','/reader','/writer','/store','/library'];
+    var readerPrefixes = ['/gallery','/studio','/account','/profile','/reader','/writer','/store','/library'];
     var isNestedRead = path.indexOf('/read/') === 0;
     var isReader = readerPrefixes.some(function (p) {
       return path === p || path.indexOf(p + '/') === 0 || path.indexOf(p + '?') === 0;

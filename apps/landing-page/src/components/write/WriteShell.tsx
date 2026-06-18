@@ -152,14 +152,14 @@ export function WriteShell() {
     setTopTab(id);
     setWorkMenuOpen(false);
     if (id === 'library') {
-      router.push('/write');
+      router.push('/studio');
     } else if (id === 'write') {
       const next = new URLSearchParams();
       next.set('view', 'editor');
       if (workId) next.set('work', workId);
-      router.push(`/write?${next.toString()}`);
+      router.push(`/studio?${next.toString()}`);
     } else {
-      router.push(`/write?tab=${id}`);
+      router.push(`/studio?tab=${id}`);
     }
   };
 
@@ -173,7 +173,7 @@ export function WriteShell() {
     next.set('view', 'editor');
     next.set('work', id);
     if (nextSubTab !== 'write') next.set('tab', nextSubTab);
-    router.push(`/write?${next.toString()}`);
+    router.push(`/studio?${next.toString()}`);
   };
 
   const previewWork = (work: WriterLibraryWork) => {
@@ -239,7 +239,7 @@ export function WriteShell() {
       <div className="br-write-shell br-write-shell-editor br-write-page">
         {/* Row 2: same tabsbar as library mode so the global section nav
             (Search + Your Library / Write / Audio / ...) stays at the
-            same y-position across /write surfaces. "Write" is active
+            same y-position across /studio surfaces. "Write" is active
             here because topTab === 'write'. */}
         <div className="br-write-tabsbar">
           <div className="br-write-tabsbar-inner">
