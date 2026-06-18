@@ -53,12 +53,13 @@ export function SiteNav({ onJoin, activeHref }: Props) {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: BRNAV_CSS }} />
+      <div className="br-header">
       <div className="br-subbanner">
         <span className="br-subbanner-inner">
           <span className="br-subbanner-text">
-            BetweenLines Journal is now open for submissions.{' '}
-            <Link className="br-subbanner-cta" href="/betweenlines#journal-submission">
-              Submit your work
+            BetweenReads is now open for submissions.{' '}
+            <Link className="br-subbanner-cta" href="/write">
+              Publish your work
               <span className="br-subbanner-arrow" aria-hidden="true">→</span>
             </Link>
           </span>
@@ -107,14 +108,21 @@ export function SiteNav({ onJoin, activeHref }: Props) {
         </div>
       </div>
       </nav>
+      </div>
     </>
   );
 }
 
 const BRNAV_CSS = `
-/* Submissions announcement bar — full-bleed near-black strip above the nav.
-   Scrolls away while the nav below stays sticky. Shown on every page that
-   renders SiteNav, so the journal call follows the visitor across the site. */
+/* Sticky header: the announcement bar and the nav travel together and stay
+   pinned to the top of the viewport on scroll. Shown on every page that
+   renders SiteNav, so the submissions call follows the visitor across the site. */
+.br-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+/* Submissions announcement bar — full-bleed near-black strip above the nav. */
 .br-subbanner {
   width: 100%;
   background: #16110d;
@@ -159,9 +167,6 @@ const BRNAV_CSS = `
   outline-offset: 3px;
 }
 .brnav {
-  position: sticky;
-  top: 0;
-  z-index: 10;
   background: color-mix(in srgb, var(--theme-surface) 94%, transparent);
   border-bottom: 1px solid var(--theme-border-subtle);
   backdrop-filter: blur(14px);
