@@ -115,7 +115,8 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
           aria-labelledby="bl-offers-clubs-title"
         >
           <h2 className="bl-offers-title" id="bl-offers-clubs-title">
-            Your book club, <em>but bigger.</em>
+            <span className="bl-offers-mark">Your book club,</span>
+            <span className="bl-offers-sub">but bigger.</span>
           </h2>
 
           <div className="bl-offers-club-art" aria-hidden="true">
@@ -147,7 +148,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
                 <span className="bl-offers-thread-rail" />
                 <span className="bl-offers-thread-note">Chapter 12</span>
                 <span className="bl-offers-thread-copy">The twist changes the title.</span>
-                <span className="bl-offers-thread-copy is-muted">4 replies in the margins</span>
               </div>
               <div className="bl-offers-club-meta">
                 <div className="bl-offers-members">
@@ -175,8 +175,8 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
 
           <p className="bl-offers-lede">
             Gather around any book, genre, or author &mdash; published, indie, or just
-            discovered. Read together, react in the margins, and unpack every twist in a
-            private thread. Free to join, or start your own.
+            discovered. Read together, share reactions, and unpack every twist in a private
+            thread. Free to join, or start your own.
           </p>
           <a
             href="/start?mode=reader"
@@ -212,7 +212,6 @@ export default function SignupOffers({ onReader, onWriter }: Props) {
                   <span className="bl-offers-page-line" />
                   <span className="bl-offers-page-line" />
                   <span className="bl-offers-page-line is-short" />
-                  <span className="bl-offers-page-note">Specific note</span>
                 </span>
               </div>
               <div className="bl-offers-manuscript">
@@ -325,11 +324,11 @@ const CSS = `
   width: 1px;
 }
 .bl-offers-title {
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
-  font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 1.03;
-  letter-spacing: -0.022em;
+  font-family: var(--br-font-display, var(--bl-font-serif));
+  font-weight: 900;
+  font-size: clamp(34px, 3.5vw, 50px);
+  line-height: 1;
+  letter-spacing: -0.03em;
   color: var(--bl-footer-fg);
   margin: 0;
   min-height: clamp(92px, 8vw, 116px);
@@ -339,29 +338,24 @@ const CSS = `
   text-wrap: balance;
   font-feature-settings: "kern", "liga", "calt", "dlig";
 }
-.bl-offers-title em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--bl-footer-fg);
-}
 .bl-offers-mark {
   display: block;
-  font-family: var(--bl-font-serif);
+  font-family: inherit;
   font-style: normal;
-  font-weight: 500;
-  font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 1.03;
-  letter-spacing: -0.022em;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
   color: var(--bl-footer-fg);
 }
 .bl-offers-sub {
   display: block;
-  margin-top: 6px;
-  font-family: var(--bl-font-serif);
-  font-weight: 500;
-  font-size: clamp(40px, 4.1vw, 58px);
-  line-height: 1.03;
-  letter-spacing: -0.022em;
+  margin-top: 0;
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
   color: var(--bl-footer-fg);
 }
 
@@ -532,12 +526,6 @@ const CSS = `
   font-weight: 650;
   line-height: 1.25;
 }
-.bl-offers-thread-copy.is-muted {
-  margin-top: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  color: color-mix(in srgb, var(--bl-paper-ink, #161410) 58%, transparent);
-}
 .bl-offers-club-meta {
   position: absolute;
   left: clamp(142px, 20vw, 228px);
@@ -622,19 +610,6 @@ const CSS = `
   background: color-mix(in srgb, var(--bl-paper-ink, #161410) 34%, transparent);
 }
 .bl-offers-page-line.is-short { width: 66%; }
-.bl-offers-page-note {
-  margin-top: auto;
-  align-self: flex-start;
-  border-radius: 999px;
-  padding: 7px 12px;
-  background: color-mix(in srgb, var(--bl-accent) 74%, var(--bl-surface));
-  color: #17150f;
-  font-family: var(--bl-font-body);
-  font-size: 12px;
-  font-style: italic;
-  font-weight: 700;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.12);
-}
 .bl-offers-manuscript {
   position: absolute;
   left: clamp(132px, 15vw, 188px);
@@ -826,7 +801,7 @@ const CSS = `
   .bl-offers-title,
   .bl-offers-mark,
   .bl-offers-sub {
-    font-size: clamp(36px, 11vw, 48px);
+    font-size: clamp(34px, 10vw, 44px);
   }
   .bl-offers-art-stage {
     height: 352px;
