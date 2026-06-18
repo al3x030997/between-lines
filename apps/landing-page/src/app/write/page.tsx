@@ -24,7 +24,7 @@ const FEATURES: Feature[] = [
     index: '01',
     title: 'Publish your work & build an audience',
     blurb:
-      'Writing is free. Upload work in any genre or format — from microstories to novels — and reach readers who turn the page.',
+      'Writing is free. Upload work in any genre or format — from microstories to novels — and build the catalogue readers will discover as we open up.',
     highlights: [
       'Visible to readers once you upload 5,000 words',
       'A generated, customisable author page for your whole catalogue',
@@ -36,7 +36,7 @@ const FEATURES: Feature[] = [
     index: '02',
     title: 'Find beta readers',
     blurb:
-      'SecureBetaReads matches you with real human beta readers — your first true audience — and protects your manuscript while they read.',
+      'SecureBetaReads is built to pair you with real human beta readers — not bots — and to protect your manuscript while they read.',
     highlights: [
       'Matched by genre and format preferences',
       'Structured feedback, from emoji reactions to deep thoughts',
@@ -311,8 +311,8 @@ const CSS = `
 }
 .br-create-feature-blurb {
   font-family: var(--bl-font-body);
-  font-size: 18px;
-  line-height: 1.62;
+  font-size: 20px;
+  line-height: 1.6;
   color: var(--theme-text-muted);
   margin: 12px 0 0;
   max-width: 58ch;
@@ -330,7 +330,7 @@ const CSS = `
   position: relative;
   padding-left: 24px;
   font-family: var(--bl-font-body);
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.5;
   color: var(--theme-text-muted);
   text-wrap: pretty;
@@ -584,13 +584,13 @@ export default function CreatePage() {
           Create, share, learn and grow.
         </h1>
         <p className="br-create-lede">
-          BetweenReads is built around what writers actually need: real readers, real feedback, and a
-          clear path toward publication. Publish for free, find beta readers, turn your manuscript
-          into audio, reach the journal — and earn, while keeping your copyright.
+          BetweenReads is being built around what writers actually need: honest feedback and a clear
+          path toward publication. Publish for free, line up beta readers, turn your manuscript into
+          audio, and reach the journal — while keeping your copyright. Join early and grow with us.
         </p>
         <div className="br-create-actions">
           <Link href="/start?mode=writer" className="br-create-cta">
-            Become a founding creator
+            Join free
             <span className="br-create-cta-arrow" aria-hidden="true">→</span>
           </Link>
           <Link href="/faq" className="br-create-ghost">
@@ -599,7 +599,6 @@ export default function CreatePage() {
         </div>
         <div className="br-create-proof" aria-label="Platform commitments">
           <span className="br-create-proof-note">Always ad-free</span>
-          <span className="br-create-proof-note">No AI-generated content</span>
           <span className="br-create-proof-note">You keep your copyright</span>
         </div>
       </section>
@@ -634,13 +633,13 @@ export default function CreatePage() {
 
       <section className="br-create-band" aria-label="Start creating">
         <div className="br-create-band-inner">
-          <h2 className="br-create-band-title">Your readers are waiting.</h2>
+          <h2 className="br-create-band-title">Get in at the start.</h2>
           <p className="br-create-band-sub">
-            Join as a founding creator and start building your audience today — it&rsquo;s free to
-            write, and your work is yours.
+            Join free, set up your author page, and be ready the moment readers arrive — it&rsquo;s
+            free to write, and your work is yours.
           </p>
           <Link href="/start?mode=writer" className="br-create-cta">
-            Become a founding creator
+            Join free
             <span className="br-create-cta-arrow" aria-hidden="true">→</span>
           </Link>
         </div>

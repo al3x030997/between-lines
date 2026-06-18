@@ -354,8 +354,8 @@ const CSS = `
 }
 .br-readm-feature-blurb {
   font-family: var(--bl-font-body);
-  font-size: 18px;
-  line-height: 1.62;
+  font-size: 20px;
+  line-height: 1.6;
   color: var(--theme-text-muted);
   margin: 12px 0 0;
   max-width: none;
@@ -373,7 +373,7 @@ const CSS = `
   position: relative;
   padding-left: 24px;
   font-family: var(--bl-font-body);
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.5;
   color: var(--theme-text-muted);
   text-wrap: pretty;
@@ -644,7 +644,7 @@ export default function ReadPage() {
         </p>
         <div className="br-readm-actions">
           <Link href="/start?mode=reader" className="br-readm-cta">
-            Become a founding reader
+            Join free
             <span className="br-readm-cta-mark" aria-hidden="true">-&gt;</span>
           </Link>
           <Link href="/faq#readers" className="br-readm-ghost">
@@ -652,7 +652,6 @@ export default function ReadPage() {
           </Link>
         </div>
         <div className="br-readm-proof" aria-label="Reader commitments">
-          <span className="br-readm-proof-note">Free to join</span>
           <span className="br-readm-proof-note">Always ad-free</span>
           <span className="br-readm-proof-note">Credits never expire</span>
         </div>
