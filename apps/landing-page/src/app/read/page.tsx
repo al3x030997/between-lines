@@ -117,7 +117,10 @@ const CSS = `
   --br-readm-lilac: #e8e1f1;
 }
 
-.br-readm-root a {
+/* Inline links inherit the page ink, but the filled CTA keeps its own
+   foreground — without the :not() the descendant selector (0,1,1) outranks
+   .br-readm-cta (0,1,0) and the button text renders dark-on-dark. */
+.br-readm-root a:not(.br-readm-cta) {
   color: inherit;
 }
 
@@ -163,7 +166,7 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--theme-paper-bg, #f6f1e3);
+  color: var(--theme-strong-cta-fg, #f6f1e3);
   background: var(--theme-strong-cta-bg, var(--br-readm-ink));
   padding: 15px 30px;
   border-radius: 999px;

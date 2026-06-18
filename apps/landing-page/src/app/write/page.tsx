@@ -136,7 +136,7 @@ const CSS = `
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  color: var(--theme-paper-bg, #f6f1e3);
+  color: var(--theme-strong-cta-fg, #f6f1e3);
   background: var(--theme-strong-cta-bg, var(--theme-text));
   padding: 15px 30px;
   border-radius: 999px;
