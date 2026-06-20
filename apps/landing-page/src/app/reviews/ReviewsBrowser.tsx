@@ -150,7 +150,15 @@ function GoodreadsModal({ onClose }: { onClose: () => void }) {
 
         <div className="gr-modal-foot">
           <p className="gr-foot-note">
-            Your export includes ratings, shelves, dates read, and any reviews you’ve written.
+            Your export includes ratings, shelves, dates read, and any reviews you’ve written.{" "}
+            <a
+              className="gr-help-link"
+              href="https://help.goodreads.com/s/article/How-do-I-import-or-export-my-books-1553870934590"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Official Goodreads guide →
+            </a>
           </p>
           <button className="gr-upload-btn" disabled>
             Upload CSV — coming soon
@@ -644,6 +652,15 @@ const CSS = `
   font-size: 13px;
   color: var(--theme-text-faint, #999);
   margin: 0;
+}
+.gr-help-link {
+  color: #e9722e;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.gr-help-link:hover {
+  text-decoration: underline;
 }
 .gr-upload-btn {
   width: 100%;
