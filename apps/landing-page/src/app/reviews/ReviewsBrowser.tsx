@@ -504,31 +504,21 @@ const CSS = `
   margin-top: 6px;
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  border: 1.5px solid var(--theme-border-subtle);
+  border: none;
   border-radius: 999px;
-  background: transparent;
-  color: var(--theme-text-muted);
+  background: #0b0b0c;
+  color: #fff;
   font: inherit;
   font-family: var(--br-font-display);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 9px 18px;
+  font-size: clamp(15px, 1.8vw, 18px);
+  font-weight: 800;
+  padding: 14px 28px;
   cursor: pointer;
-  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
-}
-.rev-goodreads-btn::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #e9722e;
-  flex: 0 0 auto;
+  transition: background 180ms ease, transform 180ms ease;
 }
 .rev-goodreads-btn:hover {
-  border-color: #e9722e;
-  color: var(--theme-text);
-  background: color-mix(in srgb, #e9722e 8%, transparent);
+  background: #2a2a2c;
+  transform: translateY(-1px);
 }
 
 /* === Goodreads import modal === */
