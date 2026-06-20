@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BetweenReviews from '../v8/sections/BetweenReviews';
+import BetweenCharacters from '../v8/sections/BetweenCharacters';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqDirectory from '../v8/sections/FaqDirectory';
 import ClosingCta from '../v8/sections/ClosingCta';
@@ -356,7 +356,7 @@ export default function V12Page() {
         </div>
       </section>
 
-      <BetweenReviews />
+      <BetweenCharacters onAddQuote={() => open('reader')} />
 
       <SignupOffers />
 
