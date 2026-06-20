@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { SiteNav } from '@/components/SiteNav';
 import Footer from '../v8/sections/Footer';
 import { REVIEWS, starsFor, type Review } from '../v8/sections/reviewsData';
@@ -73,11 +74,104 @@ function ReviewCard({ r }: { r: Review }) {
   );
 }
 
+const GOODREADS_STEPS = [
+  {
+    n: "1",
+    head: "Open Goodreads on desktop",
+    body: "The export tool is only available on the full website — not the mobile app.",
+  },
+  {
+    n: "2",
+    head: "Go to My Books",
+    body: "Click My Books in the top navigation bar to open your library.",
+  },
+  {
+    n: "3",
+    head: "Find Import and export",
+    body: "In the left sidebar, scroll down to the Tools section and click Import and export.",
+  },
+  {
+    n: "4",
+    head: "Click Export Library",
+    body: "Hit the Export Library button. Larger libraries can take a minute or two to prepare.",
+  },
+  {
+    n: "5",
+    head: "Download the CSV",
+    body: "When the file is ready, a download link appears below the button. Save it to your computer.",
+  },
+  {
+    n: "6",
+    head: "Come back here",
+    body: "Upload your CSV and we’ll bring in your ratings, shelves, and reviews automatically.",
+  },
+];
+
+function GoodreadsModal({ onClose }: { onClose: () => void }) {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    document.addEventListener('keydown', handler);
+    return () => document.removeEventListener('keydown', handler);
+  }, [onClose]);
+
+  return (
+    <div
+      className="gr-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="gr-modal-title"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div className="gr-modal">
+        <button className="gr-close" onClick={onClose} aria-label="Close">
+          ✕
+        </button>
+
+        <div className="gr-modal-head">
+          <p className="gr-eyebrow">Import</p>
+          <h2 id="gr-modal-title">Get your Goodreads library</h2>
+          <p className="gr-modal-sub">
+            Goodreads lets you export your full library as a CSV file. Takes about two minutes —
+            desktop browser only.
+          </p>
+        </div>
+
+        <ol className="gr-steps">
+          {GOODREADS_STEPS.map((step) => (
+            <li key={step.n} className="gr-step">
+              <span className="gr-step-n" aria-hidden="true">{step.n}</span>
+              <div>
+                <strong className="gr-step-head">{step.head}</strong>
+                <p className="gr-step-body">{step.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <div className="gr-modal-foot">
+          <p className="gr-foot-note">
+            Your export includes ratings, shelves, dates read, and any reviews you’ve written.
+          </p>
+          <button className="gr-upload-btn" disabled>
+            Upload CSV — coming soon
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ReviewsBrowser() {
+  const [showGoodreadsModal, setShowGoodreadsModal] = useState(false);
+
   return (
     <main className="br-reviewspage">
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <SiteNav />
+
+      {showGoodreadsModal ? (
+        <GoodreadsModal onClose={() => setShowGoodreadsModal(false)} />
+      ) : null}
 
       <header className="rev-masthead">
         <h1 className="rev-title">Recommendations you can’t buy</h1>
@@ -91,6 +185,13 @@ export default function ReviewsBrowser() {
           <Link href="/write_review" className="rev-cta-link">
             Write a review →
           </Link>
+          <button
+            className="rev-goodreads-btn"
+            type="button"
+            onClick={() => setShowGoodreadsModal(true)}
+          >
+            Import from Goodreads
+          </button>
         </div>
       </header>
 
@@ -398,6 +499,176 @@ const CSS = `
   transition: color 180ms ease;
 }
 .rev-cta-link:hover { color: var(--theme-accent-strong); }
+
+.rev-goodreads-btn {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid var(--theme-border-subtle);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--theme-text-muted);
+  font: inherit;
+  font-family: var(--br-font-display);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 18px;
+  cursor: pointer;
+  transition: border-color 180ms ease, color 180ms ease, background 180ms ease;
+}
+.rev-goodreads-btn::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e9722e;
+  flex: 0 0 auto;
+}
+.rev-goodreads-btn:hover {
+  border-color: #e9722e;
+  color: var(--theme-text);
+  background: color-mix(in srgb, #e9722e 8%, transparent);
+}
+
+/* === Goodreads import modal === */
+.gr-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.54);
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 4vw, 40px);
+  backdrop-filter: blur(3px);
+}
+.gr-modal {
+  position: relative;
+  background: var(--theme-surface, #fff);
+  color: var(--theme-text, #1a1a1a);
+  border: 1px solid var(--theme-border-subtle, rgba(0,0,0,0.1));
+  border-radius: 16px;
+  width: min(580px, 100%);
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: clamp(28px, 5vw, 44px);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.28);
+}
+.gr-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--theme-border-subtle, rgba(0,0,0,0.12));
+  border-radius: 50%;
+  background: transparent;
+  color: var(--theme-text-muted, #666);
+  font-size: 13px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 160ms ease, color 160ms ease;
+}
+.gr-close:hover {
+  background: var(--theme-accent-soft, rgba(0,0,0,0.06));
+  color: var(--theme-text, #1a1a1a);
+}
+.gr-eyebrow {
+  font-family: var(--br-font-display);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #e9722e;
+  margin: 0 0 10px;
+}
+.gr-modal-head h2 {
+  font-family: var(--br-font-display);
+  font-size: clamp(26px, 3.5vw, 34px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+.gr-modal-sub {
+  font-family: var(--br-font-serif);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--theme-text-muted, #666);
+  margin: 10px 0 0;
+  max-width: 46ch;
+}
+.gr-steps {
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0;
+}
+.gr-step {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 14px;
+  padding: 16px 0;
+  border-top: 1px solid var(--theme-border-subtle, rgba(0,0,0,0.08));
+}
+.gr-step:last-child {
+  border-bottom: 1px solid var(--theme-border-subtle, rgba(0,0,0,0.08));
+}
+.gr-step-n {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: color-mix(in srgb, #e9722e 12%, transparent);
+  border: 1.5px solid color-mix(in srgb, #e9722e 30%, transparent);
+  color: #e9722e;
+  font-family: var(--br-font-display);
+  font-size: 13px;
+  font-weight: 900;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+}
+.gr-step-head {
+  display: block;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--theme-text, #1a1a1a);
+  margin-bottom: 3px;
+}
+.gr-step-body {
+  margin: 0;
+  font-family: var(--br-font-serif);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--theme-text-muted, #666);
+}
+.gr-modal-foot {
+  margin-top: 24px;
+  display: grid;
+  gap: 14px;
+}
+.gr-foot-note {
+  font-family: var(--br-font-serif);
+  font-size: 13px;
+  color: var(--theme-text-faint, #999);
+  margin: 0;
+}
+.gr-upload-btn {
+  width: 100%;
+  border: 1.5px dashed var(--theme-border-subtle, rgba(0,0,0,0.15));
+  border-radius: 10px;
+  background: var(--theme-accent-soft, rgba(0,0,0,0.03));
+  color: var(--theme-text-faint, #aaa);
+  font: inherit;
+  font-family: var(--br-font-display);
+  font-size: 15px;
+  font-weight: 800;
+  padding: 16px;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
 .br-reviewspage :where(button, a):focus-visible {
   outline: 2px solid var(--theme-accent-strong);
