@@ -304,9 +304,11 @@ const BRNAV_CSS = `
   .brnav-links { display: none; }
 }
 @media (max-width: 480px) {
-  .brnav-right { gap: 6px; margin-left: 12px; }
-  .brnav-join { padding: 7px 12px; }
-  .brnav-signin { padding: 7px 10px; }
+  .brnav-inner { padding: 0 10px; }
+  .brnav-brand { font-size: 19px; margin-right: 8px; }
+  .brnav-right { gap: 5px; margin-left: auto; }
+  .brnav-join { padding: 7px 10px; font-size: 16px; }
+  .brnav-signin { padding: 7px 8px; font-size: 16px; }
   .brnav-divider { margin: 0 1px; }
 }
 `;

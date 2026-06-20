@@ -362,7 +362,7 @@ export default function BetweenCharacters({ onAddQuote }: Props) {
 
   return (
     <section className="bl-bchars" aria-labelledby="bl-bchars-title">
-      <style>{STYLES}</style>
+      <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <div className="bl-bchars-inner">
         <header className="bl-bchars-head">
@@ -609,7 +609,8 @@ export default function BetweenCharacters({ onAddQuote }: Props) {
                 <textarea
                   value={draft.text}
                   onChange={(event) => {
-                    setDraft((next) => ({ ...next, text: event.currentTarget.value }));
+                    const value = event.currentTarget.value;
+                    setDraft((next) => ({ ...next, text: value }));
                     if (quoteError) setQuoteError(null);
                   }}
                   aria-invalid={quoteError ? 'true' : 'false'}
@@ -631,7 +632,10 @@ export default function BetweenCharacters({ onAddQuote }: Props) {
                   <input
                     type="text"
                     value={draft.author}
-                    onChange={(event) => setDraft((next) => ({ ...next, author: event.currentTarget.value }))}
+                    onChange={(event) => {
+                      const value = event.currentTarget.value;
+                      setDraft((next) => ({ ...next, author: value }));
+                    }}
                     placeholder="Author or character"
                   />
                 </label>
@@ -640,7 +644,10 @@ export default function BetweenCharacters({ onAddQuote }: Props) {
                   <input
                     type="text"
                     value={draft.work}
-                    onChange={(event) => setDraft((next) => ({ ...next, work: event.currentTarget.value }))}
+                    onChange={(event) => {
+                      const value = event.currentTarget.value;
+                      setDraft((next) => ({ ...next, work: value }));
+                    }}
                     placeholder="Book or work"
                   />
                 </label>
@@ -650,7 +657,10 @@ export default function BetweenCharacters({ onAddQuote }: Props) {
                 <input
                   type="checkbox"
                   checked={draft.young}
-                  onChange={(event) => setDraft((next) => ({ ...next, young: event.currentTarget.checked }))}
+                  onChange={(event) => {
+                    const checked = event.currentTarget.checked;
+                    setDraft((next) => ({ ...next, young: checked }));
+                  }}
                 />
                 <span>Include this quote in Young Readers</span>
               </label>
@@ -1236,6 +1246,10 @@ const STYLES = `
 @media (max-width: 760px) {
   .bl-bchars {
     padding-inline: 16px;
+  }
+  .bl-bchars-title {
+    font-size: clamp(30px, 9vw, 40px);
+    letter-spacing: -0.04em;
   }
   .bl-bchars-toolbar {
     flex-direction: column;
