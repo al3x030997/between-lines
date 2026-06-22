@@ -374,18 +374,18 @@ export default function V12Page() {
               <div className="v12-hero-buttons">
                 <button
                   type="button"
+                  className="v12-start-writing"
+                  onClick={() => open('author')}
+                >
+                  <span>Start Writing</span>
+                </button>
+                <button
+                  type="button"
                   className="v12-read-now"
                   onClick={() => open('reader')}
                 >
                   <span>Read Now</span>
                   <span className="v12-read-now-arrow" aria-hidden="true">→</span>
-                </button>
-                <button
-                  type="button"
-                  className="v12-start-writing"
-                  onClick={() => open('author')}
-                >
-                  <span>Start Writing</span>
                 </button>
               </div>
             </div>
