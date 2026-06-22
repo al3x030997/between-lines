@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import BetweenCharacters from './sections/BetweenCharacters';
+import BetweenCharacters from '../v8/sections/BetweenCharacters';
 import IntakeDialog from '@/components/IntakeDialog';
 import { SiteNav } from '@/components/SiteNav';
 
