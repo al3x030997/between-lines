@@ -280,38 +280,48 @@ const STYLES = `
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(18px, 3vw, 32px);
-  margin-top: clamp(24px, 3.4vw, 34px);
+  gap: clamp(28px, 4.5vw, 52px);
+  margin-top: clamp(32px, 4.4vw, 46px);
 }
 .bl-bchars-about-chip {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 14px;
 }
 .bl-bchars-about-chip-icon {
-  width: 66px;
-  height: 66px;
+  width: 104px;
+  height: 104px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: transform 200ms ease;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1), box-shadow 280ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-bchars-about-chip-icon svg {
-  width: 30px;
-  height: 30px;
+  width: 46px;
+  height: 46px;
+  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
 }
 .bl-bchars-about-chip:hover .bl-bchars-about-chip-icon {
-  transform: translateY(-2px) scale(1.05);
+  transform: translateY(-8px) scale(1.18) rotate(-4deg);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+}
+.bl-bchars-about-chip:hover .bl-bchars-about-chip-icon svg {
+  transform: scale(1.08);
 }
 .bl-bchars-about-chip-label {
   font-family: var(--bl-font-eyebrow);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bc-muted);
+  transition: color 220ms ease, transform 220ms ease;
+}
+.bl-bchars-about-chip:hover .bl-bchars-about-chip-label {
+  color: var(--bc-ink);
+  transform: translateY(-2px);
 }
 
 /* Loose decorative doodles scattered around the header */
@@ -328,34 +338,34 @@ const STYLES = `
   height: 100%;
 }
 .bl-bchars-about-doodle--quote {
-  top: -26px;
-  left: -8px;
-  width: 92px;
-  height: 69px;
-  opacity: 0.08;
+  top: -38px;
+  left: -16px;
+  width: 132px;
+  height: 99px;
+  opacity: 0.09;
 }
 .bl-bchars-about-doodle--sparkle {
-  top: 0%;
-  right: 2%;
-  width: 42px;
-  height: 42px;
-  opacity: 0.4;
+  top: -2%;
+  right: -1%;
+  width: 60px;
+  height: 60px;
+  opacity: 0.45;
   color: var(--theme-yellow-deep, var(--bc-accent));
 }
 .bl-bchars-about-doodle--book {
-  bottom: 14%;
-  left: -5%;
-  width: 60px;
-  height: 44px;
-  opacity: 0.22;
+  bottom: 12%;
+  left: -9%;
+  width: 86px;
+  height: 63px;
+  opacity: 0.24;
   transform: rotate(-9deg);
 }
 .bl-bchars-about-doodle--drop {
-  bottom: -16px;
-  right: 4%;
-  width: 30px;
-  height: 37px;
-  opacity: 0.3;
+  bottom: -24px;
+  right: 1%;
+  width: 42px;
+  height: 52px;
+  opacity: 0.32;
 }
 
 @media (max-width: 640px) {
