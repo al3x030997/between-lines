@@ -402,7 +402,7 @@ export default function V12Page() {
         </div>
       </section>
 
-      <BetweenCharacters onAddQuote={() => open('reader')} />
+      <BetweenCharacters />
 
       <SignupOffers />
 

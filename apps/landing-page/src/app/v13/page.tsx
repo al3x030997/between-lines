@@ -10,7 +10,7 @@ export default function V13PreviewPage() {
   return (
     <main style={{ background: '#FFF9F0', minHeight: '100vh' }}>
       <SiteNav onJoin={() => setIntake({ mode: 'reader' })} />
-      <BetweenCharacters onAddQuote={() => setIntake({ mode: 'reader' })} />
+      <BetweenCharacters />
       {intake && <IntakeDialog mode={intake.mode} onClose={() => setIntake(null)} />}
     </main>
   );
