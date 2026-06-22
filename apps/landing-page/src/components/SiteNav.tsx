@@ -58,7 +58,7 @@ export function SiteNav({ onJoin, activeHref }: Props) {
         <span className="br-subbanner-inner">
           <span className="br-subbanner-text">
             BetweenLines Issue #1 is open for submission.{' '}
-            <Link className="br-subbanner-cta" href="/write">
+            <Link className="br-subbanner-cta" href="/betweenlines#journal-submission">
               Publish your work
               <span className="br-subbanner-arrow" aria-hidden="true">→</span>
             </Link>
