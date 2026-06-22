@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import BetweenCharacters from '../v8/sections/BetweenCharacters';
-import SignupOffers from '../v8/sections/SignupOffers';
-import ClosingCta from '../v8/sections/ClosingCta';
+import TwoWorlds from './sections/TwoWorlds';
+import CreatorCta from './sections/CreatorCta';
 import Footer from '../v8/sections/Footer';
 import { SiteNav } from '@/components/SiteNav';
 import IntakeDialog from '@/components/IntakeDialog';
@@ -403,9 +403,9 @@ export default function V12Page() {
 
       <BetweenCharacters />
 
-      <SignupOffers />
+      <TwoWorlds />
 
-      <ClosingCta onReader={() => open('reader')} onWriter={() => open('author')} />
+      <CreatorCta onWriter={() => open('author')} />
       <Footer />
 
       {intake && (
