@@ -206,7 +206,11 @@ const STYLES = `
   --bc-accent-dim: rgba(14, 14, 12, 0.06);
   --bc-on-accent: #f3d84a;
   position: relative;
+  min-height: 100vh;
   padding: clamp(72px, 10vh, 120px) clamp(24px, 5.5vw, 88px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #ffffff;
   background-image: repeating-linear-gradient(
     to bottom,
@@ -227,7 +231,7 @@ const STYLES = `
   flex-direction: column;
   align-items: center;
   text-align: center;
-  max-width: 760px;
+  max-width: 880px;
   margin: 0 auto;
   position: relative;
 }
@@ -246,7 +250,7 @@ const STYLES = `
   margin: 0;
   font-family: var(--br-font-display, var(--bl-font-serif));
   font-weight: 900;
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(48px, 7.6vw, 92px);
   line-height: 1.02;
   letter-spacing: -0.03em;
   color: var(--bc-ink);
@@ -261,10 +265,10 @@ const STYLES = `
   position: relative;
   z-index: 1;
   margin: clamp(20px, 3vw, 28px) auto 0;
-  max-width: 58ch;
+  max-width: 62ch;
   font-family: var(--bl-font-body);
-  font-size: clamp(20px, 1.8vw, 25px);
-  line-height: 1.58;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.56;
   color: var(--theme-text-muted, var(--bc-muted));
   text-wrap: pretty;
 }
@@ -286,8 +290,8 @@ const STYLES = `
   gap: 8px;
 }
 .bl-bchars-about-chip-icon {
-  width: 48px;
-  height: 48px;
+  width: 66px;
+  height: 66px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -295,15 +299,15 @@ const STYLES = `
   transition: transform 200ms ease;
 }
 .bl-bchars-about-chip-icon svg {
-  width: 22px;
-  height: 22px;
+  width: 30px;
+  height: 30px;
 }
 .bl-bchars-about-chip:hover .bl-bchars-about-chip-icon {
   transform: translateY(-2px) scale(1.05);
 }
 .bl-bchars-about-chip-label {
   font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -324,33 +328,33 @@ const STYLES = `
   height: 100%;
 }
 .bl-bchars-about-doodle--quote {
-  top: -18px;
-  left: -4px;
-  width: 64px;
-  height: 48px;
+  top: -26px;
+  left: -8px;
+  width: 92px;
+  height: 69px;
   opacity: 0.08;
 }
 .bl-bchars-about-doodle--sparkle {
-  top: 2%;
-  right: 4%;
-  width: 28px;
-  height: 28px;
+  top: 0%;
+  right: 2%;
+  width: 42px;
+  height: 42px;
   opacity: 0.4;
   color: var(--theme-yellow-deep, var(--bc-accent));
 }
 .bl-bchars-about-doodle--book {
   bottom: 14%;
-  left: -2%;
-  width: 42px;
-  height: 31px;
+  left: -5%;
+  width: 60px;
+  height: 44px;
   opacity: 0.22;
   transform: rotate(-9deg);
 }
 .bl-bchars-about-doodle--drop {
-  bottom: -10px;
-  right: 6%;
-  width: 22px;
-  height: 27px;
+  bottom: -16px;
+  right: 4%;
+  width: 30px;
+  height: 37px;
   opacity: 0.3;
 }
 
