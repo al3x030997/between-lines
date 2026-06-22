@@ -172,7 +172,7 @@ const STYLES = `
   margin: 0;
   font-family: var(--br-font-display, var(--bl-font-serif));
   font-weight: 900;
-  font-size: clamp(48px, 7.6vw, 92px);
+  font-size: clamp(42px, 6.6vw, 78px);
   line-height: 1.02;
   letter-spacing: -0.03em;
   color: var(--bc-ink);
@@ -189,7 +189,7 @@ const STYLES = `
   margin: clamp(20px, 3vw, 28px) auto 0;
   max-width: 62ch;
   font-family: var(--bl-font-body);
-  font-size: clamp(22px, 2.2vw, 30px);
+  font-size: clamp(19px, 1.9vw, 25px);
   line-height: 1.56;
   color: var(--theme-text-muted, var(--bc-muted));
   text-wrap: pretty;
