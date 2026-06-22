@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BetweenCharacters from '../v8/sections/BetweenCharacters';
 import SignupOffers from '../v8/sections/SignupOffers';
 import FaqDirectory from '../v8/sections/FaqDirectory';
 import ClosingCta from '../v8/sections/ClosingCta';
@@ -401,8 +400,6 @@ export default function V12Page() {
           </svg>
         </div>
       </section>
-
-      <BetweenCharacters onAddQuote={() => open('reader')} />
 
       <SignupOffers />
 
