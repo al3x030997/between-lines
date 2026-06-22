@@ -6,7 +6,7 @@ import IntakeDialog from '@/components/IntakeDialog';
 import { SiteNav } from '@/components/SiteNav';
 
 export default function V13PreviewPage() {
-  const [intake, setIntake] = useState<{ mode: 'reader' | 'author' } | null>(null);
+  const [intake, setIntake] = useState<{ mode: 'reader' | 'writer' } | null>(null);
   return (
     <main style={{ background: '#FFF9F0', minHeight: '100vh' }}>
       <SiteNav onJoin={() => setIntake({ mode: 'reader' })} />
