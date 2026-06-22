@@ -71,13 +71,21 @@ const STYLES = `
 }
 
 /* ── Dark creator band ── */
+.cc-band-outer {
+  background: var(--theme-page, #ffffff);
+  padding: clamp(40px, 6vw, 72px) clamp(20px, 5vw, 64px);
+}
 .cc-band {
   position: relative;
   overflow: hidden;
+  max-width: 1280px;
+  margin: 0 auto;
+  border-radius: clamp(20px, 2.4vw, 32px);
   background: #161410;
   color: #f6f1e3;
   padding: clamp(72px, 11vw, 132px) clamp(24px, 5vw, 80px);
   text-align: center;
+  box-shadow: 0 40px 70px -20px rgba(22, 20, 16, 0.35);
 }
 .cc-band::before {
   content: '';
@@ -309,32 +317,34 @@ export default function CreatorCta({ onWriter }: Props) {
     <section className="cc-closing" aria-label="For creators and social">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
-      <div className="cc-band">
-        <div className="cc-band-inner">
-          <p className="cc-eyebrow">For creators</p>
-          <h2 className="cc-title">
-            What&rsquo;s in <em>for creators?</em>
-          </h2>
-          <p className="cc-sub">
-            Publish original work, reach readers who give real feedback, and get
-            discovered before the rest of the world catches up.
-          </p>
-          <div className="cc-actions">
-            <Link
-              href="/faq#writers"
-              className="cc-pill cc-pill-primary"
-            >
-              Learn more
-              <span className="cc-pill-arrow" aria-hidden="true">→</span>
-            </Link>
-            <button
-              type="button"
-              className="cc-pill cc-pill-ghost"
-              onClick={onWriter}
-            >
-              Start writing
-              <span className="cc-pill-arrow" aria-hidden="true">→</span>
-            </button>
+      <div className="cc-band-outer">
+        <div className="cc-band">
+          <div className="cc-band-inner">
+            <p className="cc-eyebrow">For creators</p>
+            <h2 className="cc-title">
+              What&rsquo;s in <em>for creators?</em>
+            </h2>
+            <p className="cc-sub">
+              Publish original work, reach readers who give real feedback, and get
+              discovered before the rest of the world catches up.
+            </p>
+            <div className="cc-actions">
+              <Link
+                href="/faq#writers"
+                className="cc-pill cc-pill-primary"
+              >
+                Learn more
+                <span className="cc-pill-arrow" aria-hidden="true">→</span>
+              </Link>
+              <button
+                type="button"
+                className="cc-pill cc-pill-ghost"
+                onClick={onWriter}
+              >
+                Start writing
+                <span className="cc-pill-arrow" aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
