@@ -2,30 +2,6 @@
 
 import Link from 'next/link';
 
-const coverBg = (filename: string) =>
-  `linear-gradient(180deg, rgba(8, 8, 8, 0.05) 0%, rgba(8, 8, 8, 0.4) 56%, rgba(8, 8, 8, 0.68) 100%), url('/covers/${filename}.jpg') center/cover no-repeat`;
-
-function MiniCover({
-  filename,
-  title,
-  author,
-  className,
-  style,
-}: {
-  filename: string;
-  title: string;
-  author: string;
-  className?: string;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <div className={`tw-cover${className ? ` ${className}` : ''}`} style={{ background: coverBg(filename), ...style }}>
-      <div className="tw-cover-title">{title}</div>
-      <div className="tw-cover-author">{author}</div>
-    </div>
-  );
-}
-
 // Circular "stamp" naming the reader on a writer's page once their pick breaks out.
 function Seal({ className }: { className?: string }) {
   return (
@@ -49,9 +25,18 @@ function Seal({ className }: { className?: string }) {
 
 function OriginalVoicesArt() {
   return (
-    <div className="tw-art tw-art-stack">
-      <MiniCover filename="hollow-latitude" title="Hollow Latitude" author="M. Osei" className="tw-cover-a" />
-      <MiniCover filename="ash-and-anise" title="Ash & Anise" author="P. Nair" className="tw-cover-b" />
+    <div className="tw-art">
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash" cx="160" cy="184" rx="120" ry="20" />
+        <path className="paper" d="M58 70h96v100c0 6-4 10-10 10H68c-6 0-10-4-10-10z" />
+        <path className="line" d="M58 70h96M106 70v110" />
+        <path className="thin" d="M70 92h28M70 112h28M70 132h28M118 92h26M118 112h26M118 132h26" />
+        <path className="paper" d="M170 64h100v112c0 6-4 10-10 10h-80c-6 0-10-4-10-10z" />
+        <path className="line" d="M170 64h100M220 64v116" />
+        <path className="thin" d="M184 86h28M184 106h28M184 126h28M232 86h26M232 106h26M232 126h26" />
+        <path className="pop" d="M250 50l7 14 16 2-12 11 3 16-14-7-14 7 3-16-12-11 16-2z" />
+        <path className="pop-stroke" d="M48 184c20-14 42-14 62 0" />
+      </svg>
     </div>
   );
 }
@@ -59,12 +44,15 @@ function OriginalVoicesArt() {
 function JournalArt() {
   return (
     <div className="tw-art">
-      <div className="tw-journal">
-        <span className="tw-journal-mark">
-          Between<br />Lines
-        </span>
-        <span className="tw-journal-issue">Issue 04</span>
-      </div>
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash-2" cx="160" cy="184" rx="118" ry="20" />
+        <path className="paper" d="M86 50h120c8 0 14 6 14 14v108c0 8-6 14-14 14H86c-8 0-14-6-14-14V64c0-8 6-14 14-14z" />
+        <path className="line" d="M100 50v136" />
+        <path className="thin" d="M118 78h84M118 100h84M118 122h64M118 144h70" />
+        <path className="pop-stroke" d="M86 64c10-10 24-10 28 0" />
+        <circle className="pop" cx="240" cy="76" r="6" />
+        <path className="line" d="M198 178c12-16 30-16 42 0" />
+      </svg>
     </div>
   );
 }
@@ -72,20 +60,13 @@ function JournalArt() {
 function BetaReadingArt() {
   return (
     <div className="tw-art tw-art-dossier">
-      <div className="tw-dossier">
-        <span className="tw-page tw-page-back" />
-        <span className="tw-page tw-page-front">
-          <span className="tw-page-line title" />
-          <span className="tw-page-line" />
-          <span className="tw-page-line short" />
-        </span>
-      </div>
-      <MiniCover
-        filename="the-undertow-hours"
-        title="The Undertow Hours"
-        author="J.T. Calloway"
-        className="tw-beta-cover"
-      />
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash" cx="150" cy="184" rx="120" ry="20" />
+        <path className="paper" d="M70 56h126v118c0 6-4 10-10 10H80c-6 0-10-4-10-10z" transform="rotate(-3 133 121)" />
+        <path className="thin" d="M92 86h70M92 108h54M92 130h66M92 152h44" transform="rotate(-3 133 121)" />
+        <path className="pop-stroke" d="M222 70l30 9" />
+        <path className="pop" d="M246 56l6 12 14 2-10 10 2 14-12-6-13 6 2-14-10-10 14-2z" />
+      </svg>
       <Seal className="tw-beta-seal" />
     </div>
   );
@@ -94,30 +75,67 @@ function BetaReadingArt() {
 function HonestReviewsArt() {
   return (
     <div className="tw-art">
-      <div className="tw-quote-card">
-        <p className="tw-quote-text">&ldquo;Quietly took me apart.&rdquo;</p>
-        <span className="tw-quote-stars" aria-label="4.5 out of 5 stars">★★★★½</span>
-      </div>
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash" cx="160" cy="184" rx="118" ry="20" />
+        <path
+          className="paper"
+          d="M58 64h180c14 0 24 10 24 24v52c0 14-10 24-24 24h-58l-34 26v-26H58c-14 0-24-10-24-24V88c0-14 10-24 24-24z"
+        />
+        <path className="thin" d="M76 100h96M76 124h70" />
+        <path className="pop" d="M236 56l7 14 16 2-12 11 3 16-14-7-14 7 3-16-12-11 16-2z" />
+        <path className="pop" d="M270 86l5 10 11 1-8 8 2 11-10-5-10 5 2-11-8-8 11-1z" />
+      </svg>
     </div>
   );
 }
 
 function BooksellerPicksArt() {
   return (
-    <div className="tw-art tw-art-shelf">
-      <MiniCover filename="the-glass-meridian" title="The Glass Meridian" author="R. Coen" className="tw-shelf-cover" />
-      <MiniCover filename="salt-and-the-sea-between" title="Salt & the Sea Between" author="A. Marsh" className="tw-shelf-cover" />
-      <MiniCover filename="small-fires-soft-rain" title="Small Fires, Soft Rain" author="L. Quintero" className="tw-shelf-cover" />
+    <div className="tw-art">
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash-2" cx="160" cy="184" rx="120" ry="20" />
+        <path className="line" d="M50 176h220" />
+        <path className="paper" d="M66 60h36v112H66z" transform="rotate(-4 84 116)" />
+        <path className="paper" d="M118 50h44v122h-44z" />
+        <path className="paper" d="M178 64h38v108h-38z" transform="rotate(3 197 118)" />
+        <path className="thin" d="M132 70h16M132 90h16M132 110h16M132 130h16" />
+        <path className="pop" d="M250 56l6 13 15 2-11 10 3 15-13-7-13 7 3-15-11-10 15-2z" />
+      </svg>
     </div>
   );
 }
 
 function StorefrontArt() {
   return (
-    <div className="tw-art tw-art-storefront">
-      <MiniCover filename="the-quiet-hours" title="The Quiet Hours" author="D. Faraday" className="tw-storefront-cover" />
-      <span className="tw-buy-chip">Buy · Fair royalties</span>
+    <div className="tw-art">
+      <svg className="tw-illo" viewBox="0 0 320 220" aria-hidden="true" focusable="false">
+        <ellipse className="wash" cx="160" cy="184" rx="120" ry="20" />
+        <path className="pop" d="M62 58h160l-13 34H75z" />
+        <path className="line" d="M62 58h160l-13 34H75zM88 92v76M196 92v76M70 168h146" />
+        <path className="paper" d="M132 122h40v46h-40z" />
+        <path className="line" d="M132 122h40v46h-40M152 122v46" />
+        <path className="pop-stroke" d="M222 96c10 14 10 28 0 42" />
+        <circle className="pop" cx="246" cy="106" r="5" />
+      </svg>
     </div>
+  );
+}
+
+function ArrowToPlatform() {
+  return (
+    <svg className="tw-connector tw-connector-left" viewBox="0 0 200 140" aria-hidden="true" focusable="false">
+      <path className="line" d="M170 10c-40 8-90 18-126 60-14 16-22 34-26 56" />
+      <path className="line" d="M14 122l-7 10M14 122l13 4" />
+    </svg>
+  );
+}
+
+function ArrowToBookWorld() {
+  return (
+    <svg className="tw-connector tw-connector-right" viewBox="0 0 200 140" aria-hidden="true" focusable="false">
+      <path className="line" d="M30 10c40 8 90 18 126 60 14 16 22 34 26 56" />
+      <path className="line" d="M186 122l7 10M186 122l-13 4" />
+    </svg>
   );
 }
 
@@ -181,6 +199,7 @@ const CSS = `
 
 /* ── Header ── */
 .tw-header {
+  position: relative;
   text-align: center;
   margin-bottom: clamp(48px, 7vh, 76px);
 }
@@ -194,6 +213,24 @@ const CSS = `
   margin: 0;
   text-wrap: balance;
 }
+.tw-connector {
+  position: absolute;
+  top: 100%;
+  width: clamp(120px, 14vw, 200px);
+  height: clamp(84px, 9.8vw, 140px);
+  color: rgba(26, 23, 20, 0.55);
+  pointer-events: none;
+  transform: translateY(-6px);
+}
+.tw-connector .line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tw-connector-left { left: clamp(8%, 18vw, 22%); }
+.tw-connector-right { right: clamp(8%, 18vw, 22%); }
 
 /* ── Two-column body ── */
 .tw-body {
@@ -246,20 +283,28 @@ const CSS = `
   gap: clamp(14px, 1.8vh, 18px);
 }
 .tw-row {
-  border: 1px solid rgba(26, 23, 20, 0.14);
+  --tw-wash: #dceee7;
+  --tw-wash-2: #f5e2c6;
+  --tw-pop: #d4aa18;
+  border: 1px dotted rgba(26, 23, 20, 0.38);
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: clamp(16px, 2vw, 20px) clamp(18px, 2.2vw, 22px);
+  background: var(--theme-paper-bg, #f6f1e3);
+  padding: clamp(20px, 2.4vw, 26px);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms cubic-bezier(.22, 1, .36, 1), border-color 220ms ease;
 }
 .tw-row:hover {
   transform: translateY(-2px);
-  border-color: rgba(26, 23, 20, 0.26);
+  border-color: rgba(26, 23, 20, 0.55);
   box-shadow: 0 14px 30px rgba(26, 23, 20, 0.12);
 }
+.tw-col--platform .tw-rows .tw-row:nth-child(2) { --tw-wash: #dce8f5; --tw-wash-2: #e8e1f1; --tw-pop: #6f9bd6; }
+.tw-col--platform .tw-rows .tw-row:nth-child(3) { --tw-wash: #f1d8d0; --tw-wash-2: #dceee7; --tw-pop: #d6855f; }
+.tw-col--bookworld .tw-rows .tw-row:nth-child(1) { --tw-wash: #e8e1f1; --tw-wash-2: #dce8f5; --tw-pop: #8a6fc7; }
+.tw-col--bookworld .tw-rows .tw-row:nth-child(2) { --tw-wash: #e7efe0; --tw-wash-2: #f1d8d0; --tw-pop: #7fa05a; }
+.tw-col--bookworld .tw-rows .tw-row:nth-child(3) { --tw-wash: #f5e2c6; --tw-wash-2: #dceee7; --tw-pop: #c78944; }
 .tw-row-top {
   display: flex;
   align-items: baseline;
@@ -267,7 +312,7 @@ const CSS = `
 }
 .tw-num {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   font-style: italic;
   color: rgba(26, 23, 20, 0.42);
@@ -275,7 +320,7 @@ const CSS = `
 }
 .tw-row-heading {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(18px, 1.7vw, 21px);
+  font-size: clamp(22px, 2.1vw, 26px);
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #1a1714;
@@ -284,7 +329,7 @@ const CSS = `
 }
 .tw-row-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(13px, 1.1vw, 14.5px);
+  font-size: clamp(15px, 1.3vw, 17px);
   line-height: 1.55;
   color: rgba(26, 23, 20, 0.62);
   margin: 0;
@@ -299,118 +344,58 @@ const CSS = `
   align-items: center;
   margin: 2px 0;
 }
-.tw-cover {
-  flex-shrink: 0;
-  width: clamp(50px, 5vw, 60px);
-  aspect-ratio: 2 / 3;
-  border-radius: 4px;
-  padding: 7px 7px 6px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
-  color: #f3efe6;
-  font-family: 'Playfair Display', Georgia, serif;
-  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+.tw-illo {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: #1a1714;
 }
-.tw-row:hover .tw-cover { transform: translateY(-1px); }
-.tw-cover-title {
-  font-size: 9.5px;
-  font-weight: 600;
-  line-height: 1.15;
+.tw-illo .line,
+.tw-illo .thin,
+.tw-illo .pop-stroke {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
-.tw-cover-author {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 6px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  opacity: 0.85;
+.tw-illo .line {
+  stroke: currentColor;
+  stroke-width: 2.4;
 }
-
-/* Original Voices — stacked covers */
-.tw-art-stack { align-items: flex-end; }
-.tw-cover-a { transform: rotate(-5deg); }
-.tw-cover-b { transform: rotate(4deg); margin-left: -16px; }
-
-/* BetweenLines Journal */
-.tw-journal {
-  width: clamp(56px, 5.6vw, 66px);
-  aspect-ratio: 2 / 3;
-  border-radius: 4px;
-  background: linear-gradient(160deg, #2b2722 0%, #161410 100%);
-  padding: 10px 9px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.22);
-  transform: rotate(-3deg);
+.tw-illo .thin {
+  stroke: rgba(26, 23, 20, 0.48);
+  stroke-width: 1.6;
 }
-.tw-journal-mark {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 11px;
-  font-weight: 800;
-  line-height: 1.05;
-  color: #f3efe6;
+.tw-illo .paper {
+  fill: #ffffff;
+  stroke: rgba(26, 23, 20, 0.72);
+  stroke-width: 2;
 }
-.tw-journal-issue {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 7px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #f3d84a;
+.tw-illo .wash {
+  fill: var(--tw-wash, #dceee7);
+}
+.tw-illo .wash-2 {
+  fill: var(--tw-wash-2, #f1d8d0);
+}
+.tw-illo .pop {
+  fill: var(--tw-pop, #d4aa18);
+}
+.tw-illo .pop-stroke {
+  stroke: var(--tw-pop, #d4aa18);
+  stroke-width: 2.4;
 }
 
-/* Beta Reading — manuscript dossier + seal */
-.tw-art-dossier { padding-right: 30px; }
-.tw-dossier {
-  position: relative;
-  width: clamp(76px, 7.4vw, 90px);
-  height: clamp(64px, 6vw, 74px);
-  flex-shrink: 0;
-}
-.tw-page {
-  position: absolute;
-  inset: 0;
-  border-radius: 5px;
-  border: 1px solid rgba(26, 23, 20, 0.16);
-  background: #f6f1e3;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.14);
-}
-.tw-page-back { transform: translate(7px, 5px) rotate(3deg); opacity: 0.7; }
-.tw-page-front {
-  padding: 9px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  transform: rotate(-2deg);
-}
-.tw-page-line {
-  display: block;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(22, 20, 16, 0.22);
-}
-.tw-page-line.title { width: 50%; height: 4px; background: rgba(22, 20, 16, 0.38); }
-.tw-page-line.short { width: 60%; }
-.tw-beta-cover {
-  position: absolute;
-  left: clamp(48px, 4.6vw, 58px);
-  bottom: -14px;
-  width: clamp(42px, 4vw, 50px);
-}
+/* Beta Reading — manuscript art + seal overlay */
+.tw-art-dossier { position: relative; }
 .tw-beta-seal {
   position: absolute;
-  right: -8px;
-  bottom: -16px;
-  width: clamp(32px, 3vw, 38px);
-  height: clamp(32px, 3vw, 38px);
+  right: 2px;
+  bottom: -6px;
+  width: clamp(34px, 3.2vw, 40px);
+  height: clamp(34px, 3.2vw, 40px);
   color: #1a1714;
   transform: rotate(-8deg);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.24));
 }
-.tw-seal-disc { fill: #f6f1e3; }
+.tw-seal-disc { fill: #ffffff; }
 .tw-seal-rim { fill: none; stroke: currentColor; stroke-width: 2.6; }
 .tw-seal-text {
   fill: currentColor;
@@ -421,52 +406,6 @@ const CSS = `
   text-transform: uppercase;
 }
 .tw-seal-star { fill: currentColor; font-size: 22px; }
-
-/* Honest Reviews — floating quote card */
-.tw-quote-card {
-  background: #f6f1e3;
-  color: #161410;
-  border-radius: 10px;
-  padding: 12px 15px;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.16);
-  max-width: 230px;
-  transform: rotate(-1.5deg);
-}
-.tw-quote-text {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-style: italic;
-  font-size: 14px;
-  line-height: 1.3;
-  margin: 0;
-}
-.tw-quote-stars {
-  display: block;
-  margin-top: 7px;
-  color: #d4aa18;
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-/* Bookseller Picks — shelf row */
-.tw-art-shelf { gap: 9px; }
-.tw-shelf-cover { width: clamp(42px, 4vw, 50px); }
-
-/* The Storefront — cover + buy chip */
-.tw-art-storefront { gap: 16px; }
-.tw-storefront-cover { width: clamp(54px, 5.2vw, 62px); }
-.tw-buy-chip {
-  display: inline-flex;
-  align-items: center;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: #f6f1e3;
-  background: #1a1714;
-  padding: 8px 14px;
-  border-radius: 999px;
-  white-space: nowrap;
-}
 
 /* ── CTAs ── */
 .tw-cta-wrap {
@@ -521,6 +460,9 @@ const CSS = `
   }
   .tw-col--bookworld .tw-col-label {
     align-self: flex-start;
+  }
+  .tw-connector {
+    display: none;
   }
 }
 @media (max-width: 480px) {
@@ -581,6 +523,8 @@ export default function TwoWorlds() {
           <h2 className="tw-title" id="tw-title">
             Two sides of a reading life.
           </h2>
+          <ArrowToPlatform />
+          <ArrowToBookWorld />
         </header>
 
         <div className="tw-body">
