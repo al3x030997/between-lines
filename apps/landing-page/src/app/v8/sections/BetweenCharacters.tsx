@@ -84,110 +84,12 @@ const AUDIENCE_CHIPS = [
   { label: 'Illustrators', Icon: ChipIconPaintbrush, category: 'character' },
 ] as const;
 
-// Loose, hand-sketched doodles scattered around the illustrated header —
-// deliberately uneven (mismatched sizes, wobble, scribble flicks) so they
-// read as inked-by-hand rather than a generated icon set.
-function DoodleQuoteMarks() {
-  return (
-    <svg viewBox="0 0 90 64" fill="none" aria-hidden="true">
-      <path
-        d="M8 36c-1-9 4-18 14-23l2 4c-7 3-10 8-9 14 1-.4 2-.6 3-.5 4.4.3 7.3 4 6.8 8.4-.5 4.3-4.4 7-9 6.4-5.6-.7-8.4-4.6-7.8-9.3Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 35.5c-.8-8.6 4.2-17.4 13.6-22.3"
-        stroke="currentColor"
-        strokeWidth="0.8"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-      <path
-        d="M46 40c-2-10 3-20 16-26l2 4.4c-8 3.6-12 9-10.6 16 1-.6 2.2-.9 3.4-.8 4.8.4 8 4.6 7.4 9.3-.6 4.8-4.9 7.8-10 7.1-6-.8-9-5.2-8.2-10Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function DoodleSparkle() {
-  return (
-    <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
-      <path
-        d="M21 3c0 7-1.4 11.6-4 14.6C14.6 20.4 10 22.6 3 23.4c6.6 1 11 3 13.6 6 2.4 2.8 3.8 7 4.2 12.6.6-6.4 2-10.8 4.4-13.4 2.6-2.8 7-4.6 13.6-5.4-6.6-1-10.8-3.2-13.2-6.2C23.4 14 22 9.4 21 3Z"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M35 6.5l2.4 2.4M36.8 4.8l-1 4.2"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-        opacity="0.6"
-      />
-    </svg>
-  );
-}
-
-function DoodleBook() {
-  return (
-    <svg viewBox="0 0 64 46" fill="none" aria-hidden="true">
-      <path
-        d="M31 11C26.4 7.6 18.8 6 11.6 6.8c-1.3.2-2.2 1.3-2.1 2.6l1.4 25.8c.1 1.6 1.5 2.7 3.1 2.4 4.8-.8 10 .2 13.2 2.6.8.6 1.9.6 2.7-.1 3.1-2.5 8.3-3.7 13.2-3.1 1.6.2 3-1 2.9-2.6l-.6-25.9c0-1.3-1-2.4-2.3-2.5-6.4-.4-13.3 1.3-17.2 5.2"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M30.6 11.6 32 36.4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <path d="M16 13.4c3 .1 5.7.8 7.8 2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.5" />
-      <path d="M16.4 19.8c3.2 0 6 .7 8.2 2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.5" />
-    </svg>
-  );
-}
-
-function DoodleInkDrop() {
-  return (
-    <svg viewBox="0 0 40 48" fill="none" aria-hidden="true">
-      <path
-        d="M19 4c5.6 7.8 10.4 15 10 20.6-.4 6.2-5 10.8-10.6 10.4-5.6-.4-9.8-5.6-9.4-11.8C9.4 17.8 13.8 11 19 4Z"
-        stroke="currentColor"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-      <circle cx="26" cy="40" r="1.6" fill="currentColor" opacity="0.7" />
-      <circle cx="30.5" cy="35" r="0.9" fill="currentColor" opacity="0.5" />
-      <path d="M30 8.5c1.4 1 2.2 2.4 2 4" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.45" />
-    </svg>
-  );
-}
-
 export default function BetweenCharacters() {
   return (
     <section className="bl-bchars" aria-labelledby="bl-bchars-title">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <header className="bl-bchars-about-head">
-        <span className="bl-bchars-about-doodle bl-bchars-about-doodle--quote" aria-hidden="true">
-          <DoodleQuoteMarks />
-        </span>
-        <span className="bl-bchars-about-doodle bl-bchars-about-doodle--sparkle" aria-hidden="true">
-          <DoodleSparkle />
-        </span>
-        <span className="bl-bchars-about-doodle bl-bchars-about-doodle--book" aria-hidden="true">
-          <DoodleBook />
-        </span>
-        <span className="bl-bchars-about-doodle bl-bchars-about-doodle--drop" aria-hidden="true">
-          <DoodleInkDrop />
-        </span>
-
         <h2 className="bl-bchars-title" id="bl-bchars-title">
           In a world of distractions,
           <br />
@@ -219,9 +121,9 @@ export default function BetweenCharacters() {
         </div>
 
         <div className="bl-bchars-about-ctas">
-          <a href="#faq" className="bl-bchars-about-cta bl-bchars-about-cta--ghost">
+          <Link href="/faq" className="bl-bchars-about-cta bl-bchars-about-cta--ghost">
             Read the FAQ
-          </a>
+          </Link>
           <Link href="/features" className="bl-bchars-about-cta bl-bchars-about-cta--solid">
             Learn more
           </Link>
@@ -248,13 +150,6 @@ const STYLES = `
   align-items: center;
   justify-content: center;
   background-color: #ffffff;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    transparent 0,
-    transparent 35px,
-    var(--bc-line) 35px,
-    var(--bc-line) 36px
-  );
   color: var(--bc-ink);
   font-family: var(--br-font-sans, var(--bl-font-body));
   overflow: hidden;
@@ -399,55 +294,6 @@ const STYLES = `
   box-shadow: 0 10px 26px rgba(243, 216, 74, 0.35);
 }
 
-/* Loose decorative doodles scattered around the header */
-.bl-bchars-about-doodle {
-  position: absolute;
-  display: block;
-  color: var(--bc-ink);
-  pointer-events: none;
-  z-index: 0;
-}
-.bl-bchars-about-doodle svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.bl-bchars-about-doodle--quote {
-  top: -38px;
-  left: -16px;
-  width: 132px;
-  height: 99px;
-  opacity: 0.09;
-}
-.bl-bchars-about-doodle--sparkle {
-  top: -2%;
-  right: -1%;
-  width: 60px;
-  height: 60px;
-  opacity: 0.45;
-  color: var(--theme-yellow-deep, var(--bc-accent));
-}
-.bl-bchars-about-doodle--book {
-  bottom: 12%;
-  left: -9%;
-  width: 86px;
-  height: 63px;
-  opacity: 0.24;
-  transform: rotate(-9deg);
-}
-.bl-bchars-about-doodle--drop {
-  bottom: -24px;
-  right: 1%;
-  width: 42px;
-  height: 52px;
-  opacity: 0.32;
-}
-
-@media (max-width: 640px) {
-  .bl-bchars-about-doodle {
-    display: none;
-  }
-}
 @media (max-width: 760px) {
   .bl-bchars {
     padding-inline: 20px;

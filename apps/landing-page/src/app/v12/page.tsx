@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import BetweenCharacters from '../v8/sections/BetweenCharacters';
 import SignupOffers from '../v8/sections/SignupOffers';
-import FaqDirectory from '../v8/sections/FaqDirectory';
 import ClosingCta from '../v8/sections/ClosingCta';
 import Footer from '../v8/sections/Footer';
 import { SiteNav } from '@/components/SiteNav';
@@ -405,8 +404,6 @@ export default function V12Page() {
       <BetweenCharacters />
 
       <SignupOffers />
-
-      <FaqDirectory />
 
       <ClosingCta onReader={() => open('reader')} onWriter={() => open('author')} />
       <Footer />
