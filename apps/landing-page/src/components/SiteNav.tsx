@@ -23,7 +23,7 @@ const LINKS: NavLink[] = [
   { href: '/about', label: 'About' },
   { href: '/read', label: 'Read' },
   { href: '/write', label: 'Write' },
-  { href: '/reviews', label: 'Reviews' },
+  { href: '/reviews', label: 'Review' },
   { href: '/support', label: 'Support Us', modifier: 'support' },
 ];
 
@@ -57,7 +57,7 @@ export function SiteNav({ onJoin, activeHref }: Props) {
       <div className="br-subbanner">
         <span className="br-subbanner-inner">
           <span className="br-subbanner-text">
-            BetweenReads is now open for submissions.{' '}
+            BetweenLines Issue #1 is open for submission.{' '}
             <Link className="br-subbanner-cta" href="/write">
               Publish your work
               <span className="br-subbanner-arrow" aria-hidden="true">→</span>

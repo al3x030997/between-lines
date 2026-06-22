@@ -156,6 +156,43 @@ const V12_CSS = `
 }
 .v12-read-now:hover .v12-read-now-arrow { transform: translateX(4px); }
 
+.v12-hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(14px, 2vw, 20px);
+}
+
+/* Secondary CTA — warm red, reuses the banner's accent red for consistency. */
+.v12-start-writing {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(18px, 1.9vw, 20px);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #fff;
+  background: rgb(216, 64, 46);
+  border: none;
+  border-radius: 999px;
+  padding: clamp(13px, 1.7vh, 17px) clamp(32px, 4vw, 44px);
+  cursor: pointer;
+  box-shadow: 0 14px 34px -14px rgba(216, 64, 46, 0.55);
+  transition: transform 220ms var(--v6-ease),
+              box-shadow 220ms var(--v6-ease),
+              background 220ms var(--v6-ease);
+}
+.v12-start-writing:hover,
+.v12-start-writing:focus-visible {
+  background: rgb(196, 52, 36);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -14px rgba(216, 64, 46, 0.65);
+  outline: none;
+}
+.v12-start-writing:active { transform: translateY(0); }
+
 /* Trust commitments — three bullets */
 .v12-proof-strip {
   display: flex;
@@ -334,14 +371,23 @@ export default function V12Page() {
             </h1>
 
             <div className="v12-hero-actions">
-              <button
-                type="button"
-                className="v12-read-now"
-                onClick={() => open('reader')}
-              >
-                <span>Read Now</span>
-                <span className="v12-read-now-arrow" aria-hidden="true">→</span>
-              </button>
+              <div className="v12-hero-buttons">
+                <button
+                  type="button"
+                  className="v12-read-now"
+                  onClick={() => open('reader')}
+                >
+                  <span>Read Now</span>
+                  <span className="v12-read-now-arrow" aria-hidden="true">→</span>
+                </button>
+                <button
+                  type="button"
+                  className="v12-start-writing"
+                  onClick={() => open('author')}
+                >
+                  <span>Start Writing</span>
+                </button>
+              </div>
             </div>
             <div className="v12-proof-strip" aria-label="Platform commitments">
               <span className="v12-proof-note">Always ad-free</span>
