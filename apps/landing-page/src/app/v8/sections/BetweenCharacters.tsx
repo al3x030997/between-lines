@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { PILL_BG } from './opencall/quotes';
 
 // Line-art "who it's for" icons, drawn to sit inside a pastel circle chip.
@@ -83,17 +84,32 @@ const AUDIENCE_CHIPS = [
   { label: 'Illustrators', Icon: ChipIconPaintbrush, category: 'character' },
 ] as const;
 
-// Loose decorative line-art doodles scattered around the illustrated header.
+// Loose, hand-sketched doodles scattered around the illustrated header —
+// deliberately uneven (mismatched sizes, wobble, scribble flicks) so they
+// read as inked-by-hand rather than a generated icon set.
 function DoodleQuoteMarks() {
   return (
-    <svg viewBox="0 0 80 60" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 90 64" fill="none" aria-hidden="true">
       <path
-        d="M6 34c0-10 6-17 15-20l1.6 4.4c-6 2.2-9 6-9 11 .6-.2 1.4-.3 2.2-.3 4 0 7 3 7 6.8 0 4-3.2 7.1-7.4 7.1-5.6 0-9.4-4-9.4-9Z"
-        fill="currentColor"
+        d="M8 36c-1-9 4-18 14-23l2 4c-7 3-10 8-9 14 1-.4 2-.6 3-.5 4.4.3 7.3 4 6.8 8.4-.5 4.3-4.4 7-9 6.4-5.6-.7-8.4-4.6-7.8-9.3Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M40 34c0-10 6-17 15-20l1.6 4.4c-6 2.2-9 6-9 11 .6-.2 1.4-.3 2.2-.3 4 0 7 3 7 6.8 0 4-3.2 7.1-7.4 7.1-5.6 0-9.4-4-9.4-9Z"
-        fill="currentColor"
+        d="M9 35.5c-.8-8.6 4.2-17.4 13.6-22.3"
+        stroke="currentColor"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+      <path
+        d="M46 40c-2-10 3-20 16-26l2 4.4c-8 3.6-12 9-10.6 16 1-.6 2.2-.9 3.4-.8 4.8.4 8 4.6 7.4 9.3-.6 4.8-4.9 7.8-10 7.1-6-.8-9-5.2-8.2-10Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -101,12 +117,20 @@ function DoodleQuoteMarks() {
 
 function DoodleSparkle() {
   return (
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
       <path
-        d="M20 2c.8 6.6 2.6 12 5.6 15.6C28.6 21.2 33 23 38 24c-5 1-9.4 2.8-12.4 6.4C22.6 34 20.8 35 20 38c-.8-3-2.6-4-5.6-7.6C11.4 26.8 7 25 2 24c5-1 9.4-2.8 12.4-6.4C17.4 14 19.2 8.6 20 2Z"
+        d="M21 3c0 7-1.4 11.6-4 14.6C14.6 20.4 10 22.6 3 23.4c6.6 1 11 3 13.6 6 2.4 2.8 3.8 7 4.2 12.6.6-6.4 2-10.8 4.4-13.4 2.6-2.8 7-4.6 13.6-5.4-6.6-1-10.8-3.2-13.2-6.2C23.4 14 22 9.4 21 3Z"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.3"
+        strokeLinecap="round"
         strokeLinejoin="round"
+      />
+      <path
+        d="M35 6.5l2.4 2.4M36.8 4.8l-1 4.2"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        opacity="0.6"
       />
     </svg>
   );
@@ -114,29 +138,33 @@ function DoodleSparkle() {
 
 function DoodleBook() {
   return (
-    <svg viewBox="0 0 60 44" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 64 46" fill="none" aria-hidden="true">
       <path
-        d="M30 9.6C25.8 6.4 18.6 5 12 5.6c-1.4.1-2.4 1.3-2.4 2.7v26c0 1.7 1.4 2.9 3.1 2.7 5-.6 10.4.3 13.7 2.6.9.6 2 .6 2.9 0 3.3-2.3 8.7-3.2 13.7-2.6 1.7.2 3.1-1 3.1-2.7v-26c0-1.4-1-2.6-2.4-2.7-6.6-.6-13.8.8-18 4"
+        d="M31 11C26.4 7.6 18.8 6 11.6 6.8c-1.3.2-2.2 1.3-2.1 2.6l1.4 25.8c.1 1.6 1.5 2.7 3.1 2.4 4.8-.8 10 .2 13.2 2.6.8.6 1.9.6 2.7-.1 3.1-2.5 8.3-3.7 13.2-3.1 1.6.2 3-1 2.9-2.6l-.6-25.9c0-1.3-1-2.4-2.3-2.5-6.4-.4-13.3 1.3-17.2 5.2"
         stroke="currentColor"
-        strokeWidth="1.3"
+        strokeWidth="1.4"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M30 9.6v26" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M30.6 11.6 32 36.4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+      <path d="M16 13.4c3 .1 5.7.8 7.8 2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.5" />
+      <path d="M16.4 19.8c3.2 0 6 .7 8.2 2" stroke="currentColor" strokeWidth="0.8" strokeLinecap="round" opacity="0.5" />
     </svg>
   );
 }
 
 function DoodleInkDrop() {
   return (
-    <svg viewBox="0 0 36 44" fill="none" aria-hidden="true">
+    <svg viewBox="0 0 40 48" fill="none" aria-hidden="true">
       <path
-        d="M18 3c6 8.4 11 15.8 11 21.6 0 6.6-4.9 11.9-11 11.9S7 31.2 7 24.6C7 18.8 12 11.4 18 3Z"
+        d="M19 4c5.6 7.8 10.4 15 10 20.6-.4 6.2-5 10.8-10.6 10.4-5.6-.4-9.8-5.6-9.4-11.8C9.4 17.8 13.8 11 19 4Z"
         stroke="currentColor"
-        strokeWidth="1.3"
+        strokeWidth="1.4"
         strokeLinejoin="round"
       />
-      <circle cx="24.5" cy="36.5" r="1.8" fill="currentColor" />
+      <circle cx="26" cy="40" r="1.6" fill="currentColor" opacity="0.7" />
+      <circle cx="30.5" cy="35" r="0.9" fill="currentColor" opacity="0.5" />
+      <path d="M30 8.5c1.4 1 2.2 2.4 2 4" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.45" />
     </svg>
   );
 }
@@ -160,7 +188,6 @@ export default function BetweenCharacters() {
           <DoodleInkDrop />
         </span>
 
-        <p className="bl-bchars-eyebrow">Between Reads</p>
         <h2 className="bl-bchars-title" id="bl-bchars-title">
           In a world of distractions,
           <br />
@@ -189,6 +216,15 @@ export default function BetweenCharacters() {
               </div>
             );
           })}
+        </div>
+
+        <div className="bl-bchars-about-ctas">
+          <a href="#faq" className="bl-bchars-about-cta bl-bchars-about-cta--ghost">
+            Read the FAQ
+          </a>
+          <Link href="/features" className="bl-bchars-about-cta bl-bchars-about-cta--solid">
+            Learn more
+          </Link>
         </div>
       </header>
     </section>
@@ -234,15 +270,6 @@ const STYLES = `
   max-width: 880px;
   margin: 0 auto;
   position: relative;
-}
-.bl-bchars-eyebrow {
-  margin: 0 0 16px;
-  font-family: var(--bl-font-eyebrow);
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--bc-accent);
 }
 .bl-bchars-title {
   position: relative;
@@ -322,6 +349,54 @@ const STYLES = `
 .bl-bchars-about-chip:hover .bl-bchars-about-chip-label {
   color: var(--bc-ink);
   transform: translateY(-2px);
+}
+
+/* CTAs below the chips */
+.bl-bchars-about-ctas {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: clamp(36px, 5vw, 52px);
+}
+.bl-bchars-about-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-family: var(--bl-font-eyebrow);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 200ms ease, background 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+}
+.bl-bchars-about-cta--ghost {
+  border: 1px solid var(--bc-line-mid);
+  color: var(--bc-ink);
+  background: transparent;
+}
+.bl-bchars-about-cta--ghost:hover {
+  border-color: var(--bc-ink);
+  background: rgba(14, 14, 12, 0.04);
+  transform: translateY(-2px);
+}
+.bl-bchars-about-cta--solid {
+  border: 1px solid var(--bc-accent);
+  background: var(--bc-accent);
+  color: var(--bc-on-accent);
+}
+.bl-bchars-about-cta--solid:hover {
+  background: #ffe948;
+  border-color: #ffe948;
+  color: var(--bc-accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(243, 216, 74, 0.35);
 }
 
 /* Loose decorative doodles scattered around the header */

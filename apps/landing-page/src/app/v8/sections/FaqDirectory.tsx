@@ -217,7 +217,7 @@ const STYLES = `
 
 export default function FaqDirectory() {
   return (
-    <section className="bl-qa" aria-label="Questions, answered">
+    <section className="bl-qa" id="faq" aria-label="Questions, answered">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
       <div className="bl-qa-inner">
         <div className="bl-qa-head">
