@@ -186,7 +186,7 @@ const BOOK_WORLD_ROWS: Row[] = [
 const CSS = `
 /* ── Root ── */
 .tw-root {
-  background: var(--theme-yellow, #f3d84a);
+  background: var(--theme-page, #ffffff);
   color: #1a1714;
   padding: clamp(72px, 10vh, 120px) clamp(24px, 5.5vw, 88px);
   font-family: 'Outfit', system-ui, sans-serif;
@@ -232,22 +232,33 @@ const CSS = `
 .tw-connector-left { left: clamp(8%, 18vw, 22%); }
 .tw-connector-right { right: clamp(8%, 18vw, 22%); }
 
-/* ── Two-column body ── */
+/* ── Two-column body ──
+   .tw-col and .tw-rows are display:contents wrappers — their children
+   (label, each card, the CTA) are placed directly as grid items so a
+   card and its counterpart on the other side share the same row track
+   and stretch to the same height. */
 .tw-body {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
-  gap: 0 clamp(36px, 5vw, 72px);
+  grid-template-areas:
+    'plat-label divider book-label'
+    'plat-0     divider book-0'
+    'plat-1     divider book-1'
+    'plat-2     divider book-2'
+    'plat-cta   divider book-cta';
+  column-gap: clamp(36px, 5vw, 72px);
+  row-gap: clamp(14px, 1.8vh, 18px);
+  align-items: stretch;
 }
 .tw-divider {
+  grid-area: divider;
   width: 1px;
   background: rgba(26, 23, 20, 0.18);
 }
 
 /* ── Column ── */
 .tw-col {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
+  display: contents;
 }
 .tw-col-label {
   display: inline-flex;
@@ -263,13 +274,13 @@ const CSS = `
   border-radius: 0;
   padding: 0 0 10px;
   border-bottom: 2.5px solid rgba(26, 23, 20, 0.7);
-  margin-bottom: clamp(22px, 3vh, 30px);
-  align-self: flex-start;
+  margin-bottom: clamp(12px, 1.6vh, 16px);
+  justify-self: start;
+  min-width: 0;
   user-select: none;
 }
-.tw-col--bookworld .tw-col-label {
-  align-self: flex-end;
-}
+.tw-col--platform .tw-col-label { grid-area: plat-label; }
+.tw-col--bookworld .tw-col-label { grid-area: book-label; justify-self: end; }
 .tw-arrow {
   font-size: 0.6em;
   line-height: 1;
@@ -278,12 +289,16 @@ const CSS = `
 
 /* ── Row cards ── */
 .tw-rows {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(14px, 1.8vh, 18px);
+  display: contents;
 }
+.tw-col--platform .tw-row:nth-child(1) { grid-area: plat-0; }
+.tw-col--platform .tw-row:nth-child(2) { grid-area: plat-1; }
+.tw-col--platform .tw-row:nth-child(3) { grid-area: plat-2; }
+.tw-col--bookworld .tw-row:nth-child(1) { grid-area: book-0; }
+.tw-col--bookworld .tw-row:nth-child(2) { grid-area: book-1; }
+.tw-col--bookworld .tw-row:nth-child(3) { grid-area: book-2; }
 .tw-row {
+  min-width: 0;
   border: 1.5px dotted rgba(26, 23, 20, 0.55);
   border-radius: 16px;
   background: none;
@@ -400,8 +415,11 @@ const CSS = `
 
 /* ── CTAs ── */
 .tw-cta-wrap {
-  margin-top: clamp(26px, 3.6vh, 38px);
+  align-self: start;
+  margin-top: clamp(12px, 1.6vh, 16px);
 }
+.tw-col--platform .tw-cta-wrap { grid-area: plat-cta; }
+.tw-col--bookworld .tw-cta-wrap { grid-area: book-cta; }
 .tw-cta {
   display: inline-flex;
   align-items: center;
@@ -442,7 +460,18 @@ const CSS = `
 @media (max-width: 860px) {
   .tw-body {
     grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-areas:
+      'plat-label'
+      'plat-0'
+      'plat-1'
+      'plat-2'
+      'plat-cta'
+      'divider'
+      'book-label'
+      'book-0'
+      'book-1'
+      'book-2'
+      'book-cta';
   }
   .tw-divider {
     width: auto;
@@ -450,7 +479,7 @@ const CSS = `
     margin: clamp(40px, 6vw, 56px) 0;
   }
   .tw-col--bookworld .tw-col-label {
-    align-self: flex-start;
+    justify-self: start;
   }
   .tw-connector {
     display: none;
