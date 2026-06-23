@@ -52,7 +52,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(93vh - 76px);
+  min-height: calc(84vh - 76px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -219,23 +219,44 @@ const V12_CSS = `
   color: color-mix(in srgb, var(--theme-hero-text) 80%, transparent);
 }
 
-/* Scroll affordance — gentle bouncing chevron at the hero base */
+/* Scroll affordance — gentle bouncing chevron at the hero base, clickable */
 .v12-scroll-cue {
   position: absolute;
   bottom: clamp(14px, 2.4vh, 26px);
   left: 50%;
+  display: inline-flex;
+  background: none;
+  border: none;
+  padding: 10px;
+  margin: 0;
   color: var(--theme-hero-text);
-  opacity: 0.45;
-  pointer-events: none;
+  opacity: 0.5;
+  cursor: pointer;
   animation: v12-scroll-bounce 2.2s ease-in-out infinite;
+  transition: opacity 200ms ease;
+}
+.v12-scroll-cue:hover,
+.v12-scroll-cue:focus-visible {
+  opacity: 0.9;
+  outline: none;
 }
 .v12-scroll-cue svg { display: block; }
+.v12-scroll-cue-icon {
+  display: block;
+  animation: v12-scroll-click 600ms cubic-bezier(.22, 1, .36, 1);
+}
 @keyframes v12-scroll-bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
   50%      { transform: translateX(-50%) translateY(6px); }
 }
+@keyframes v12-scroll-click {
+  0%   { transform: scale(1) translateY(0); }
+  40%  { transform: scale(1.4) translateY(10px); }
+  100% { transform: scale(1) translateY(0); }
+}
 @media (prefers-reduced-motion: reduce) {
   .v12-scroll-cue { animation: none; transform: translateX(-50%); }
+  .v12-scroll-cue-icon { animation: none; }
 }
 
 /* Banner reused */
@@ -277,7 +298,7 @@ const V12_CSS = `
 
 @media (max-width: 760px) {
   .v12-hero {
-    min-height: calc(94svh - 76px);
+    min-height: calc(86svh - 76px);
   }
   .v12-hero h1 {
     font-size: clamp(48px, 14vw, 80px);
@@ -313,6 +334,12 @@ export default function V12Page() {
   const [intake, setIntake] = useState<{ mode: 'reader' | 'writer' } | null>(null);
   const open = (region: Region) => {
     setIntake({ mode: region === 'author' ? 'writer' : 'reader' });
+  };
+
+  const [scrollCuePulse, setScrollCuePulse] = useState(0);
+  const scrollToNextSection = () => {
+    setScrollCuePulse((n) => n + 1);
+    document.getElementById('v12-after-hero')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
@@ -392,16 +419,24 @@ export default function V12Page() {
               <span className="v12-proof-note">Always ad-free</span>
             </div>
         </div>
-        <div className="v12-scroll-cue" aria-hidden="true">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" strokeWidth="2.2"
+        <button
+          type="button"
+          className="v12-scroll-cue"
+          onClick={scrollToNextSection}
+          aria-label="Scroll to next section"
+        >
+          <svg key={scrollCuePulse} className="v12-scroll-cue-icon"
+               width="40" height="40" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" strokeWidth="2"
                strokeLinecap="round" strokeLinejoin="round">
             <path d="M6 9l6 6 6-6" />
           </svg>
-        </div>
+        </button>
       </section>
 
-      <BetweenCharacters />
+      <div id="v12-after-hero">
+        <BetweenCharacters />
+      </div>
 
       <TwoWorlds />
 

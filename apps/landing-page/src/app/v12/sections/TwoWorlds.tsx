@@ -251,17 +251,18 @@ const CSS = `
 }
 .tw-col-label {
   display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.68);
-  border: 1.5px solid rgba(26, 23, 20, 0.24);
-  background: rgba(26, 23, 20, 0.06);
-  border-radius: 999px;
-  padding: 8px 16px;
+  align-items: baseline;
+  gap: 10px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(21px, 2.1vw, 25px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #1a1714;
+  border: none;
+  background: none;
+  border-radius: 0;
+  padding: 0 0 10px;
+  border-bottom: 2.5px solid rgba(26, 23, 20, 0.7);
   margin-bottom: clamp(22px, 3vh, 30px);
   align-self: flex-start;
   user-select: none;
@@ -270,7 +271,7 @@ const CSS = `
   align-self: flex-end;
 }
 .tw-arrow {
-  font-size: 11px;
+  font-size: 0.6em;
   line-height: 1;
   font-weight: 700;
 }
@@ -283,28 +284,20 @@ const CSS = `
   gap: clamp(14px, 1.8vh, 18px);
 }
 .tw-row {
-  --tw-wash: #dceee7;
-  --tw-wash-2: #f5e2c6;
-  --tw-pop: #d4aa18;
-  border: 1px dotted rgba(26, 23, 20, 0.38);
+  border: 1.5px dotted rgba(26, 23, 20, 0.55);
   border-radius: 16px;
-  background: var(--theme-paper-bg, #f6f1e3);
-  padding: clamp(20px, 2.4vw, 26px);
+  background: none;
+  padding: clamp(22px, 2.6vw, 28px);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1), box-shadow 220ms cubic-bezier(.22, 1, .36, 1), border-color 220ms ease;
 }
 .tw-row:hover {
   transform: translateY(-2px);
-  border-color: rgba(26, 23, 20, 0.55);
-  box-shadow: 0 14px 30px rgba(26, 23, 20, 0.12);
+  border-color: rgba(26, 23, 20, 0.85);
+  box-shadow: 0 14px 26px rgba(26, 23, 20, 0.1);
 }
-.tw-col--platform .tw-rows .tw-row:nth-child(2) { --tw-wash: #dce8f5; --tw-wash-2: #e8e1f1; --tw-pop: #6f9bd6; }
-.tw-col--platform .tw-rows .tw-row:nth-child(3) { --tw-wash: #f1d8d0; --tw-wash-2: #dceee7; --tw-pop: #d6855f; }
-.tw-col--bookworld .tw-rows .tw-row:nth-child(1) { --tw-wash: #e8e1f1; --tw-wash-2: #dce8f5; --tw-pop: #8a6fc7; }
-.tw-col--bookworld .tw-rows .tw-row:nth-child(2) { --tw-wash: #e7efe0; --tw-wash-2: #f1d8d0; --tw-pop: #7fa05a; }
-.tw-col--bookworld .tw-rows .tw-row:nth-child(3) { --tw-wash: #f5e2c6; --tw-wash-2: #dceee7; --tw-pop: #c78944; }
 .tw-row-top {
   display: flex;
   align-items: baseline;
@@ -312,7 +305,7 @@ const CSS = `
 }
 .tw-num {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   font-style: italic;
   color: rgba(26, 23, 20, 0.42);
@@ -320,7 +313,7 @@ const CSS = `
 }
 .tw-row-heading {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(22px, 2.1vw, 26px);
+  font-size: clamp(27px, 2.7vw, 33px);
   font-weight: 800;
   letter-spacing: -0.01em;
   color: #1a1714;
@@ -329,9 +322,9 @@ const CSS = `
 }
 .tw-row-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(15px, 1.3vw, 17px);
-  line-height: 1.55;
-  color: rgba(26, 23, 20, 0.62);
+  font-size: clamp(17px, 1.6vw, 20px);
+  line-height: 1.6;
+  color: rgba(26, 23, 20, 0.68);
   margin: 0;
   text-wrap: pretty;
 }
@@ -370,17 +363,15 @@ const CSS = `
   stroke: rgba(26, 23, 20, 0.72);
   stroke-width: 2;
 }
-.tw-illo .wash {
-  fill: var(--tw-wash, #dceee7);
-}
+.tw-illo .wash,
 .tw-illo .wash-2 {
-  fill: var(--tw-wash-2, #f1d8d0);
+  fill: rgba(26, 23, 20, 0.08);
 }
 .tw-illo .pop {
-  fill: var(--tw-pop, #d4aa18);
+  fill: var(--theme-accent-strong, #d4aa18);
 }
 .tw-illo .pop-stroke {
-  stroke: var(--tw-pop, #d4aa18);
+  stroke: var(--theme-accent-strong, #d4aa18);
   stroke-width: 2.4;
 }
 
@@ -521,7 +512,7 @@ export default function TwoWorlds() {
       <div className="tw-inner">
         <header className="tw-header">
           <h2 className="tw-title" id="tw-title">
-            Two sides of a reading life.
+            A place for two sides.
           </h2>
           <ArrowToPlatform />
           <ArrowToBookWorld />
