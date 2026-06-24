@@ -1,22 +1,30 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-type Item = { heading: string; body: string };
+type Item = { heading: string; body: string; detail: string };
+type Side = 'platform' | 'bookworld';
+type View = 'platform' | 'overview' | 'bookworld';
 
 const PLATFORM_ITEMS: Item[] = [
   {
     heading: 'Original Voices',
     body: "Stories published on BetweenReads first. Emerging writers, poets, and illustrators the world hasn't found yet.",
+    detail:
+      'A home for first publication. We give emerging writers, poets, and illustrators a real audience before the rest of the world catches on — with the editorial care and presentation their work deserves.',
   },
   {
     heading: 'BetweenLines Journal',
     body: 'Our literary journal. Paid critics write considered takes — full reviews, capsules, and themed reading lists.',
+    detail:
+      'Our in-house literary journal pays working critics to write considered takes — full reviews, quick capsules, and themed reading lists that point you toward what is actually worth your evening.',
   },
   {
     heading: 'Beta Reading',
     body: 'Real feedback before you publish. Early Discoverer credit for the readers who spot what breaks out.',
+    detail:
+      'Trade real feedback before you publish. Readers who spot what breaks out earn early Discoverer credit, so the people with taste are rewarded for finding the next thing first.',
   },
 ];
 
@@ -24,25 +32,67 @@ const BOOK_WORLD_ITEMS: Item[] = [
   {
     heading: 'Honest Reviews',
     body: 'Real readers, real voice — written the way a good reader actually talks, not crowdsourced star-bombing.',
+    detail:
+      'Reviews written the way a good reader actually talks — real voice, real stakes, no crowdsourced star-bombing. Opinions you can argue with, from people who finished the book.',
   },
   {
     heading: 'Bookseller Picks',
     body: 'Independent bookstores curate what to read next. Human taste, not an algorithm — a different shelf every week.',
+    detail:
+      'Independent bookstores curate what to read next. Human taste instead of an algorithm — a different shelf every week, shaped by the people who have spent their lives recommending books.',
   },
   {
     heading: 'The Storefront',
     body: 'Buy from local shops. Better royalty terms for authors than the big platforms, on every purchase.',
+    detail:
+      'Buy from local shops directly through BetweenReads. Authors get better royalty terms than the big platforms on every purchase, and the money stays closer to the people who make books.',
   },
 ];
+
+const SIDE_COPY: Record<Side, { eyebrow: string; title: string; intro: string }> = {
+  platform: {
+    eyebrow: 'The Platform',
+    title: 'Where the work begins.',
+    intro:
+      'The publishing side of BetweenReads — where writers find their first readers, critics do considered work, and the people with taste get credit for finding it early.',
+  },
+  bookworld: {
+    eyebrow: 'The Book World',
+    title: 'Where readers decide.',
+    intro:
+      'The reading side of BetweenReads — honest reviews, human curation, and a storefront that sends more of every sale back to authors and the shops that champion them.',
+  },
+};
 
 const CSS = `
 /* ── Root ── */
 .tw-root {
   background: var(--theme-page, #ffffff);
   color: #1a1714;
-  padding: clamp(72px, 10vh, 124px) clamp(24px, 5.5vw, 88px);
+  padding: clamp(80px, 11vh, 140px) clamp(24px, 5.5vw, 96px);
   font-family: 'Outfit', system-ui, sans-serif;
   overflow: hidden;
+}
+
+/* ── Slide viewport + track ── */
+.tw-viewport {
+  position: relative;
+  overflow: hidden;
+  transition: height 560ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-track {
+  display: flex;
+  align-items: flex-start;
+  width: 300%;
+  transform: translateX(-33.3333%);
+  transition: transform 560ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-track[data-view='platform']  { transform: translateX(0); }
+.tw-track[data-view='overview']  { transform: translateX(-33.3333%); }
+.tw-track[data-view='bookworld'] { transform: translateX(-66.6667%); }
+.tw-slide {
+  flex: 0 0 33.3333%;
+  width: 33.3333%;
 }
 .tw-inner {
   max-width: 1180px;
@@ -52,27 +102,27 @@ const CSS = `
 /* ── Header ── */
 .tw-header {
   text-align: center;
-  margin-bottom: clamp(40px, 6vh, 64px);
+  margin-bottom: clamp(48px, 7vh, 78px);
 }
 .tw-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(38px, 5.4vw, 64px);
+  font-size: clamp(48px, 7vw, 88px);
   font-weight: 900;
-  line-height: 1.04;
+  line-height: 1.02;
   letter-spacing: -0.03em;
   color: #1a1714;
   margin: 0;
   text-wrap: balance;
 }
 
-/* ── Two-world body — converging wedge ── */
+/* ── Two-world body — converging spine wedge ── */
 .tw-body {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr clamp(40px, 9vw, 132px) 1fr;
+  grid-template-columns: 1fr clamp(120px, 18vw, 240px) 1fr;
   column-gap: 0;
   align-items: start;
-  padding-bottom: clamp(96px, 13vh, 150px);
+  padding-bottom: clamp(110px, 14vh, 168px);
 }
 
 /* The connector lines are drawn into this overlay; they sit behind the text. */
@@ -86,14 +136,14 @@ const CSS = `
 }
 .tw-connector .tw-line {
   fill: none;
-  stroke: rgba(26, 23, 20, 0.28);
-  stroke-width: 2.4;
+  stroke: rgba(26, 23, 20, 0.30);
+  stroke-width: 2.6;
   stroke-linecap: round;
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
 }
 .tw-root.is-visible .tw-connector .tw-line {
-  animation: tw-draw 760ms cubic-bezier(.65, 0, .35, 1) 120ms forwards;
+  animation: tw-draw 820ms cubic-bezier(.65, 0, .35, 1) 120ms forwards;
 }
 @keyframes tw-draw { to { stroke-dashoffset: 0; } }
 
@@ -107,26 +157,73 @@ const CSS = `
 .tw-col--platform { grid-column: 1; text-align: right; align-items: flex-end; }
 .tw-col--bookworld { grid-column: 3; text-align: left; align-items: flex-start; }
 
+/* ── Clickable side label / trigger ── */
+.tw-col-trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  margin: 0 0 clamp(26px, 3.4vh, 40px);
+  padding: 6px 4px;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  border-radius: 8px;
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-col--platform .tw-col-trigger { align-items: flex-end; text-align: right; }
+.tw-col--bookworld .tw-col-trigger { align-items: flex-start; text-align: left; }
+.tw-col-trigger:focus-visible {
+  outline: 2px solid var(--theme-accent-strong, #d4aa18);
+  outline-offset: 4px;
+}
+.tw-col-trigger:hover { transform: translateY(-1px); }
+
 .tw-col-label {
   display: inline-flex;
   align-items: baseline;
-  gap: 10px;
+  gap: 12px;
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(13px, 1.3vw, 15px);
+  font-size: clamp(15px, 1.6vw, 19px);
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.5);
-  margin-bottom: clamp(20px, 2.8vh, 30px);
+  color: rgba(26, 23, 20, 0.55);
+  transition: color 220ms cubic-bezier(.22, 1, .36, 1);
 }
+.tw-col-trigger:hover .tw-col-label,
+.tw-col-trigger:focus-visible .tw-col-label { color: #1a1714; }
 .tw-arrow { font-size: 1em; line-height: 1; }
+
+.tw-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: clamp(12px, 1.15vw, 14px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-accent-strong, #b8920f);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 220ms cubic-bezier(.22, 1, .36, 1),
+              transform 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-col-trigger:hover .tw-explore,
+.tw-col-trigger:focus-visible .tw-explore {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tw-explore-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
+.tw-col-trigger:hover .tw-explore-arrow { transform: translateX(4px); }
 
 /* ── Items ── */
 .tw-item {
-  /* --tw-i set inline per index drives the inward wedge offset */
-  max-width: 33ch;
-  padding-block: clamp(16px, 2vh, 22px);
-  padding-inline-start: calc(var(--tw-i, 0) * clamp(0px, 2.4vw, 30px));
+  max-width: 30ch;
+  padding-block: clamp(20px, 2.6vh, 30px);
   border-top: 1px solid rgba(26, 23, 20, 0.14);
   opacity: 1;
 }
@@ -135,37 +232,37 @@ const CSS = `
 
 .tw-item-heading {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(23px, 2.4vw, 30px);
+  font-size: clamp(30px, 3.4vw, 46px);
   font-weight: 800;
-  letter-spacing: -0.015em;
-  line-height: 1.15;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: #1a1714;
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   position: relative;
   transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
-/* Yellow tick at the spine-side edge, revealed on hover. */
+/* Permanent connector tick at the spine-side edge of each heading. */
 .tw-item-heading::after {
   content: "";
   position: absolute;
   top: 50%;
-  width: 0;
+  width: clamp(22px, 3.4vw, 52px);
   height: 3px;
   border-radius: 2px;
   background: var(--theme-accent-strong, #d4aa18);
   transform: translateY(-50%);
   transition: width 240ms cubic-bezier(.22, 1, .36, 1);
 }
-.tw-col--platform .tw-item-heading::after { right: calc(100% + 12px); }
-.tw-col--bookworld .tw-item-heading::after { left: calc(100% + 12px); }
-.tw-col--platform .tw-item:hover .tw-item-heading { transform: translateX(-5px); }
-.tw-col--bookworld .tw-item:hover .tw-item-heading { transform: translateX(5px); }
-.tw-item:hover .tw-item-heading::after { width: clamp(16px, 2vw, 26px); }
+.tw-col--platform .tw-item-heading::after { right: calc(100% + 16px); }
+.tw-col--bookworld .tw-item-heading::after { left: calc(100% + 16px); }
+.tw-col--platform .tw-item:hover .tw-item-heading { transform: translateX(-6px); }
+.tw-col--bookworld .tw-item:hover .tw-item-heading { transform: translateX(6px); }
+.tw-item:hover .tw-item-heading::after { width: clamp(34px, 5vw, 76px); }
 
 .tw-item-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(15px, 1.5vw, 18px);
-  line-height: 1.6;
+  font-size: clamp(17px, 1.7vw, 21px);
+  line-height: 1.55;
   color: rgba(26, 23, 20, 0.62);
   margin: 0;
   text-wrap: pretty;
@@ -177,15 +274,15 @@ const CSS = `
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 50%) scale(0.5);
-  width: clamp(56px, 6vw, 72px);
-  height: clamp(56px, 6vw, 72px);
+  width: clamp(72px, 8vw, 96px);
+  height: clamp(72px, 8vw, 96px);
   z-index: 2;
   opacity: 0;
   display: grid;
   place-items: center;
 }
 .tw-root.is-visible .tw-node {
-  animation: tw-node-pop 480ms cubic-bezier(.34, 1.56, .64, 1) 720ms forwards;
+  animation: tw-node-pop 480ms cubic-bezier(.34, 1.56, .64, 1) 780ms forwards;
 }
 @keyframes tw-node-pop {
   from { opacity: 0; transform: translate(-50%, 50%) scale(0.4); }
@@ -196,7 +293,7 @@ const CSS = `
   height: 100%;
   border-radius: 999px;
   background: var(--theme-page, #ffffff);
-  border: 2.4px solid #1a1714;
+  border: 2.6px solid #1a1714;
   display: grid;
   place-items: center;
   box-shadow: 0 10px 28px rgba(26, 23, 20, 0.14);
@@ -211,17 +308,17 @@ const CSS = `
 /* ── Meeting line + CTAs ── */
 .tw-meet {
   text-align: center;
-  margin-top: clamp(40px, 6vh, 64px);
+  margin-top: clamp(48px, 7vh, 72px);
   opacity: 1;
 }
 .tw-meet-line {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(20px, 2.4vw, 28px);
+  font-size: clamp(22px, 2.7vw, 32px);
   font-style: italic;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: #1a1714;
-  margin: 0 0 clamp(22px, 3vh, 32px);
+  margin: 0 0 clamp(24px, 3.2vh, 34px);
 }
 .tw-ctas {
   display: flex;
@@ -278,15 +375,107 @@ const CSS = `
 .tw-cta:hover .tw-cta-arrow,
 .tw-cta:focus-visible .tw-cta-arrow { transform: translateX(4px); }
 
-/* ── Entrance choreography ── */
+/* ── Detail panels ── */
+.tw-detail {
+  padding-block: clamp(8px, 2vh, 24px);
+}
+.tw-detail-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.tw-back {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: 1.5px solid rgba(26, 23, 20, 0.22);
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(13px, 1.2vw, 15px);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #1a1714;
+  cursor: pointer;
+  margin-bottom: clamp(28px, 4vh, 48px);
+  transition: transform 220ms cubic-bezier(.22, 1, .36, 1),
+              border-color 220ms cubic-bezier(.22, 1, .36, 1),
+              background-color 220ms cubic-bezier(.22, 1, .36, 1);
+}
+.tw-back:hover { transform: translateX(-3px); border-color: #1a1714; background: rgba(26, 23, 20, 0.04); }
+.tw-back:focus-visible { outline: 2px solid var(--theme-accent-strong, #d4aa18); outline-offset: 3px; }
+.tw-back-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
+.tw-back:hover .tw-back-arrow { transform: translateX(-3px); }
+
+.tw-detail-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(14px, 1.4vw, 16px);
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--theme-accent-strong, #b8920f);
+  margin: 0 0 clamp(16px, 2vh, 22px);
+}
+.tw-detail-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(40px, 5.6vw, 72px);
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #1a1714;
+  margin: 0 0 clamp(18px, 2.4vh, 28px);
+  text-wrap: balance;
+}
+.tw-detail-intro {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(18px, 1.9vw, 24px);
+  line-height: 1.5;
+  color: rgba(26, 23, 20, 0.66);
+  max-width: 60ch;
+  margin: 0 0 clamp(44px, 6vh, 72px);
+  text-wrap: pretty;
+}
+.tw-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: clamp(28px, 3.6vw, 56px);
+}
+.tw-detail-item {
+  border-top: 2px solid #1a1714;
+  padding-top: clamp(16px, 2vh, 22px);
+}
+.tw-detail-item-heading {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: #1a1714;
+  margin: 0 0 12px;
+}
+.tw-detail-item-body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: clamp(16px, 1.55vw, 19px);
+  line-height: 1.6;
+  color: rgba(26, 23, 20, 0.64);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* ── Entrance choreography (overview only) ── */
 .tw-col-label,
-.tw-item,
+.tw-slide--overview .tw-item,
 .tw-meet {
   opacity: 0;
   transform: translateY(16px);
 }
 .tw-root.is-visible .tw-col-label,
-.tw-root.is-visible .tw-item,
+.tw-root.is-visible .tw-slide--overview .tw-item,
 .tw-root.is-visible .tw-meet {
   animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
   animation-delay: var(--tw-delay, 0ms);
@@ -307,10 +496,8 @@ const CSS = `
     text-align: left;
     align-items: stretch;
   }
-  .tw-item {
-    max-width: none;
-    padding-inline-start: 0;
-  }
+  .tw-col--platform .tw-col-trigger { align-items: flex-start; text-align: left; }
+  .tw-item { max-width: none; }
   .tw-col--platform .tw-item-heading::after,
   .tw-col--bookworld .tw-item-heading::after { display: none; }
   .tw-connector { display: none; }
@@ -328,6 +515,8 @@ const CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .tw-viewport,
+  .tw-track { transition: none !important; }
   .tw-root .tw-col-label,
   .tw-root .tw-item,
   .tw-root .tw-meet,
@@ -349,28 +538,42 @@ function Column({
   label,
   items,
   baseDelay,
+  onOpen,
+  triggerRef,
 }: {
-  side: 'platform' | 'bookworld';
+  side: Side;
   label: string;
   items: Item[];
   baseDelay: number;
+  onOpen: () => void;
+  triggerRef: (el: HTMLButtonElement | null) => void;
 }) {
   const isBookWorld = side === 'bookworld';
   return (
     <div className={`tw-col tw-col--${side}`}>
-      <div className="tw-col-label" style={{ ['--tw-delay' as string]: `${baseDelay}ms` }}>
-        {!isBookWorld && <span className="tw-arrow" aria-hidden="true">←</span>}
-        <span>{label}</span>
-        {isBookWorld && <span className="tw-arrow" aria-hidden="true">→</span>}
-      </div>
+      <button
+        type="button"
+        className="tw-col-trigger"
+        ref={triggerRef}
+        onClick={onOpen}
+        aria-expanded={false}
+        aria-controls={`tw-panel-${side}`}
+      >
+        <span className="tw-col-label" style={{ ['--tw-delay' as string]: `${baseDelay}ms` }}>
+          {!isBookWorld && <span className="tw-arrow" aria-hidden="true">←</span>}
+          <span>{label}</span>
+          {isBookWorld && <span className="tw-arrow" aria-hidden="true">→</span>}
+        </span>
+        <span className="tw-explore">
+          Explore
+          <span className="tw-explore-arrow" aria-hidden="true">→</span>
+        </span>
+      </button>
       {items.map((item, i) => (
         <div
           className="tw-item"
           key={item.heading}
-          style={{
-            ['--tw-i' as string]: i,
-            ['--tw-delay' as string]: `${baseDelay + 90 + i * 90}ms`,
-          }}
+          style={{ ['--tw-delay' as string]: `${baseDelay + 90 + i * 90}ms` }}
         >
           <h3 className="tw-item-heading">{item.heading}</h3>
           <p className="tw-item-body">{item.body}</p>
@@ -380,10 +583,68 @@ function Column({
   );
 }
 
+function DetailPanel({
+  side,
+  items,
+  onBack,
+  backRef,
+  slideRef,
+}: {
+  side: Side;
+  items: Item[];
+  onBack: () => void;
+  backRef: (el: HTMLButtonElement | null) => void;
+  slideRef: (el: HTMLDivElement | null) => void;
+}) {
+  const copy = SIDE_COPY[side];
+  return (
+    <div className="tw-slide" id={`tw-panel-${side}`} ref={slideRef} role="group" aria-label={copy.eyebrow}>
+      <div className="tw-detail">
+        <div className="tw-detail-inner">
+          <button type="button" className="tw-back" ref={backRef} onClick={onBack}>
+            <span className="tw-back-arrow" aria-hidden="true">←</span>
+            Back
+          </button>
+          <p className="tw-detail-eyebrow">{copy.eyebrow}</p>
+          <h2 className="tw-detail-title">{copy.title}</h2>
+          <p className="tw-detail-intro">{copy.intro}</p>
+          <div className="tw-detail-grid">
+            {items.map((item) => (
+              <div className="tw-detail-item" key={item.heading}>
+                <h3 className="tw-detail-item-heading">{item.heading}</h3>
+                <p className="tw-detail-item-body">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function TwoWorlds() {
   const rootRef = useRef<HTMLElement>(null);
-  const [visible, setVisible] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<Record<View, HTMLDivElement | null>>({
+    platform: null,
+    overview: null,
+    bookworld: null,
+  });
+  const triggerRefs = useRef<Record<Side, HTMLButtonElement | null>>({
+    platform: null,
+    bookworld: null,
+  });
+  const backRefs = useRef<Record<Side, HTMLButtonElement | null>>({
+    platform: null,
+    bookworld: null,
+  });
+  const prevViewRef = useRef<View>('overview');
+  const didMountRef = useRef(false);
 
+  const [visible, setVisible] = useState(false);
+  const [view, setView] = useState<View>('overview');
+
+  // Entrance trigger for the overview choreography.
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
@@ -400,6 +661,49 @@ export default function TwoWorlds() {
     return () => io.disconnect();
   }, []);
 
+  // Sync viewport height + inert/aria-hidden to the active slide.
+  useLayoutEffect(() => {
+    const order: View[] = ['platform', 'overview', 'bookworld'];
+    for (const key of order) {
+      const el = slideRefs.current[key];
+      if (!el) continue;
+      const active = key === view;
+      el.inert = !active;
+      el.setAttribute('aria-hidden', active ? 'false' : 'true');
+    }
+    const activeEl = slideRefs.current[view];
+    const vp = viewportRef.current;
+    if (activeEl && vp) vp.style.height = `${activeEl.offsetHeight}px`;
+  }, [view]);
+
+  // Keep height correct as the active slide reflows (fonts, window resize).
+  useEffect(() => {
+    const vp = viewportRef.current;
+    const activeEl = slideRefs.current[view];
+    if (!vp || !activeEl || typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => {
+      vp.style.height = `${activeEl.offsetHeight}px`;
+    });
+    ro.observe(activeEl);
+    return () => ro.disconnect();
+  }, [view]);
+
+  // Move focus into the opened panel; restore it to the trigger on return.
+  useEffect(() => {
+    const prev = prevViewRef.current;
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      prevViewRef.current = view;
+      return;
+    }
+    if (view === 'platform' || view === 'bookworld') {
+      backRefs.current[view]?.focus({ preventScroll: true });
+    } else if (prev === 'platform' || prev === 'bookworld') {
+      triggerRefs.current[prev]?.focus({ preventScroll: true });
+    }
+    prevViewRef.current = view;
+  }, [view]);
+
   return (
     <section
       ref={rootRef}
@@ -407,66 +711,107 @@ export default function TwoWorlds() {
       aria-labelledby="tw-title"
     >
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
-      <div className="tw-inner">
-        <header className="tw-header">
-          <h2 className="tw-title" id="tw-title">
-            A place for two sides.
-          </h2>
-        </header>
+      <div className="tw-viewport" ref={viewportRef}>
+        <div className="tw-track" data-view={view}>
+          <DetailPanel
+            side="platform"
+            items={PLATFORM_ITEMS}
+            onBack={() => setView('overview')}
+            backRef={(el) => (backRefs.current.platform = el)}
+            slideRef={(el) => (slideRefs.current.platform = el)}
+          />
 
-        <div className="tw-body">
-          {/* Converging lines, drawn behind the text. preserveAspectRatio="none"
-              lets the straight lines re-angle to fit any width — they meet at the
-              node anchored at (50, 100). */}
-          <svg
-            className="tw-connector"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
+          <div
+            className="tw-slide tw-slide--overview"
+            ref={(el) => {
+              slideRefs.current.overview = el;
+            }}
           >
-            <line
-              className="tw-line"
-              x1="32"
-              y1="6"
-              x2="50"
-              y2="100"
-              pathLength={1}
-              vectorEffect="non-scaling-stroke"
-            />
-            <line
-              className="tw-line"
-              x1="68"
-              y1="6"
-              x2="50"
-              y2="100"
-              pathLength={1}
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
+            <div className="tw-inner">
+              <header className="tw-header">
+                <h2 className="tw-title" id="tw-title">
+                  A place for two sides.
+                </h2>
+              </header>
 
-          <Column side="platform" label="The Platform" items={PLATFORM_ITEMS} baseDelay={0} />
-          <Column side="bookworld" label="The Book World" items={BOOK_WORLD_ITEMS} baseDelay={120} />
+              <div className="tw-body">
+                {/* Converging lines, drawn behind the text as a slim central wedge.
+                    preserveAspectRatio="none" lets the lines re-angle to fit any
+                    width — they meet at the node anchored at (50, 100). */}
+                <svg
+                  className="tw-connector"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <line
+                    className="tw-line"
+                    x1="47"
+                    y1="4"
+                    x2="50"
+                    y2="100"
+                    pathLength={1}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                  <line
+                    className="tw-line"
+                    x1="53"
+                    y1="4"
+                    x2="50"
+                    y2="100"
+                    pathLength={1}
+                    vectorEffect="non-scaling-stroke"
+                  />
+                </svg>
 
-          <div className="tw-node" aria-hidden="true">
-            <div className="tw-node-ring">
-              <div className="tw-node-dot" />
+                <Column
+                  side="platform"
+                  label="The Platform"
+                  items={PLATFORM_ITEMS}
+                  baseDelay={0}
+                  onOpen={() => setView('platform')}
+                  triggerRef={(el) => (triggerRefs.current.platform = el)}
+                />
+                <Column
+                  side="bookworld"
+                  label="The Book World"
+                  items={BOOK_WORLD_ITEMS}
+                  baseDelay={120}
+                  onOpen={() => setView('bookworld')}
+                  triggerRef={(el) => (triggerRefs.current.bookworld = el)}
+                />
+
+                <div className="tw-node" aria-hidden="true">
+                  <div className="tw-node-ring">
+                    <div className="tw-node-dot" />
+                  </div>
+                </div>
+              </div>
+
+              <div className="tw-meet" style={{ ['--tw-delay' as string]: '900ms' }}>
+                <p className="tw-meet-line">One place — between reads.</p>
+                <div className="tw-ctas">
+                  <Link href="/?intake=writer" className="tw-cta tw-cta--ghost">
+                    Join as writer
+                    <span className="tw-cta-arrow" aria-hidden="true">→</span>
+                  </Link>
+                  <Link href="/reviews" className="tw-cta tw-cta--solid">
+                    Browse books
+                    <span className="tw-cta-arrow" aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="tw-meet" style={{ ['--tw-delay' as string]: '900ms' }}>
-          <p className="tw-meet-line">One place — between reads.</p>
-          <div className="tw-ctas">
-            <Link href="/?intake=writer" className="tw-cta tw-cta--ghost">
-              Join as writer
-              <span className="tw-cta-arrow" aria-hidden="true">→</span>
-            </Link>
-            <Link href="/reviews" className="tw-cta tw-cta--solid">
-              Browse books
-              <span className="tw-cta-arrow" aria-hidden="true">→</span>
-            </Link>
-          </div>
+          <DetailPanel
+            side="bookworld"
+            items={BOOK_WORLD_ITEMS}
+            onBack={() => setView('overview')}
+            backRef={(el) => (backRefs.current.bookworld = el)}
+            slideRef={(el) => (slideRefs.current.bookworld = el)}
+          />
         </div>
       </div>
     </section>
