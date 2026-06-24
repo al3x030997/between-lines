@@ -69,7 +69,7 @@ const CSS = `
 .tw-root {
   background: var(--theme-page, #ffffff);
   color: #1a1714;
-  padding: clamp(80px, 11vh, 140px) clamp(24px, 5.5vw, 96px);
+  padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
   font-family: 'Outfit', system-ui, sans-serif;
   overflow: hidden;
 }
@@ -102,11 +102,11 @@ const CSS = `
 /* ── Header ── */
 .tw-header {
   text-align: center;
-  margin-bottom: clamp(48px, 7vh, 78px);
+  margin-bottom: clamp(22px, 3.4vh, 40px);
 }
 .tw-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(48px, 7vw, 88px);
+  font-size: clamp(34px, 4.4vw, 58px);
   font-weight: 900;
   line-height: 1.02;
   letter-spacing: -0.03em;
@@ -119,10 +119,10 @@ const CSS = `
 .tw-body {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr clamp(120px, 18vw, 240px) 1fr;
+  grid-template-columns: 1fr 36% 1fr;
   column-gap: 0;
   align-items: start;
-  padding-bottom: clamp(110px, 14vh, 168px);
+  padding-bottom: clamp(60px, 8vh, 104px);
 }
 
 /* The connector lines are drawn into this overlay; they sit behind the text. */
@@ -163,7 +163,7 @@ const CSS = `
   -webkit-appearance: none;
   background: none;
   border: 0;
-  margin: 0 0 clamp(26px, 3.4vh, 40px);
+  margin: 0 0 clamp(16px, 2.2vh, 26px);
   padding: 6px 4px;
   cursor: pointer;
   font-family: inherit;
@@ -222,8 +222,8 @@ const CSS = `
 
 /* ── Items ── */
 .tw-item {
-  max-width: 30ch;
-  padding-block: clamp(20px, 2.6vh, 30px);
+  max-width: 28ch;
+  padding-block: clamp(9px, 1.4vh, 16px);
   border-top: 1px solid rgba(26, 23, 20, 0.14);
   opacity: 1;
 }
@@ -232,12 +232,12 @@ const CSS = `
 
 .tw-item-heading {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(30px, 3.4vw, 46px);
+  font-size: clamp(23px, 2.5vw, 34px);
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1.1;
   color: #1a1714;
-  margin: 0 0 10px;
+  margin: 0 0 7px;
   position: relative;
   transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -246,23 +246,23 @@ const CSS = `
   content: "";
   position: absolute;
   top: 50%;
-  width: clamp(22px, 3.4vw, 52px);
+  width: clamp(16px, 2.2vw, 30px);
   height: 3px;
   border-radius: 2px;
   background: var(--theme-accent-strong, #d4aa18);
   transform: translateY(-50%);
   transition: width 240ms cubic-bezier(.22, 1, .36, 1);
 }
-.tw-col--platform .tw-item-heading::after { right: calc(100% + 16px); }
-.tw-col--bookworld .tw-item-heading::after { left: calc(100% + 16px); }
-.tw-col--platform .tw-item:hover .tw-item-heading { transform: translateX(-6px); }
-.tw-col--bookworld .tw-item:hover .tw-item-heading { transform: translateX(6px); }
-.tw-item:hover .tw-item-heading::after { width: clamp(34px, 5vw, 76px); }
+.tw-col--platform .tw-item-heading::after { left: calc(100% + 14px); }
+.tw-col--bookworld .tw-item-heading::after { right: calc(100% + 14px); }
+.tw-col--platform .tw-item:hover .tw-item-heading { transform: translateX(6px); }
+.tw-col--bookworld .tw-item:hover .tw-item-heading { transform: translateX(-6px); }
+.tw-item:hover .tw-item-heading::after { width: clamp(26px, 3.4vw, 44px); }
 
 .tw-item-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(17px, 1.7vw, 21px);
-  line-height: 1.55;
+  font-size: clamp(14px, 1.4vw, 16.5px);
+  line-height: 1.45;
   color: rgba(26, 23, 20, 0.62);
   margin: 0;
   text-wrap: pretty;
@@ -274,8 +274,8 @@ const CSS = `
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 50%) scale(0.5);
-  width: clamp(72px, 8vw, 96px);
-  height: clamp(72px, 8vw, 96px);
+  width: clamp(50px, 5.4vw, 66px);
+  height: clamp(50px, 5.4vw, 66px);
   z-index: 2;
   opacity: 0;
   display: grid;
@@ -308,7 +308,7 @@ const CSS = `
 /* ── Meeting line + CTAs ── */
 .tw-meet {
   text-align: center;
-  margin-top: clamp(48px, 7vh, 72px);
+  margin-top: clamp(26px, 3.8vh, 44px);
   opacity: 1;
 }
 .tw-meet-line {
@@ -735,7 +735,9 @@ export default function TwoWorlds() {
               </header>
 
               <div className="tw-body">
-                {/* Converging lines, drawn behind the text as a slim central wedge.
+                {/* Converging lines in the center band (34%–66% at top → 50% at
+                    bottom). The 36% center grid column keeps the text columns out
+                    to 32%/68%, so the strong angle never crosses the text.
                     preserveAspectRatio="none" lets the lines re-angle to fit any
                     width — they meet at the node anchored at (50, 100). */}
                 <svg
@@ -747,8 +749,8 @@ export default function TwoWorlds() {
                 >
                   <line
                     className="tw-line"
-                    x1="47"
-                    y1="4"
+                    x1="34"
+                    y1="3"
                     x2="50"
                     y2="100"
                     pathLength={1}
@@ -756,8 +758,8 @@ export default function TwoWorlds() {
                   />
                   <line
                     className="tw-line"
-                    x1="53"
-                    y1="4"
+                    x1="66"
+                    y1="3"
                     x2="50"
                     y2="100"
                     pathLength={1}
