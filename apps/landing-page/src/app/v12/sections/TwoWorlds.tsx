@@ -222,6 +222,9 @@ const CSS = `
 
 /* ── Items ── */
 .tw-item {
+  /* --tw-step drives the inward offset; --tw-x (set inline per index) angles
+     each block toward the spine so the column echoes the converging lines. */
+  --tw-step: clamp(10px, 2vw, 30px);
   max-width: 28ch;
   padding-block: clamp(9px, 1.4vh, 16px);
   border-top: 1px solid rgba(26, 23, 20, 0.14);
@@ -469,19 +472,28 @@ const CSS = `
 
 /* ── Entrance choreography (overview only) ── */
 .tw-col-label,
-.tw-slide--overview .tw-item,
 .tw-meet {
   opacity: 0;
   transform: translateY(16px);
 }
+.tw-slide--overview .tw-item {
+  opacity: 0;
+  transform: translate(var(--tw-x, 0px), 16px);
+}
 .tw-root.is-visible .tw-col-label,
-.tw-root.is-visible .tw-slide--overview .tw-item,
 .tw-root.is-visible .tw-meet {
   animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
   animation-delay: var(--tw-delay, 0ms);
 }
+.tw-root.is-visible .tw-slide--overview .tw-item {
+  animation: tw-rise-item 560ms cubic-bezier(.22, 1, .36, 1) forwards;
+  animation-delay: var(--tw-delay, 0ms);
+}
 @keyframes tw-rise {
   to { opacity: 1; transform: translateY(0); }
+}
+@keyframes tw-rise-item {
+  to { opacity: 1; transform: translate(var(--tw-x, 0px), 0); }
 }
 
 /* ── Responsive ── */
@@ -497,7 +509,7 @@ const CSS = `
     align-items: stretch;
   }
   .tw-col--platform .tw-col-trigger { align-items: flex-start; text-align: left; }
-  .tw-item { max-width: none; }
+  .tw-item { max-width: none; --tw-step: 0px; }
   .tw-col--platform .tw-item-heading::after,
   .tw-col--bookworld .tw-item-heading::after { display: none; }
   .tw-connector { display: none; }
@@ -526,6 +538,7 @@ const CSS = `
     animation: none !important;
   }
   .tw-node { transform: translate(-50%, 50%) !important; }
+  .tw-slide--overview .tw-item { transform: translate(var(--tw-x, 0px), 0) !important; }
   .tw-connector .tw-line { stroke-dashoffset: 0 !important; animation: none !important; }
 }
 @media (prefers-reduced-motion: reduce) and (max-width: 860px) {
@@ -549,6 +562,7 @@ function Column({
   triggerRef: (el: HTMLButtonElement | null) => void;
 }) {
   const isBookWorld = side === 'bookworld';
+  const dir = isBookWorld ? -1 : 1;
   return (
     <div className={`tw-col tw-col--${side}`}>
       <button
@@ -573,7 +587,10 @@ function Column({
         <div
           className="tw-item"
           key={item.heading}
-          style={{ ['--tw-delay' as string]: `${baseDelay + 90 + i * 90}ms` }}
+          style={{
+            ['--tw-delay' as string]: `${baseDelay + 90 + i * 90}ms`,
+            ['--tw-x' as string]: `calc(${i} * var(--tw-step) * ${dir})`,
+          }}
         >
           <h3 className="tw-item-heading">{item.heading}</h3>
           <p className="tw-item-body">{item.body}</p>
