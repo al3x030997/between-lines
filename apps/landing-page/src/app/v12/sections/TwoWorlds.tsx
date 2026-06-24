@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-type Item = { heading: string; body: string; detail: string };
+type Item = { heading: string; body: string };
 type Side = 'platform' | 'bookworld';
 type View = 'platform' | 'overview' | 'bookworld';
 
@@ -11,20 +11,14 @@ const PLATFORM_ITEMS: Item[] = [
   {
     heading: 'Original Voices',
     body: "Stories published on BetweenReads first. Emerging writers, poets, and illustrators the world hasn't found yet.",
-    detail:
-      'A home for first publication. We give emerging writers, poets, and illustrators a real audience before the rest of the world catches on — with the editorial care and presentation their work deserves.',
   },
   {
     heading: 'BetweenLines Journal',
     body: 'Our literary journal. Paid critics write considered takes — full reviews, capsules, and themed reading lists.',
-    detail:
-      'Our in-house literary journal pays working critics to write considered takes — full reviews, quick capsules, and themed reading lists that point you toward what is actually worth your evening.',
   },
   {
     heading: 'Beta Reading',
     body: 'Real feedback before you publish. Early Discoverer credit for the readers who spot what breaks out.',
-    detail:
-      'Trade real feedback before you publish. Readers who spot what breaks out earn early Discoverer credit, so the people with taste are rewarded for finding the next thing first.',
   },
 ];
 
@@ -32,35 +26,33 @@ const BOOK_WORLD_ITEMS: Item[] = [
   {
     heading: 'Honest Reviews',
     body: 'Real readers, real voice — written the way a good reader actually talks, not crowdsourced star-bombing.',
-    detail:
-      'Reviews written the way a good reader actually talks — real voice, real stakes, no crowdsourced star-bombing. Opinions you can argue with, from people who finished the book.',
   },
   {
     heading: 'Bookseller Picks',
     body: 'Independent bookstores curate what to read next. Human taste, not an algorithm — a different shelf every week.',
-    detail:
-      'Independent bookstores curate what to read next. Human taste instead of an algorithm — a different shelf every week, shaped by the people who have spent their lives recommending books.',
   },
   {
     heading: 'The Storefront',
     body: 'Buy from local shops. Better royalty terms for authors than the big platforms, on every purchase.',
-    detail:
-      'Buy from local shops directly through BetweenReads. Authors get better royalty terms than the big platforms on every purchase, and the money stays closer to the people who make books.',
   },
 ];
 
-const SIDE_COPY: Record<Side, { eyebrow: string; title: string; intro: string }> = {
+const SIDE_COPY: Record<Side, { label: string; title: string; paragraphs: string[] }> = {
   platform: {
-    eyebrow: 'The Platform',
+    label: 'The Platform',
     title: 'Where the work begins.',
-    intro:
+    paragraphs: [
       'The publishing side of BetweenReads — where writers find their first readers, critics do considered work, and the people with taste get credit for finding it early.',
+      'Placeholder copy for the platform deep-dive. Drop the real story here later; for now this is filler text so the layout and the slide-in transition can be judged on their own.',
+    ],
   },
   bookworld: {
-    eyebrow: 'The Book World',
+    label: 'The Book World',
     title: 'Where readers decide.',
-    intro:
+    paragraphs: [
       'The reading side of BetweenReads — honest reviews, human curation, and a storefront that sends more of every sale back to authors and the shops that champion them.',
+      'Placeholder copy for the book-world deep-dive. Swap in the real story when it is ready; this filler is here only to flesh out the page while the design settles.',
+    ],
   },
 };
 
@@ -69,7 +61,7 @@ const CSS = `
 .tw-root {
   background: var(--theme-page, #ffffff);
   color: #1a1714;
-  padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
+  padding: 0;
   font-family: 'Outfit', system-ui, sans-serif;
   overflow: hidden;
 }
@@ -93,6 +85,15 @@ const CSS = `
 .tw-slide {
   flex: 0 0 33.3333%;
   width: 33.3333%;
+  box-sizing: border-box;
+  /* Padding lives on the slide (not the root) so a panel's background is full-bleed. */
+  padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
+  background: var(--theme-page, #ffffff);
+}
+/* The platform deep-dive slides in as a full yellow page. */
+.tw-slide--platform {
+  background: var(--theme-yellow, #FFE600);
+  color: var(--theme-on-yellow, #0e0e0c);
 }
 .tw-inner {
   max-width: 1180px;
@@ -413,62 +414,26 @@ const CSS = `
 .tw-back-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
 .tw-back:hover .tw-back-arrow { transform: translateX(-3px); }
 
-.tw-detail-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  font-size: clamp(14px, 1.4vw, 16px);
-  font-weight: 800;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--theme-accent-strong, #b8920f);
-  margin: 0 0 clamp(16px, 2vh, 22px);
-}
 .tw-detail-title {
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(40px, 5.6vw, 72px);
+  font-size: clamp(48px, 7.6vw, 108px);
   font-weight: 900;
-  line-height: 1.04;
-  letter-spacing: -0.03em;
+  line-height: 1.0;
+  letter-spacing: -0.035em;
   color: #1a1714;
-  margin: 0 0 clamp(18px, 2.4vh, 28px);
+  margin: 0 0 clamp(24px, 3.4vh, 44px);
   text-wrap: balance;
 }
-.tw-detail-intro {
+.tw-detail-text {
   font-family: 'Outfit', system-ui, sans-serif;
   font-size: clamp(18px, 1.9vw, 24px);
-  line-height: 1.5;
-  color: rgba(26, 23, 20, 0.66);
-  max-width: 60ch;
-  margin: 0 0 clamp(44px, 6vh, 72px);
+  line-height: 1.55;
+  color: rgba(26, 23, 20, 0.7);
+  max-width: 62ch;
+  margin: 0 0 clamp(18px, 2.4vh, 28px);
   text-wrap: pretty;
 }
-.tw-detail-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: clamp(28px, 3.6vw, 56px);
-}
-.tw-detail-item {
-  border-top: 2px solid #1a1714;
-  padding-top: clamp(16px, 2vh, 22px);
-}
-.tw-detail-item-heading {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(24px, 2.6vw, 34px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.12;
-  color: #1a1714;
-  margin: 0 0 12px;
-}
-.tw-detail-item-body {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(16px, 1.55vw, 19px);
-  line-height: 1.6;
-  color: rgba(26, 23, 20, 0.64);
-  margin: 0;
-  text-wrap: pretty;
-}
+.tw-detail-text:last-child { margin-bottom: 0; }
 
 /* ── Entrance choreography (overview only) ── */
 .tw-col-label,
@@ -602,37 +567,36 @@ function Column({
 
 function DetailPanel({
   side,
-  items,
   onBack,
   backRef,
   slideRef,
 }: {
   side: Side;
-  items: Item[];
   onBack: () => void;
   backRef: (el: HTMLButtonElement | null) => void;
   slideRef: (el: HTMLDivElement | null) => void;
 }) {
   const copy = SIDE_COPY[side];
   return (
-    <div className="tw-slide" id={`tw-panel-${side}`} ref={slideRef} role="group" aria-label={copy.eyebrow}>
+    <div
+      className={`tw-slide tw-slide--${side}`}
+      id={`tw-panel-${side}`}
+      ref={slideRef}
+      role="group"
+      aria-label={copy.label}
+    >
       <div className="tw-detail">
         <div className="tw-detail-inner">
           <button type="button" className="tw-back" ref={backRef} onClick={onBack}>
             <span className="tw-back-arrow" aria-hidden="true">←</span>
             Back
           </button>
-          <p className="tw-detail-eyebrow">{copy.eyebrow}</p>
           <h2 className="tw-detail-title">{copy.title}</h2>
-          <p className="tw-detail-intro">{copy.intro}</p>
-          <div className="tw-detail-grid">
-            {items.map((item) => (
-              <div className="tw-detail-item" key={item.heading}>
-                <h3 className="tw-detail-item-heading">{item.heading}</h3>
-                <p className="tw-detail-item-body">{item.detail}</p>
-              </div>
-            ))}
-          </div>
+          {copy.paragraphs.map((text, i) => (
+            <p className="tw-detail-text" key={i}>
+              {text}
+            </p>
+          ))}
         </div>
       </div>
     </div>
@@ -732,7 +696,6 @@ export default function TwoWorlds() {
         <div className="tw-track" data-view={view}>
           <DetailPanel
             side="platform"
-            items={PLATFORM_ITEMS}
             onBack={() => setView('overview')}
             backRef={(el) => (backRefs.current.platform = el)}
             slideRef={(el) => (slideRefs.current.platform = el)}
@@ -826,7 +789,6 @@ export default function TwoWorlds() {
 
           <DetailPanel
             side="bookworld"
-            items={BOOK_WORLD_ITEMS}
             onBack={() => setView('overview')}
             backRef={(el) => (backRefs.current.bookworld = el)}
             slideRef={(el) => (slideRefs.current.bookworld = el)}
