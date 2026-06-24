@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { SiteNav } from '@/components/SiteNav';
-import Footer from '../v8/sections/Footer';
+import Footer from '../../v8/sections/Footer';
 
 export const metadata: Metadata = {
   title: 'Create — BetweenReads',

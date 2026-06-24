@@ -19,6 +19,10 @@ export const READER_PATH_PREFIXES = [
   '/writer',
   '/store',
   '/library',
+  // Logged-out playgrounds — the real Discover / Studio reused as public,
+  // sign-up-nudged guest routes (see SessionGate PUBLIC_EXACT).
+  '/read',
+  '/write',
 ];
 
 export function isReaderPath(path: string): boolean {
@@ -96,6 +100,26 @@ export function applyGalleryGuestSkin(on: boolean): void {
     root.style.colorScheme = 'light';
   } else {
     delete root.dataset.galleryGuest;
+  }
+}
+
+/**
+ * Light, landing-matching skin for the logged-out /read and /write playgrounds.
+ * These reuse the real Discover / Studio screens, but a guest should meet them
+ * in the bright paper/ink/yellow landing aesthetic (not the dark reader theme)
+ * and with sign-up affordances visible. Toggled via `html[data-guest-play='on']`
+ * so the override stays isolated from `data-theme`/`data-kids`/`data-gallery-guest`.
+ * Mounted only on the guest playgrounds and cleared on unmount.
+ */
+export function applyGuestPlaygroundSkin(on: boolean): void {
+  if (typeof document === 'undefined') return;
+  const root = document.documentElement;
+  if (on) {
+    root.dataset.guestPlay = 'on';
+    root.dataset.theme = 'light';
+    root.style.colorScheme = 'light';
+  } else {
+    delete root.dataset.guestPlay;
   }
 }
 

@@ -27,6 +27,13 @@ import {
 } from './WriterStubs';
 import { WriterSearch } from './WriterSearch';
 import { AnalyticsDashboard } from './AnalyticsDashboard';
+import { GuestNudgeProvider, useGuestNudge } from '@/components/SignupNudge';
+
+// The author whose studio a logged-out guest browses (demo data) so the writing
+// room feels populated. Members use their own handle.
+const DEMO_WRITER_HANDLE = 'midnightdraftsman';
+// The single work a guest may open in full (matches the reader sample).
+const SAMPLE_SLUG = 'small-fires-soft-rain';
 
 type TopTab =
   | 'library'
@@ -63,20 +70,27 @@ function isTopTab(value: string | null): value is TopTab {
   );
 }
 
-export function WriteShell() {
+function WriteShellInner({ guest }: { guest: boolean }) {
   const { session, ready } = useMockSession();
+  const { requestSignup } = useGuestNudge();
   const params = useSearchParams();
   const router = useRouter();
 
+  // Guests browse a real author's studio (demo data); members use their own.
+  const dataHandle = guest ? DEMO_WRITER_HANDLE : session?.handle;
+  // Guest tab/editor navigation must stay on the public /write route — pushing
+  // to the gated /studio would bounce a logged-out visitor back to home.
+  const studioBase = guest ? '/write' : '/studio';
+
   const works: WorkSummary[] = useMemo(() => {
-    if (!session) return [];
-    return getWriterWorks(session.handle);
-  }, [session]);
+    if (!dataHandle) return [];
+    return getWriterWorks(dataHandle);
+  }, [dataHandle]);
 
   const libraryWorks: WriterLibraryWork[] = useMemo(() => {
-    if (!session) return [];
-    return getWriterLibraryWorks(session.handle);
-  }, [session]);
+    if (!dataHandle) return [];
+    return getWriterLibraryWorks(dataHandle);
+  }, [dataHandle]);
 
   const [workId, setWorkId] = useState<string>('');
   useEffect(() => {
@@ -125,6 +139,10 @@ export function WriteShell() {
   const [writerQuery, setWriterQuery] = useState('');
 
   const addWork = () => {
+    if (guest) {
+      requestSignup('publish');
+      return;
+    }
     setDrafts((current) => [...current, makeDraftWork(current.length + 1)]);
   };
 
@@ -152,14 +170,14 @@ export function WriteShell() {
     setTopTab(id);
     setWorkMenuOpen(false);
     if (id === 'library') {
-      router.push('/studio');
+      router.push(studioBase);
     } else if (id === 'write') {
       const next = new URLSearchParams();
       next.set('view', 'editor');
       if (workId) next.set('work', workId);
-      router.push(`/studio?${next.toString()}`);
+      router.push(`${studioBase}?${next.toString()}`);
     } else {
-      router.push(`/studio?tab=${id}`);
+      router.push(`${studioBase}?tab=${id}`);
     }
   };
 
@@ -173,11 +191,15 @@ export function WriteShell() {
     next.set('view', 'editor');
     next.set('work', id);
     if (nextSubTab !== 'write') next.set('tab', nextSubTab);
-    router.push(`/studio?${next.toString()}`);
+    router.push(`${studioBase}?${next.toString()}`);
   };
 
   const previewWork = (work: WriterLibraryWork) => {
     if (work.bookSlug) {
+      if (guest && work.bookSlug !== SAMPLE_SLUG) {
+        requestSignup('open-book');
+        return;
+      }
       router.push(`/read/${work.bookSlug}`);
       return;
     }
@@ -218,7 +240,7 @@ export function WriteShell() {
     );
   }
 
-  if (!session?.roles.includes('writer')) {
+  if (!guest && !session?.roles.includes('writer')) {
     return (
       <main className="br-pf-page">
         <section className="br-pf-section" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
@@ -341,8 +363,8 @@ export function WriteShell() {
         </div>
       </div>
       <div className="br-write-stage">
-        {topTab === 'library' && accountMaturity(session.handle) === 'mvp' ? (
-          <BuildingBanner handle={session.handle} />
+        {topTab === 'library' && dataHandle && accountMaturity(dataHandle) === 'mvp' ? (
+          <BuildingBanner handle={dataHandle} />
         ) : null}
         {topTab === 'library' ? (
           <WriterLibrary
@@ -366,5 +388,19 @@ export function WriteShell() {
         {topTab === 'community' ? <CommunityStub /> : null}
       </div>
     </div>
+  );
+}
+
+/**
+ * The writer Studio, shared between the member route (/studio, guest=false) and
+ * the logged-out playground (/write, guest=true). In guest mode it shows a demo
+ * author's populated studio wrapped in the sign-up nudge layer; high-intent
+ * actions (add work, open a non-sample title) nudge instead of committing.
+ */
+export function WriteShell({ guest = false }: { guest?: boolean } = {}) {
+  return (
+    <GuestNudgeProvider mode="writer" enabled={guest}>
+      <WriteShellInner guest={guest} />
+    </GuestNudgeProvider>
   );
 }

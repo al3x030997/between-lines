@@ -11960,3 +11960,394 @@ html[data-theme='light'] .br-write-page .br-write-analytics-spark-bar {
 html[data-theme='light'] .br-write-page .br-write-analytics-row-bar {
   background: rgba(10, 10, 10, 0.08);
 }
+
+/* =========================================================================
+   Logged-out playground: guest chrome, sign-up nudges, and the interactive
+   "build your reader page" starter card. Reader surfaces lean on the brand
+   yellow (--theme-accent); writer surfaces on the purple (--br-writer). The
+   guest playgrounds force the light landing skin (html[data-guest-play='on']).
+   ========================================================================= */
+
+/* --- Nav: guest sign-in / sign-up cluster ------------------------------- */
+.br-nav-signin {
+  font: 600 0.85rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text);
+  text-decoration: none;
+  padding: 0.55rem 0.7rem;
+  border-radius: 999px;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+.br-nav-signin:hover {
+  background: var(--theme-surface-subtle);
+}
+.br-nav-signup {
+  font: 700 0.85rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-accent-contrast);
+  background: var(--theme-accent);
+  text-decoration: none;
+  padding: 0.6rem 0.95rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 6px 16px -10px rgba(212, 170, 24, 0.7);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+.br-nav-signup:hover {
+  background: var(--theme-accent-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 10px 22px -10px rgba(212, 170, 24, 0.8);
+}
+
+/* --- Per-mode accent for the nudge surfaces ----------------------------- */
+.br-nudge-reader {
+  --nudge-accent: var(--theme-accent);
+  --nudge-accent-strong: var(--theme-accent-strong);
+  --nudge-on-accent: var(--theme-accent-contrast);
+  --nudge-soft: var(--theme-accent-soft);
+}
+.br-nudge-writer {
+  --nudge-accent: var(--br-writer);
+  --nudge-accent-strong: var(--br-writer-strong);
+  --nudge-on-accent: #ffffff;
+  --nudge-soft: var(--br-writer-soft);
+}
+
+/* --- Persistent guest bar ----------------------------------------------- */
+.br-guestbar {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(14px, 3vh, 28px);
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: calc(100vw - 24px);
+  padding: 0.6rem 0.7rem 0.6rem 1.05rem;
+  border-radius: 999px;
+  background: var(--theme-paper-bg);
+  border: 1px solid var(--theme-border);
+  box-shadow: 0 18px 40px -18px rgba(20, 16, 8, 0.45), 0 2px 0 rgba(255, 255, 255, 0.5) inset;
+  animation: br-guestbar-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes br-guestbar-rise {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+.br-guestbar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--nudge-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--nudge-accent) 28%, transparent);
+  flex: none;
+}
+.br-guestbar-lead {
+  font: 500 0.9rem/1.2 'Outfit', system-ui, sans-serif;
+  color: var(--theme-paper-ink);
+  white-space: nowrap;
+}
+.br-guestbar-cta {
+  font: 700 0.85rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--nudge-on-accent);
+  background: var(--nudge-accent);
+  text-decoration: none;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.br-guestbar-cta:hover {
+  background: var(--nudge-accent-strong);
+  transform: translateY(-1px);
+}
+@media (max-width: 560px) {
+  .br-guestbar-lead { display: none; }
+}
+
+/* --- Nudge modal -------------------------------------------------------- */
+.br-nudge-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(20, 16, 8, 0.42);
+  backdrop-filter: blur(6px);
+  animation: br-nudge-fade 0.2s ease both;
+}
+@keyframes br-nudge-fade { from { opacity: 0; } to { opacity: 1; } }
+.br-nudge-card {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  border-radius: 20px;
+  padding: 2rem 1.75rem 1.6rem;
+  text-align: center;
+  box-shadow: 0 40px 90px -30px rgba(20, 16, 8, 0.55);
+  animation: br-nudge-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes br-nudge-pop {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.br-nudge-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.8rem;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--theme-text-faint);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.br-nudge-close:hover { color: var(--theme-text); }
+.br-nudge-mark {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 1rem;
+  border-radius: 14px;
+  color: var(--nudge-accent-strong);
+  background: var(--nudge-soft);
+}
+.br-nudge-mark svg { width: 26px; height: 26px; }
+.br-nudge-title {
+  font: 600 1.4rem/1.15 var(--br-font-serif, 'Playfair Display', serif);
+  color: var(--theme-text-strong);
+  margin: 0 0 0.5rem;
+}
+.br-nudge-body {
+  font: 400 0.95rem/1.5 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-muted);
+  margin: 0 auto 1.4rem;
+  max-width: 32ch;
+}
+.br-nudge-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.br-nudge-cta {
+  font: 700 0.95rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--nudge-on-accent);
+  background: var(--nudge-accent);
+  text-decoration: none;
+  padding: 0.85rem 1.2rem;
+  border-radius: 12px;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.br-nudge-cta:hover { background: var(--nudge-accent-strong); transform: translateY(-1px); }
+.br-nudge-keep {
+  font: 500 0.9rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-muted);
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.br-nudge-keep:hover { color: var(--theme-text); }
+.br-nudge-foot {
+  margin: 1rem 0 0;
+  font: 400 0.82rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-faint);
+}
+.br-nudge-link { color: var(--nudge-accent-strong); font-weight: 600; }
+
+/* --- Poster "join to open" lock badge (guest rails) --------------------- */
+.br-discover.is-guest .br-gallery-poster-cover { position: relative; }
+.br-gallery-poster-lock {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  font: 700 0.62rem/1 'Outfit', system-ui, sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--theme-paper-ink);
+  background: color-mix(in srgb, var(--theme-accent) 90%, white);
+  padding: 0.32rem 0.5rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px -2px rgba(20, 16, 8, 0.5);
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+.br-gallery-poster:hover .br-gallery-poster-lock,
+.br-gallery-poster:focus-visible .br-gallery-poster-lock {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* --- Guest reader starter card (in the sidebar header slot) ------------- */
+.br-grs {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 16px;
+  background: linear-gradient(
+    165deg,
+    var(--theme-accent-soft) 0%,
+    var(--theme-surface) 70%
+  );
+  border: 1px solid var(--theme-border-subtle);
+  box-shadow: 0 10px 30px -22px rgba(20, 16, 8, 0.5);
+}
+.br-grs-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.85rem;
+}
+.br-grs-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: none;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  color: var(--theme-accent-contrast);
+  background: var(--theme-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--theme-accent) 26%, transparent);
+}
+.br-grs-eyebrow {
+  display: block;
+  font: 700 0.62rem/1 'Outfit', system-ui, sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--theme-accent-strong);
+  margin-bottom: 0.2rem;
+}
+.br-grs-title {
+  font: 600 0.98rem/1.2 var(--br-font-serif, 'Playfair Display', serif);
+  color: var(--theme-text-strong);
+  margin: 0;
+}
+.br-grs-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-text) 10%, transparent);
+  overflow: hidden;
+}
+.br-grs-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--theme-accent), var(--theme-accent-strong));
+  border-radius: inherit;
+  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.br-grs-progress-label {
+  margin: 0.3rem 0 0.9rem;
+  font: 600 0.72rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-muted);
+}
+.br-grs-field { margin-bottom: 0.9rem; }
+.br-grs-label {
+  display: block;
+  font: 700 0.66rem/1 'Outfit', system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-text-muted);
+  margin-bottom: 0.5rem;
+}
+.br-grs-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.br-grs-chip {
+  font: 500 0.78rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-soft);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  padding: 0.4rem 0.65rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+.br-grs-chip:hover { border-color: var(--theme-accent-strong); }
+.br-grs-chip.is-on {
+  color: var(--theme-accent-contrast);
+  background: var(--theme-accent);
+  border-color: var(--theme-accent);
+  font-weight: 700;
+}
+.br-grs-now {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border-subtle);
+}
+.br-grs-now-title {
+  font: 600 0.85rem/1.2 var(--br-font-serif, 'Playfair Display', serif);
+  color: var(--theme-text-strong);
+}
+.br-grs-now-author {
+  font: 400 0.76rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-muted);
+}
+.br-grs-ghost {
+  margin: 0;
+  font: italic 400 0.8rem/1.3 var(--br-font-serif, 'Playfair Display', serif);
+  color: var(--theme-text-faint);
+  padding: 0.55rem 0.7rem;
+  border-radius: 10px;
+  border: 1px dashed var(--theme-border);
+}
+.br-grs-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.br-grs-line {
+  text-align: left;
+  font: italic 400 0.8rem/1.3 var(--br-font-serif, 'Playfair Display', serif);
+  color: var(--theme-text-soft);
+  background: var(--theme-surface);
+  border: 1px solid var(--theme-border);
+  padding: 0.45rem 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+.br-grs-line:hover { border-color: var(--theme-accent-strong); }
+.br-grs-line.is-on {
+  border-color: var(--theme-accent);
+  background: var(--theme-accent-soft);
+  color: var(--theme-text-strong);
+}
+.br-grs-cta {
+  display: block;
+  text-align: center;
+  margin-top: 0.4rem;
+  font: 700 0.88rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-accent-contrast);
+  background: var(--theme-accent);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+.br-grs-cta:hover { background: var(--theme-accent-strong); transform: translateY(-1px); }
+.br-grs-aspire {
+  display: block;
+  width: 100%;
+  margin-top: 0.5rem;
+  font: 600 0.8rem/1 'Outfit', system-ui, sans-serif;
+  color: var(--theme-text-muted);
+  background: none;
+  border: none;
+  padding: 0.4rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.br-grs-aspire:hover { color: var(--theme-text); }
+
+/* Give the rails room so the fixed guest bar never covers the last shelf. */
+.br-discover.is-guest .br-discover-main { padding-bottom: 96px; }

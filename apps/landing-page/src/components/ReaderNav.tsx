@@ -18,13 +18,24 @@ const links: NavLink[] = [
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
+// Logged-out playground nav: point at the public /read and /write routes (the
+// member targets /library and /studio are gated and would bounce a guest home).
+const guestLinks: NavLink[] = [
+  { href: '/read', label: 'Read' },
+  { href: '/write', label: 'Write' },
+  { href: '/read?tab=betareading', label: 'Beta Reading' },
+  { href: '/read?tab=community', label: 'Community' },
+];
+
 export function ReaderNav() {
   const router = useRouter();
   const pathname = usePathname() ?? '';
   const [currentTarget, setCurrentTarget] = useState(pathname);
-  const { session } = useMockSession();
+  const { session, ready } = useMockSession();
   const isWriter = session?.roles?.includes('writer') ?? false;
   const isKid = session?.isKid ?? false;
+  const isGuest = ready && !session;
+  const navLinks = isGuest ? guestLinks : links;
 
   useEffect(() => {
     setCurrentTarget(`${pathname}${window.location.search}`);
@@ -46,7 +57,7 @@ export function ReaderNav() {
       </button>
 
       <div className="br-nav-links">
-        {links.map((l) => {
+        {navLinks.map((l) => {
           if (l.requiresWriter && !isWriter) return null;
           if (l.hideForKids && isKid) return null;
           const hrefWithoutHash = l.href.split('#')[0] ?? l.href;
@@ -77,9 +88,22 @@ export function ReaderNav() {
       </div>
 
       <div className="br-nav-right">
-        {!isKid && <ThemeToggle className="br-nav-theme" />}
-        <AccountSwitcher />
-        <AvatarMenu />
+        {isGuest ? (
+          <>
+            <Link href="/start?mode=reader" className="br-nav-signin">
+              Sign in
+            </Link>
+            <Link href="/start?mode=reader" className="br-nav-signup">
+              Sign up free
+            </Link>
+          </>
+        ) : (
+          <>
+            {!isKid && <ThemeToggle className="br-nav-theme" />}
+            <AccountSwitcher />
+            <AvatarMenu />
+          </>
+        )}
       </div>
     </nav>
   );
