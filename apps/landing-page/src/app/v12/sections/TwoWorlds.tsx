@@ -387,6 +387,13 @@ const CSS = `
   max-width: 1000px;
   margin: 0 auto;
 }
+/* Back sits on the edge that faces the main page: platform→right, bookworld→left. */
+.tw-detail-bar {
+  display: flex;
+  margin-bottom: clamp(22px, 3.4vh, 44px);
+}
+.tw-slide--platform .tw-detail-bar { justify-content: flex-end; }
+.tw-slide--bookworld .tw-detail-bar { justify-content: flex-start; }
 .tw-back {
   appearance: none;
   -webkit-appearance: none;
@@ -404,15 +411,18 @@ const CSS = `
   text-transform: uppercase;
   color: #1a1714;
   cursor: pointer;
-  margin-bottom: clamp(28px, 4vh, 48px);
+  margin: 0;
   transition: transform 220ms cubic-bezier(.22, 1, .36, 1),
               border-color 220ms cubic-bezier(.22, 1, .36, 1),
               background-color 220ms cubic-bezier(.22, 1, .36, 1);
 }
-.tw-back:hover { transform: translateX(-3px); border-color: #1a1714; background: rgba(26, 23, 20, 0.04); }
+.tw-back:hover { border-color: #1a1714; background: rgba(26, 23, 20, 0.04); }
+.tw-slide--platform .tw-back:hover { transform: translateX(3px); }
+.tw-slide--bookworld .tw-back:hover { transform: translateX(-3px); }
 .tw-back:focus-visible { outline: 2px solid var(--theme-accent-strong, #d4aa18); outline-offset: 3px; }
 .tw-back-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
-.tw-back:hover .tw-back-arrow { transform: translateX(-3px); }
+.tw-slide--platform .tw-back:hover .tw-back-arrow { transform: translateX(3px); }
+.tw-slide--bookworld .tw-back:hover .tw-back-arrow { transform: translateX(-3px); }
 
 .tw-detail-title {
   font-family: 'Playfair Display', Georgia, serif;
@@ -586,11 +596,18 @@ function DetailPanel({
       aria-label={copy.label}
     >
       <div className="tw-detail">
-        <div className="tw-detail-inner">
+        <div className="tw-detail-bar">
           <button type="button" className="tw-back" ref={backRef} onClick={onBack}>
-            <span className="tw-back-arrow" aria-hidden="true">←</span>
+            {side === 'bookworld' && (
+              <span className="tw-back-arrow" aria-hidden="true">←</span>
+            )}
             Back
+            {side === 'platform' && (
+              <span className="tw-back-arrow" aria-hidden="true">→</span>
+            )}
           </button>
+        </div>
+        <div className="tw-detail-inner">
           <h2 className="tw-detail-title">{copy.title}</h2>
           {copy.paragraphs.map((text, i) => (
             <p className="tw-detail-text" key={i}>
@@ -641,6 +658,16 @@ export default function TwoWorlds() {
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  // While a detail page is open, freeze page scroll — Back is the only way out.
+  useEffect(() => {
+    if (typeof document === 'undefined' || view === 'overview') return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [view]);
 
   // Sync viewport height + inert/aria-hidden to the active slide.
   useLayoutEffect(() => {

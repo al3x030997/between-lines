@@ -19,9 +19,10 @@ export const READER_PATH_PREFIXES = [
   '/writer',
   '/store',
   '/library',
-  // Logged-out playgrounds — the real Discover / Studio reused as public,
-  // sign-up-nudged guest routes (see SessionGate PUBLIC_EXACT).
-  '/read',
+  // Logged-out writer playground — the real Studio reused as a public,
+  // sign-up-nudged guest route (see SessionGate PUBLIC_EXACT). The logged-out
+  // /read page is a standalone top-level reader-profile page, locked to light
+  // like the rest of the marketing site, so it's intentionally not listed here.
   '/write',
 ];
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type ComponentType, type ReactNode } from 'react';
+import { useEffect, useRef, type ComponentType } from 'react';
 import {
   IconGrid,
   IconSparkle,
@@ -188,9 +188,6 @@ type FilterSidebarProps = {
   mvp?: boolean;
   mvpSection?: SidebarMvpSection;
   onMvpSectionChange?: (id: SidebarMvpSection) => void;
-  /** Optional block pinned to the top of the open sidebar (e.g. the guest
-   * "start your reader page" card on the logged-out playground). */
-  headerSlot?: ReactNode;
 };
 
 export function FilterSidebar({
@@ -210,7 +207,6 @@ export function FilterSidebar({
   mvp = false,
   mvpSection = 'all',
   onMvpSectionChange,
-  headerSlot,
 }: FilterSidebarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
   // Set when the user clicks the rail's search icon: focus the input once the
@@ -401,7 +397,6 @@ export function FilterSidebar({
   return (
     <aside className="br-fsidebar is-open" aria-label="Filter books">
       <div className="br-fsidebar-inner">
-      {headerSlot}
       <div className="br-fs-head">
         <span className="br-fs-head-title">Browse</span>
         <div className="br-fs-head-actions">

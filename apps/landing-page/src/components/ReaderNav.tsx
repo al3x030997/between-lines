@@ -18,13 +18,12 @@ const links: NavLink[] = [
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
-// Logged-out playground nav: point at the public /read and /write routes (the
-// member targets /library and /studio are gated and would bounce a guest home).
+// Logged-out playground nav: point at the public /read (reader-profile page)
+// and /write (Studio playground) routes — the member targets /library and
+// /studio are gated and would bounce a guest home.
 const guestLinks: NavLink[] = [
   { href: '/read', label: 'Read' },
   { href: '/write', label: 'Write' },
-  { href: '/read?tab=betareading', label: 'Beta Reading' },
-  { href: '/read?tab=community', label: 'Community' },
 ];
 
 export function ReaderNav() {

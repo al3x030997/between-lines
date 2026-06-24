@@ -7,11 +7,12 @@ import { getMockSession } from '@/lib/mock-session';
 // Routes inside the (reader) group that are reachable without a session.
 // Prefix matches open a whole subtree; exact matches open just that one path.
 const PUBLIC_PREFIXES = ['/gallery'];
-// The logged-out playgrounds: the real Discover / Studio screens reused as
-// public, sign-up-nudged guest routes. Exact-match only — deeper reader routes
-// like /read/<book> stay gated (a guest gets a nudge instead), except the one
-// free sample chapter listed here.
-const PUBLIC_EXACT = ['/read', '/write', '/read/small-fires-soft-rain'];
+// The logged-out writer playground: the real Studio reused as a public,
+// sign-up-nudged guest route, plus the one book a guest may open as a sample.
+// (The logged-out /read page is a standalone reader-profile page outside the
+// (reader) group, so it isn't gated here at all.) Exact-match only — deeper
+// reader routes like /read/<book> otherwise stay gated.
+const PUBLIC_EXACT = ['/write', '/read/small-fires-soft-rain'];
 
 export function SessionGate({ children }: { children: ReactNode }) {
   const router = useRouter();
