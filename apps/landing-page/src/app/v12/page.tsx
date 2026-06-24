@@ -42,6 +42,34 @@ const V12_CSS = `
   color: var(--v12-ink);
   transition: background-color 220ms var(--v6-ease), color 220ms var(--v6-ease);
 }
+.v12-root .br-header,
+.v12-root .bl-banner {
+  transition:
+    transform 320ms cubic-bezier(.22, 1, .36, 1),
+    opacity 220ms ease;
+  will-change: transform, opacity;
+}
+.v12-root.is-world-slide-open .br-header,
+.v12-root.is-world-slide-open .bl-banner {
+  transform: translateY(-110%);
+  opacity: 0;
+  pointer-events: none;
+}
+.v12-section-shell {
+  position: relative;
+  scroll-margin-top: 76px;
+  --v12-cue-color: #1a1714;
+}
+.v12-section-shell--hero {
+  --v12-cue-color: var(--theme-hero-text);
+}
+.v12-section-shell--creators {
+  --v12-cue-color: #f6f1e3;
+}
+.v12-root.is-world-slide-open .v12-section-shell--two-worlds .v12-scroll-cue {
+  opacity: 0;
+  pointer-events: none;
+}
 
 /* === Hero (yellow, full screen) === */
 .v12-hero {
@@ -222,17 +250,18 @@ const V12_CSS = `
 /* Scroll affordance — gentle bouncing chevron at the hero base, clickable */
 .v12-scroll-cue {
   position: absolute;
-  bottom: clamp(14px, 2.4vh, 26px);
+  bottom: clamp(16px, 2.8vh, 32px);
   left: 50%;
   display: inline-flex;
   background: none;
   border: none;
-  padding: 10px;
+  padding: 12px;
   margin: 0;
-  color: var(--theme-hero-text);
+  color: var(--v12-cue-color);
   opacity: 0.5;
   cursor: pointer;
-  animation: v12-scroll-bounce 2.2s ease-in-out infinite;
+  z-index: 3;
+  animation: v12-scroll-bounce 5.8s cubic-bezier(.45, 0, .2, 1) infinite;
   transition: opacity 200ms ease;
 }
 .v12-scroll-cue:hover,
@@ -243,20 +272,24 @@ const V12_CSS = `
 .v12-scroll-cue svg { display: block; }
 .v12-scroll-cue-icon {
   display: block;
-  animation: v12-scroll-click 600ms cubic-bezier(.22, 1, .36, 1);
+  width: clamp(48px, 4.2vw, 58px);
+  height: clamp(48px, 4.2vw, 58px);
+}
+.v12-scroll-cue-icon.is-pulsing {
+  animation: v12-scroll-click 1000ms cubic-bezier(.22, 1, .36, 1);
 }
 @keyframes v12-scroll-bounce {
   0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%      { transform: translateX(-50%) translateY(6px); }
+  45%, 55% { transform: translateX(-50%) translateY(9px); }
 }
 @keyframes v12-scroll-click {
   0%   { transform: scale(1) translateY(0); }
-  40%  { transform: scale(1.4) translateY(10px); }
+  42%  { transform: scale(1.28) translateY(11px); }
   100% { transform: scale(1) translateY(0); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .v12-scroll-cue { animation: none; transform: translateX(-50%); }
-  .v12-scroll-cue-icon { animation: none; }
+  .v12-scroll-cue { animation: none !important; transform: translateX(-50%); }
+  .v12-scroll-cue-icon { animation: none !important; }
 }
 
 /* Banner reused */
@@ -299,6 +332,7 @@ const V12_CSS = `
 @media (max-width: 760px) {
   .v12-hero {
     min-height: calc(86svh - 76px);
+    padding-bottom: clamp(92px, 13vh, 120px);
   }
   .v12-hero h1 {
     font-size: clamp(48px, 14vw, 80px);
@@ -326,20 +360,58 @@ const V12_CSS = `
 
 type Region = 'author' | 'reader' | 'both';
 
+type ScrollCueProps = {
+  targetId: string;
+  label: string;
+};
+
+function ScrollCue({ targetId, label }: ScrollCueProps) {
+  const [pulse, setPulse] = useState(0);
+
+  const scrollToTarget = () => {
+    setPulse((n) => n + 1);
+    const target = document.getElementById(targetId);
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target?.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  };
+
+  return (
+    <button
+      type="button"
+      className="v12-scroll-cue"
+      onClick={scrollToTarget}
+      aria-label={label}
+    >
+      <svg
+        key={pulse}
+        className={`v12-scroll-cue-icon${pulse > 0 ? ' is-pulsing' : ''}`}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path d="M6 9l6 6 6-6" />
+      </svg>
+    </button>
+  );
+}
+
 export default function V12Page() {
   // Every CTA ("Read Now", "Join Free", section CTAs) opens the intake as a
   // pop-up over a blurred landing page in reader vs writer mode. The gallery is
   // reached separately via the nav "Read" link, not these conversion CTAs.
   // (/start remains a direct-link fallback rendering the same flow.)
   const [intake, setIntake] = useState<{ mode: 'reader' | 'writer' } | null>(null);
+  const [worldSlideOpen, setWorldSlideOpen] = useState(false);
   const open = (region: Region) => {
     setIntake({ mode: region === 'author' ? 'writer' : 'reader' });
-  };
-
-  const [scrollCuePulse, setScrollCuePulse] = useState(0);
-  const scrollToNextSection = () => {
-    setScrollCuePulse((n) => n + 1);
-    document.getElementById('v12-after-hero')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
@@ -366,7 +438,7 @@ export default function V12Page() {
   };
 
   return (
-    <main className="v12-root">
+    <main className={`v12-root${worldSlideOpen ? ' is-world-slide-open' : ''}`}>
       <style dangerouslySetInnerHTML={{ __html: V12_CSS }} />
 
       <SiteNav activeHref="/gallery" onJoin={() => open('reader')} />
@@ -385,7 +457,11 @@ export default function V12Page() {
         </div>
       )}
 
-      <section className="v12-hero" aria-label="Choose your role">
+      <section
+        id="v12-hero"
+        className="v12-hero v12-section-shell v12-section-shell--hero"
+        aria-label="Choose your role"
+      >
         <div className="v12-hero-inner">
             <p className="v12-hero-label">for the hidden creative</p>
             <p className="v12-hero-sub">
@@ -419,29 +495,35 @@ export default function V12Page() {
               <span className="v12-proof-note">Always ad-free</span>
             </div>
         </div>
-        <button
-          type="button"
-          className="v12-scroll-cue"
-          onClick={scrollToNextSection}
-          aria-label="Scroll to next section"
-        >
-          <svg key={scrollCuePulse} className="v12-scroll-cue-icon"
-               width="40" height="40" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" strokeWidth="2"
-               strokeLinecap="round" strokeLinejoin="round">
-            <path d="M6 9l6 6 6-6" />
-          </svg>
-        </button>
+        <ScrollCue targetId="v12-after-hero" label="Scroll to the next section" />
       </section>
 
-      <div id="v12-after-hero">
+      <div
+        id="v12-after-hero"
+        className="v12-section-shell v12-section-shell--between"
+      >
         <BetweenCharacters />
+        <ScrollCue targetId="v12-two-worlds" label="Scroll to two sides section" />
       </div>
 
-      <TwoWorlds />
+      <div
+        id="v12-two-worlds"
+        className="v12-section-shell v12-section-shell--two-worlds"
+      >
+        <TwoWorlds onSlideOpenChange={setWorldSlideOpen} />
+        <ScrollCue targetId="v12-creator-cta" label="Scroll to creators section" />
+      </div>
 
-      <CreatorCta onWriter={() => open('author')} />
-      <Footer />
+      <div
+        id="v12-creator-cta"
+        className="v12-section-shell v12-section-shell--creators"
+      >
+        <CreatorCta onWriter={() => open('author')} />
+        <ScrollCue targetId="v12-footer" label="Scroll to footer" />
+      </div>
+      <div id="v12-footer">
+        <Footer />
+      </div>
 
       {intake && (
         <IntakeDialog mode={intake.mode} onClose={() => setIntake(null)} />

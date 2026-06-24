@@ -7,10 +7,14 @@ type Item = { heading: string; body: string };
 type Side = 'platform' | 'bookworld';
 type View = 'platform' | 'overview' | 'bookworld';
 
+type Props = {
+  onSlideOpenChange?: (open: boolean) => void;
+};
+
 const PLATFORM_ITEMS: Item[] = [
   {
     heading: 'Original Voices',
-    body: "Stories published on BetweenReads first. Emerging writers, poets, and illustrators the world hasn't found yet.",
+    body: "Stories published on BetweenReads. Emerging writers, poets, and illustrators the world hasn't found yet.",
   },
   {
     heading: 'BetweenLines Journal',
@@ -94,6 +98,11 @@ const CSS = `
 .tw-slide--platform {
   background: var(--theme-yellow, #FFE600);
   color: var(--theme-on-yellow, #0e0e0c);
+}
+.tw-slide--platform,
+.tw-slide--bookworld {
+  min-height: calc(100vh + 4px);
+  min-height: calc(100svh + 4px);
 }
 .tw-inner {
   max-width: 1180px;
@@ -620,7 +629,7 @@ function DetailPanel({
   );
 }
 
-export default function TwoWorlds() {
+export default function TwoWorlds({ onSlideOpenChange }: Props) {
   const rootRef = useRef<HTMLElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<Record<View, HTMLDivElement | null>>({
@@ -641,6 +650,14 @@ export default function TwoWorlds() {
 
   const [visible, setVisible] = useState(false);
   const [view, setView] = useState<View>('overview');
+
+  useEffect(() => {
+    onSlideOpenChange?.(view !== 'overview');
+  }, [onSlideOpenChange, view]);
+
+  useEffect(() => {
+    return () => onSlideOpenChange?.(false);
+  }, [onSlideOpenChange]);
 
   // Entrance trigger for the overview choreography.
   useEffect(() => {
