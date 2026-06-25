@@ -565,7 +565,6 @@ export default function V12Page() {
         className="v12-section-shell v12-section-shell--creators"
       >
         <CreatorCta onWriter={() => open('author')} />
-        <ScrollCue targetId="v12-footer" label="Scroll to footer" />
       </div>
       <div id="v12-footer">
         <Footer />
