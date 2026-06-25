@@ -208,28 +208,6 @@ const CSS = `
 .tw-col-trigger:focus-visible .tw-col-label { color: #1a1714; }
 .tw-arrow { font-size: 1em; line-height: 1; }
 
-.tw-explore {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: clamp(12px, 1.15vw, 14px);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--theme-accent-strong, #b8920f);
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 220ms cubic-bezier(.22, 1, .36, 1),
-              transform 220ms cubic-bezier(.22, 1, .36, 1);
-}
-.tw-col-trigger:hover .tw-explore,
-.tw-col-trigger:focus-visible .tw-explore {
-  opacity: 1;
-  transform: translateY(0);
-}
-.tw-explore-arrow { transition: transform 220ms cubic-bezier(.22, 1, .36, 1); }
-.tw-col-trigger:hover .tw-explore-arrow { transform: translateX(4px); }
-
 /* ── Items ── */
 .tw-item {
   /* --tw-step drives the inward offset; --tw-x (set inline per index) angles
@@ -274,8 +252,8 @@ const CSS = `
 
 .tw-item-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(14px, 1.4vw, 16.5px);
-  line-height: 1.45;
+  font-size: clamp(15.5px, 1.55vw, 18px);
+  line-height: 1.5;
   color: rgba(26, 23, 20, 0.62);
   margin: 0;
   text-wrap: pretty;
@@ -561,10 +539,6 @@ function Column({
           {!isBookWorld && <span className="tw-arrow" aria-hidden="true">←</span>}
           <span>{label}</span>
           {isBookWorld && <span className="tw-arrow" aria-hidden="true">→</span>}
-        </span>
-        <span className="tw-explore">
-          Explore
-          <span className="tw-explore-arrow" aria-hidden="true">→</span>
         </span>
       </button>
       {items.map((item, i) => (
