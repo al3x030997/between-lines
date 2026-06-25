@@ -47,7 +47,8 @@ const V12_CSS = `
   transition:
     transform 320ms cubic-bezier(.22, 1, .36, 1),
     opacity 220ms ease;
-  will-change: transform, opacity;
+  /* NB: no will-change: transform here — on a position: sticky element it
+     disables stickiness in WebKit/Safari, which un-pins the whole header. */
 }
 .v12-root.is-world-slide-open .br-header,
 .v12-root.is-world-slide-open .bl-banner {
@@ -371,11 +372,26 @@ function ScrollCue({ targetId, label }: ScrollCueProps) {
   const scrollToTarget = () => {
     setPulse((n) => n + 1);
     const target = document.getElementById(targetId);
+    if (!target) return;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    target?.scrollIntoView({
-      behavior: prefersReducedMotion ? 'auto' : 'smooth',
-      block: 'start',
-    });
+    if (prefersReducedMotion) {
+      target.scrollIntoView({ behavior: 'auto', block: 'start' });
+      return;
+    }
+    // Custom eased scroll — native 'smooth' is too quick for these full-height sections.
+    const startY = window.scrollY;
+    const distance = target.getBoundingClientRect().top;
+    const duration = 1150;
+    const easeInOutCubic = (t: number) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    let startTime: number | null = null;
+    const step = (now: number) => {
+      if (startTime === null) startTime = now;
+      const progress = Math.min((now - startTime) / duration, 1);
+      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+      if (progress < 1) window.requestAnimationFrame(step);
+    };
+    window.requestAnimationFrame(step);
   };
 
   return (
@@ -511,7 +527,6 @@ export default function V12Page() {
         className="v12-section-shell v12-section-shell--two-worlds"
       >
         <TwoWorlds onSlideOpenChange={setWorldSlideOpen} />
-        <ScrollCue targetId="v12-creator-cta" label="Scroll to creators section" />
       </div>
 
       <div
