@@ -58,7 +58,8 @@ const V12_CSS = `
 }
 .v12-section-shell {
   position: relative;
-  scroll-margin-top: 76px;
+  /* Clear the full sticky header (announcement banner + 76px nav) on anchor jumps. */
+  scroll-margin-top: 124px;
   --v12-cue-color: #1a1714;
 }
 .v12-section-shell--hero {
@@ -379,8 +380,11 @@ function ScrollCue({ targetId, label }: ScrollCueProps) {
       return;
     }
     // Custom eased scroll — native 'smooth' is too quick for these full-height sections.
+    // Offset by the sticky header so it doesn't cover the next section's title.
+    const header = document.querySelector<HTMLElement>('.br-header');
+    const headerOffset = header ? header.getBoundingClientRect().height : 0;
     const startY = window.scrollY;
-    const distance = target.getBoundingClientRect().top;
+    const distance = target.getBoundingClientRect().top - headerOffset;
     const duration = 1150;
     const easeInOutCubic = (t: number) =>
       t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
