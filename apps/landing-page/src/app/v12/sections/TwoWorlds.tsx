@@ -94,6 +94,11 @@ const CSS = `
   padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
   background: var(--theme-page, #ffffff);
 }
+/* The overview sits on the brand yellow; deep-dive slides keep their own pages. */
+.tw-slide--overview {
+  background: var(--theme-yellow, #FFE600);
+  color: var(--theme-on-yellow, #0e0e0c);
+}
 /* The platform deep-dive slides in as a full yellow page. */
 .tw-slide--platform {
   background: var(--theme-yellow, #FFE600);

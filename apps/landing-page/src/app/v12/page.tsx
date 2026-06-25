@@ -66,7 +66,7 @@ const V12_CSS = `
 .v12-section-shell--creators {
   --v12-cue-color: #f6f1e3;
 }
-.v12-root.is-world-slide-open .v12-section-shell--two-worlds .v12-scroll-cue {
+.v12-root.is-world-slide-open .v12-scroll-cue {
   opacity: 0;
   pointer-events: none;
 }
