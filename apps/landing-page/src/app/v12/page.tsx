@@ -58,9 +58,15 @@ const V12_CSS = `
 }
 .v12-section-shell {
   position: relative;
-  /* Clear the full sticky header (announcement banner + 76px nav) on anchor jumps. */
-  scroll-margin-top: 124px;
+  /* Clear the full sticky header (announcement banner + 76px nav) on anchor jumps.
+     --v12-header-h is measured live in JS; 124px is the desktop fallback. */
+  scroll-margin-top: var(--v12-header-h, 124px);
   --v12-cue-color: #1a1714;
+}
+/* Screen sections fit the viewport *minus* the pinned header, so their bottom
+   (scroll cue / CTAs) stays on-screen after a header-offset jump. */
+.v12-section-shell--between .bl-bchars {
+  min-height: calc(100svh - var(--v12-header-h, 124px));
 }
 .v12-section-shell--hero {
   --v12-cue-color: var(--theme-hero-text);
@@ -446,6 +452,27 @@ export default function V12Page() {
     if (region === 'reader' || region === 'author' || region === 'writer') {
       setIntake({ mode: region === 'reader' ? 'reader' : 'writer' });
     }
+  }, []);
+
+  // Expose the live sticky-header height as --v12-header-h so section heights and
+  // anchor offsets can reserve exactly the space the pinned nav + banner cover.
+  useEffect(() => {
+    const header = document.querySelector<HTMLElement>('.br-header');
+    if (!header) return;
+    const setVar = () => {
+      document.documentElement.style.setProperty(
+        '--v12-header-h',
+        `${Math.round(header.getBoundingClientRect().height)}px`,
+      );
+    };
+    setVar();
+    const ro = new ResizeObserver(setVar);
+    ro.observe(header);
+    window.addEventListener('resize', setVar);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', setVar);
+    };
   }, []);
 
   const dismissBanner = () => {

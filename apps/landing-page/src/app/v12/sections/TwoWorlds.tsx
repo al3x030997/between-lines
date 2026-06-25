@@ -94,6 +94,12 @@ const CSS = `
   padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
   background: var(--theme-page, #ffffff);
 }
+/* Tighter vertical rhythm on the overview so the whole wedge + CTAs fit
+   within the viewport (minus the pinned header) after a scroll-cue jump. */
+.tw-slide--overview {
+  padding-top: clamp(22px, 3.2vh, 44px);
+  padding-bottom: clamp(18px, 2.6vh, 36px);
+}
 /* The platform deep-dive slides in as a full yellow page. */
 .tw-slide--platform {
   background: var(--theme-yellow, #FFE600);
@@ -132,7 +138,7 @@ const CSS = `
   grid-template-columns: 1fr 36% 1fr;
   column-gap: 0;
   align-items: start;
-  padding-bottom: clamp(60px, 8vh, 104px);
+  padding-bottom: clamp(36px, 5vh, 64px);
 }
 
 /* The connector lines are drawn into this overlay; they sit behind the text. */
