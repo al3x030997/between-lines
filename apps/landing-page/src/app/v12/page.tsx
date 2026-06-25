@@ -250,7 +250,7 @@ const V12_CSS = `
 /* Scroll affordance — gentle bouncing chevron at the hero base, clickable */
 .v12-scroll-cue {
   position: absolute;
-  bottom: clamp(16px, 2.8vh, 32px);
+  bottom: clamp(36px, 6vh, 72px);
   left: 50%;
   display: inline-flex;
   background: none;
@@ -261,7 +261,7 @@ const V12_CSS = `
   opacity: 0.5;
   cursor: pointer;
   z-index: 3;
-  animation: v12-scroll-bounce 5.8s cubic-bezier(.45, 0, .2, 1) infinite;
+  animation: v12-scroll-bounce 8.5s cubic-bezier(.45, 0, .2, 1) infinite;
   transition: opacity 200ms ease;
 }
 .v12-scroll-cue:hover,
