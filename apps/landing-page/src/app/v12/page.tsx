@@ -536,7 +536,7 @@ export default function V12Page() {
         id="v12-creator-cta"
         className="v12-section-shell v12-section-shell--creators"
       >
-        <CreatorCta onWriter={() => open('author')} />
+        <CreatorCta onJoin={() => open('reader')} />
       </div>
       <div id="v12-footer">
         <Footer />

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 type Props = {
-  onWriter: () => void;
+  onJoin: () => void;
 };
 
 const STYLES = `
@@ -156,37 +156,31 @@ const STYLES = `
 }
 `;
 
-export default function CreatorCta({ onWriter }: Props) {
+export default function CreatorCta({ onJoin }: Props) {
   return (
-    <section className="cc-closing" aria-label="For creators">
+    <section className="cc-closing" aria-label="Welcome to the journey">
       <style dangerouslySetInnerHTML={{ __html: STYLES }} />
 
       <div className="cc-band-outer">
         <div className="cc-band">
           <div className="cc-band-inner">
-            <p className="cc-eyebrow">For creators</p>
-            <h2 className="cc-title">
-              What&rsquo;s in <em>for creators?</em>
-            </h2>
+            <h2 className="cc-title">Welcome to the journey.</h2>
             <p className="cc-sub">
-              Publish original work, reach readers who give real feedback, and get
-              discovered before the rest of the world catches up.
+              Whether you join as a reader, writer, poet, illustrator, supporter,
+              or simply a curious visitor &mdash; we hope BetweenReads becomes a
+              place where curiosity is rewarded, great work is discovered, and
+              reading remains a source of wonder.
             </p>
             <div className="cc-actions">
-              <Link
-                href="/faq#writers"
-                className="cc-pill cc-pill-primary"
-              >
-                Learn more
-                <span className="cc-pill-arrow" aria-hidden="true">→</span>
+              <Link href="/support" className="cc-pill cc-pill-ghost">
+                Support Us
               </Link>
               <button
                 type="button"
-                className="cc-pill cc-pill-ghost"
-                onClick={onWriter}
+                className="cc-pill cc-pill-primary"
+                onClick={onJoin}
               >
-                Start writing
-                <span className="cc-pill-arrow" aria-hidden="true">→</span>
+                Join Free
               </button>
             </div>
           </div>
