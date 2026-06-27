@@ -502,13 +502,10 @@ const SUBMISSION_CSS = `
   --bls-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --bls-ease: cubic-bezier(.22, 1, .36, 1);
   min-height: 100vh;
-  background:
-    linear-gradient(90deg, rgba(28, 26, 23, 0.03) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(28, 26, 23, 0.025) 1px, transparent 1px),
-    var(--bls-paper);
-  background-size: 46px 46px;
+  background: var(--theme-page, #ffffff);
   color: var(--bls-ink);
   font-family: var(--bls-sans);
+  font-size: 17px;
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
@@ -531,7 +528,7 @@ const SUBMISSION_CSS = `
 
 .bls-hero {
   text-align: center;
-  padding: 56px 0 46px;
+  padding: 44px 0 36px;
   border-bottom: 1px solid var(--bls-line);
 }
 
@@ -556,7 +553,7 @@ const SUBMISSION_CSS = `
 
 .bls-masthead {
   font-family: var(--bls-display);
-  font-size: clamp(42px, 6.4vw, 66px);
+  font-size: clamp(46px, 6.8vw, 74px);
   line-height: 1;
   letter-spacing: -0.01em;
   margin: 0 0 16px;
@@ -564,23 +561,23 @@ const SUBMISSION_CSS = `
 }
 
 .bls-hero-copy {
-  max-width: 540px;
+  max-width: 580px;
   margin: 0 auto;
   color: var(--bls-muted);
-  font-size: clamp(16px, 1.6vw, 18px);
+  font-size: clamp(18px, 1.8vw, 22px);
 }
 
 .bls-meta-row {
   display: flex;
   justify-content: center;
   gap: 34px;
-  margin-top: 30px;
+  margin-top: 24px;
   flex-wrap: wrap;
 }
 
 .bls-meta-value {
   font-family: var(--bls-display);
-  font-size: 26px;
+  font-size: 28px;
   color: var(--bls-ink);
   font-weight: 800;
 }
@@ -597,13 +594,13 @@ const SUBMISSION_CSS = `
   perspective: 2000px;
   display: flex;
   justify-content: center;
-  margin: 0 0 36px;
+  margin: 0 0 28px;
 }
 
 .bls-book {
   position: relative;
-  width: 244px;
-  height: 334px;
+  width: 218px;
+  height: 298px;
   border-radius: 2px 6px 6px 2px;
   background: var(--bls-yellow);
   transform: rotateY(-17deg) rotateX(3deg);
@@ -698,14 +695,14 @@ const SUBMISSION_CSS = `
 }
 
 .bls-section {
-  padding: 56px 0;
+  padding: 44px 0;
   border-bottom: 1px solid var(--bls-line);
 }
 
 .bls-section h2,
 .bls-done h2 {
   font-family: var(--bls-display);
-  font-size: clamp(26px, 3.4vw, 34px);
+  font-size: clamp(28px, 3.6vw, 38px);
   line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -714,8 +711,9 @@ const SUBMISSION_CSS = `
 
 .bls-sub {
   color: var(--bls-muted);
-  max-width: 620px;
-  margin: 0 0 30px;
+  max-width: 640px;
+  margin: 0 0 26px;
+  font-size: clamp(16px, 1.4vw, 18px);
 }
 
 .bls-streams,
@@ -733,6 +731,7 @@ const SUBMISSION_CSS = `
   background: var(--bls-card);
   border: 1px solid var(--bls-line);
   border-radius: 12px;
+  box-shadow: 0 14px 30px -24px rgba(28, 26, 23, 0.5);
 }
 
 .bls-stream,
@@ -755,7 +754,7 @@ const SUBMISSION_CSS = `
 
 .bls-stream h3 {
   font-family: var(--bls-display);
-  font-size: 21px;
+  font-size: 23px;
   margin: 12px 0 6px;
   font-weight: 700;
 }
@@ -763,19 +762,19 @@ const SUBMISSION_CSS = `
 .bls-stream-spec {
   margin-bottom: 10px;
   color: var(--bls-gold);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
 }
 
 .bls-stream p,
 .bls-ethos p {
   color: var(--bls-muted);
-  font-size: 14px;
+  font-size: 15.5px;
   margin: 0;
 }
 
 .bls-fee-strip {
-  margin-top: 24px;
+  margin-top: 20px;
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 28px;
@@ -783,7 +782,8 @@ const SUBMISSION_CSS = `
   background: var(--bls-card);
   border: 1px solid var(--bls-line);
   border-radius: 12px;
-  padding: 22px 26px;
+  padding: 20px 24px;
+  box-shadow: 0 14px 30px -24px rgba(28, 26, 23, 0.5);
 }
 
 .bls-fee-strip-main {
@@ -803,8 +803,8 @@ const SUBMISSION_CSS = `
 
 .bls-fee-cap {
   color: var(--bls-muted);
-  font-size: 12.5px;
-  max-width: 190px;
+  font-size: 13.5px;
+  max-width: 200px;
 }
 
 .bls-benefits {
@@ -818,7 +818,7 @@ const SUBMISSION_CSS = `
   gap: 10px;
   align-items: flex-start;
   padding: 6px 0;
-  font-size: 14.5px;
+  font-size: 15.5px;
 }
 
 .bls-benefits li > span:first-child {
@@ -828,13 +828,13 @@ const SUBMISSION_CSS = `
 }
 
 .bls-rights-label {
-  margin-top: 36px;
+  margin-top: 28px;
   margin-bottom: 14px;
 }
 
 .bls-ethos h3 {
   margin: 0 0 6px;
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .bls-rights {
@@ -852,8 +852,8 @@ const SUBMISSION_CSS = `
 .bls-rights summary {
   cursor: pointer;
   list-style: none;
-  padding: 18px 0;
-  font-size: 15.5px;
+  padding: 17px 0;
+  font-size: 16.5px;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
@@ -880,7 +880,7 @@ const SUBMISSION_CSS = `
   max-width: 660px;
   margin: 0 0 18px;
   color: var(--bls-muted);
-  font-size: 14.5px;
+  font-size: 15.5px;
 }
 
 .bls-form-card {
@@ -924,7 +924,7 @@ const SUBMISSION_CSS = `
   background: #fdfcfa;
   color: var(--bls-ink);
   font-family: var(--bls-sans);
-  font-size: 15px;
+  font-size: 16px;
   transition: border-color 180ms var(--bls-ease), box-shadow 180ms var(--bls-ease);
 }
 
@@ -993,7 +993,7 @@ const SUBMISSION_CSS = `
   align-items: flex-start;
   padding: 9px 0;
   color: var(--bls-muted);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .bls-checks input {
@@ -1042,7 +1042,7 @@ const SUBMISSION_CSS = `
   background: var(--bls-cta-bg);
   color: var(--bls-cta-fg);
   font-family: var(--bls-sans);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.2px;
   text-decoration: none;
@@ -1060,7 +1060,7 @@ const SUBMISSION_CSS = `
 }
 
 .bls-hero-cta {
-  margin-top: 30px;
+  margin-top: 26px;
 }
 
 .bls-done {
@@ -1093,7 +1093,7 @@ const SUBMISSION_CSS = `
 }
 
 .bls-footnote {
-  padding: 46px 0 70px;
+  padding: 38px 0 58px;
   text-align: center;
 }
 
@@ -1101,7 +1101,7 @@ const SUBMISSION_CSS = `
   max-width: 620px;
   margin: 0 auto 6px;
   color: var(--bls-muted);
-  font-size: 14.5px;
+  font-size: 15.5px;
 }
 
 .bls-footnote a {

@@ -20,22 +20,21 @@ import { SiteNav } from '@/components/SiteNav';
  */
 
 const CSS = `
-.rp-root{font-family:'Outfit',system-ui,sans-serif;background:var(--theme-page-soft);color:var(--theme-text);min-height:100vh}
+.rp-root{font-family:'Outfit',system-ui,sans-serif;background:var(--theme-page);color:var(--theme-text);min-height:100vh}
 .rp-root *,.rp-root *::before,.rp-root *::after{box-sizing:border-box;margin:0;padding:0}
 .rp-root a{color:inherit}
 
 .rp-page{max-width:900px;margin:0 auto;padding:clamp(24px,4vw,44px) clamp(20px,4vw,32px) 160px}
 
-/* === Nudge banner === */
-.rp-root .nudge{display:flex;gap:14px;align-items:flex-start;background:var(--theme-accent-soft);border:1px solid color-mix(in srgb, var(--theme-accent-strong) 30%, transparent);border-radius:16px;padding:16px 20px;margin-bottom:2rem}
-.rp-root .nudge-icon{font-size:22px;line-height:1.3;flex-shrink:0}
-.rp-root .nudge-title{font-weight:700;font-size:15px;color:var(--theme-text);margin-bottom:2px}
-.rp-root .nudge-text{font-size:14px;color:var(--theme-text-muted);line-height:1.55}
+/* === Nudge headline === */
+.rp-root .nudge{background:var(--theme-accent-soft);border:1px solid color-mix(in srgb, var(--theme-accent-strong) 30%, transparent);border-radius:24px;padding:clamp(28px,4.5vw,52px);margin-bottom:2.5rem}
+.rp-root .nudge-title{font-family:'Playfair Display',Georgia,serif;font-weight:700;font-size:clamp(32px,5.5vw,52px);line-height:1.05;letter-spacing:-0.01em;color:var(--theme-text);margin-bottom:0.7rem}
+.rp-root .nudge-text{font-size:clamp(16px,1.9vw,19px);color:var(--theme-text-muted);line-height:1.6;max-width:60ch}
 
 /* === Editable fields === */
 .rp-root :where(.ed){font:inherit;color:inherit;width:100%;display:block;-webkit-appearance:none;appearance:none;border:none;background:transparent;outline:none;padding:3px 7px;border-radius:8px;box-shadow:inset 0 0 0 1px transparent;transition:box-shadow .15s,background .15s}
-.rp-root .ed:hover{box-shadow:inset 0 0 0 1px var(--theme-border-subtle)}
-.rp-root .ed:focus{box-shadow:inset 0 0 0 1px var(--theme-accent-strong);background:var(--theme-page-soft)}
+.rp-root .ed:hover{box-shadow:inset 0 0 0 1px var(--theme-border)}
+.rp-root .ed:focus{box-shadow:inset 0 0 0 1px var(--theme-accent-strong);background:var(--theme-page)}
 .rp-root .ed::placeholder{color:var(--theme-text-faint);opacity:.85;font-style:normal;font-weight:400}
 .rp-root :where(.ed-area){resize:vertical;min-height:3.4em;line-height:1.6}
 
@@ -44,7 +43,7 @@ const CSS = `
 .rp-root .tint-yellow .card-eyebrow{color:var(--theme-accent-strong)}
 .rp-root .tint-green{background:#eef8f1;border:1px solid #c2e4d0}
 .rp-root .tint-green .card-eyebrow{color:#0c6b4f}
-.rp-root .tint-paper{background:var(--theme-paper-bg);border:1px solid var(--theme-border-subtle)}
+.rp-root .tint-paper{background:var(--theme-page);border:1px solid var(--theme-border)}
 .rp-root .tint-paper .card-eyebrow{color:var(--theme-text-muted)}
 
 .rp-root .card-eyebrow{font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.7rem}
@@ -77,8 +76,13 @@ const CSS = `
 .rp-root .credit-label{font-size:11px;color:var(--theme-text-faint);letter-spacing:0.05em;text-transform:uppercase;margin-top:4px}
 
 /* === Sections === */
-.rp-root .section{background:var(--theme-page);border-radius:18px;border:1px solid var(--theme-border-subtle);padding:clamp(24px,3vw,36px);margin-bottom:2.25rem}
+.rp-root .section{border-radius:18px;border:1px solid var(--theme-border-subtle);padding:clamp(24px,3vw,36px);margin-bottom:2.25rem}
 .rp-root .section:last-child{margin-bottom:0}
+/* tinted card surfaces so each section lifts off the white page */
+.rp-root .tone-yellow{background:var(--theme-accent-soft);border-color:color-mix(in srgb, var(--theme-accent-strong) 26%, transparent)}
+.rp-root .tone-green{background:#eef8f1;border-color:#c2e4d0}
+.rp-root .tone-paper{background:var(--theme-paper-bg);border-color:color-mix(in srgb, var(--theme-text) 12%, transparent)}
+.rp-root .section .sec-head{border-bottom-color:color-mix(in srgb, var(--theme-text) 14%, transparent)}
 .rp-root .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--theme-border-subtle)}
 .rp-root .sec-title{flex:1;font-family:'Playfair Display',Georgia,serif;font-size:23px;font-weight:700;color:var(--theme-text);line-height:1.2}
 .rp-root .sec-hint{font-size:13px;color:var(--theme-text-faint)}
@@ -125,7 +129,7 @@ const CSS = `
 .rp-root .add-row:hover{text-decoration:underline}
 
 /* === Save bar === */
-.rp-root .savebar{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:18px 16px;background:linear-gradient(to top,var(--theme-page-soft) 55%,transparent);z-index:40;pointer-events:none}
+.rp-root .savebar{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;padding:18px 16px;background:linear-gradient(to top,var(--theme-page) 55%,transparent);z-index:40;pointer-events:none}
 .rp-root .savebar-inner{pointer-events:auto;display:flex;align-items:center;gap:18px;background:var(--theme-page);border:1px solid var(--theme-border-subtle);box-shadow:0 8px 28px rgba(0,0,0,.12);border-radius:999px;padding:10px 10px 10px 24px;max-width:100%}
 .rp-root .savebar-hint{font-size:14px;color:var(--theme-text-muted);white-space:nowrap}
 .rp-root .save-btn{font:inherit;font-weight:700;font-size:15px;padding:12px 26px;border-radius:999px;border:none;background:#1D9E75;color:#fff;cursor:pointer;white-space:nowrap;transition:background .15s}
@@ -359,13 +363,10 @@ export function ReaderProfilePage() {
 
       <div className="rp-page">
         <div className="nudge">
-          <span className="nudge-icon" aria-hidden="true">✍️</span>
-          <div>
-            <div className="nudge-title">This is your reader profile — make it yours.</div>
-            <div className="nudge-text">
-              It starts empty on purpose. Fill in as much or as little as you like, then save
-              it. You&apos;ll be asked to sign in so we can keep it for you.
-            </div>
+          <div className="nudge-title">Start your reader profile.</div>
+          <div className="nudge-text">
+            This page is empty on purpose — make it yours. Add as much or as little as you
+            like, then save. You&apos;ll be asked to sign in so we can keep it for you.
           </div>
         </div>
 
@@ -427,7 +428,7 @@ export function ReaderProfilePage() {
         </div>
 
         {/* The Memorables */}
-        <Section title="The Memorables" hint="The characters, lines and writers you carry with you.">
+        <Section tone="paper" title="The Memorables" hint="The characters, lines and writers you carry with you.">
           <div className="mem-grid">
             <div className="mem-card tint-paper">
               <div className="card-eyebrow">Character</div>
@@ -454,7 +455,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* The Ones That Got Away */}
-        <Section title="The Ones That Got Away" hint="Worlds, books and people you wish you could reach.">
+        <Section tone="paper" title="The Ones That Got Away" hint="Worlds, books and people you wish you could reach.">
           <div className="got-grid">
             <div className="got-card tint-green">
               <div className="card-eyebrow">If I could time-travel I&apos;d enter the world of…</div>
@@ -478,7 +479,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* Books That Undid Me */}
-        <Section title="Books That Undid Me" hint="The ones that got a real reaction out of you.">
+        <Section tone="green" title="Books That Undid Me" hint="The ones that got a real reaction out of you.">
           <div className="emo-grid">
             <div className="emo-card tint-yellow">
               <div className="emo-icon">😂</div>
@@ -496,7 +497,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* If I Could Sit With Anyone */}
-        <Section title="If I Could Sit With Anyone" hint="The literary company you&apos;d keep.">
+        <Section tone="yellow" title="If I Could Sit With Anyone" hint="The literary company you&apos;d keep.">
           <div className="field">
             <div className="meet-card tint-paper">
               <div className="card-eyebrow">The literary person I&apos;d most want to meet</div>
@@ -513,7 +514,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* How I Read */}
-        <Section title="How I Read" hint="Your reading habits at a glance.">
+        <Section tone="green" title="How I Read" hint="Your reading habits at a glance.">
           <div className="two-col">
             <div className="field"><div className="fl">What I most often read</div><Txt cls="fv" label="What you read" placeholder="e.g. Literary fiction, fantasy" value={f.readWhat} onChange={set('readWhat')} /></div>
             <div className="field"><div className="fl">How often</div><Txt cls="fv" label="How often you read" placeholder="e.g. Most evenings" value={f.readOften} onChange={set('readOften')} /></div>
@@ -527,7 +528,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* My Favourite Authors */}
-        <Section title="My Favourite Authors">
+        <Section tone="yellow" title="My Favourite Authors">
           <div className="two-col">
             <div className="field">
               <div className="fl">Recently reading</div>
@@ -541,7 +542,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* My Genre Passions */}
-        <Section title="My Genre Passions" hint="Go deep on a genre you love.">
+        <Section tone="green" title="My Genre Passions" hint="Go deep on a genre you love.">
           <div className="genre-block tint-paper">
             <div className="field" style={{ marginBottom: '1.2rem' }}>
               <div className="fl">Genre</div>
@@ -556,7 +557,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* Library */}
-        <Section title="What You&apos;d Find in My Library">
+        <Section tone="yellow" title="What You&apos;d Find in My Library">
           <div className="field">
             <Area cls="fv" label="Your library" placeholder="Describe your shelves — what&apos;s on them, what&apos;s dog-eared, what you&apos;re heavy and light on." value={f.libBlurb} onChange={set('libBlurb')} />
           </div>
@@ -567,7 +568,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* Books */}
-        <Section title="Last Three Read & All-Time Favourites">
+        <Section tone="green" title="Last Three Read & All-Time Favourites">
           <div className="two-col">
             <div>
               <div className="fl">Last three read</div>
@@ -611,7 +612,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* Adaptations */}
-        <Section title="When the Book Became a Film">
+        <Section tone="yellow" title="When the Book Became a Film">
           <div className="field">
             <div className="fl">Favourite adaptations</div>
             <TagField items={tags.adaptations} onAdd={addTag('adaptations')} onRemove={rmTag('adaptations')} placeholder="Add an adaptation…" />
@@ -619,7 +620,7 @@ export function ReaderProfilePage() {
         </Section>
 
         {/* Links */}
-        <Section title="Other Places You Can Find Me">
+        <Section tone="green" title="Other Places You Can Find Me">
           <div className="links-list">
             {links.map((lnk, i) => (
               <div className="link-row" key={`lnk-${i}`}>
@@ -715,14 +716,16 @@ export function ReaderProfilePage() {
 function Section({
   title,
   hint,
+  tone = 'paper',
   children,
 }: {
   title: string;
   hint?: string;
+  tone?: 'yellow' | 'green' | 'paper';
   children: React.ReactNode;
 }) {
   return (
-    <div className="section">
+    <div className={`section tone-${tone}`}>
       <div className="sec-head">
         <span className="sec-title">{title}</span>
         {hint && <span className="sec-hint">{hint}</span>}
