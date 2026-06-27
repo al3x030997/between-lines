@@ -124,19 +124,6 @@ const CSS = `
   color: var(--theme-text-faint);
   margin: 0;
 }
-.bl-about-sig-bio {
-  font-family: var(--bl-font-body);
-  font-size: 15px;
-  color: var(--theme-text-muted);
-  line-height: 1.7;
-  margin: 12px 0 0;
-  text-wrap: pretty;
-}
-.bl-about-sig-bio a {
-  color: var(--theme-text);
-  border-bottom: 1px solid var(--theme-text);
-  text-decoration: none;
-}
 
 /* === Closing CTA (dark card) === */
 .bl-about-cta-wrap {
@@ -377,40 +364,12 @@ export default function AboutPage() {
               <span className="bl-about-brush">Jayshree</span>
             </p>
             <p className="bl-about-sig-desc">Reader. Writer. Curious wanderer.</p>
-            <p className="bl-about-sig-bio">
-              Jayshree has published over 250,000 words across Substack and Medium &mdash; short
-              stories, original fiction, modern tales of ancient stories, and essays on business and
-              technology &mdash; to an audience of 2,800+ subscribers. She has edited print
-              magazines, founded newsletters, and lived and worked across the Americas, Europe, and
-              Asia. She is currently balancing writing with building this platform.
-            </p>
-            <p className="bl-about-sig-bio">
-              She holds a Computer Engineering degree, a Master&rsquo;s in Computer and Information
-              Science, and an MBA from The Ohio State University. Her experience spans Fortune 100
-              companies including Amazon, HP, and AT&amp;T &mdash; defining, designing, and deploying
-              innovative products globally. She bootstrapped{' '}
-              <a href="https://kindeeds.com" target="_blank" rel="noreferrer">
-                kindeeds.com
-              </a>
-              , a community-based platform for in-kind giving.
-            </p>
           </div>
           <div>
             <p className="bl-about-sig-name">
               <span className="bl-about-brush">Alex</span>
             </p>
             <p className="bl-about-sig-desc">Reader. Builder. Lifelong learner.</p>
-            <p className="bl-about-sig-bio">
-              Alex brings go-to-market expertise and a second-time founder&rsquo;s instinct to
-              BetweenReads. He has raised &euro;100k, collaborated with major German mobility
-              companies including Deutsche Bahn, and led growth at one of Germany&rsquo;s
-              fastest-growing scale-ups. He brings a builder&rsquo;s eye and a healthy respect for
-              what doesn&rsquo;t work &mdash; having navigated ventures in Travel and FinTech.
-            </p>
-            <p className="bl-about-sig-bio">
-              He studied Economics, Computer Science, and Business Administration across the
-              Technical University of Munich, Uni Mannheim, and Paris Dauphine PSL.
-            </p>
           </div>
         </div>
 
