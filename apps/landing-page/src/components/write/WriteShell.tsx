@@ -35,6 +35,17 @@ const DEMO_WRITER_HANDLE = 'midnightdraftsman';
 // The single work a guest may open in full (matches the reader sample).
 const SAMPLE_SLUG = 'small-fires-soft-rain';
 
+// A brand-new visitor opens straight into a blank work so they can start writing
+// immediately. It is prepended to the guest's work list (the default selection)
+// while the demo studio stays reachable from the Your Library tab.
+const BLANK_WORK_ID = 'untitled-draft';
+const BLANK_WORK: WorkSummary = {
+  id: BLANK_WORK_ID,
+  title: 'Untitled',
+  meta: 'New work · Draft',
+  stage: 'Drafting',
+};
+
 type TopTab =
   | 'library'
   | 'write'
@@ -84,8 +95,10 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 
   const works: WorkSummary[] = useMemo(() => {
     if (!dataHandle) return [];
-    return getWriterWorks(dataHandle);
-  }, [dataHandle]);
+    const base = getWriterWorks(dataHandle);
+    // Guests get a blank "Untitled" work first so /write opens ready to type.
+    return guest ? [BLANK_WORK, ...base] : base;
+  }, [dataHandle, guest]);
 
   const libraryWorks: WriterLibraryWork[] = useMemo(() => {
     if (!dataHandle) return [];
@@ -104,6 +117,10 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 
   const chapters: Chapter[] = useMemo(() => {
     if (!activeWork) return [];
+    // The blank guest work starts as a single empty chapter, ready to write into.
+    if (activeWork.id === BLANK_WORK_ID) {
+      return [{ num: 1, slug: 'ch-1', title: 'Untitled chapter', words: 0, body: '', access: { type: 'free' } }];
+    }
     if (activeWork.bookSlug) {
       const book = getBook(activeWork.bookSlug);
       if (book) {
@@ -161,16 +178,22 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     const requestedWork = params.get('work');
     if (requestedView === 'editor' || requestedWork) {
       setTopTab('write');
+    } else if (guest) {
+      // Fresh /write entry for a guest opens straight into the blank editor.
+      setTopTab('write');
+      setEditorSubTab('write');
     } else {
       setTopTab('library');
     }
-  }, [params]);
+  }, [params, guest]);
 
   const changeTopTab = (id: TopTab) => {
     setTopTab(id);
     setWorkMenuOpen(false);
     if (id === 'library') {
-      router.push(studioBase);
+      // Explicit ?tab=library so a bare /write URL is reserved for fresh entry
+      // (which defaults guests into the editor).
+      router.push(`${studioBase}?tab=library`);
     } else if (id === 'write') {
       const next = new URLSearchParams();
       next.set('view', 'editor');
@@ -327,6 +350,8 @@ function WriteShellInner({ guest }: { guest: boolean }) {
             {editorSubTab === 'write' ? (
               <WriteTab
                 workTitle={activeWork?.title ?? ''}
+                authorLabel={session?.handle ? `@${session.handle}` : 'Your pen name'}
+                autoFocus={guest && activeWork?.id === BLANK_WORK_ID}
                 chapter={activeChapter}
                 onTitleEdit={(newTitle) => {
                   if (activeChapter) activeChapter.title = newTitle;

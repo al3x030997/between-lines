@@ -6,11 +6,15 @@ import { PreviewOverlay } from './PreviewOverlay';
 
 type Props = {
   workTitle: string;
+  /** Byline shown in the preview overlay, e.g. "@handle" or "Your pen name". */
+  authorLabel?: string;
+  /** Place the cursor in the pad on mount when the chapter is empty (new writer). */
+  autoFocus?: boolean;
   chapter: Chapter | null;
   onTitleEdit: (title: string) => void;
 };
 
-export function WriteTab({ workTitle, chapter, onTitleEdit }: Props) {
+export function WriteTab({ workTitle, authorLabel = 'Your pen name', autoFocus = false, chapter, onTitleEdit }: Props) {
   const padRef = useRef<HTMLDivElement>(null);
   const [wordCount, setWordCount] = useState(0);
   const [autosave, setAutosave] = useState<'idle' | 'saving' | 'saved'>('idle');
@@ -25,9 +29,11 @@ export function WriteTab({ workTitle, chapter, onTitleEdit }: Props) {
       padRef.current.innerHTML = chapter.body;
     } else {
       padRef.current.innerHTML = '';
+      // A new writer's cursor should already be in the page, ready to type.
+      if (autoFocus) padRef.current.focus();
     }
     recountWords();
-  }, [chapter?.slug]);
+  }, [chapter?.slug, autoFocus]);
 
   const recountWords = useCallback(() => {
     const text = padRef.current?.innerText ?? '';
@@ -130,7 +136,7 @@ export function WriteTab({ workTitle, chapter, onTitleEdit }: Props) {
         onClose={() => setPreviewOpen(false)}
         mode={previewMode}
         onModeChange={setPreviewMode}
-        eyebrow={`${workTitle} · @MidnightDraftsman`}
+        eyebrow={`${workTitle} · ${authorLabel}`}
         title={chapter?.title ?? 'Chapter'}
         bodyHtml={padRef.current?.innerHTML ?? ''}
       />
