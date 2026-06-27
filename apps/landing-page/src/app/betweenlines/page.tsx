@@ -155,35 +155,13 @@ export default function BetweenLinesPage() {
       <SiteNav />
 
       <section className="bls-hero" aria-labelledby="betweenlines-title">
-        <div className="bls-wrap">
-          <div className="bls-book-scene" aria-hidden="true">
-            <div className="bls-book">
-              <div className="bls-cover-face">
-                <div>
-                  <div className="bls-cover-top">The Inaugural Issue</div>
-                  <div className="bls-cover-rule" />
-                </div>
-                <div className="bls-cover-spacer" />
-                <div>
-                  <div className="bls-cover-name">
-                    Between
-                    <em>Lines</em>
-                  </div>
-                  <div className="bls-cover-genres">Fiction &middot; Poetry &middot; Illustration</div>
-                </div>
-                <div className="bls-cover-spacer" />
-                <div className="bls-cover-issue">No. 01 - 2026</div>
-                <div className="bls-cover-pub">a BetweenReads Journal</div>
-              </div>
-            </div>
-          </div>
-
-          <p className="bls-label bls-kicker">The Monthly Curated Journal</p>
-          <h1 id="betweenlines-title" className="bls-masthead">
-            Submit to BetweenLines
+        <div className="bls-hero-i">
+          <p className="bls-eyebrow">The Monthly Curated Journal</p>
+          <h1 id="betweenlines-title" className="bls-hero-title">
+            Submit to <em>BetweenLines</em>
           </h1>
-          <p className="bls-hero-copy">
-            A reader-first literary journal - selected on quality and editorial fit, never
+          <p className="bls-hero-sub">
+            A reader-first literary journal &mdash; selected on quality and editorial fit, never
             metrics, never paid placement.
           </p>
           <div className="bls-meta-row" aria-label="Submission facts">
@@ -498,9 +476,10 @@ const SUBMISSION_CSS = `
   --bls-cta-bg-hover: var(--theme-strong-cta-hover-bg, #000000);
   --bls-cta-fg: var(--theme-strong-cta-fg, #ffe600);
   --bls-accent-strong: var(--theme-accent-strong, #d4aa18);
-  --bls-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --bls-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --bls-ease: cubic-bezier(.22, 1, .36, 1);
+  --bls-display: var(--bl-font-serif, "Playfair Display", Georgia, serif);
+  --bls-sans: var(--bl-font-body, "Outfit", system-ui, sans-serif);
+  --bls-eyebrow: var(--bl-font-eyebrow, "Outfit", system-ui, sans-serif);
+  --bls-ease: var(--bl-ease, cubic-bezier(.22, 1, .36, 1));
   min-height: 100vh;
   background: var(--theme-page, #ffffff);
   color: var(--bls-ink);
@@ -527,171 +506,81 @@ const SUBMISSION_CSS = `
 }
 
 .bls-hero {
-  text-align: center;
-  padding: 44px 0 36px;
-  border-bottom: 1px solid var(--bls-line);
+  background: var(--theme-yellow);
+  padding: clamp(48px, 7vw, 92px) clamp(20px, 5vw, 40px) clamp(40px, 5vw, 64px);
+}
+
+.bls-hero-i {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.bls-eyebrow {
+  margin: 0 0 20px;
+  font-family: var(--bls-eyebrow);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--theme-on-yellow);
+  opacity: 0.6;
+}
+
+.bls-hero-title {
+  margin: 0 0 22px;
+  font-family: var(--bls-display);
+  font-size: var(--bl-hero-title-size, clamp(40px, 5.6vw, 76px));
+  font-weight: 800;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--theme-on-yellow);
+  text-wrap: balance;
+}
+
+.bls-hero-title em {
+  font-style: italic;
+}
+
+.bls-hero-sub {
+  margin: 0 0 28px;
+  max-width: 580px;
+  font-size: clamp(18px, 1.7vw, 21px);
+  line-height: 1.6;
+  color: var(--theme-on-yellow);
+  opacity: 0.82;
+  text-wrap: pretty;
 }
 
 .bls-label {
   margin: 0;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--bls-faint);
   font-weight: 800;
 }
 
-.bls-kicker {
-  display: inline-block;
-  background: var(--bls-yellow);
-  color: #1a1a1a;
-  padding: 7px 15px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 24px -14px rgba(40, 32, 0, 0.6);
-}
-
-.bls-masthead {
-  font-family: var(--bls-display);
-  font-size: clamp(46px, 6.8vw, 74px);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  margin: 0 0 16px;
-  font-weight: 900;
-}
-
-.bls-hero-copy {
-  max-width: 580px;
-  margin: 0 auto;
-  color: var(--bls-muted);
-  font-size: clamp(18px, 1.8vw, 22px);
-}
-
 .bls-meta-row {
   display: flex;
-  justify-content: center;
-  gap: 34px;
-  margin-top: 24px;
+  gap: 40px;
+  margin: 0;
   flex-wrap: wrap;
 }
 
 .bls-meta-value {
   font-family: var(--bls-display);
-  font-size: 28px;
-  color: var(--bls-ink);
+  font-size: 30px;
+  color: var(--theme-on-yellow);
   font-weight: 800;
 }
 
 .bls-meta-label {
   margin-top: 2px;
-  color: var(--bls-faint);
-  font-size: 12px;
+  color: var(--theme-on-yellow);
+  opacity: 0.62;
+  font-size: 13px;
   letter-spacing: 0.6px;
   text-transform: uppercase;
-}
-
-.bls-book-scene {
-  perspective: 2000px;
-  display: flex;
-  justify-content: center;
-  margin: 0 0 28px;
-}
-
-.bls-book {
-  position: relative;
-  width: 218px;
-  height: 298px;
-  border-radius: 2px 6px 6px 2px;
-  background: var(--bls-yellow);
-  transform: rotateY(-17deg) rotateX(3deg);
-  box-shadow:
-    inset 9px 0 12px -7px rgba(0, 0, 0, 0.3),
-    3px 0 0 #f4e7bf,
-    5px 0 0 #efe1ad,
-    7px 0 0 #f4e7bf,
-    16px 24px 30px -10px rgba(40, 32, 0, 0.4);
-  animation: bls-bookfloat 7s ease-in-out infinite;
-}
-
-@keyframes bls-bookfloat {
-  0%,
-  100% {
-    transform: rotateY(-17deg) rotateX(3deg) translateY(0);
-  }
-  50% {
-    transform: rotateY(-13deg) rotateX(3deg) translateY(-9px);
-  }
-}
-
-.bls-cover-face {
-  position: absolute;
-  inset: 15px 14px 15px 18px;
-  border: 1px solid rgba(26, 26, 26, 0.9);
-  box-shadow: inset 0 0 0 3px var(--bls-yellow), inset 0 0 0 4px rgba(26, 26, 26, 0.32);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-}
-
-.bls-cover-spacer {
-  flex: 1;
-}
-
-.bls-cover-top {
-  font-family: var(--bls-display);
-  font-size: 10px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  color: var(--bls-ink);
-  font-weight: 700;
-}
-
-.bls-cover-rule {
-  width: 30px;
-  height: 1px;
-  background: #1a1a1a;
-  margin: 9px auto 0;
-}
-
-.bls-cover-name {
-  font-family: var(--bls-display);
-  font-weight: 900;
-  font-size: 36px;
-  line-height: 0.9;
-  letter-spacing: 0;
-  color: var(--bls-ink);
-}
-
-.bls-cover-name em {
-  display: block;
-  font-style: italic;
-  font-weight: 700;
-}
-
-.bls-cover-genres {
-  margin-top: 14px;
-  font-family: var(--bls-display);
-  font-style: italic;
-  font-size: 13px;
-  color: var(--bls-ink);
-}
-
-.bls-cover-issue {
-  font-family: var(--bls-display);
-  font-size: 11px;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  color: var(--bls-ink);
-  font-weight: 700;
-}
-
-.bls-cover-pub {
-  margin-top: 5px;
-  font-family: var(--bls-display);
-  font-style: italic;
-  font-size: 12.5px;
-  color: var(--bls-muted);
 }
 
 .bls-section {
@@ -713,7 +602,8 @@ const SUBMISSION_CSS = `
   color: var(--bls-muted);
   max-width: 640px;
   margin: 0 0 26px;
-  font-size: clamp(16px, 1.4vw, 18px);
+  font-size: clamp(17px, 1.3vw, 19px);
+  line-height: 1.6;
 }
 
 .bls-streams,
@@ -754,7 +644,7 @@ const SUBMISSION_CSS = `
 
 .bls-stream h3 {
   font-family: var(--bls-display);
-  font-size: 23px;
+  font-size: 24px;
   margin: 12px 0 6px;
   font-weight: 700;
 }
@@ -762,14 +652,14 @@ const SUBMISSION_CSS = `
 .bls-stream-spec {
   margin-bottom: 10px;
   color: var(--bls-gold);
-  font-size: 13.5px;
+  font-size: 15px;
   font-weight: 700;
 }
 
 .bls-stream p,
 .bls-ethos p {
   color: var(--bls-muted);
-  font-size: 15.5px;
+  font-size: 17px;
   margin: 0;
 }
 
@@ -803,7 +693,7 @@ const SUBMISSION_CSS = `
 
 .bls-fee-cap {
   color: var(--bls-muted);
-  font-size: 13.5px;
+  font-size: 15px;
   max-width: 200px;
 }
 
@@ -818,7 +708,7 @@ const SUBMISSION_CSS = `
   gap: 10px;
   align-items: flex-start;
   padding: 6px 0;
-  font-size: 15.5px;
+  font-size: 17px;
 }
 
 .bls-benefits li > span:first-child {
@@ -834,7 +724,7 @@ const SUBMISSION_CSS = `
 
 .bls-ethos h3 {
   margin: 0 0 6px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .bls-rights {
@@ -853,7 +743,7 @@ const SUBMISSION_CSS = `
   cursor: pointer;
   list-style: none;
   padding: 17px 0;
-  font-size: 16.5px;
+  font-size: 17.5px;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
@@ -880,7 +770,7 @@ const SUBMISSION_CSS = `
   max-width: 660px;
   margin: 0 0 18px;
   color: var(--bls-muted);
-  font-size: 15.5px;
+  font-size: 17px;
 }
 
 .bls-form-card {
@@ -907,7 +797,7 @@ const SUBMISSION_CSS = `
 .bls-file-label {
   margin-bottom: 7px;
   color: var(--bls-muted);
-  font-size: 12px;
+  font-size: 13.5px;
   font-weight: 700;
 }
 
@@ -924,7 +814,7 @@ const SUBMISSION_CSS = `
   background: #fdfcfa;
   color: var(--bls-ink);
   font-family: var(--bls-sans);
-  font-size: 16px;
+  font-size: 16.5px;
   transition: border-color 180ms var(--bls-ease), box-shadow 180ms var(--bls-ease);
 }
 
@@ -953,7 +843,7 @@ const SUBMISSION_CSS = `
   background: #fdfcfa;
   color: var(--bls-muted);
   text-align: center;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
   transition: border-color 180ms var(--bls-ease);
 }
@@ -993,7 +883,7 @@ const SUBMISSION_CSS = `
   align-items: flex-start;
   padding: 9px 0;
   color: var(--bls-muted);
-  font-size: 15px;
+  font-size: 15.5px;
 }
 
 .bls-checks input {
@@ -1021,7 +911,7 @@ const SUBMISSION_CSS = `
 
 .bls-total {
   color: var(--bls-muted);
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .bls-total b {
@@ -1101,7 +991,7 @@ const SUBMISSION_CSS = `
   max-width: 620px;
   margin: 0 auto 6px;
   color: var(--bls-muted);
-  font-size: 15.5px;
+  font-size: 17px;
 }
 
 .bls-footnote a {
@@ -1115,7 +1005,6 @@ const SUBMISSION_CSS = `
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bls-book,
   .bls-plus,
   .bls-button,
   .bls-input,
@@ -1130,21 +1019,8 @@ const SUBMISSION_CSS = `
     padding: 0 18px;
   }
 
-  .bls-hero {
-    padding: 36px 0 34px;
-  }
-
-  .bls-book {
-    width: 202px;
-    height: 276px;
-  }
-
-  .bls-cover-name {
-    font-size: 30px;
-  }
-
   .bls-meta-row {
-    gap: 22px;
+    gap: 22px 28px;
   }
 
   .bls-streams,
