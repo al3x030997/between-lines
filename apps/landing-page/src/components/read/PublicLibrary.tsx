@@ -1,0 +1,649 @@
+'use client';
+
+import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { SiteNav } from '@/components/SiteNav';
+import { getBooksBySection, getLaunchOriginals, type Book } from '@/lib/mock-books';
+
+// The logged-out /read library. A standalone, ungated, light-themed gallery that
+// mirrors the in-app MVP catalogue (featured BetweenLines pick + our first books +
+// free classics) but in the marketing hero brand and with none of the gated
+// in-app chrome (no shelves, no For You, no theme toggle). Every book CTA nudges
+// a guest into the free sign-up — the real book pages live behind the session
+// gate. Self-contained: all styling is namespaced `.rl-*` so nothing leaks into
+// the dark reader app, which shares the `.br-*` design system.
+
+const JOIN_HREF = '/start?mode=reader';
+
+type Category = 'all' | 'first' | 'classics';
+
+const CATEGORIES: { id: Category; label: string; glyph: string }[] = [
+  { id: 'all', label: 'All', glyph: '▦' },
+  { id: 'first', label: 'Our First Books', glyph: '✦' },
+  { id: 'classics', label: 'Timeless Classics', glyph: '❧' },
+];
+
+function matches(book: Book, q: string): boolean {
+  if (!q) return true;
+  return [book.title, book.author, book.blurb, ...book.tags]
+    .join(' ')
+    .toLowerCase()
+    .includes(q);
+}
+
+function Poster({ book }: { book: Book }) {
+  const keywords = book.tags.slice(0, 3);
+  const readTime = book.estRead ? `${book.estRead} read` : null;
+  return (
+    <Link className="rl-poster" href={JOIN_HREF}>
+      <span className="rl-poster-cover" style={{ background: book.cover }}>
+        {keywords.length > 0 && (
+          <span className="rl-poster-chips" aria-hidden="true">
+            {keywords.map((kw) => (
+              <span key={kw} className="rl-poster-chip">
+                {kw}
+              </span>
+            ))}
+          </span>
+        )}
+      </span>
+      <span className="rl-poster-body">
+        <span className="rl-poster-title">{book.title}</span>
+        <span className="rl-poster-author">{book.author}</span>
+        <span className="rl-poster-blurb">{book.blurb}</span>
+        <span className="rl-poster-meta">
+          <span className="rl-pill">{book.format}</span>
+          {readTime && <span className="rl-pill">{readTime}</span>}
+          <span className={`rl-pill is-${book.access.type === 'free' ? 'free' : 'rc'}`}>
+            {book.access.label}
+          </span>
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+function InviteBanner() {
+  const [copied, setCopied] = useState(false);
+  const copy = async () => {
+    try {
+      const base = typeof window !== 'undefined' ? window.location.origin : '';
+      await navigator.clipboard.writeText(`${base}/`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+  return (
+    <div className="rl-banner" role="note">
+      <div className="rl-banner-body">
+        <span className="rl-banner-emoji" aria-hidden="true">🌱</span>
+        <p className="rl-banner-text">
+          <strong>We&rsquo;re building BetweenReads</strong> — and we&rsquo;d love your support.
+          Share your invite link: every new reader who joins gives you both free reading credits.
+        </p>
+      </div>
+      <button type="button" className="rl-banner-cta" onClick={copy}>
+        {copied ? 'Link copied ✓' : 'Copy invite link'}
+      </button>
+    </div>
+  );
+}
+
+export function PublicLibrary() {
+  const [query, setQuery] = useState('');
+  const [category, setCategory] = useState<Category>('all');
+
+  const originals = useMemo(() => getLaunchOriginals(), []);
+  const classics = useMemo(() => getBooksBySection('classics'), []);
+
+  const q = query.trim().toLowerCase();
+  const firstFiltered = originals.filter((b) => matches(b, q));
+  const classicsFiltered = classics.filter((b) => matches(b, q));
+  const featured = firstFiltered[0];
+  const rowBooks = firstFiltered.slice(1);
+
+  const showFirst = (category === 'all' || category === 'first') && firstFiltered.length > 0;
+  const showClassics = (category === 'all' || category === 'classics') && classicsFiltered.length > 0;
+  const empty = !showFirst && !showClassics;
+
+  return (
+    <>
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
+      <SiteNav />
+      <div className="rl-root">
+        <div className="rl-shell">
+          <aside className="rl-sidebar" aria-label="Browse the library">
+            <p className="rl-sidebar-label">Browse</p>
+
+            <div className="rl-search">
+              <svg className="rl-search-icon" viewBox="0 0 20 20" aria-hidden="true">
+                <circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+                <line x1="14" y1="14" x2="18" y2="18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+              </svg>
+              <input
+                className="rl-search-input"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search books, authors, tags…"
+                aria-label="Search books, authors, tags"
+              />
+              {query && (
+                <button
+                  type="button"
+                  className="rl-search-clear"
+                  onClick={() => setQuery('')}
+                  aria-label="Clear search"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+
+            <nav className="rl-cats" aria-label="Categories">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  className={`rl-cat ${category === cat.id ? 'is-active' : ''}`}
+                  onClick={() => setCategory(cat.id)}
+                  aria-pressed={category === cat.id}
+                >
+                  <span className="rl-cat-glyph" aria-hidden="true">{cat.glyph}</span>
+                  {cat.label}
+                </button>
+              ))}
+            </nav>
+
+            <p className="rl-sidebar-note">
+              More ways to browse — moods, genres, your shelves — arrive as the library grows.
+            </p>
+          </aside>
+
+          <main className="rl-main">
+            <InviteBanner />
+
+            {showFirst && (
+              <section className="rl-section" aria-labelledby="rl-first">
+                {featured && (
+                  <article className="rl-featured">
+                    <Link className="rl-featured-cover" href={JOIN_HREF} style={{ background: featured.cover }} aria-hidden="true" tabIndex={-1} />
+                    <div className="rl-featured-body">
+                      <p className="rl-eyebrow">BetweenLines Pick</p>
+                      <h2 className="rl-featured-title">{featured.title}</h2>
+                      <p className="rl-featured-author">{featured.author}</p>
+                      <p className="rl-featured-blurb">{featured.blurb}</p>
+                      <div className="rl-featured-actions">
+                        <span className="rl-featured-meta">{featured.format}</span>
+                        <Link className="rl-cta" href={JOIN_HREF}>
+                          Start reading <span aria-hidden="true">→</span>
+                        </Link>
+                      </div>
+                    </div>
+                  </article>
+                )}
+
+                {rowBooks.length > 0 && (
+                  <>
+                    <header className="rl-section-head">
+                      <p className="rl-kicker">Be among the first</p>
+                      <h3 id="rl-first" className="rl-heading">Read our first books</h3>
+                    </header>
+                    <div className="rl-grid">
+                      {rowBooks.map((book) => (
+                        <Poster key={book.slug} book={book} />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </section>
+            )}
+
+            {showClassics && (
+              <section className="rl-section" aria-labelledby="rl-classics">
+                <header className="rl-section-head">
+                  <p className="rl-kicker">Free forever · Public domain</p>
+                  <h3 id="rl-classics" className="rl-heading">Timeless classics</h3>
+                </header>
+                <div className="rl-grid">
+                  {classicsFiltered.map((book) => (
+                    <Poster key={book.slug} book={book} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {empty && (
+              <div className="rl-empty" role="status">
+                <p className="rl-kicker">No matches</p>
+                <h3 className="rl-heading">
+                  {q ? `Nothing here for “${query.trim()}”` : 'Nothing here yet'}
+                </h3>
+                <p className="rl-empty-body">
+                  {q
+                    ? 'Try a different title, author, or tag.'
+                    : 'Check back soon — we’re just getting started.'}
+                </p>
+              </div>
+            )}
+          </main>
+        </div>
+      </div>
+    </>
+  );
+}
+
+const CSS = `
+.rl-root {
+  --rl-paper: #F6F1E3;
+  --rl-surface: #ffffff;
+  --rl-surface-subtle: #f8f5ee;
+  --rl-ink: var(--theme-text);
+  --rl-ink-soft: var(--theme-text-soft);
+  --rl-ink-muted: var(--theme-text-muted);
+  --rl-ink-faint: var(--theme-text-faint);
+  --rl-border: var(--theme-border);
+  --rl-border-strong: var(--theme-border-strong);
+  --rl-teal: #0E9D86;
+  --rl-teal-strong: #085041;
+  --rl-teal-soft: #e6f6f2;
+  --rl-yellow: #FFE600;
+  --rl-yellow-soft: #fdf6c8;
+  --rl-ease: cubic-bezier(.22, 1, .36, 1);
+  background: var(--theme-page);
+  color: var(--rl-ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+  min-height: 100vh;
+}
+.rl-shell {
+  display: grid;
+  grid-template-columns: 268px minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 48px);
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(20px, 3vw, 40px) clamp(18px, 3vw, 44px) 96px;
+  align-items: start;
+}
+
+/* ── Sidebar ───────────────────────────────────────────── */
+.rl-sidebar {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px 20px;
+  background: var(--rl-surface-subtle);
+  border: 1px solid var(--rl-border);
+  border-radius: 16px;
+}
+.rl-sidebar-label {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rl-ink-muted);
+}
+.rl-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.rl-search-icon {
+  position: absolute;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  color: var(--rl-ink-faint);
+  pointer-events: none;
+}
+.rl-search-input {
+  width: 100%;
+  padding: 11px 34px 11px 36px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--rl-ink);
+  background: var(--rl-surface);
+  border: 1px solid var(--rl-border);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 160ms var(--rl-ease), box-shadow 160ms var(--rl-ease);
+}
+.rl-search-input::placeholder { color: var(--rl-ink-faint); }
+.rl-search-input:focus-visible {
+  border-color: var(--rl-teal);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rl-teal) 18%, transparent);
+}
+.rl-search-input::-webkit-search-cancel-button { display: none; }
+.rl-search-clear {
+  position: absolute;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--rl-ink-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 140ms var(--rl-ease), color 140ms var(--rl-ease);
+}
+.rl-search-clear:hover { background: var(--rl-surface-subtle); color: var(--rl-ink); }
+.rl-cats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.rl-cat {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--rl-ink-soft);
+  background: transparent;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 150ms var(--rl-ease), color 150ms var(--rl-ease);
+}
+.rl-cat-glyph { font-size: 13px; color: var(--rl-ink-faint); transition: color 150ms var(--rl-ease); }
+.rl-cat:hover { background: var(--rl-surface); color: var(--rl-ink); }
+.rl-cat.is-active {
+  background: var(--rl-teal-soft);
+  color: var(--rl-teal-strong);
+  font-weight: 700;
+}
+.rl-cat.is-active .rl-cat-glyph { color: var(--rl-teal); }
+.rl-cat:focus-visible { outline: 2px solid var(--rl-teal); outline-offset: 2px; }
+.rl-sidebar-note {
+  margin: 6px 0 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--rl-ink-faint);
+}
+
+/* ── Main column ───────────────────────────────────────── */
+.rl-main {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 56px);
+  min-width: 0;
+}
+
+/* Invite banner */
+.rl-banner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  background: linear-gradient(180deg, #fffbe0 0%, var(--rl-yellow-soft) 100%);
+  border: 1px solid color-mix(in srgb, var(--rl-yellow) 55%, var(--rl-border));
+  border-radius: 14px;
+}
+.rl-banner-body { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.rl-banner-emoji { font-size: 22px; flex-shrink: 0; }
+.rl-banner-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--theme-text);
+}
+.rl-banner-text strong { font-weight: 800; }
+.rl-banner-cta {
+  flex-shrink: 0;
+  padding: 11px 20px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--rl-paper);
+  background: #16110d;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 160ms var(--rl-ease), transform 160ms var(--rl-ease);
+}
+.rl-banner-cta:hover { background: #000; transform: translateY(-1px); }
+.rl-banner-cta:focus-visible { outline: 2px solid var(--rl-teal); outline-offset: 2px; }
+
+/* Section scaffolding */
+.rl-section { display: flex; flex-direction: column; gap: 24px; }
+.rl-section-head { display: flex; flex-direction: column; gap: 4px; }
+.rl-kicker {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rl-teal);
+}
+.rl-eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rl-teal);
+}
+.rl-heading {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(24px, 2.6vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--rl-ink);
+}
+
+/* Featured pick */
+.rl-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  background: var(--rl-surface);
+  border: 1px solid var(--rl-border);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px -18px rgba(20, 18, 12, 0.4);
+}
+.rl-featured-cover {
+  display: block;
+  min-height: 340px;
+  background-size: cover !important;
+  background-position: center !important;
+}
+.rl-featured-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: clamp(26px, 3.4vw, 44px);
+}
+.rl-featured-title {
+  margin: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(30px, 3.4vw, 44px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: var(--rl-ink);
+}
+.rl-featured-author {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--rl-ink-soft);
+}
+.rl-featured-blurb {
+  margin: 4px 0 0;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.6;
+  color: var(--rl-ink-soft);
+}
+.rl-featured-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: auto;
+  padding-top: 12px;
+  flex-wrap: wrap;
+}
+.rl-featured-meta {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rl-ink-muted);
+}
+.rl-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 26px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--rl-teal);
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 12px 28px -14px color-mix(in srgb, var(--rl-teal-strong) 80%, transparent);
+  transition: background 180ms var(--rl-ease), transform 180ms var(--rl-ease), box-shadow 180ms var(--rl-ease);
+}
+.rl-cta:hover {
+  background: var(--rl-teal-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px -14px color-mix(in srgb, var(--rl-teal-strong) 78%, transparent);
+}
+.rl-cta:focus-visible { outline: 2px solid var(--rl-teal-strong); outline-offset: 3px; }
+
+/* Poster grid */
+.rl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
+  gap: clamp(18px, 2vw, 28px);
+}
+.rl-poster {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 14px;
+}
+.rl-poster-cover {
+  position: relative;
+  display: block;
+  aspect-ratio: 2 / 3;
+  border-radius: 14px;
+  border: 1px solid var(--rl-border);
+  background-size: cover !important;
+  background-position: center !important;
+  box-shadow: 0 8px 22px -14px rgba(20, 18, 12, 0.5);
+  transition: transform 220ms var(--rl-ease), box-shadow 220ms var(--rl-ease);
+}
+.rl-poster:hover .rl-poster-cover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px -16px rgba(20, 18, 12, 0.55);
+}
+.rl-poster-chips {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.rl-poster-chip {
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(12, 10, 8, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 999px;
+}
+.rl-poster-body { display: flex; flex-direction: column; gap: 5px; }
+.rl-poster-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+  color: var(--rl-ink);
+}
+.rl-poster:hover .rl-poster-title { color: var(--rl-teal-strong); }
+.rl-poster-author {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--rl-ink-muted);
+}
+.rl-poster-blurb {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--rl-ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.rl-poster-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.rl-pill {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--rl-ink-muted);
+  background: var(--rl-surface-subtle);
+  border: 1px solid var(--rl-border);
+  border-radius: 999px;
+}
+.rl-pill.is-free {
+  color: var(--rl-teal-strong);
+  background: var(--rl-teal-soft);
+  border-color: color-mix(in srgb, var(--rl-teal) 32%, transparent);
+}
+.rl-pill.is-rc {
+  color: #8a6a18;
+  background: var(--rl-yellow-soft);
+  border-color: color-mix(in srgb, var(--rl-yellow) 50%, transparent);
+}
+
+/* Empty state */
+.rl-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 48px 0;
+  text-align: center;
+  align-items: center;
+}
+.rl-empty-body { margin: 0; font-size: 15px; color: var(--rl-ink-muted); }
+
+/* ── Responsive ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .rl-shell { grid-template-columns: 1fr; }
+  .rl-sidebar {
+    position: static;
+    top: auto;
+    flex-direction: column;
+  }
+  .rl-cats { flex-direction: row; flex-wrap: wrap; }
+  .rl-cat { width: auto; }
+  .rl-featured { grid-template-columns: 1fr; }
+  .rl-featured-cover { min-height: 220px; }
+}
+@media (max-width: 560px) {
+  .rl-banner { flex-direction: column; align-items: stretch; }
+  .rl-banner-cta { width: 100%; }
+  .rl-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+`;
