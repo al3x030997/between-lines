@@ -35,43 +35,40 @@ const streams = [
     icon: 'P',
     title: 'Prose',
     spec: 'Up to 7,500 words',
-    body: 'Fiction and narrative nonfiction - flash, short stories, and standalone excerpts. Honorarium up to $50 if selected.',
+    body: 'Fiction and narrative nonfiction - flash, short stories, and standalone excerpts.',
   },
   {
     icon: '3',
     title: 'Poetry',
     spec: '1-3 poems',
-    body: 'A single poem or a short set. We recommend three to give a fuller sense of your voice. Honorarium up to $30 if selected.',
+    body: 'A single poem or a short set; we suggest three to show a fuller sense of your voice.',
   },
   {
     icon: 'A',
     title: 'Illustration',
     spec: '1-3 works',
-    body: 'Original illustration and visual storytelling. Submit a small portfolio of your strongest pieces. Honorarium up to $30 if selected.',
+    body: 'Original illustration and visual storytelling - a small portfolio of your strongest pieces.',
   },
 ];
 
 const benefits = [
-  'An honorarium from the submission pool - up to $50 for prose, up to $30 for poetry and illustration.',
-  "That month's issue free, delivered to your account.",
-  'A BetweenLines Pick badge on your author page.',
-  'The Read Here First distinction - your work debuts here, exclusively.',
-  'All rights revert to you 90 days after the issue publishes.',
-  'You keep full copyright, always.',
+  'An honorarium if selected - up to $50 for prose, up to $30 for poetry & illustration.',
+  "That month's issue free, plus a BetweenLines Pick badge on your author page.",
+  'You keep full copyright - all rights revert to you 90 days after the issue publishes.',
 ];
 
 const selectionNotes = [
   {
     title: 'Editorial judgment',
-    body: 'Selected on craft and fit for the issue - not popularity, follower counts, or platform metrics.',
+    body: 'Chosen on craft and fit for the issue - not popularity, follower counts, or platform metrics.',
   },
   {
     title: 'No paid placement',
-    body: 'You cannot buy a feature. The $5 fee covers reading and funds the honorarium pool, nothing more.',
+    body: 'You cannot buy a feature. The $5 fee covers reading and funds the honorarium pool.',
   },
   {
     title: 'Read here first',
-    body: 'Debut your work before publication anywhere else and earn the Read Here First distinction.',
+    body: 'Debut your work before it appears anywhere else and earn the Read Here First distinction.',
   },
 ];
 
@@ -186,9 +183,8 @@ export default function BetweenLinesPage() {
             Submit to BetweenLines
           </h1>
           <p className="bls-hero-copy">
-            A reader-first literary journal for emerging, self-published, and traditionally
-            published voices. Selected on quality and editorial fit - never metrics, never paid
-            placement.
+            A reader-first literary journal - selected on quality and editorial fit, never
+            metrics, never paid placement.
           </p>
           <div className="bls-meta-row" aria-label="Submission facts">
             <div>
@@ -204,6 +200,10 @@ export default function BetweenLinesPage() {
               <div className="bls-meta-label">Reading window</div>
             </div>
           </div>
+          <a className="bls-button bls-hero-cta" href="#journal-submission">
+            Submit your work
+            <span aria-hidden="true">&rarr;</span>
+          </a>
         </div>
       </section>
 
@@ -212,8 +212,8 @@ export default function BetweenLinesPage() {
           <p className="bls-label">What we publish</p>
           <h2>Three streams, one standard</h2>
           <p className="bls-sub">
-            Original work only, in English, never published anywhere before - exclusive to
-            BetweenLines. Shaped and considered, clean, proofread, and ready for readers.
+            Original, unpublished work in English, exclusive to BetweenLines - shaped,
+            proofread, and ready for readers.
           </p>
           <div className="bls-streams">
             {streams.map((stream) => (
@@ -227,46 +227,21 @@ export default function BetweenLinesPage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="bls-section">
-        <div className="bls-wrap bls-grid-two">
-          <div>
-            <p className="bls-label">If your work is selected</p>
-            <h2>What you receive</h2>
+          <div className="bls-fee-strip" aria-label="Submission fee and what selected writers receive">
+            <div className="bls-fee-strip-main">
+              <span className="bls-fee-amount">$5</span>
+              <span className="bls-fee-cap">per submission &middot; non-refundable &middot; funds the honorarium pool</span>
+            </div>
             <ul className="bls-benefits">
               {benefits.map((benefit) => (
                 <li key={benefit}>
-                  <span aria-hidden="true">✓</span>
+                  <span aria-hidden="true">&#10003;</span>
                   <span>{benefit}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <aside className="bls-fee-box" aria-label="Submission fee and honoraria">
-            <p className="bls-label">Submission fee</p>
-            <div className="bls-fee">$5</div>
-            <p className="bls-fee-note">All formats &middot; non-refundable &middot; funds the honorarium pool</p>
-            <div className="bls-rule" />
-            <div className="bls-pay">
-              <span>Prose honorarium</span>
-              <b>up to $50</b>
-            </div>
-            <div className="bls-pay">
-              <span>Poetry honorarium</span>
-              <b>up to $30</b>
-            </div>
-            <div className="bls-pay">
-              <span>Illustration honorarium</span>
-              <b>up to $30</b>
-            </div>
-            <div className="bls-rule" />
-            <p className="bls-fee-detail">
-              Honoraria are paid from that issue&apos;s submission pool, shared among the selected
-              writers.
-            </p>
-          </aside>
         </div>
       </section>
 
@@ -275,8 +250,8 @@ export default function BetweenLinesPage() {
           <p className="bls-label">How selection works</p>
           <h2>Quality is the only criterion</h2>
           <p className="bls-sub">
-            Our editorial team reads every submission. AI assists only in surfacing pieces that
-            might otherwise be missed - the choice is always human.
+            Our editorial team reads every submission. AI only surfaces pieces that might
+            otherwise be missed - the choice is always human.
           </p>
           <div className="bls-ethos">
             {selectionNotes.map((note) => (
@@ -286,14 +261,8 @@ export default function BetweenLinesPage() {
               </article>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="bls-section">
-        <div className="bls-wrap">
-          <p className="bls-label">The fine print</p>
-          <h2>Rights &amp; terms</h2>
-          <p className="bls-sub">Plain-language summary. You always retain full copyright in your work.</p>
+          <p className="bls-label bls-rights-label">The fine print</p>
           <div className="bls-rights">
             {rightsTerms.map((term) => (
               <details key={term.title} open={term.open}>
@@ -310,13 +279,13 @@ export default function BetweenLinesPage() {
         </div>
       </section>
 
-      <section className="bls-section" id="journal-submission">
+      <section className="bls-section bls-section-form" id="journal-submission">
         <div className="bls-wrap">
           <p className="bls-label">Your submission</p>
           <h2>Send us your work</h2>
           <p className="bls-sub">
-            One piece per submission. You&apos;ll be asked to confirm originality and agree to the
-            terms above before paying.
+            One piece per submission. You&apos;ll confirm originality and agree to the terms
+            above before paying.
           </p>
 
           {confirmation ? (
@@ -502,8 +471,8 @@ export default function BetweenLinesPage() {
       <footer className="bls-footnote">
         <div className="bls-wrap">
           <p>
-            Are you a reader? <Link href="/read">Nominate a writer or a piece</Link> you love - the
-            writer receives an invite to submit for $5, and selection is always the editors&apos;
+            Are you a reader? <Link href="/read">Nominate a writer or a piece</Link> you love -
+            the writer receives an invite to submit, and selection is always the editors&apos;
             call.
           </p>
           <p className="bls-footer-mark">BetweenLines is the curated journal of between&bull;reads.</p>
@@ -515,29 +484,38 @@ export default function BetweenLinesPage() {
 
 const SUBMISSION_CSS = `
 .bls-page {
-  --bls-paper: #faf8f4;
+  --bls-paper: var(--theme-page-soft, #faf8f4);
   --bls-card: #ffffff;
   --bls-ink: var(--theme-text);
   --bls-muted: var(--theme-text-muted);
   --bls-faint: var(--theme-text-faint);
   --bls-line: #e7e2d8;
+  --bls-yellow: var(--theme-yellow, #ffe600);
   --bls-gold: #a9842f;
   --bls-gold-soft: #f3ecda;
   --bls-green: #2e7d55;
-  --bls-blue: #244f73;
-  --bls-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
-  --bls-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --bls-cta-bg: var(--theme-strong-cta-bg, #0e0e0c);
+  --bls-cta-bg-hover: var(--theme-strong-cta-hover-bg, #000000);
+  --bls-cta-fg: var(--theme-strong-cta-fg, #ffe600);
+  --bls-accent-strong: var(--theme-accent-strong, #d4aa18);
   --bls-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --bls-sans: "Outfit", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --bls-ease: cubic-bezier(.22, 1, .36, 1);
   min-height: 100vh;
   background:
-    linear-gradient(90deg, rgba(28, 26, 23, 0.035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(28, 26, 23, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 26, 23, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(28, 26, 23, 0.025) 1px, transparent 1px),
     var(--bls-paper);
   background-size: 46px 46px;
   color: var(--bls-ink);
   font-family: var(--bls-sans);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+}
+
+.bls-page :where(a, button, summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--bls-accent-strong);
+  outline-offset: 3px;
 }
 
 .bls-wrap {
@@ -553,39 +531,43 @@ const SUBMISSION_CSS = `
 
 .bls-hero {
   text-align: center;
-  padding: 52px 0 38px;
+  padding: 56px 0 46px;
   border-bottom: 1px solid var(--bls-line);
 }
 
 .bls-label {
   margin: 0;
   font-size: 11px;
-  letter-spacing: 0;
+  letter-spacing: 1.4px;
   text-transform: uppercase;
   color: var(--bls-faint);
   font-weight: 800;
 }
 
 .bls-kicker {
-  color: var(--bls-gold);
-  margin-bottom: 18px;
+  display: inline-block;
+  background: var(--bls-yellow);
+  color: #1a1a1a;
+  padding: 7px 15px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 24px -14px rgba(40, 32, 0, 0.6);
 }
 
 .bls-masthead {
   font-family: var(--bls-display);
-  font-size: 64px;
+  font-size: clamp(42px, 6.4vw, 66px);
   line-height: 1;
-  letter-spacing: 0;
-  margin: 0 0 14px;
+  letter-spacing: -0.01em;
+  margin: 0 0 16px;
   font-weight: 900;
 }
 
 .bls-hero-copy {
-  max-width: 560px;
+  max-width: 540px;
   margin: 0 auto;
   color: var(--bls-muted);
-  font-family: var(--bls-serif);
-  font-size: 17px;
+  font-size: clamp(16px, 1.6vw, 18px);
 }
 
 .bls-meta-row {
@@ -600,13 +582,14 @@ const SUBMISSION_CSS = `
   font-family: var(--bls-display);
   font-size: 26px;
   color: var(--bls-ink);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .bls-meta-label {
   margin-top: 2px;
   color: var(--bls-faint);
   font-size: 12px;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
 }
 
@@ -614,15 +597,15 @@ const SUBMISSION_CSS = `
   perspective: 2000px;
   display: flex;
   justify-content: center;
-  margin: 0 0 38px;
+  margin: 0 0 36px;
 }
 
 .bls-book {
   position: relative;
-  width: 250px;
-  height: 342px;
+  width: 244px;
+  height: 334px;
   border-radius: 2px 6px 6px 2px;
-  background: #ffe600;
+  background: var(--bls-yellow);
   transform: rotateY(-17deg) rotateX(3deg);
   box-shadow:
     inset 9px 0 12px -7px rgba(0, 0, 0, 0.3),
@@ -647,7 +630,7 @@ const SUBMISSION_CSS = `
   position: absolute;
   inset: 15px 14px 15px 18px;
   border: 1px solid rgba(26, 26, 26, 0.9);
-  box-shadow: inset 0 0 0 3px #ffe600, inset 0 0 0 4px rgba(26, 26, 26, 0.32);
+  box-shadow: inset 0 0 0 3px var(--bls-yellow), inset 0 0 0 4px rgba(26, 26, 26, 0.32);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -661,7 +644,7 @@ const SUBMISSION_CSS = `
 .bls-cover-top {
   font-family: var(--bls-display);
   font-size: 10px;
-  letter-spacing: 0;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
   color: var(--bls-ink);
   font-weight: 700;
@@ -700,7 +683,7 @@ const SUBMISSION_CSS = `
 .bls-cover-issue {
   font-family: var(--bls-display);
   font-size: 11px;
-  letter-spacing: 0;
+  letter-spacing: 0.4px;
   text-transform: uppercase;
   color: var(--bls-ink);
   font-weight: 700;
@@ -715,16 +698,17 @@ const SUBMISSION_CSS = `
 }
 
 .bls-section {
-  padding: 52px 0;
+  padding: 56px 0;
   border-bottom: 1px solid var(--bls-line);
 }
 
 .bls-section h2,
 .bls-done h2 {
   font-family: var(--bls-display);
-  font-size: 32px;
+  font-size: clamp(26px, 3.4vw, 34px);
   line-height: 1.08;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 10px 0 8px;
 }
 
@@ -743,13 +727,12 @@ const SUBMISSION_CSS = `
 
 .bls-stream,
 .bls-ethos article,
-.bls-fee-box,
 .bls-rights,
 .bls-form-card,
 .bls-done {
   background: var(--bls-card);
   border: 1px solid var(--bls-line);
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
 .bls-stream,
@@ -758,8 +741,8 @@ const SUBMISSION_CSS = `
 }
 
 .bls-stream-icon {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -791,11 +774,37 @@ const SUBMISSION_CSS = `
   margin: 0;
 }
 
-.bls-grid-two {
+.bls-fee-strip {
+  margin-top: 24px;
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 22px;
-  align-items: start;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: center;
+  background: var(--bls-card);
+  border: 1px solid var(--bls-line);
+  border-radius: 12px;
+  padding: 22px 26px;
+}
+
+.bls-fee-strip-main {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 28px;
+  border-right: 1px solid var(--bls-line);
+}
+
+.bls-fee-amount {
+  font-family: var(--bls-display);
+  font-weight: 900;
+  font-size: 46px;
+  line-height: 1;
+}
+
+.bls-fee-cap {
+  color: var(--bls-muted);
+  font-size: 12.5px;
+  max-width: 190px;
 }
 
 .bls-benefits {
@@ -806,10 +815,10 @@ const SUBMISSION_CSS = `
 
 .bls-benefits li {
   display: flex;
-  gap: 11px;
+  gap: 10px;
   align-items: flex-start;
-  padding: 9px 0;
-  font-size: 15px;
+  padding: 6px 0;
+  font-size: 14.5px;
 }
 
 .bls-benefits li > span:first-child {
@@ -818,52 +827,9 @@ const SUBMISSION_CSS = `
   font-weight: 900;
 }
 
-.bls-fee-box {
-  padding: 28px;
-  background: var(--bls-gold-soft);
-  border-color: #e8dcc0;
-}
-
-.bls-fee-box .bls-label {
-  color: var(--bls-gold);
-}
-
-.bls-fee {
-  margin: 10px 0 2px;
-  font-family: var(--bls-display);
-  font-size: 52px;
-  line-height: 1;
-  font-weight: 900;
-}
-
-.bls-fee-note {
-  margin: 0 0 20px;
-  color: var(--bls-muted);
-  font-size: 13px;
-}
-
-.bls-rule {
-  height: 1px;
-  background: #e6d8b8;
-  margin: 18px 0;
-}
-
-.bls-pay {
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 5px 0;
-  font-size: 14px;
-}
-
-.bls-pay b {
-  font-family: var(--bls-display);
-}
-
-.bls-fee-detail {
-  color: var(--bls-muted);
-  font-size: 13px;
-  margin: 0;
+.bls-rights-label {
+  margin-top: 36px;
+  margin-bottom: 14px;
 }
 
 .bls-ethos h3 {
@@ -903,7 +869,7 @@ const SUBMISSION_CSS = `
   color: var(--bls-gold);
   font-size: 20px;
   font-weight: 400;
-  transition: transform 160ms ease;
+  transition: transform 200ms var(--bls-ease);
 }
 
 .bls-rights details[open] .bls-plus {
@@ -953,19 +919,19 @@ const SUBMISSION_CSS = `
 .bls-input {
   width: 100%;
   border: 1px solid var(--bls-line);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 12px 13px;
   background: #fdfcfa;
   color: var(--bls-ink);
   font-family: var(--bls-sans);
   font-size: 15px;
+  transition: border-color 180ms var(--bls-ease), box-shadow 180ms var(--bls-ease);
 }
 
 .bls-input:focus,
-.bls-upload:focus-within,
-.bls-file-input:focus-visible + .bls-upload {
+.bls-upload:focus-within {
   outline: none;
-  border-color: var(--bls-gold);
+  border-color: var(--bls-accent-strong);
   box-shadow: 0 0 0 3px var(--bls-gold-soft);
 }
 
@@ -982,13 +948,18 @@ const SUBMISSION_CSS = `
   justify-content: center;
   gap: 6px;
   border: 1.5px dashed var(--bls-line);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 22px;
   background: #fdfcfa;
   color: var(--bls-muted);
   text-align: center;
   font-size: 14px;
   cursor: pointer;
+  transition: border-color 180ms var(--bls-ease);
+}
+
+.bls-upload:hover {
+  border-color: var(--bls-accent-strong);
 }
 
 .bls-upload strong {
@@ -1030,7 +1001,7 @@ const SUBMISSION_CSS = `
   width: 16px;
   height: 16px;
   margin-top: 3px;
-  accent-color: var(--bls-gold);
+  accent-color: var(--bls-accent-strong);
 }
 
 .bls-error {
@@ -1061,22 +1032,35 @@ const SUBMISSION_CSS = `
 }
 
 .bls-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   border: 0;
-  border-radius: 8px;
-  padding: 15px 30px;
-  background: var(--bls-ink);
-  color: #fff;
-  font-size: 14px;
+  border-radius: 999px;
+  padding: 15px 34px;
+  background: var(--bls-cta-bg);
+  color: var(--bls-cta-fg);
+  font-family: var(--bls-sans);
+  font-size: 16px;
   font-weight: 800;
-  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  text-decoration: none;
   cursor: pointer;
-  transition: transform 160ms ease, background 160ms ease;
+  box-shadow: 0 14px 34px -14px rgba(14, 14, 12, 0.7);
+  transition: transform 220ms var(--bls-ease), box-shadow 220ms var(--bls-ease),
+    background 220ms var(--bls-ease);
 }
 
 .bls-button:hover,
 .bls-button:focus-visible {
-  background: #000;
-  transform: translateY(-1px);
+  background: var(--bls-cta-bg-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 20px 42px -14px rgba(14, 14, 12, 0.75);
+}
+
+.bls-hero-cta {
+  margin-top: 30px;
 }
 
 .bls-done {
@@ -1133,7 +1117,9 @@ const SUBMISSION_CSS = `
 @media (prefers-reduced-motion: reduce) {
   .bls-book,
   .bls-plus,
-  .bls-button {
+  .bls-button,
+  .bls-input,
+  .bls-upload {
     animation: none;
     transition: none;
   }
@@ -1145,7 +1131,7 @@ const SUBMISSION_CSS = `
   }
 
   .bls-hero {
-    padding: 34px 0 30px;
+    padding: 36px 0 34px;
   }
 
   .bls-book {
@@ -1157,19 +1143,30 @@ const SUBMISSION_CSS = `
     font-size: 30px;
   }
 
-  .bls-masthead {
-    font-size: 44px;
-  }
-
   .bls-meta-row {
     gap: 22px;
   }
 
   .bls-streams,
   .bls-ethos,
-  .bls-grid-two,
   .bls-form-row {
     grid-template-columns: 1fr;
+  }
+
+  .bls-fee-strip {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .bls-fee-strip-main {
+    padding-right: 0;
+    padding-bottom: 18px;
+    border-right: 0;
+    border-bottom: 1px solid var(--bls-line);
+  }
+
+  .bls-fee-cap {
+    max-width: none;
   }
 
   .bls-form-card {
