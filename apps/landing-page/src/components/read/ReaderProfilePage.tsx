@@ -178,12 +178,7 @@ const CSS = `
 const MARKUP = `
 <nav>
   <a class="brand" href="#">between<span class="brand-dot"></span>reads</a>
-  <div class="nav-links">
-    <a class="nav-link active" href="#">BetweenPages</a>
-    <a class="nav-link" href="#">BetweenCharacters</a>
-    <a class="nav-link" href="#">Discover</a>
-    <a class="nav-link" href="#">Store</a>
-  </div>
+  <div class="nav-links" aria-hidden="true"></div>
   <div class="nav-right">
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;color:#888;display:flex;align-items:center;gap:4px;flex-shrink:0">
       <span style="font-weight:600;color:#1a1a1a">42</span>
