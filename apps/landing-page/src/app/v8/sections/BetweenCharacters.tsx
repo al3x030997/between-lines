@@ -1,88 +1,4 @@
 import Link from 'next/link';
-import { PILL_BG } from './opencall/quotes';
-
-// Line-art "who it's for" icons, drawn to sit inside a pastel circle chip.
-function ChipIconBook() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M12 6.2C10.4 5 8 4.6 5.6 4.8c-.6 0-1 .5-1 1.1v11.4c0 .7.6 1.2 1.3 1.1 2.1-.3 4.3.1 5.7 1.1.3.2.7.2 1 0 1.4-1 3.6-1.4 5.7-1.1.7.1 1.3-.4 1.3-1.1V5.9c0-.6-.4-1.1-1-1.1-2.4-.2-4.8.2-6.4 1.4"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M12 6.2v12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function ChipIconQuill() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M18.5 3.5c-3.8.4-8 2.6-10.3 6.2-1.4 2.2-2 4.6-1.9 6.8"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M18.5 3.5c.6 3.6-.4 7.4-3.1 10.4-2 2.2-4.6 3.5-7.1 3.7"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <path d="M8.3 15.6 4.6 19.4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-      <path d="M11 13l1.8 1.8" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.7" />
-    </svg>
-  );
-}
-
-function ChipIconFeather() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M17 4c-5.2 1-9.6 5.2-10.4 10.4-.2 1.3-.3 2.7-.1 4 1.3.2 2.7.1 4-.1C15.7 17.5 19.9 13.1 21 8c-1.4 0-2.8.4-4 1"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path d="M17 4 6.6 18.4" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" opacity="0.8" />
-      <path d="M14.6 7.4 11 10" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.55" />
-      <path d="M13 10.8 9.6 13.2" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.55" />
-      <path d="M11.4 14.2 8.3 16.4" stroke="currentColor" strokeWidth="0.9" strokeLinecap="round" opacity="0.55" />
-    </svg>
-  );
-}
-
-function ChipIconPaintbrush() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path
-        d="M9.8 14.2 17 5.6c.6-.7 1.7-.8 2.4-.2.7.6.8 1.7.2 2.4l-7.4 8.4"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9.8 14.2c1 .3 1.8 1.1 2 2.1.3 1.5-.6 2.3-1.8 2.9-1.6.8-3.6.9-5-.2 1-.6 1-1.6.9-2.6-.1-1.3.5-2.6 1.6-3.1.7-.3 1.5-.3 2.3.1Z"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-const AUDIENCE_CHIPS = [
-  { label: 'Readers', Icon: ChipIconBook, category: 'read' },
-  { label: 'Writers', Icon: ChipIconQuill, category: 'write' },
-  { label: 'Poets', Icon: ChipIconFeather, category: 'both' },
-  { label: 'Illustrators', Icon: ChipIconPaintbrush, category: 'character' },
-] as const;
 
 export default function BetweenCharacters() {
   return (
@@ -102,23 +18,6 @@ export default function BetweenCharacters() {
           where the best work rises through tailored reading, honest recommendations, and
           community trust.
         </p>
-
-        <div className="bl-bchars-about-chips" role="list" aria-label="Who BetweenReads is for">
-          {AUDIENCE_CHIPS.map(({ label, Icon, category }) => {
-            const pill = PILL_BG[category];
-            return (
-              <div className="bl-bchars-about-chip" role="listitem" key={label}>
-                <span
-                  className="bl-bchars-about-chip-icon"
-                  style={{ background: pill.bg, color: pill.color }}
-                >
-                  <Icon />
-                </span>
-                <span className="bl-bchars-about-chip-label">{label}</span>
-              </div>
-            );
-          })}
-        </div>
 
         <div className="bl-bchars-about-ctas">
           <Link href="/faq" className="bl-bchars-about-cta bl-bchars-about-cta--ghost">
@@ -195,58 +94,7 @@ const STYLES = `
   text-wrap: pretty;
 }
 
-/* "Who it's for" chips */
-.bl-bchars-about-chips {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: clamp(28px, 4.5vw, 52px);
-  margin-top: clamp(32px, 4.4vw, 46px);
-}
-.bl-bchars-about-chip {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-}
-.bl-bchars-about-chip-icon {
-  width: 104px;
-  height: 104px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: transform 280ms cubic-bezier(.22, 1, .36, 1), box-shadow 280ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-bchars-about-chip-icon svg {
-  width: 46px;
-  height: 46px;
-  transition: transform 280ms cubic-bezier(.22, 1, .36, 1);
-}
-.bl-bchars-about-chip:hover .bl-bchars-about-chip-icon {
-  transform: translateY(-8px) scale(1.18) rotate(-4deg);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
-}
-.bl-bchars-about-chip:hover .bl-bchars-about-chip-icon svg {
-  transform: scale(1.08);
-}
-.bl-bchars-about-chip-label {
-  font-family: var(--bl-font-eyebrow);
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--bc-muted);
-  transition: color 220ms ease, transform 220ms ease;
-}
-.bl-bchars-about-chip:hover .bl-bchars-about-chip-label {
-  color: var(--bc-ink);
-  transform: translateY(-2px);
-}
-
-/* CTAs below the chips */
+/* CTAs below the lede */
 .bl-bchars-about-ctas {
   position: relative;
   z-index: 1;
@@ -297,9 +145,6 @@ const STYLES = `
 @media (max-width: 760px) {
   .bl-bchars {
     padding-inline: 20px;
-  }
-  .bl-bchars-about-chips {
-    gap: 16px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

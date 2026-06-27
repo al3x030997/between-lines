@@ -115,22 +115,6 @@ const CSS = `
   margin: 0 auto;
 }
 
-/* ── Header ── */
-.tw-header {
-  text-align: center;
-  margin-bottom: clamp(22px, 3.4vh, 40px);
-}
-.tw-title {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(34px, 4.4vw, 58px);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -0.03em;
-  color: #1a1714;
-  margin: 0;
-  text-wrap: balance;
-}
-
 /* ── Two-world body — converging spine wedge ── */
 .tw-body {
   position: relative;
@@ -713,7 +697,7 @@ export default function TwoWorlds({ onSlideOpenChange }: Props) {
     <section
       ref={rootRef}
       className={`tw-root${visible ? ' is-visible' : ''}`}
-      aria-labelledby="tw-title"
+      aria-label="A place for two sides"
     >
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="tw-viewport" ref={viewportRef}>
@@ -732,12 +716,6 @@ export default function TwoWorlds({ onSlideOpenChange }: Props) {
             }}
           >
             <div className="tw-inner">
-              <header className="tw-header">
-                <h2 className="tw-title" id="tw-title">
-                  A place for two sides.
-                </h2>
-              </header>
-
               <div className="tw-body">
                 {/* Converging lines in the center band (34%–66% at top → 50% at
                     bottom). The 36% center grid column keeps the text columns out
