@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
-import { WriteShell } from '@/components/write/WriteShell';
+import { GuestPlaygroundController } from '@/components/GuestPlaygroundController';
+import { GuestStudioGate } from '@/components/write/GuestStudioGate';
 
 function Splash() {
   return (
@@ -11,10 +12,16 @@ function Splash() {
   );
 }
 
-export default function WritePage() {
+// The writer Studio. Public via SessionGate PUBLIC_EXACT: a visitor with no
+// session gets the real Studio in guest mode (demo author's works) with the
+// sign-up nudge layer and bright landing skin; a logged-in writer gets their own
+// Studio. (The decoupled /write page is now the public writer-profile showcase,
+// not the editor.)
+export default function StudioPage() {
   return (
     <Suspense fallback={<Splash />}>
-      <WriteShell />
+      <GuestPlaygroundController />
+      <GuestStudioGate />
     </Suspense>
   );
 }

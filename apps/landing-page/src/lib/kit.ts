@@ -336,13 +336,18 @@ export function intakeToKit(intake: IntakePayload): {
         for (const g of c.goals) tags.push(`creator-goal-${slug(g)}`);
       }
       if (c.goalsOther) fields.creator_goals_other = c.goalsOther;
-      if (c.work) {
-        fields.creator_work_title = c.work.title;
-        fields.creator_work_genres = c.work.genres.join(', ');
-        fields.creator_work_moods = c.work.moods.join(', ');
-        fields.creator_work_format = c.work.format ?? '';
-        for (const g of c.work.genres.slice(0, 3)) tags.push(`genre-${slug(g)}`);
-      }
+      // Writers may attach up to two works. New payloads carry `works`; legacy
+      // payloads carry a singular `work` — normalise to an array either way.
+      const works = c.works ?? (c.work ? [c.work] : []);
+      works.forEach((w, i) => {
+        // First work keeps the original field names; extras get a numbered suffix.
+        const p = i === 0 ? 'creator_work' : `creator_work_${i + 1}`;
+        fields[`${p}_title`] = w.title;
+        fields[`${p}_genres`] = w.genres.join(', ');
+        fields[`${p}_moods`] = w.moods.join(', ');
+        fields[`${p}_format`] = w.format ?? '';
+        for (const g of w.genres.slice(0, 3)) tags.push(`genre-${slug(g)}`);
+      });
       if (c.poetry) {
         fields.creator_poetry_forms = c.poetry.forms.join(', ');
         fields.creator_poetry_moods = c.poetry.moods.join(', ');

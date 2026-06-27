@@ -124,6 +124,8 @@ const writerAnswersSchema = z.object({
       links: z.array(z.string().max(300)).max(8),
       goals: z.array(z.string().max(120)).max(12),
       goalsOther: z.string().max(500),
+      // Singular `work` is retained (optional) so payloads stored before the
+      // multi-work change still validate. New writer submissions write `works`.
       work: z
         .object({
           title: z.string().max(200),
@@ -131,6 +133,18 @@ const writerAnswersSchema = z.object({
           moods: z.array(z.string().max(64)).max(20),
           format: z.string().max(64).nullable(),
         })
+        .optional(),
+      // Writers can attach more than one title; the prototype caps at 2.
+      works: z
+        .array(
+          z.object({
+            title: z.string().max(200),
+            genres: z.array(z.string().max(64)).max(20),
+            moods: z.array(z.string().max(64)).max(20),
+            format: z.string().max(64).nullable(),
+          }),
+        )
+        .max(2)
         .optional(),
       poetry: z
         .object({

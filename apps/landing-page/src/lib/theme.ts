@@ -19,12 +19,12 @@ export const READER_PATH_PREFIXES = [
   '/writer',
   '/store',
   '/library',
-  // Logged-out writer playground — the real Studio reused as a public,
-  // sign-up-nudged guest route (see SessionGate PUBLIC_EXACT). The logged-out
-  // /read page is a standalone top-level reader-profile page, locked to light
-  // like the rest of the marketing site, so it's intentionally not listed here.
-  '/write',
 ];
+// Note: /studio (the writer Studio) is already covered above and is the public,
+// sign-up-nudged guest route (see SessionGate PUBLIC_EXACT). The logged-out
+// /read and /write pages are standalone top-level marketing pages, locked to
+// light like the rest of the marketing site, so they're intentionally not
+// listed here.
 
 export function isReaderPath(path: string): boolean {
   if (path.startsWith('/read/')) return true;
@@ -105,8 +105,8 @@ export function applyGalleryGuestSkin(on: boolean): void {
 }
 
 /**
- * Light, landing-matching skin for the logged-out /read and /write playgrounds.
- * These reuse the real Discover / Studio screens, but a guest should meet them
+ * Light, landing-matching skin for the logged-out /studio playground.
+ * It reuses the real Studio screen, but a guest should meet it
  * in the bright paper/ink/yellow landing aesthetic (not the dark reader theme)
  * and with sign-up affordances visible. Toggled via `html[data-guest-play='on']`
  * so the override stays isolated from `data-theme`/`data-kids`/`data-gallery-guest`.

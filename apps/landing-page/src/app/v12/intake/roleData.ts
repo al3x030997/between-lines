@@ -313,16 +313,31 @@ export const READER_STATE_INITIAL: ReaderState = {
   goalsOther: '',
 };
 
+// A single uploaded title (writer flow). Writers can add a second — the
+// prototype caps at MAX_WORKS.
+export type WorkItem = {
+  title: string;
+  genres: string[];
+  moods: string[];
+  format: string | null;
+};
+
+export const MAX_WORKS = 2;
+
+export const WORK_ITEM_INITIAL: WorkItem = {
+  title: '',
+  genres: [],
+  moods: [],
+  format: null,
+};
+
 export type CreatorState = {
   stage: 'emerging' | 'established' | null;
   credits: string[];
   bio: string;
   links: string[];
-  // writer
-  workTitle: string;
-  workGenres: string[];
-  workMoods: string[];
-  workFormat: string | null;
+  // writer — one or more works
+  works: WorkItem[];
   // poet
   poetForms: string[];
   poetMoods: string[];
@@ -341,10 +356,7 @@ export const CREATOR_STATE_INITIAL: CreatorState = {
   credits: [],
   bio: '',
   links: [''],
-  workTitle: '',
-  workGenres: [],
-  workMoods: [],
-  workFormat: null,
+  works: [{ ...WORK_ITEM_INITIAL }],
   poetForms: [],
   poetMoods: [],
   poetThemes: [],
@@ -366,7 +378,16 @@ export function creatorReady(role: IntakeRole, c: CreatorState): boolean {
   if (wordCount(c.bio) > BIO_WORD_CAP) return false;
   if (!c.links.every(isValidLink)) return false;
   if (role === 'writer') {
-    return c.workTitle.trim() !== '' && c.workGenres.length > 0;
+    // The first title must be complete (matches the prototype's step-2 gate);
+    // any additional title is optional.
+    const w = c.works[0];
+    return (
+      !!w &&
+      w.title.trim() !== '' &&
+      w.genres.length > 0 &&
+      w.moods.length > 0 &&
+      w.format !== null
+    );
   }
   if (role === 'poet') return c.poetForms.length > 0;
   return c.illoMediums.length > 0; // illustrator
@@ -419,6 +440,14 @@ function buildCreatorIntake(
   const isScout = c.goals.includes(GOAL_SCOUT);
   const inPod = c.goals.some((g) => g.includes('Pod'));
 
+  // Writer works: drop any blank extra titles before serializing.
+  const works: WorkItem[] =
+    role === 'writer'
+      ? c.works
+          .map((w) => ({ ...w, title: w.title.trim() }))
+          .filter((w, i) => i === 0 || w.title !== '')
+      : [];
+
   const base: WriterAnswers = {
     ...WRITER_INITIAL,
     practice: practiceFor(role),
@@ -428,7 +457,7 @@ function buildCreatorIntake(
     genre: {
       ...WRITER_INITIAL.genre,
       focus: 'single',
-      fictionPrimary: role === 'writer' ? c.workGenres.slice(0, 3) : [],
+      fictionPrimary: works[0] ? works[0].genres.slice(0, 3) : [],
     },
     betaPool: isScout,
     pod: inPod,
@@ -443,16 +472,7 @@ function buildCreatorIntake(
     links,
     goals: c.goals,
     goalsOther: c.goalsOther.trim(),
-    ...(role === 'writer'
-      ? {
-          work: {
-            title: c.workTitle.trim(),
-            genres: c.workGenres,
-            moods: c.workMoods,
-            format: c.workFormat,
-          },
-        }
-      : {}),
+    ...(role === 'writer' ? { works } : {}),
     ...(role === 'poet'
       ? {
           poetry: {
@@ -487,4 +507,115 @@ export function buildIntake(
   return role === 'reader'
     ? buildReaderIntake(reader)
     : buildCreatorIntake(role, creator);
+}
+
+// --- Signup (display-name availability) ----------------------------------
+//
+// There is no users table yet, so availability is a front-end stub that
+// mirrors the prototype. TODO: replace with a real availability endpoint
+// once accounts exist.
+const TAKEN_DISPLAY_NAMES = ['betweenreads', 'admin', 'test'];
+
+export type NameStatus = 'idle' | 'available' | 'taken';
+
+export function checkDisplayNameStub(name: string): NameStatus {
+  const v = name.trim().toLowerCase();
+  if (v.length < 3) return 'idle';
+  return TAKEN_DISPLAY_NAMES.includes(v) ? 'taken' : 'available';
+}
+
+// --- Welcome screen ------------------------------------------------------
+
+export type WelcomeAction = { label: string; href: string };
+
+// Action links shown on the final welcome screen. Routes that exist today are
+// wired up; the rest land on the gated insider home until those pages ship.
+export function welcomeActionsFor(
+  role: IntakeRole,
+  bookTitle?: string,
+): WelcomeAction[] {
+  if (role === 'reader') {
+    return [
+      { label: 'Check your profile', href: '/insider' },
+      {
+        label: `Recommend ${bookTitle?.trim() ? bookTitle.trim() : 'a book'}`,
+        href: '/insider',
+      },
+      { label: 'Read a classic', href: '/read' },
+    ];
+  }
+  if (role === 'poet') {
+    return [
+      { label: 'Check your profile', href: '/insider' },
+      { label: 'Upload your poems', href: '/insider' },
+      { label: 'Submit to BetweenLines Journal', href: '/betweenlines' },
+    ];
+  }
+  // writer + illustrator
+  return [
+    { label: 'Check your profile', href: '/insider' },
+    { label: 'Upload your work', href: '/insider' },
+    { label: 'Submit to BetweenLines Journal', href: '/betweenlines' },
+  ];
+}
+
+// A closing literary quote, by role (ported from the prototype).
+export type Quote = { text: string; author: string };
+
+const READER_QUOTES: Quote[] = [
+  { text: 'A reader lives a thousand lives before he dies.', author: 'George R.R. Martin' },
+  {
+    text: 'Reading gives us somewhere to go when we have to stay where we are.',
+    author: 'Mason Cooley',
+  },
+  { text: 'There is no friend as loyal as a book.', author: 'Ernest Hemingway' },
+  { text: 'Once you learn to read, you will be forever free.', author: 'Frederick Douglass' },
+];
+
+const WRITER_QUOTES: Quote[] = [
+  { text: 'We write to taste life twice, in the moment and in retrospect.', author: 'Anaïs Nin' },
+  { text: 'A word after a word after a word is power.', author: 'Margaret Atwood' },
+  { text: 'Write what should not be forgotten.', author: 'Isabel Allende' },
+  { text: 'You can make anything by writing.', author: 'C.S. Lewis' },
+];
+
+const POET_QUOTES: Quote[] = [
+  {
+    text: 'Poetry is not a turning loose of emotion, but an escape from emotion.',
+    author: 'T.S. Eliot',
+  },
+  {
+    text: 'A poem begins as a lump in the throat, a sense of wrong, a homesickness, a lovesickness.',
+    author: 'Robert Frost',
+  },
+  { text: 'Poetry is what gets lost in translation.', author: 'Robert Frost' },
+  {
+    text: 'If I read a book and it makes my whole body so cold no fire can ever warm me, I know that is poetry.',
+    author: 'Emily Dickinson',
+  },
+  {
+    text: 'Poetry is the spontaneous overflow of powerful feelings.',
+    author: 'William Wordsworth',
+  },
+];
+
+const ILLO_QUOTES: Quote[] = [
+  { text: 'An illustrator is a visual storyteller who speaks without words.', author: 'Unknown' },
+  { text: 'Every picture tells a story.', author: 'Rod Stewart' },
+  { text: 'The job of the artist is always to deepen the mystery.', author: 'Francis Bacon' },
+  {
+    text: 'Illustration is the art of clarifying the complex and making the invisible visible.',
+    author: 'Milton Glaser',
+  },
+];
+
+const QUOTES: Record<IntakeRole, Quote[]> = {
+  reader: READER_QUOTES,
+  writer: WRITER_QUOTES,
+  poet: POET_QUOTES,
+  illustrator: ILLO_QUOTES,
+};
+
+export function quotesFor(role: IntakeRole): Quote[] {
+  return QUOTES[role];
 }

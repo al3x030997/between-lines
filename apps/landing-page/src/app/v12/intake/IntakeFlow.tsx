@@ -4,6 +4,8 @@ import { useState, type ReactNode } from 'react';
 import { track } from '@vercel/analytics';
 import { INTAKE_CSS } from '../../v8/intake/intakeCss';
 import { Chip, Chips, ExpandRow, Group, Prompt } from '../../v8/intake/shared/intakeAtoms';
+import SignupStep from './SignupStep';
+import WelcomeStep from './WelcomeStep';
 import {
   type IntakeRole,
   ROLES,
@@ -36,6 +38,9 @@ import {
   READER_STATE_INITIAL,
   type CreatorState,
   CREATOR_STATE_INITIAL,
+  type WorkItem,
+  WORK_ITEM_INITIAL,
+  MAX_WORKS,
   readerReady,
   creatorReady,
   buildIntake,
@@ -45,7 +50,8 @@ import {
 // which import this type and pass `initialMode`. It now spans all four roles.
 export type IntakeRegion = IntakeRole;
 
-type Step = 'profile' | 'pending';
+// signup → profile (question chapters) → welcome.
+type Step = 'signup' | 'profile' | 'welcome';
 
 type Props = {
   initialMode?: IntakeRole;
@@ -59,43 +65,59 @@ function toggle(list: string[], value: string, cap?: number): string[] {
   return [...list, value];
 }
 
+// Hover/focus tooltip for the "Format" label (the lengths cheat-sheet).
+function FormatLabel() {
+  return (
+    <span className="v8-intake-sublabel v12-fmt-label">
+      Format
+      <span className="v12-infotip" tabIndex={0} role="note" aria-label={FORMAT_TIP}>
+        i
+        <span className="v12-infotip-pop" aria-hidden="true">
+          {FORMAT_TIP}
+        </span>
+      </span>
+    </span>
+  );
+}
+
 export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
   const [role, setRole] = useState<IntakeRole>(initialMode);
-  const [step, setStep] = useState<Step>('profile');
+  const [step, setStep] = useState<Step>('signup');
 
-  // Slider — each question section (chapter) is one slide; email is the last.
+  // Slider — each question section (chapter) is one slide.
   const [slide, setSlide] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
   const [reader, setReader] = useState<ReaderState>(READER_STATE_INITIAL);
   const [creator, setCreator] = useState<CreatorState>(CREATOR_STATE_INITIAL);
 
-  // "More…" expanders.
+  // "More…" expanders. Reader genres use one toggle; the writer's per-work
+  // genre expanders are tracked by work index.
   const [moreGenres, setMoreGenres] = useState(false);
+  const [workMoreGenres, setWorkMoreGenres] = useState<Set<number>>(new Set());
   const [morePoetForms, setMorePoetForms] = useState(false);
   const [morePoetThemes, setMorePoetThemes] = useState(false);
 
-  // Email step state.
+  // Captured at the signup step; the email feeds the waitlist submission.
   const [email, setEmail] = useState('');
-  const [consent, setConsent] = useState(false);
-  const [website, setWebsite] = useState(''); // honeypot
+  const [website] = useState(''); // honeypot — humans never fill this
   const [submitting, setSubmitting] = useState(false);
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState('');
 
-  const isCreator = role !== 'reader';
   const setR = (patch: Partial<ReaderState>) => setReader((s) => ({ ...s, ...patch }));
   const setC = (patch: Partial<CreatorState>) => setCreator((s) => ({ ...s, ...patch }));
 
   const hookReady = role === 'reader' ? readerReady(reader) : creatorReady(role, creator);
-  const canSubmitEmail = email.trim().length > 0 && consent && !submitting;
 
   const bioWords = wordCount(creator.bio);
   const bioOver = bioWords > BIO_WORD_CAP;
   const whyWords = wordCount(reader.bookWhy);
   const whyOver = whyWords > WHY_WORD_CAP;
 
-  const submitEmail = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!hookReady || !canSubmitEmail) return;
+  // The whole flow lands here on the last chapter's "Done": persist email +
+  // intake to the existing waitlist pipeline, then show the welcome screen.
+  const submit = async () => {
+    if (!hookReady || submitting) return;
     setSubmitting(true);
     setError('');
     try {
@@ -119,13 +141,10 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
         return;
       }
       const data = (await res.json().catch(() => ({}))) as { insider?: boolean };
-      // insider === true means the cookie is set and we can go straight in.
-      // Otherwise Kit is reconciling via email — show the check-inbox state.
-      if (data.insider) {
-        window.location.assign('/insider');
-      } else {
-        setStep('pending');
-      }
+      // insider === true means the cookie is set and the welcome links work
+      // immediately; otherwise Kit is reconciling via the confirmation email.
+      setPending(!data.insider);
+      setStep('welcome');
     } catch {
       track('waitlist_submit', { ok: false, region: role });
       setError('Network error. Please try again.');
@@ -269,16 +288,15 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
               setC({ goals: toggle(creator.goals, v) }),
             )}
       </Chips>
-      <input
-        className="v12-field-input"
-        value={role === 'reader' ? reader.goalsOther : creator.goalsOther}
-        onChange={(e) =>
-          role === 'reader'
-            ? setR({ goalsOther: e.target.value })
-            : setC({ goalsOther: e.target.value })
-        }
-        placeholder="Other — anything else you'd like to do? (optional)"
-      />
+      {/* The prototype's reader step 3 has no free-text "Other" — creators only. */}
+      {role !== 'reader' && (
+        <input
+          className="v12-field-input"
+          value={creator.goalsOther}
+          onChange={(e) => setC({ goalsOther: e.target.value })}
+          placeholder="Other — anything else you'd like to do? (optional)"
+        />
+      )}
     </Group>
   );
 
@@ -345,8 +363,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
         </div>
       </ExpandRow>
 
-      <span className="v8-intake-sublabel">Format</span>
-      <p className="v12-fieldnote">{FORMAT_TIP}</p>
+      <FormatLabel />
       <Chips>
         {multiChips(FORMATS, reader.formats, (v) =>
           setR({ formats: toggle(reader.formats, v) }),
@@ -362,60 +379,100 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
     </Group>
   );
 
+  // One uploadable title in the writer flow.
+  const renderWork = (w: WorkItem, idx: number) => {
+    const setWork = (patch: Partial<WorkItem>) =>
+      setC({ works: creator.works.map((it, i) => (i === idx ? { ...it, ...patch } : it)) });
+    const removeWork = () => {
+      setC({ works: creator.works.filter((_, i) => i !== idx) });
+      setWorkMoreGenres((prev) => {
+        const next = new Set<number>();
+        prev.forEach((i) => {
+          if (i < idx) next.add(i);
+          else if (i > idx) next.add(i - 1);
+        });
+        return next;
+      });
+    };
+    const genresOpen = workMoreGenres.has(idx);
+    const toggleGenres = () =>
+      setWorkMoreGenres((prev) => {
+        const next = new Set(prev);
+        if (next.has(idx)) next.delete(idx);
+        else next.add(idx);
+        return next;
+      });
+
+    return (
+      <div className={`v12-work${idx > 0 ? ' v12-work-extra' : ''}`} key={idx}>
+        <div className="v12-work-head">
+          <span className="v8-intake-sublabel">{idx === 0 ? 'Title' : `Title ${idx + 1}`}</span>
+          {idx > 0 && (
+            <button type="button" className="v12-textbtn" onClick={removeWork}>
+              − Remove
+            </button>
+          )}
+        </div>
+        <div className="v12-field">
+          <input
+            className="v12-field-input v12-field-title"
+            value={w.title}
+            onChange={(e) => setWork({ title: e.target.value })}
+            placeholder="Title…"
+          />
+        </div>
+
+        <span className="v8-intake-sublabel">Genre</span>
+        <Chips>
+          {multiChips(GENRES_PRIMARY, w.genres, (v) => setWork({ genres: toggle(w.genres, v) }))}
+          <button
+            type="button"
+            className={`v8-chip is-more${genresOpen ? ' is-open' : ''}`}
+            aria-expanded={genresOpen}
+            onClick={toggleGenres}
+          >
+            {genresOpen ? 'Less' : 'More…'}
+          </button>
+        </Chips>
+        <ExpandRow open={genresOpen}>
+          <div className="v8-intake-chips">
+            {multiChips(GENRES_MORE, w.genres, (v) => setWork({ genres: toggle(w.genres, v) }))}
+          </div>
+        </ExpandRow>
+
+        <span className="v8-intake-sublabel">Mood</span>
+        <Chips>{multiChips(MOODS, w.moods, (v) => setWork({ moods: toggle(w.moods, v) }))}</Chips>
+
+        <FormatLabel />
+        <Chips>
+          {FORMATS.map((f) => (
+            <Chip
+              key={f}
+              selected={w.format === f}
+              onClick={() => setWork({ format: w.format === f ? null : f })}
+            >
+              {f}
+            </Chip>
+          ))}
+        </Chips>
+      </div>
+    );
+  };
+
   const writerWork = (
     <Group num="" label="Your work">
       <Prompt>What would you like to upload?</Prompt>
-      <span className="v8-intake-sublabel">Title</span>
-      <div className="v12-field">
-        <input
-          className="v12-field-input v12-field-title"
-          value={creator.workTitle}
-          onChange={(e) => setC({ workTitle: e.target.value })}
-          placeholder="Title…"
-        />
-      </div>
-      <span className="v8-intake-sublabel">Genre</span>
-      <Chips>
-        {multiChips(GENRES_PRIMARY, creator.workGenres, (v) =>
-          setC({ workGenres: toggle(creator.workGenres, v) }),
-        )}
+      <p className="v12-hint">Tell us about your work.</p>
+      {creator.works.map((w, i) => renderWork(w, i))}
+      {creator.works.length < MAX_WORKS && (
         <button
           type="button"
-          className={`v8-chip is-more${moreGenres ? ' is-open' : ''}`}
-          aria-expanded={moreGenres}
-          onClick={() => setMoreGenres((v) => !v)}
+          className="v12-textbtn"
+          onClick={() => setC({ works: [...creator.works, { ...WORK_ITEM_INITIAL }] })}
         >
-          {moreGenres ? 'Less' : 'More…'}
+          + Add another title
         </button>
-      </Chips>
-      <ExpandRow open={moreGenres}>
-        <div className="v8-intake-chips">
-          {multiChips(GENRES_MORE, creator.workGenres, (v) =>
-            setC({ workGenres: toggle(creator.workGenres, v) }),
-          )}
-        </div>
-      </ExpandRow>
-
-      <span className="v8-intake-sublabel">Mood</span>
-      <Chips>
-        {multiChips(MOODS, creator.workMoods, (v) =>
-          setC({ workMoods: toggle(creator.workMoods, v) }),
-        )}
-      </Chips>
-
-      <span className="v8-intake-sublabel">Format</span>
-      <p className="v12-fieldnote">{FORMAT_TIP}</p>
-      <Chips>
-        {FORMATS.map((f) => (
-          <Chip
-            key={f}
-            selected={creator.workFormat === f}
-            onClick={() => setC({ workFormat: creator.workFormat === f ? null : f })}
-          >
-            {f}
-          </Chip>
-        ))}
-      </Chips>
+      )}
     </Group>
   );
 
@@ -499,73 +556,16 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
     </Group>
   );
 
-  // --- Email capture — the final slide -----------------------------------
-
-  const emailSlide = (
-    <div className="v12-email-capture">
-      <h2 className="v12-email-title">Save your spot.</h2>
-
-      <form id="intake-email" className="v12-email-form" onSubmit={submitEmail} noValidate>
-        <label className="v12-email-field">
-          <span className="v8-intake-sublabel">Email</span>
-          <input
-            type="email"
-            inputMode="email"
-            spellCheck={false}
-            autoCapitalize="none"
-            className="v12-email-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="you@somewhere.com"
-            autoComplete="email"
-            required
-          />
-        </label>
-
-        {/* Honeypot — humans never see this. */}
-        <input
-          type="text"
-          name="website"
-          tabIndex={-1}
-          autoComplete="off"
-          value={website}
-          onChange={(e) => setWebsite(e.target.value)}
-          style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
-          aria-hidden="true"
-        />
-
-        <label className="v12-email-consent">
-          <input
-            type="checkbox"
-            checked={consent}
-            onChange={(e) => setConsent(e.target.checked)}
-            required
-          />
-          <span>
-            I agree to receive launch updates from Between Reads and to the processing described in
-            our{' '}
-            <a href="/privacy" target="_blank" rel="noopener">
-              Privacy Policy
-            </a>
-            . Unsubscribe anytime.
-          </span>
-        </label>
-
-        {error && <p className="v12-email-error">{error}</p>}
-      </form>
-    </div>
-  );
-
   // --- Assemble the slide deck for the active role -----------------------
 
   const slides: ReactNode[] =
     role === 'reader'
-      ? [readerBook, readerRead, goalsBlock, emailSlide]
+      ? [readerBook, readerRead, goalsBlock]
       : role === 'writer'
-        ? [identityBlock, writerWork, goalsBlock, emailSlide]
+        ? [identityBlock, writerWork, goalsBlock]
         : role === 'poet'
-          ? [identityBlock, poetWork, goalsBlock, emailSlide]
-          : [identityBlock, illoWork, goalsBlock, emailSlide];
+          ? [identityBlock, poetWork, goalsBlock]
+          : [identityBlock, illoWork, goalsBlock];
 
   const lastIndex = slides.length - 1;
   const current = Math.min(slide, lastIndex);
@@ -587,6 +587,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
     setRole(r);
     setSlide(0);
     setDir(1);
+    setError('');
   };
 
   return (
@@ -594,7 +595,19 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
       <style dangerouslySetInnerHTML={{ __html: INTAKE_CSS }} />
       <style dangerouslySetInnerHTML={{ __html: FLOW_CSS }} />
       <div className="v8-intake" role="region" aria-label="Get started">
-        {/* Role tabs — pick the path. Locked once the spot is saved. */}
+        {/* ============ SIGNUP — create the account first ============ */}
+        {step === 'signup' && (
+          <SignupStep
+            onComplete={({ email: e }) => {
+              setEmail(e);
+              setStep('profile');
+              setSlide(0);
+              setDir(1);
+            }}
+          />
+        )}
+
+        {/* Role tabs — pick the path. Only shown during the questions. */}
         {step === 'profile' && (
           <div className="v12-roletabs" role="tablist" aria-label="Choose your path">
             {ROLES.map((r) => (
@@ -621,6 +634,7 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
                 key={`profile-${role}-${current}`}
               >
                 {slides[current]}
+                {isLast && error && <p className="v12-email-error">{error}</p>}
               </div>
             </div>
 
@@ -653,12 +667,12 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
               <div className="v12-nav-side v12-nav-right">
                 {isLast ? (
                   <button
-                    type="submit"
-                    form="intake-email"
+                    type="button"
                     className="v8-cta v8-cta-primary"
-                    disabled={!hookReady || !canSubmitEmail}
+                    disabled={!hookReady || submitting}
+                    onClick={submit}
                   >
-                    {submitting ? 'Saving…' : 'Save my spot'}
+                    {submitting ? 'Saving…' : 'Done'}
                     <span className="v8-cta-arrow" aria-hidden="true">→</span>
                   </button>
                 ) : (
@@ -672,24 +686,9 @@ export default function IntakeFlow({ initialMode = 'reader', onBack }: Props) {
           </div>
         )}
 
-        {/* ============ PENDING — Kit reconciling via email ============ */}
-        {step === 'pending' && (
-          <div className="v8-intake-form" key="pending">
-            <Group num="" label="Check your email">
-              <Prompt>Check your email.</Prompt>
-            </Group>
-            <p className="v12-email-pitch">
-              We sent a confirmation link to <strong>{email}</strong>. Click it and we&rsquo;ll send
-              your private insider link.
-            </p>
-            {onBack && (
-              <div className="v8-intake-actions">
-                <button type="button" className="v8-cta v8-cta-secondary" onClick={onBack}>
-                  Done
-                </button>
-              </div>
-            )}
-          </div>
+        {/* ============ WELCOME — credits + next steps ============ */}
+        {step === 'welcome' && (
+          <WelcomeStep role={role} bookTitle={reader.bookTitle} pending={pending} />
         )}
       </div>
     </>
@@ -845,98 +844,239 @@ const FLOW_CSS = `
   cursor: help;
 }
 
-/* === Email capture === */
-.v12-email-capture {
-  display: flex;
-  flex-direction: column;
+/* Hover/focus tooltip on the "Format" label. */
+.v12-fmt-label { display: inline-flex; align-items: center; gap: 6px; }
+.v12-infotip {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 14px;
-  width: min(100%, 680px);
-  margin: clamp(14px, 2vw, 24px) auto 0;
-  padding-top: clamp(18px, 2.4vw, 28px);
-  border-top: 1px solid color-mix(in srgb, var(--v6-divider) 82%, transparent);
-  text-align: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid var(--v6-text-muted);
+  font-size: 10px;
+  font-style: italic;
+  font-weight: 700;
+  color: var(--v6-text-muted);
+  cursor: help;
 }
-.v12-email-title {
-  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
-  font-size: clamp(28px, 3vw, 40px);
-  font-weight: 850;
-  line-height: 1;
-  letter-spacing: -0.025em;
-  color: var(--v6-text-strong);
-  margin: 0;
-  text-wrap: balance;
-}
-.v12-email-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-}
-.v12-email-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  width: min(100%, 460px);
-  text-align: left;
-}
-.v12-email-input {
+.v12-infotip-pop {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 250px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--v6-text-strong);
+  color: var(--theme-page, #fff);
   font-family: 'Outfit', sans-serif;
+  font-style: normal;
   font-weight: 500;
-  font-size: 18px;
-  padding: 16px 18px;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 140ms var(--v6-ease);
+  z-index: 30;
+}
+.v12-infotip:hover .v12-infotip-pop,
+.v12-infotip:focus-visible .v12-infotip-pop { opacity: 1; visibility: visible; }
+
+/* === Writer multi-work === */
+.v12-work { display: flex; flex-direction: column; gap: 8px; }
+.v12-work-extra {
+  margin-top: 14px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--v6-divider) 82%, transparent);
+}
+.v12-work-head { display: flex; align-items: center; justify-content: space-between; }
+.v12-work-head .v12-textbtn { padding: 0; }
+
+/* === Signup step === */
+.v12-signup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 440px);
+  margin: 0 auto;
+}
+.v12-signup-title {
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-size: clamp(24px, 3vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--v6-text-strong);
+  text-align: center;
+  margin: 0 0 6px;
+}
+.v12-signup-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
   border: 1px solid var(--v6-divider);
   border-radius: 12px;
   background: var(--theme-surface-raised, var(--theme-surface-muted));
   color: var(--v6-text-strong);
-  width: 100%;
-  transition: border-color 160ms var(--v6-ease), background 160ms var(--v6-ease);
-}
-.v12-email-input:focus {
-  outline: none;
-  border-color: var(--v6-accent);
-  background: var(--v6-accent-soft);
-}
-.v12-email-consent {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
   font-family: 'Outfit', sans-serif;
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--v6-text-muted);
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  max-width: 460px;
-  text-align: left;
+  transition: border-color 160ms var(--v6-ease);
 }
-.v12-email-consent input[type="checkbox"] {
-  margin-top: 3px;
+.v12-signup-social:hover { border-color: var(--v6-text-muted); }
+.v12-signup-note {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  color: var(--v6-text-muted);
+  text-align: center;
+  margin: 0;
+}
+.v12-signup-or {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+}
+.v12-signup-or span {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  color: var(--v6-text-muted);
+}
+.v12-signup-or hr { flex: 1; border: 0; border-top: 1px solid var(--v6-divider); }
+.v12-signup-status {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  margin: -4px 0 2px;
+}
+.v12-signup-status.is-ok { color: #1d9e75; }
+.v12-signup-status.is-taken { color: #c0392b; }
+.v12-signup-age {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  color: var(--v6-text);
+  cursor: pointer;
+  margin-top: 2px;
+}
+.v12-signup-age input[type="checkbox"] {
   width: 16px;
   height: 16px;
   flex: 0 0 auto;
   accent-color: var(--v6-accent);
   cursor: pointer;
 }
-.v12-email-consent a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
-.v12-email-consent a:hover { color: var(--v6-accent); }
+.v12-signup-hint {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  color: var(--v6-text-muted);
+  margin: 0;
+}
+.v12-signup-submit { width: 100%; justify-content: center; margin-top: 6px; }
+
+/* === Email / inline error === */
 .v12-email-error {
   font-family: 'Outfit', sans-serif;
   font-size: 13px;
   color: var(--v6-accent);
-  margin: 0;
+  margin: 4px 0 0;
   text-align: center;
 }
-.v12-email-form .v8-intake-actions {
-  justify-content: center;
-  margin-top: 0;
+
+/* === Welcome step === */
+.v12-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 3vw, 28px);
+  text-align: center;
+  padding: clamp(8px, 2vw, 20px) 0;
 }
-.v12-email-pitch {
+.v12-welcome-head { display: flex; flex-direction: column; gap: 6px; }
+.v12-welcome-title {
+  font-family: 'Bricolage Grotesque', 'Outfit', sans-serif;
+  font-size: clamp(40px, 6vw, 56px);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--v6-text-strong);
+  margin: 0;
+}
+.v12-welcome-credits {
   font-family: 'Outfit', sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
+  font-size: 16px;
+  color: var(--v6-text-muted);
+  margin: 0;
+}
+.v12-welcome-credits strong { color: var(--v6-text-strong); }
+.v12-welcome-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 40px);
+  width: 100%;
+  padding: clamp(16px, 2.4vw, 22px) clamp(20px, 4vw, 32px);
+  background: var(--v6-accent);
+  border-radius: 14px;
+}
+.v12-welcome-action {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.v12-welcome-action:hover { opacity: 0.7; }
+.v12-welcome-pending {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  color: var(--v6-text-muted);
+  margin: 0;
+  max-width: 440px;
+}
+.v12-welcome-quote {
+  margin: 0;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.v12-welcome-quote blockquote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--v6-text-muted);
+  margin: 0;
+}
+.v12-welcome-quote figcaption {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--v6-text-muted);
 }
+.v12-welcome-about {
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  margin: 0;
+}
+.v12-welcome-about a {
+  color: var(--v6-text-muted);
+  text-decoration: none;
+  border-bottom: 1px solid var(--v6-divider);
+}
+.v12-welcome-about a:hover { color: var(--v6-text-strong); }
 
 /* === Slider — one chapter per slide === */
 .v12-slider {
@@ -965,14 +1105,7 @@ const FLOW_CSS = `
   .v12-slide { animation-duration: 1ms; }
 }
 
-/* The email block sits alone on its slide — drop the in-form divider. */
-.v12-slider .v12-email-capture {
-  border-top: 0;
-  margin-top: 0;
-  padding-top: 0;
-}
-
-/* Footer nav: Back · dots · Continue/Submit */
+/* Footer nav: Back · dots · Continue/Done */
 .v12-slide-nav {
   display: flex;
   align-items: center;

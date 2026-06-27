@@ -89,9 +89,9 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 
   // Guests browse a real author's studio (demo data); members use their own.
   const dataHandle = guest ? DEMO_WRITER_HANDLE : session?.handle;
-  // Guest tab/editor navigation must stay on the public /write route — pushing
-  // to the gated /studio would bounce a logged-out visitor back to home.
-  const studioBase = guest ? '/write' : '/studio';
+  // Both guest and member Studio live at /studio (public via SessionGate), so
+  // tab/editor navigation stays on that route for everyone.
+  const studioBase = '/studio';
 
   const works: WorkSummary[] = useMemo(() => {
     if (!dataHandle) return [];
@@ -179,7 +179,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     if (requestedView === 'editor' || requestedWork) {
       setTopTab('write');
     } else if (guest) {
-      // Fresh /write entry for a guest opens straight into the blank editor.
+      // Fresh /studio entry for a guest opens straight into the blank editor.
       setTopTab('write');
       setEditorSubTab('write');
     } else {
@@ -191,7 +191,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     setTopTab(id);
     setWorkMenuOpen(false);
     if (id === 'library') {
-      // Explicit ?tab=library so a bare /write URL is reserved for fresh entry
+      // Explicit ?tab=library so a bare /studio URL is reserved for fresh entry
       // (which defaults guests into the editor).
       router.push(`${studioBase}?tab=library`);
     } else if (id === 'write') {
@@ -417,8 +417,8 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 }
 
 /**
- * The writer Studio, shared between the member route (/studio, guest=false) and
- * the logged-out playground (/write, guest=true). In guest mode it shows a demo
+ * The writer Studio at /studio, shared between members (guest=false) and
+ * logged-out visitors (guest=true). In guest mode it shows a demo
  * author's populated studio wrapped in the sign-up nudge layer; high-intent
  * actions (add work, open a non-sample title) nudge instead of committing.
  */
