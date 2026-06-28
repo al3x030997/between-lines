@@ -111,9 +111,6 @@ const STYLES = `
   align-items: center;
   justify-content: space-between;
   gap: clamp(24px, 5vw, 64px);
-  padding: clamp(24px, 3vw, 36px) 0;
-  border-top: 1px solid var(--bl-footer-divider);
-  border-bottom: 1px solid var(--bl-footer-divider);
 }
 .bl-footer-socials-copy {
   display: flex;

@@ -74,6 +74,12 @@ const V12_CSS = `
   pointer-events: none;
 }
 
+/* Merge the "about" block into Two Worlds: drop its forced full-viewport height
+   so the two read as one continuous section with no blank gap between them. */
+.v12-section-shell--between .bl-bchars {
+  min-height: auto;
+}
+
 /* === Hero (yellow, full screen) === */
 .v12-hero {
   background: var(--theme-hero);
@@ -83,7 +89,7 @@ const V12_CSS = `
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(84vh - 76px);
+  min-height: calc(100svh - 76px);
   position: relative;
   transition: opacity 360ms cubic-bezier(.22, 1, .36, 1),
               transform 360ms cubic-bezier(.22, 1, .36, 1);
@@ -203,22 +209,22 @@ const V12_CSS = `
   font-size: clamp(18px, 1.9vw, 20px);
   font-weight: 800;
   letter-spacing: 0.2px;
-  color: #fff;
-  background: rgb(216, 64, 46);
+  color: var(--theme-hero-text);
+  background: #fff;
   border: none;
   border-radius: 999px;
   padding: clamp(13px, 1.7vh, 17px) clamp(32px, 4vw, 44px);
   cursor: pointer;
-  box-shadow: 0 14px 34px -14px rgba(216, 64, 46, 0.55);
+  box-shadow: 0 14px 34px -14px rgba(26, 23, 20, 0.45);
   transition: transform 220ms var(--v6-ease),
               box-shadow 220ms var(--v6-ease),
               background 220ms var(--v6-ease);
 }
 .v12-start-writing:hover,
 .v12-start-writing:focus-visible {
-  background: rgb(196, 52, 36);
+  background: #f6f1e6;
   transform: translateY(-2px);
-  box-shadow: 0 20px 42px -14px rgba(216, 64, 46, 0.65);
+  box-shadow: 0 20px 42px -14px rgba(26, 23, 20, 0.55);
   outline: none;
 }
 .v12-start-writing:active { transform: translateY(0); }
@@ -522,7 +528,6 @@ export default function V12Page() {
         className="v12-section-shell v12-section-shell--between"
       >
         <BetweenCharacters />
-        <ScrollCue targetId="v12-two-worlds" label="Scroll to two sides section" />
       </div>
 
       <div
