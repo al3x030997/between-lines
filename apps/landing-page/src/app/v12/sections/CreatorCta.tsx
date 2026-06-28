@@ -6,22 +6,28 @@ type Props = {
 
 const STYLES = `
 .cc-closing {
-  background: #161410;
+  background: var(--theme-page, #faf8f4);
   font-family: 'Outfit', system-ui, sans-serif;
 }
 
-/* Dark creator band */
+/* Light surround so the dark band reads as a contained CTA card, not a full-
+   bleed section. */
 .cc-band-outer {
-  background: #161410;
+  background: var(--theme-page, #faf8f4);
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 5vw, 80px);
 }
 .cc-band {
   position: relative;
   overflow: hidden;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: clamp(24px, 3vw, 40px);
   background: #161410;
   color: #f6f1e3;
-  padding: clamp(72px, 11vw, 132px) clamp(24px, 5vw, 80px);
+  padding: clamp(56px, 8vw, 104px) clamp(24px, 5vw, 80px);
   text-align: center;
+  box-shadow: 0 40px 80px -42px rgba(22, 20, 16, 0.45);
 }
 .cc-band::before {
   content: '';

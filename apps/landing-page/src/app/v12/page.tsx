@@ -75,9 +75,11 @@ const V12_CSS = `
 }
 
 /* Merge the "about" block into Two Worlds: drop its forced full-viewport height
-   so the two read as one continuous section with no blank gap between them. */
+   and tighten the bottom padding so the two read as one continuous section with
+   no blank gap between them. */
 .v12-section-shell--between .bl-bchars {
   min-height: auto;
+  padding-bottom: clamp(20px, 3vh, 40px);
 }
 
 /* === Hero (yellow, full screen) === */

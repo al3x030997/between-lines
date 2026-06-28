@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 type Item = { heading: string; body: string };
@@ -230,7 +229,7 @@ const CSS = `
   width: clamp(16px, 2.2vw, 30px);
   height: 3px;
   border-radius: 2px;
-  background: var(--theme-accent-strong, #d4aa18);
+  background: var(--theme-yellow, #FFE600);
   transform: translateY(-50%);
   transition: width 240ms cubic-bezier(.22, 1, .36, 1);
 }
@@ -283,7 +282,7 @@ const CSS = `
   width: 38%;
   height: 38%;
   border-radius: 999px;
-  background: var(--theme-accent-strong, #d4aa18);
+  background: var(--theme-yellow, #FFE600);
 }
 
 /* ── Meeting line + CTAs ── */
@@ -524,10 +523,10 @@ function Column({
         onClick={onOpen}
         aria-expanded={false}
         aria-controls={`tw-panel-${side}`}
+        aria-label={label}
       >
         <span className="tw-col-label" style={{ ['--tw-delay' as string]: `${baseDelay}ms` }}>
           {!isBookWorld && <span className="tw-arrow" aria-hidden="true">←</span>}
-          <span>{label}</span>
           {isBookWorld && <span className="tw-arrow" aria-hidden="true">→</span>}
         </span>
       </button>
@@ -775,16 +774,6 @@ export default function TwoWorlds({ onSlideOpenChange }: Props) {
 
               <div className="tw-meet" style={{ ['--tw-delay' as string]: '900ms' }}>
                 <p className="tw-meet-line">One place — between reads.</p>
-                <div className="tw-ctas">
-                  <Link href="/?intake=writer" className="tw-cta tw-cta--ghost">
-                    Join as writer
-                    <span className="tw-cta-arrow" aria-hidden="true">→</span>
-                  </Link>
-                  <Link href="/reviews" className="tw-cta tw-cta--solid">
-                    Browse books
-                    <span className="tw-cta-arrow" aria-hidden="true">→</span>
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
