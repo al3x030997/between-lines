@@ -324,26 +324,26 @@ const CSS = `
 .rl-banner {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 16px 20px;
+  gap: 22px;
+  padding: 20px 26px;
   background: linear-gradient(180deg, #fffbe0 0%, var(--rl-yellow-soft) 100%);
   border: 1px solid color-mix(in srgb, var(--rl-yellow) 55%, var(--rl-border));
   border-radius: 14px;
 }
-.rl-banner-body { display: flex; align-items: center; gap: 14px; min-width: 0; }
-.rl-banner-emoji { font-size: 22px; flex-shrink: 0; }
+.rl-banner-body { display: flex; align-items: center; gap: 16px; min-width: 0; }
+.rl-banner-emoji { font-size: 26px; flex-shrink: 0; }
 .rl-banner-text {
   margin: 0;
-  font-size: 14.5px;
-  line-height: 1.5;
+  font-size: 16.5px;
+  line-height: 1.55;
   color: var(--theme-text);
 }
 .rl-banner-text strong { font-weight: 800; }
 .rl-banner-cta {
   flex-shrink: 0;
-  padding: 11px 20px;
+  padding: 12px 22px;
   font: inherit;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--rl-paper);
   background: #16110d;
@@ -464,7 +464,11 @@ const CSS = `
 /* Poster grid */
 .rl-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  /* Fixed 5-up so the row spans the full width and lines up under the
+     featured card, giving each cover more room. (auto-fill left empty tracks
+     on the right, so the row stopped short of the featured card's edge.)
+     Steps down on narrower screens below. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(20px, 2vw, 32px);
 }
 .rl-poster {
@@ -568,6 +572,9 @@ const CSS = `
 .rl-empty-body { margin: 0; font-size: 15px; color: var(--rl-ink-muted); }
 
 /* ── Responsive ────────────────────────────────────────── */
+/* Step the 5-up cover grid down as width shrinks. */
+@media (max-width: 1400px) { .rl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 1040px) { .rl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 900px) {
   .rl-shell, .rl-shell.is-railed { grid-template-columns: 1fr; }
   .rl-root .br-fsidebar {
@@ -582,6 +589,6 @@ const CSS = `
 @media (max-width: 560px) {
   .rl-banner { flex-direction: column; align-items: stretch; }
   .rl-banner-cta { width: 100%; }
-  .rl-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .rl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 `;
