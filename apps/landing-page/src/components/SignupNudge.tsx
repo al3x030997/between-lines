@@ -27,6 +27,7 @@ export type NudgeReason =
   | 'open-book'
   | 'continue'
   | 'save'
+  | 'draft'
   | 'credits'
   | 'feedback'
   | 'publish'
@@ -76,6 +77,10 @@ const REASON_COPY: Record<NudgeReason, { title: string; body: string }> = {
   save: {
     title: 'Save it to your shelves',
     body: 'A free account gives you reading lists, finished shelves, and your own reader page.',
+  },
+  draft: {
+    title: 'Keep your draft',
+    body: 'Claim a free writer space to save your chapters and pick up writing on any device.',
   },
   credits: {
     title: 'Unlock with credits',

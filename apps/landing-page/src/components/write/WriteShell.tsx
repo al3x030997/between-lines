@@ -81,7 +81,7 @@ function isTopTab(value: string | null): value is TopTab {
   );
 }
 
-function WriteShellInner({ guest }: { guest: boolean }) {
+function WriteShellInner({ guest, landing }: { guest: boolean; landing: boolean }) {
   const { session, ready } = useMockSession();
   const { requestSignup } = useGuestNudge();
   const params = useSearchParams();
@@ -164,6 +164,14 @@ function WriteShellInner({ guest }: { guest: boolean }) {
   };
 
   useEffect(() => {
+    // Landing mode is a chromeless, single-purpose editor: there are no top
+    // tabs to switch to, so lock the surface to the Write editor regardless
+    // of any URL params.
+    if (landing) {
+      setTopTab('write');
+      setEditorSubTab('write');
+      return;
+    }
     const requestedTab = params.get('tab');
     if (isTopTab(requestedTab)) {
       setTopTab(requestedTab);
@@ -185,7 +193,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
       setTopTab('write');
       setEditorSubTab('write');
     }
-  }, [params, guest]);
+  }, [params, guest, landing]);
 
   const changeTopTab = (id: TopTab) => {
     setTopTab(id);
@@ -285,58 +293,64 @@ function WriteShellInner({ guest }: { guest: boolean }) {
         {/* Row 2: same tabsbar as library mode so the global section nav
             (Search + Your Library / Write / Audio / ...) stays at the
             same y-position across /write surfaces. "Write" is active
-            here because topTab === 'write'. */}
-        <div className="br-write-tabsbar">
-          <div className="br-write-tabsbar-inner">
-            <WriterSearch query={writerQuery} onChange={setWriterQuery} />
-            <StoreTabs<TopTab>
-              tabs={TOP_TABS}
-              active={topTab}
-              onChange={changeTopTab}
-              ariaLabel="Writer sections"
-            />
+            here because topTab === 'write'. Dropped in landing mode — the
+            logged-out /write editor is chromeless under the marketing nav. */}
+        {!landing ? (
+          <div className="br-write-tabsbar">
+            <div className="br-write-tabsbar-inner">
+              <WriterSearch query={writerQuery} onChange={setWriterQuery} />
+              <StoreTabs<TopTab>
+                tabs={TOP_TABS}
+                active={topTab}
+                onChange={changeTopTab}
+                ariaLabel="Writer sections"
+              />
+            </div>
           </div>
-        </div>
+        ) : null}
         {/* The work title + meta strip used to live here as row-3, but
             the chapter sidebar already shows "{work title} / {meta} /
             {word count} · {chapter count}" — so the dedicated strip
             was pure redundancy. Editor sub-tabs become row-3 directly,
-            and the work title only appears in the sidebar header. */}
-        <div className="br-write-editor-subbar">
-          <button
-            type="button"
-            className={`br-write-subtab ${editorSubTab === 'write' ? 'is-active' : ''}`}
-            onClick={() => setEditorSubTab('write')}
-          >
-            Write
-          </button>
-          <button
-            type="button"
-            className={`br-write-subtab ${editorSubTab === 'chsettings' ? 'is-active' : ''}`}
-            onClick={() => setEditorSubTab('chsettings')}
-          >
-            Chapter settings
-          </button>
-          <button
-            type="button"
-            className={`br-write-subtab ${editorSubTab === 'novelsettings' ? 'is-active' : ''}`}
-            onClick={() => setEditorSubTab('novelsettings')}
-          >
-            Novel settings
-          </button>
-          <WorkDropdown
-            works={works}
-            activeId={workId}
-            onChange={(id) => {
-              setWorkId(id);
-              setWorkMenuOpen(false);
-              openEditorForWork(id, editorSubTab);
-            }}
-            open={workMenuOpen}
-            onToggle={() => setWorkMenuOpen((v) => !v)}
-            onClose={() => setWorkMenuOpen(false)}
-          />
-        </div>
+            and the work title only appears in the sidebar header. Dropped
+            in landing mode (no settings tabs, no work switcher for guests). */}
+        {!landing ? (
+          <div className="br-write-editor-subbar">
+            <button
+              type="button"
+              className={`br-write-subtab ${editorSubTab === 'write' ? 'is-active' : ''}`}
+              onClick={() => setEditorSubTab('write')}
+            >
+              Write
+            </button>
+            <button
+              type="button"
+              className={`br-write-subtab ${editorSubTab === 'chsettings' ? 'is-active' : ''}`}
+              onClick={() => setEditorSubTab('chsettings')}
+            >
+              Chapter settings
+            </button>
+            <button
+              type="button"
+              className={`br-write-subtab ${editorSubTab === 'novelsettings' ? 'is-active' : ''}`}
+              onClick={() => setEditorSubTab('novelsettings')}
+            >
+              Novel settings
+            </button>
+            <WorkDropdown
+              works={works}
+              activeId={workId}
+              onChange={(id) => {
+                setWorkId(id);
+                setWorkMenuOpen(false);
+                openEditorForWork(id, editorSubTab);
+              }}
+              open={workMenuOpen}
+              onToggle={() => setWorkMenuOpen((v) => !v)}
+              onClose={() => setWorkMenuOpen(false)}
+            />
+          </div>
+        ) : null}
         <div className="br-write-main">
           <ChapterSidebar
             collapsed={sidebarCollapsed}
@@ -356,6 +370,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
                 onTitleEdit={(newTitle) => {
                   if (activeChapter) activeChapter.title = newTitle;
                 }}
+                onGuestNudge={landing ? requestSignup : undefined}
               />
             ) : null}
             {editorSubTab === 'chsettings' ? (
@@ -421,11 +436,16 @@ function WriteShellInner({ guest }: { guest: boolean }) {
  * logged-out visitors (guest=true). In guest mode it shows a demo
  * author's populated studio wrapped in the sign-up nudge layer; high-intent
  * actions (add work, open a non-sample title) nudge instead of committing.
+ *
+ * `landing` strips the studio chrome down to just the chapter rail + editor
+ * for the public, logged-out /write marketing page: no top section tabs, no
+ * search, no settings sub-tabs, no work switcher — and the editor's
+ * Save / Preview / Publish actions become sign-up hooks.
  */
-export function WriteShell({ guest = false }: { guest?: boolean } = {}) {
+export function WriteShell({ guest = false, landing = false }: { guest?: boolean; landing?: boolean } = {}) {
   return (
     <GuestNudgeProvider mode="writer" enabled={guest}>
-      <WriteShellInner guest={guest} />
+      <WriteShellInner guest={guest} landing={landing} />
     </GuestNudgeProvider>
   );
 }

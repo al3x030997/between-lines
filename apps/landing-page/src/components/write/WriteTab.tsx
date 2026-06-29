@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Chapter } from '@/lib/mock-books';
+import type { NudgeReason } from '@/components/SignupNudge';
 import { PreviewOverlay } from './PreviewOverlay';
 
 type Props = {
@@ -12,9 +13,16 @@ type Props = {
   autoFocus?: boolean;
   chapter: Chapter | null;
   onTitleEdit: (title: string) => void;
+  /**
+   * When set (the logged-out /write landing editor), the Save / Preview /
+   * Publish actions become sign-up hooks: instead of their in-app behaviour
+   * they open the sign-up nudge with the given reason. Omitted in the real
+   * Studio, where the buttons keep their normal behaviour.
+   */
+  onGuestNudge?: (reason: NudgeReason) => void;
 };
 
-export function WriteTab({ workTitle, authorLabel = 'Your pen name', autoFocus = false, chapter, onTitleEdit }: Props) {
+export function WriteTab({ workTitle, authorLabel = 'Your pen name', autoFocus = false, chapter, onTitleEdit, onGuestNudge }: Props) {
   const padRef = useRef<HTMLDivElement>(null);
   const [wordCount, setWordCount] = useState(0);
   const [autosave, setAutosave] = useState<'idle' | 'saving' | 'saved'>('idle');
@@ -71,9 +79,25 @@ export function WriteTab({ workTitle, authorLabel = 'Your pen name', autoFocus =
   }, [recountWords]);
 
   const onPublish = useCallback(() => {
+    if (onGuestNudge) {
+      onGuestNudge('publish');
+      return;
+    }
     setToast('Chapter published — visible to your beta readers now');
     setTimeout(() => setToast(null), 2400);
-  }, []);
+  }, [onGuestNudge]);
+
+  const onSaveDraft = useCallback(() => {
+    if (onGuestNudge) onGuestNudge('draft');
+  }, [onGuestNudge]);
+
+  const onPreview = useCallback(() => {
+    if (onGuestNudge) {
+      onGuestNudge('draft');
+      return;
+    }
+    setPreviewOpen(true);
+  }, [onGuestNudge]);
 
   return (
     <div className="br-write-pad-wrap">
@@ -97,8 +121,8 @@ export function WriteTab({ workTitle, authorLabel = 'Your pen name', autoFocus =
           </span>
         </label>
         <span style={{ flex: 1 }} />
-        <button type="button" className="br-write-btn-sm">Save as draft</button>
-        <button type="button" className="br-write-btn-sm" onClick={() => setPreviewOpen(true)}>Preview</button>
+        <button type="button" className="br-write-btn-sm" onClick={onSaveDraft}>Save as draft</button>
+        <button type="button" className="br-write-btn-sm" onClick={onPreview}>Preview</button>
         <button type="button" className="br-write-btn-sm is-primary" onClick={onPublish}>Publish</button>
       </div>
       <div className="br-write-fmtbar">

@@ -12,7 +12,6 @@ export type ResolvedTheme = 'light' | 'dark';
  */
 export const READER_PATH_PREFIXES = [
   '/gallery',
-  '/write',
   '/account',
   '/profile',
   '/reader',
@@ -20,11 +19,10 @@ export const READER_PATH_PREFIXES = [
   '/store',
   '/library',
 ];
-// Note: /write (the writer Studio) is covered above and is the public,
-// sign-up-nudged guest route (see SessionGate PUBLIC_EXACT) — guests get the
-// bright guest-play skin over it. The logged-out /read page is a standalone
-// top-level marketing page, locked to light like the rest of the marketing
-// site, so it's intentionally not listed here.
+// Note: the logged-out /read and /write pages are standalone top-level
+// marketing pages (SiteNav + the light landing skin), locked to light like the
+// rest of the marketing site, so they're intentionally not listed here. /write
+// renders the chromeless guest writing editor; /read the public library.
 
 export function isReaderPath(path: string): boolean {
   if (path.startsWith('/read/')) return true;
