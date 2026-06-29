@@ -5,6 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 type Item = { heading: string; body: string };
 type Side = 'platform' | 'bookworld';
 type View = 'platform' | 'overview' | 'bookworld';
+type OverviewItem = Item & { side: Side; label: string };
 
 type Props = {
   onSlideOpenChange?: (open: boolean) => void;
@@ -38,6 +39,15 @@ const BOOK_WORLD_ITEMS: Item[] = [
     heading: 'The Storefront',
     body: 'Buy from local shops. Better royalty terms for authors than the big platforms, on every purchase.',
   },
+];
+
+const OVERVIEW_ITEMS: OverviewItem[] = [
+  { ...PLATFORM_ITEMS[0], side: 'platform', label: 'The Platform' },
+  { ...BOOK_WORLD_ITEMS[0], side: 'bookworld', label: 'The Book World' },
+  { ...PLATFORM_ITEMS[1], side: 'platform', label: 'The Platform' },
+  { ...BOOK_WORLD_ITEMS[1], side: 'bookworld', label: 'The Book World' },
+  { ...PLATFORM_ITEMS[2], side: 'platform', label: 'The Platform' },
+  { ...BOOK_WORLD_ITEMS[2], side: 'bookworld', label: 'The Book World' },
 ];
 
 const SIDE_COPY: Record<Side, { label: string; title: string; paragraphs: string[] }> = {
@@ -93,7 +103,7 @@ const CSS = `
   padding: clamp(44px, 6vh, 80px) clamp(24px, 5.5vw, 96px);
   background: var(--theme-page, #ffffff);
 }
-/* Tighter vertical rhythm on the overview so the whole wedge + CTAs fit
+/* Tighter vertical rhythm on the overview so the card grid fits
    within the viewport (minus the pinned header) after a scroll-cue jump. */
 .tw-slide--overview {
   padding-top: clamp(22px, 3.2vh, 44px);
@@ -114,175 +124,82 @@ const CSS = `
   margin: 0 auto;
 }
 
-/* ── Two-world body — converging spine wedge ── */
-.tw-body {
-  position: relative;
+/* ── Overview cards ── */
+.tw-grid {
   display: grid;
-  grid-template-columns: 1fr 36% 1fr;
-  column-gap: 0;
-  align-items: start;
-  padding-bottom: clamp(36px, 5vh, 64px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(16px, 2.2vw, 26px);
 }
 
-/* The connector lines are drawn into this overlay; they sit behind the text. */
-.tw-connector {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-.tw-connector .tw-line {
-  fill: none;
-  stroke: rgba(26, 23, 20, 0.30);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-}
-.tw-root.is-visible .tw-connector .tw-line {
-  animation: tw-draw 820ms cubic-bezier(.65, 0, .35, 1) 120ms forwards;
-}
-@keyframes tw-draw { to { stroke-dashoffset: 0; } }
-
-/* ── Columns ── */
-.tw-col {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-}
-.tw-col--platform { grid-column: 1; text-align: right; align-items: flex-end; }
-.tw-col--bookworld { grid-column: 3; text-align: left; align-items: flex-start; }
-
-/* ── Clickable side label / trigger ── */
-.tw-col-trigger {
+.tw-card {
   appearance: none;
   -webkit-appearance: none;
-  background: none;
-  border: 0;
-  margin: 0 0 clamp(16px, 2.2vh, 26px);
-  padding: 6px 4px;
-  cursor: pointer;
-  font-family: inherit;
-  color: inherit;
-  display: inline-flex;
+  width: 100%;
+  min-height: clamp(178px, 18vw, 228px);
+  display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+  text-align: left;
+  background: color-mix(in srgb, var(--theme-page, #ffffff) 88%, var(--theme-yellow, #FFE600) 12%);
+  border: 2px dotted rgba(26, 23, 20, 0.34);
   border-radius: 8px;
-  transition: transform 220ms cubic-bezier(.22, 1, .36, 1);
+  color: inherit;
+  cursor: pointer;
+  padding: clamp(22px, 3vw, 34px);
+  opacity: 1;
+  transition:
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    border-color 220ms cubic-bezier(.22, 1, .36, 1),
+    background-color 220ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 220ms cubic-bezier(.22, 1, .36, 1);
 }
-.tw-col--platform .tw-col-trigger { align-items: flex-end; text-align: right; }
-.tw-col--bookworld .tw-col-trigger { align-items: flex-start; text-align: left; }
-.tw-col-trigger:focus-visible {
+.tw-card--bookworld {
+  background: var(--theme-page, #ffffff);
+}
+.tw-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(26, 23, 20, 0.62);
+  box-shadow: 0 18px 42px rgba(26, 23, 20, 0.10);
+  outline: none;
+}
+.tw-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: rgba(26, 23, 20, 0.62);
+  box-shadow: 0 18px 42px rgba(26, 23, 20, 0.10);
   outline: 2px solid var(--theme-accent-strong, #d4aa18);
   outline-offset: 4px;
 }
-.tw-col-trigger:hover { transform: translateY(-1px); }
+.tw-card:active { transform: translateY(-1px); }
 
-.tw-col-label {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 12px;
+.tw-card-label {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(15px, 1.6vw, 19px);
-  font-weight: 800;
-  letter-spacing: 0.18em;
+  font-size: clamp(12px, 1.1vw, 14px);
+  font-weight: 850;
+  letter-spacing: 0.12em;
+  line-height: 1;
   text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.55);
-  transition: color 220ms cubic-bezier(.22, 1, .36, 1);
+  color: rgba(26, 23, 20, 0.56);
+  margin-bottom: clamp(15px, 1.8vw, 22px);
 }
-.tw-col-trigger:hover .tw-col-label,
-.tw-col-trigger:focus-visible .tw-col-label { color: #1a1714; }
-.tw-arrow { font-size: 1em; line-height: 1; }
-
-/* ── Items ── */
-.tw-item {
-  /* --tw-step drives the inward offset; --tw-x (set inline per index) angles
-     each block toward the spine so the column echoes the converging lines. */
-  --tw-step: clamp(10px, 2vw, 30px);
-  max-width: 28ch;
-  padding-block: clamp(9px, 1.4vh, 16px);
-  border-top: 1px solid rgba(26, 23, 20, 0.14);
-  opacity: 1;
-}
-.tw-col--platform .tw-item:first-of-type,
-.tw-col--bookworld .tw-item:first-of-type { border-top: none; }
 
 .tw-item-heading {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(23px, 2.5vw, 34px);
+  font-size: clamp(29px, 3.2vw, 42px);
   font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: 0;
+  line-height: 1.02;
   color: #1a1714;
-  margin: 0 0 7px;
-  position: relative;
-  transition: transform 240ms cubic-bezier(.22, 1, .36, 1);
+  margin: 0 0 clamp(10px, 1.2vw, 14px);
 }
-/* Permanent connector tick at the spine-side edge of each heading. */
-.tw-item-heading::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: clamp(16px, 2.2vw, 30px);
-  height: 3px;
-  border-radius: 2px;
-  background: var(--theme-yellow, #FFE600);
-  transform: translateY(-50%);
-  transition: width 240ms cubic-bezier(.22, 1, .36, 1);
-}
-.tw-col--platform .tw-item-heading::after { left: calc(100% + 14px); }
-.tw-col--bookworld .tw-item-heading::after { right: calc(100% + 14px); }
-.tw-col--platform .tw-item:hover .tw-item-heading { transform: translateX(6px); }
-.tw-col--bookworld .tw-item:hover .tw-item-heading { transform: translateX(-6px); }
-.tw-item:hover .tw-item-heading::after { width: clamp(26px, 3.4vw, 44px); }
 
 .tw-item-body {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(15.5px, 1.55vw, 18px);
-  line-height: 1.5;
-  color: rgba(26, 23, 20, 0.62);
+  font-size: clamp(17px, 1.7vw, 20px);
+  line-height: 1.42;
+  color: rgba(26, 23, 20, 0.68);
   margin: 0;
+  max-width: 36ch;
   text-wrap: pretty;
-}
-
-/* ── Convergence node ── */
-.tw-node {
-  position: absolute;
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 50%) scale(0.5);
-  width: clamp(50px, 5.4vw, 66px);
-  height: clamp(50px, 5.4vw, 66px);
-  z-index: 2;
-  opacity: 0;
-  display: grid;
-  place-items: center;
-}
-.tw-root.is-visible .tw-node {
-  animation: tw-node-pop 480ms cubic-bezier(.34, 1.56, .64, 1) 780ms forwards;
-}
-@keyframes tw-node-pop {
-  from { opacity: 0; transform: translate(-50%, 50%) scale(0.4); }
-  to   { opacity: 1; transform: translate(-50%, 50%) scale(1); }
-}
-.tw-node-ring {
-  width: 100%;
-  height: 100%;
-  border-radius: 999px;
-  background: var(--theme-page, #ffffff);
-  border: 2.6px solid #1a1714;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 10px 28px rgba(26, 23, 20, 0.14);
-}
-.tw-node-dot {
-  width: 38%;
-  height: 38%;
-  border-radius: 999px;
-  background: var(--theme-yellow, #FFE600);
 }
 
 /* ── Meeting line + CTAs ── */
@@ -422,126 +339,68 @@ const CSS = `
 .tw-detail-text:last-child { margin-bottom: 0; }
 
 /* ── Entrance choreography (overview only) ── */
-.tw-col-label,
 .tw-meet {
   opacity: 0;
   transform: translateY(16px);
 }
-.tw-slide--overview .tw-item {
+.tw-slide--overview .tw-card {
   opacity: 0;
-  transform: translate(var(--tw-x, 0px), 16px);
+  transform: translateY(16px);
 }
-.tw-root.is-visible .tw-col-label,
 .tw-root.is-visible .tw-meet {
   animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
   animation-delay: var(--tw-delay, 0ms);
 }
-.tw-root.is-visible .tw-slide--overview .tw-item {
-  animation: tw-rise-item 560ms cubic-bezier(.22, 1, .36, 1) forwards;
+.tw-root.is-visible .tw-slide--overview .tw-card {
+  animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
   animation-delay: var(--tw-delay, 0ms);
 }
 @keyframes tw-rise {
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes tw-rise-item {
-  to { opacity: 1; transform: translate(var(--tw-x, 0px), 0); }
-}
 
 /* ── Responsive ── */
 @media (max-width: 860px) {
-  .tw-body {
-    grid-template-columns: 1fr;
-    padding-bottom: 0;
-  }
-  .tw-col--platform,
-  .tw-col--bookworld {
-    grid-column: 1;
-    text-align: left;
-    align-items: stretch;
-  }
-  .tw-col--platform .tw-col-trigger { align-items: flex-start; text-align: left; }
-  .tw-item { max-width: none; --tw-step: 0px; }
-  .tw-col--platform .tw-item-heading::after,
-  .tw-col--bookworld .tw-item-heading::after { display: none; }
-  .tw-connector { display: none; }
-  .tw-node {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    margin: clamp(36px, 7vw, 52px) auto;
-    opacity: 1;
-  }
-  .tw-root.is-visible .tw-node { animation: none; }
-  .tw-col--bookworld { margin-top: 0; }
+  .tw-grid { grid-template-columns: 1fr; }
+  .tw-card { min-height: auto; }
   .tw-meet { margin-top: clamp(36px, 7vw, 52px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tw-viewport,
   .tw-track { transition: none !important; }
-  .tw-root .tw-col-label,
-  .tw-root .tw-item,
-  .tw-root .tw-meet,
-  .tw-root .tw-node {
+  .tw-root .tw-card,
+  .tw-root .tw-meet {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
   }
-  .tw-node { transform: translate(-50%, 50%) !important; }
-  .tw-slide--overview .tw-item { transform: translate(var(--tw-x, 0px), 0) !important; }
-  .tw-connector .tw-line { stroke-dashoffset: 0 !important; animation: none !important; }
-}
-@media (prefers-reduced-motion: reduce) and (max-width: 860px) {
-  .tw-node { transform: none !important; }
 }
 `;
 
-function Column({
-  side,
-  label,
-  items,
-  baseDelay,
+function FeatureGrid({
   onOpen,
-  triggerRef,
 }: {
-  side: Side;
-  label: string;
-  items: Item[];
-  baseDelay: number;
-  onOpen: () => void;
-  triggerRef: (el: HTMLButtonElement | null) => void;
+  onOpen: (side: Side, trigger: HTMLButtonElement) => void;
 }) {
-  const isBookWorld = side === 'bookworld';
-  const dir = isBookWorld ? -1 : 1;
   return (
-    <div className={`tw-col tw-col--${side}`}>
-      <button
-        type="button"
-        className="tw-col-trigger"
-        ref={triggerRef}
-        onClick={onOpen}
-        aria-expanded={false}
-        aria-controls={`tw-panel-${side}`}
-        aria-label={label}
-      >
-        <span className="tw-col-label" style={{ ['--tw-delay' as string]: `${baseDelay}ms` }}>
-          {!isBookWorld && <span className="tw-arrow" aria-hidden="true">←</span>}
-          {isBookWorld && <span className="tw-arrow" aria-hidden="true">→</span>}
-        </span>
-      </button>
-      {items.map((item, i) => (
-        <div
-          className="tw-item"
+    <div className="tw-grid">
+      {OVERVIEW_ITEMS.map((item, i) => (
+        <button
+          type="button"
+          className={`tw-card tw-card--${item.side}`}
           key={item.heading}
+          onClick={(event) => onOpen(item.side, event.currentTarget)}
+          aria-expanded={false}
+          aria-controls={`tw-panel-${item.side}`}
           style={{
-            ['--tw-delay' as string]: `${baseDelay + 90 + i * 90}ms`,
-            ['--tw-x' as string]: `calc(${i} * var(--tw-step) * ${dir})`,
+            ['--tw-delay' as string]: `${90 + i * 70}ms`,
           }}
         >
+          <span className="tw-card-label">{item.label}</span>
           <h3 className="tw-item-heading">{item.heading}</h3>
           <p className="tw-item-body">{item.body}</p>
-        </div>
+        </button>
       ))}
     </div>
   );
@@ -715,62 +574,12 @@ export default function TwoWorlds({ onSlideOpenChange }: Props) {
             }}
           >
             <div className="tw-inner">
-              <div className="tw-body">
-                {/* Converging lines in the center band (34%–66% at top → 50% at
-                    bottom). The 36% center grid column keeps the text columns out
-                    to 32%/68%, so the strong angle never crosses the text.
-                    preserveAspectRatio="none" lets the lines re-angle to fit any
-                    width — they meet at the node anchored at (50, 100). */}
-                <svg
-                  className="tw-connector"
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <line
-                    className="tw-line"
-                    x1="34"
-                    y1="3"
-                    x2="50"
-                    y2="100"
-                    pathLength={1}
-                    vectorEffect="non-scaling-stroke"
-                  />
-                  <line
-                    className="tw-line"
-                    x1="66"
-                    y1="3"
-                    x2="50"
-                    y2="100"
-                    pathLength={1}
-                    vectorEffect="non-scaling-stroke"
-                  />
-                </svg>
-
-                <Column
-                  side="platform"
-                  label="The Platform"
-                  items={PLATFORM_ITEMS}
-                  baseDelay={0}
-                  onOpen={() => setView('platform')}
-                  triggerRef={(el) => (triggerRefs.current.platform = el)}
-                />
-                <Column
-                  side="bookworld"
-                  label="The Book World"
-                  items={BOOK_WORLD_ITEMS}
-                  baseDelay={120}
-                  onOpen={() => setView('bookworld')}
-                  triggerRef={(el) => (triggerRefs.current.bookworld = el)}
-                />
-
-                <div className="tw-node" aria-hidden="true">
-                  <div className="tw-node-ring">
-                    <div className="tw-node-dot" />
-                  </div>
-                </div>
-              </div>
+              <FeatureGrid
+                onOpen={(side, trigger) => {
+                  triggerRefs.current[side] = trigger;
+                  setView(side);
+                }}
+              />
 
               <div className="tw-meet" style={{ ['--tw-delay' as string]: '900ms' }}>
                 <p className="tw-meet-line">One place — between reads.</p>
