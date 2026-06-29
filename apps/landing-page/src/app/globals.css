@@ -8935,20 +8935,156 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
 .br-write-landing .br-write-wc,
 .br-write-landing .br-write-autosave { font-size: 0.875rem; }   /* ~14px (was 11px) */
 
-/* Chapter sidebar. */
-.br-write-landing .br-write-novel-title { font-size: 1.375rem; }   /* ~22px (was 16px) */
-.br-write-landing .br-write-novel-meta { font-size: 0.875rem; }    /* ~14px (was 10px) */
-.br-write-landing .br-write-novel-stats { font-size: 0.875rem; }   /* ~14px (was 10px) */
-.br-write-landing .br-write-new-ch { font-size: 1rem; padding: 0.7rem 0.9rem; }  /* ~16px (was 13px) */
-.br-write-landing .br-write-chsection-label { font-size: 0.8125rem; }  /* ~13px (was 11px) */
-.br-write-landing .br-write-chname { font-size: 1rem; }            /* ~16px (was 12px) */
-.br-write-landing .br-write-chnum {
-  font-size: 0.8125rem;                                            /* ~13px (was 10px) */
-  width: 1.625rem;                                                 /* 26px (was 22px) */
-  height: 1.625rem;
+/* ------------------------------------------------------------------------
+   Chapter sidebar — cohesive, professional redesign for the public editor.
+   The studio default mixes a teal accent with a purple writer accent over a
+   flat white panel, which reads muddy. Here the sidebar commits to ONE accent
+   (brand teal) on a warm-paper surface that's distinct from the white writing
+   canvas, with a refined active row (soft fill + left bar + filled number).
+   Explicit colors (not inherited tokens) so the result is fully controlled.
+   ------------------------------------------------------------------------ */
+.br-write-landing {
+  --wl-accent: #0f766e;            /* brand teal */
+  --wl-accent-strong: #0b5a54;
+  --wl-accent-soft: rgba(15, 118, 110, 0.10);
+  --wl-accent-line: rgba(15, 118, 110, 0.28);
+  --wl-paper: #faf9f5;             /* warm paper — distinct from white canvas */
+  --wl-ink: #1b1a17;
+  --wl-ink-soft: rgba(27, 26, 23, 0.60);
+  --wl-ink-faint: rgba(27, 26, 23, 0.40);
+  --wl-line: rgba(27, 26, 23, 0.10);
 }
-.br-write-landing .br-write-chitem { padding: 0.5rem 0.55rem; }
-.br-write-landing .br-write-chfoot { font-size: 0.8125rem; }       /* ~13px (was 11px) */
+
+/* Surface: warm paper panel with a crisp hairline against the canvas. */
+.br-write-landing .br-write-sidebar {
+  width: 268px;
+  background: var(--wl-paper);
+  border-right: 1px solid var(--wl-line);
+}
+
+/* Header block. */
+.br-write-landing .br-write-novel-header {
+  padding: 1.3rem 1.2rem 1.1rem;
+  border-bottom: 1px solid var(--wl-line);
+}
+.br-write-landing .br-write-novel-title {
+  font-size: 1.5rem;               /* ~24px */
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--wl-ink);
+}
+.br-write-landing .br-write-novel-meta {
+  font-size: 0.8125rem;            /* ~13px — calm muted ink, no purple */
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--wl-ink-soft);
+  margin-top: 6px;
+}
+.br-write-landing .br-write-progress {
+  height: 5px;
+  background: var(--wl-line);
+  margin: 14px 0 9px;
+}
+.br-write-landing .br-write-progress-fill { background: var(--wl-accent); }
+.br-write-landing .br-write-novel-stats {
+  font-size: 0.8125rem;            /* ~13px */
+  font-weight: 500;
+  color: var(--wl-ink-faint);
+}
+.br-write-landing .br-write-collapse-btn { color: var(--wl-ink-faint); }
+.br-write-landing .br-write-collapse-btn:hover {
+  background: rgba(27, 26, 23, 0.05);
+  color: var(--wl-ink-soft);
+}
+
+/* New chapter — confident primary action: white card, teal hover-fill. */
+.br-write-landing .br-write-new-ch {
+  margin: 1.1rem 0.9rem 0.4rem;
+  padding: 0.8rem 1rem;
+  border-radius: 11px;
+  border: 1px solid var(--wl-accent-line);
+  background: #ffffff;
+  color: var(--wl-accent-strong);
+  font-size: 1rem;                 /* ~16px */
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.br-write-landing .br-write-new-ch:hover {
+  background: var(--wl-accent);
+  border-color: var(--wl-accent);
+  color: #ffffff;
+  box-shadow: 0 6px 16px -8px rgba(15, 118, 110, 0.55);
+  transform: translateY(-1px);
+}
+
+/* Section label. */
+.br-write-landing .br-write-chsection-label {
+  font-size: 0.75rem;              /* ~12px */
+  letter-spacing: 0.16em;
+  color: var(--wl-ink-faint);
+  padding: 0 1.2rem;
+  margin: 1.15rem 0 0.5rem;
+}
+
+/* Chapter rows. */
+.br-write-landing .br-write-chitem {
+  position: relative;
+  gap: 11px;
+  margin: 0 0.6rem 2px;
+  padding: 0.55rem 0.6rem;
+  border-radius: 9px;
+}
+.br-write-landing .br-write-chitem:hover { background: rgba(27, 26, 23, 0.045); }
+.br-write-landing .br-write-chitem.is-active { background: var(--wl-accent-soft); }
+.br-write-landing .br-write-chitem.is-active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 62%;
+  border-radius: 0 3px 3px 0;
+  background: var(--wl-accent);
+}
+.br-write-landing .br-write-chname {
+  font-size: 1rem;                 /* ~16px */
+  font-weight: 500;
+  color: var(--wl-ink);
+}
+.br-write-landing .br-write-chitem.is-active .br-write-chname {
+  color: var(--wl-ink);
+  font-weight: 600;
+}
+.br-write-landing .br-write-chitem.is-new .br-write-chname { color: var(--wl-ink-soft); }
+
+/* Number badge: neutral by default, filled teal when active. */
+.br-write-landing .br-write-chnum {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 7px;
+  background: rgba(27, 26, 23, 0.06);
+  color: var(--wl-ink-soft);
+  font-family: var(--br-font-display);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.8rem;               /* ~13px */
+}
+.br-write-landing .br-write-chitem.is-active .br-write-chnum {
+  background: var(--wl-accent);
+  color: #ffffff;
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Footer chip. */
+.br-write-landing .br-write-chfoot {
+  font-size: 0.8125rem;            /* ~13px */
+  border-top: 1px solid var(--wl-line);
+  color: var(--wl-ink-faint);
+}
+.br-write-landing .br-write-foot-dot { background: var(--wl-accent); }
 
 /* Preview overlay — mirrors /read's dark Netflix chrome so writers
    see their work inside the BetweenReads platform shell. Scoped
