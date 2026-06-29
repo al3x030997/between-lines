@@ -289,7 +289,7 @@ function WriteShellInner({ guest, landing }: { guest: boolean; landing: boolean 
   // back to the library instead.
   if (topTab === 'write') {
     return (
-      <div className="br-write-shell br-write-shell-editor br-write-page">
+      <div className={`br-write-shell br-write-shell-editor br-write-page${landing ? ' br-write-landing' : ''}`}>
         {/* Row 2: same tabsbar as library mode so the global section nav
             (Search + Your Library / Write / Audio / ...) stays at the
             same y-position across /write surfaces. "Write" is active

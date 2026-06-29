@@ -8912,6 +8912,44 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
   font-size: 15px;
 }
 
+/* ------------------------------------------------------------------------
+   Landing editor (public /write): the base .br-write-* sizes are tuned for a
+   dense in-app studio and read far too small on a laptop. The logged-out
+   marketing editor gets a larger, relative (rem) type scale for comfortable
+   reading — scoped to .br-write-landing so the in-app studio stays compact.
+   1rem = 16px. Sizes are roughly ~25-30% up from the studio defaults.
+   ------------------------------------------------------------------------ */
+/* Editor body — the writing surface itself (most important to read well). */
+.br-write-landing .br-write-pad {
+  font-size: 1.3rem;      /* ~21px (was 17px) */
+  line-height: 1.85;
+  max-width: 46rem;
+}
+.br-write-landing .br-write-pad:empty::before { font-size: 1.2rem; }   /* ~19px (was 15px) */
+
+/* Top action bar: Upload file / Save as draft / Preview / Publish. */
+.br-write-landing .br-write-btn-sm { font-size: 0.875rem; padding: 0.5rem 1rem; }  /* ~14px (was 11px) */
+
+/* Formatting toolbar + word count / autosave. */
+.br-write-landing .br-write-fmtbtn { font-size: 1rem; width: 2.25rem; height: 2.25rem; }  /* ~16px / 36px */
+.br-write-landing .br-write-wc,
+.br-write-landing .br-write-autosave { font-size: 0.875rem; }   /* ~14px (was 11px) */
+
+/* Chapter sidebar. */
+.br-write-landing .br-write-novel-title { font-size: 1.375rem; }   /* ~22px (was 16px) */
+.br-write-landing .br-write-novel-meta { font-size: 0.875rem; }    /* ~14px (was 10px) */
+.br-write-landing .br-write-novel-stats { font-size: 0.875rem; }   /* ~14px (was 10px) */
+.br-write-landing .br-write-new-ch { font-size: 1rem; padding: 0.7rem 0.9rem; }  /* ~16px (was 13px) */
+.br-write-landing .br-write-chsection-label { font-size: 0.8125rem; }  /* ~13px (was 11px) */
+.br-write-landing .br-write-chname { font-size: 1rem; }            /* ~16px (was 12px) */
+.br-write-landing .br-write-chnum {
+  font-size: 0.8125rem;                                            /* ~13px (was 10px) */
+  width: 1.625rem;                                                 /* 26px (was 22px) */
+  height: 1.625rem;
+}
+.br-write-landing .br-write-chitem { padding: 0.5rem 0.55rem; }
+.br-write-landing .br-write-chfoot { font-size: 0.8125rem; }       /* ~13px (was 11px) */
+
 /* Preview overlay — mirrors /read's dark Netflix chrome so writers
    see their work inside the BetweenReads platform shell. Scoped
    entirely under .br-write-preview so it doesn't leak into the rest
