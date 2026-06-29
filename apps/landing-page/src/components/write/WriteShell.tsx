@@ -147,7 +147,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 
   const activeChapter = chapters.find((c) => c.slug === activeChapterSlug) ?? null;
 
-  const [topTab, setTopTab] = useState<TopTab>('library');
+  const [topTab, setTopTab] = useState<TopTab>('write');
   const [editorSubTab, setEditorSubTab] = useState<EditorSubTab>('write');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [workMenuOpen, setWorkMenuOpen] = useState(false);
@@ -178,12 +178,12 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     const requestedWork = params.get('work');
     if (requestedView === 'editor' || requestedWork) {
       setTopTab('write');
-    } else if (guest) {
-      // Fresh /write entry for a guest opens straight into the blank editor.
+    } else {
+      // Fresh /write entry opens straight into the editor for everyone —
+      // clicking "Write" should land in the writing room, not the library.
+      // The library stays reachable via its own tab (?tab=library).
       setTopTab('write');
       setEditorSubTab('write');
-    } else {
-      setTopTab('library');
     }
   }, [params, guest]);
 
@@ -192,7 +192,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     setWorkMenuOpen(false);
     if (id === 'library') {
       // Explicit ?tab=library so a bare /write URL is reserved for fresh entry
-      // (which defaults guests into the editor).
+      // (which defaults everyone into the editor).
       router.push(`${studioBase}?tab=library`);
     } else if (id === 'write') {
       const next = new URLSearchParams();
