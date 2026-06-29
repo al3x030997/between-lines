@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 type Item = { heading: string; body: string };
 type Side = 'platform' | 'bookworld';
 type View = 'platform' | 'overview' | 'bookworld';
-type OverviewItem = Item & { side: Side; label: string };
+type OverviewItem = Item & { side: Side };
 
 type Props = {
   onSlideOpenChange?: (open: boolean) => void;
@@ -42,12 +42,12 @@ const BOOK_WORLD_ITEMS: Item[] = [
 ];
 
 const OVERVIEW_ITEMS: OverviewItem[] = [
-  { ...PLATFORM_ITEMS[0], side: 'platform', label: 'The Platform' },
-  { ...BOOK_WORLD_ITEMS[0], side: 'bookworld', label: 'The Book World' },
-  { ...PLATFORM_ITEMS[1], side: 'platform', label: 'The Platform' },
-  { ...BOOK_WORLD_ITEMS[1], side: 'bookworld', label: 'The Book World' },
-  { ...PLATFORM_ITEMS[2], side: 'platform', label: 'The Platform' },
-  { ...BOOK_WORLD_ITEMS[2], side: 'bookworld', label: 'The Book World' },
+  { ...PLATFORM_ITEMS[0], side: 'platform' },
+  { ...BOOK_WORLD_ITEMS[0], side: 'bookworld' },
+  { ...PLATFORM_ITEMS[1], side: 'platform' },
+  { ...BOOK_WORLD_ITEMS[1], side: 'bookworld' },
+  { ...PLATFORM_ITEMS[2], side: 'platform' },
+  { ...BOOK_WORLD_ITEMS[2], side: 'bookworld' },
 ];
 
 const SIDE_COPY: Record<Side, { label: string; title: string; paragraphs: string[] }> = {
@@ -171,17 +171,6 @@ const CSS = `
 }
 .tw-card:active { transform: translateY(-1px); }
 
-.tw-card-label {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: clamp(12px, 1.1vw, 14px);
-  font-weight: 850;
-  letter-spacing: 0.12em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: rgba(26, 23, 20, 0.56);
-  margin-bottom: clamp(15px, 1.8vw, 22px);
-}
-
 .tw-item-heading {
   font-family: 'Outfit', system-ui, sans-serif;
   font-size: clamp(29px, 3.2vw, 42px);
@@ -202,21 +191,6 @@ const CSS = `
   text-wrap: pretty;
 }
 
-/* ── Meeting line + CTAs ── */
-.tw-meet {
-  text-align: center;
-  margin-top: clamp(26px, 3.8vh, 44px);
-  opacity: 1;
-}
-.tw-meet-line {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(22px, 2.7vw, 32px);
-  font-style: italic;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: #1a1714;
-  margin: 0 0 clamp(24px, 3.2vh, 34px);
-}
 .tw-ctas {
   display: flex;
   flex-wrap: wrap;
@@ -339,17 +313,9 @@ const CSS = `
 .tw-detail-text:last-child { margin-bottom: 0; }
 
 /* ── Entrance choreography (overview only) ── */
-.tw-meet {
-  opacity: 0;
-  transform: translateY(16px);
-}
 .tw-slide--overview .tw-card {
   opacity: 0;
   transform: translateY(16px);
-}
-.tw-root.is-visible .tw-meet {
-  animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
-  animation-delay: var(--tw-delay, 0ms);
 }
 .tw-root.is-visible .tw-slide--overview .tw-card {
   animation: tw-rise 560ms cubic-bezier(.22, 1, .36, 1) forwards;
@@ -363,14 +329,12 @@ const CSS = `
 @media (max-width: 860px) {
   .tw-grid { grid-template-columns: 1fr; }
   .tw-card { min-height: auto; }
-  .tw-meet { margin-top: clamp(36px, 7vw, 52px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .tw-viewport,
   .tw-track { transition: none !important; }
-  .tw-root .tw-card,
-  .tw-root .tw-meet {
+  .tw-root .tw-card {
     opacity: 1 !important;
     transform: none !important;
     animation: none !important;
@@ -397,7 +361,6 @@ function FeatureGrid({
             ['--tw-delay' as string]: `${90 + i * 70}ms`,
           }}
         >
-          <span className="tw-card-label">{item.label}</span>
           <h3 className="tw-item-heading">{item.heading}</h3>
           <p className="tw-item-body">{item.body}</p>
         </button>
@@ -580,10 +543,6 @@ export default function TwoWorlds({ onSlideOpenChange }: Props) {
                   setView(side);
                 }}
               />
-
-              <div className="tw-meet" style={{ ['--tw-delay' as string]: '900ms' }}>
-                <p className="tw-meet-line">One place — between reads.</p>
-              </div>
             </div>
           </div>
 
