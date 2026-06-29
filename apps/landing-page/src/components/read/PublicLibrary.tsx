@@ -3,25 +3,32 @@
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { SiteNav } from '@/components/SiteNav';
+import {
+  FilterSidebar,
+  type FilterState,
+  type SidebarMvpSection,
+  type SidebarShelfId,
+} from '@/components/FilterSidebar';
 import { getBooksBySection, getLaunchOriginals, type Book } from '@/lib/mock-books';
 
 // The logged-out /read library. A standalone, ungated, light-themed gallery that
 // mirrors the in-app MVP catalogue (featured BetweenLines pick + our first books +
-// free classics) but in the marketing hero brand and with none of the gated
-// in-app chrome (no shelves, no For You, no theme toggle). Every book CTA nudges
-// a guest into the free sign-up — the real book pages live behind the session
-// gate. Self-contained: all styling is namespaced `.rl-*` so nothing leaks into
-// the dark reader app, which shares the `.br-*` design system.
+// free classics) in the marketing hero brand. Every book CTA nudges a guest into
+// the free sign-up — the real book pages live behind the session gate.
+//
+// The left sidebar is the *actual* in-app `FilterSidebar` in MVP mode — the same
+// collapsible rail/panel readers see in the gated library — so the two surfaces
+// stay in lockstep. Only positioning + accent theming are re-skinned, scoped under
+// `.rl-root .br-fsidebar` (see CSS) so nothing leaks back into the reader app.
+// Everything else here stays namespaced `.rl-*`.
 
 const JOIN_HREF = '/start?mode=reader';
 
-type Category = 'all' | 'first' | 'classics';
-
-const CATEGORIES: { id: Category; label: string; glyph: string }[] = [
-  { id: 'all', label: 'All', glyph: '▦' },
-  { id: 'first', label: 'Our First Books', glyph: '✦' },
-  { id: 'classics', label: 'Timeless Classics', glyph: '❧' },
-];
+// Required-but-unused props for FilterSidebar's full (non-MVP) mode. In MVP mode
+// the component never reads these, so empty/no-op values are safe.
+const NO_FILTERS: FilterState = {};
+const NO_SECTIONS: { id: string; label: string }[] = [];
+const noop = () => {};
 
 function matches(book: Book, q: string): boolean {
   if (!q) return true;
@@ -93,7 +100,8 @@ function InviteBanner() {
 
 export function PublicLibrary() {
   const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<Category>('all');
+  const [category, setCategory] = useState<SidebarMvpSection>('all');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const originals = useMemo(() => getLaunchOriginals(), []);
   const classics = useMemo(() => getBooksBySection('classics'), []);
@@ -113,54 +121,26 @@ export function PublicLibrary() {
       <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <SiteNav />
       <div className="rl-root">
-        <div className="rl-shell">
-          <aside className="rl-sidebar" aria-label="Browse the library">
-            <p className="rl-sidebar-label">Browse</p>
-
-            <div className="rl-search">
-              <svg className="rl-search-icon" viewBox="0 0 20 20" aria-hidden="true">
-                <circle cx="9" cy="9" r="6.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-                <line x1="14" y1="14" x2="18" y2="18" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-              </svg>
-              <input
-                className="rl-search-input"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search books, authors, tags…"
-                aria-label="Search books, authors, tags"
-              />
-              {query && (
-                <button
-                  type="button"
-                  className="rl-search-clear"
-                  onClick={() => setQuery('')}
-                  aria-label="Clear search"
-                >
-                  ×
-                </button>
-              )}
-            </div>
-
-            <nav className="rl-cats" aria-label="Categories">
-              {CATEGORIES.map((cat) => (
-                <button
-                  key={cat.id}
-                  type="button"
-                  className={`rl-cat ${category === cat.id ? 'is-active' : ''}`}
-                  onClick={() => setCategory(cat.id)}
-                  aria-pressed={category === cat.id}
-                >
-                  <span className="rl-cat-glyph" aria-hidden="true">{cat.glyph}</span>
-                  {cat.label}
-                </button>
-              ))}
-            </nav>
-
-            <p className="rl-sidebar-note">
-              More ways to browse — moods, genres, your shelves — arrive as the library grows.
-            </p>
-          </aside>
+        <div className={`rl-shell ${sidebarOpen ? '' : 'is-railed'}`}>
+          <FilterSidebar
+            mvp
+            open={sidebarOpen}
+            onOpen={() => setSidebarOpen(true)}
+            onClose={() => setSidebarOpen(false)}
+            mvpSection={category}
+            onMvpSectionChange={setCategory}
+            query={query}
+            onSearchChange={setQuery}
+            /* Unused in MVP mode — the component never reads these here. */
+            filters={NO_FILTERS}
+            onToggle={noop}
+            selectedShelf={'all' as SidebarShelfId}
+            onShelfChange={noop}
+            sections={NO_SECTIONS}
+            activeSection="all"
+            onSectionChange={noop}
+            showFilters={false}
+          />
 
           <main className="rl-main">
             <InviteBanner />
@@ -237,141 +217,98 @@ export function PublicLibrary() {
 
 const CSS = `
 .rl-root {
+  /* ── Surface ramp ──────────────────────────────────────────────
+     One warm temperature, two elevation levels (Refactoring UI: pick a
+     single grey temperature; Material/Atlassian: recessed canvas, raised
+     containers). The old page mixed a COLD pure-white canvas with WARM
+     cream panels — that adjacency is what read as "dirty/off". Now:
+       L0 canvas  → warm paper (recessed), the brand's actual base tone
+       L1 surface → pure white (raised) for every card AND the sidebar,
+                    so they're one consistent material, lifted by a warm
+                    border + a single soft shadow.
+       inset      → a faint warm fill for pills/chips only. */
   --rl-paper: #F6F1E3;
+  --rl-canvas: #F7F3EA;
   --rl-surface: #ffffff;
-  --rl-surface-subtle: #f8f5ee;
+  --rl-surface-subtle: #fbf7ee;
   --rl-ink: var(--theme-text);
   --rl-ink-soft: var(--theme-text-soft);
   --rl-ink-muted: var(--theme-text-muted);
   --rl-ink-faint: var(--theme-text-faint);
-  --rl-border: var(--theme-border);
-  --rl-border-strong: var(--theme-border-strong);
+  /* Warm-tinted hairline + shadow so edges share the canvas temperature
+     instead of reading as cold neutral grey. */
+  --rl-border: rgba(74, 60, 33, 0.16);
+  --rl-border-strong: rgba(74, 60, 33, 0.30);
+  --rl-raise: 0 10px 30px -20px rgba(60, 48, 24, 0.45);
   --rl-teal: #0E9D86;
   --rl-teal-strong: #085041;
   --rl-teal-soft: #e6f6f2;
   --rl-yellow: #FFE600;
   --rl-yellow-soft: #fdf6c8;
   --rl-ease: cubic-bezier(.22, 1, .36, 1);
-  background: var(--theme-page);
+  background: var(--rl-canvas);
   color: var(--rl-ink);
   font-family: 'Outfit', system-ui, sans-serif;
   min-height: 100vh;
 }
 .rl-shell {
   display: grid;
-  grid-template-columns: 268px minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 48px);
+  /* The first track tracks the app sidebar's intrinsic width — 240px when the
+     panel is open, 60px when collapsed to the icon rail — so the main column
+     reflows automatically as the reader toggles it. */
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 44px);
   max-width: 1440px;
   margin: 0 auto;
   padding: clamp(20px, 3vw, 40px) clamp(18px, 3vw, 44px) 96px;
   align-items: start;
 }
+.rl-shell.is-railed { gap: clamp(16px, 2.4vw, 32px); }
 
-/* ── Sidebar ───────────────────────────────────────────── */
-.rl-sidebar {
+/* ── Sidebar: the in-app FilterSidebar (.br-fsidebar), re-docked ──────────
+   The shared component ships as a fixed full-height overlay anchored under the
+   gated reader's 65px nav. Here it lives inside the centred marketing grid, so
+   we override only positioning + accent theming, scoped under .rl-root so the
+   reader app's own sidebar is untouched. Active state + focus map to the
+   teal/paper marketing brand (mirrors the app's own light theme). */
+.rl-root .br-fsidebar {
   position: sticky;
   top: 96px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  padding: 22px 20px;
-  background: var(--rl-surface-subtle);
-  border: 1px solid var(--rl-border);
-  border-radius: 16px;
-}
-.rl-sidebar-label {
-  margin: 0;
-  font-size: 12px;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--rl-ink-muted);
-}
-.rl-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-.rl-search-icon {
-  position: absolute;
-  left: 12px;
-  width: 16px;
-  height: 16px;
-  color: var(--rl-ink-faint);
-  pointer-events: none;
-}
-.rl-search-input {
-  width: 100%;
-  padding: 11px 34px 11px 36px;
-  font: inherit;
-  font-size: 14px;
-  color: var(--rl-ink);
+  left: auto;
+  z-index: 1;
+  height: auto;
+  max-height: calc(100vh - 120px);
+  /* L1 raised surface — the SAME white card material as the featured pick
+     and the posters, so the sidebar is one family with the grid instead of a
+     separate-coloured panel. Lifted off the warm canvas by border + shadow. */
   background: var(--rl-surface);
   border: 1px solid var(--rl-border);
-  border-radius: 10px;
-  outline: none;
-  transition: border-color 160ms var(--rl-ease), box-shadow 160ms var(--rl-ease);
+  border-radius: 16px;
+  box-shadow: var(--rl-raise);
+  overflow: hidden;
+  /* Re-point the shared design tokens at the marketing light brand. */
+  --theme-surface-raised: var(--rl-surface);
+  --v11-accent: var(--rl-teal);
+  --v11-accent-strong: var(--rl-teal-strong);
+  --v11-accent-soft: var(--rl-teal-soft);
+  --v11-ink: var(--rl-ink);
+  --v11-ink-soft: var(--rl-ink-soft);
+  --v11-ink-mute: var(--rl-ink-muted);
+  --v11-ink-trace: var(--rl-ink-faint);
+  --v11-divider: var(--rl-border);
+  /* Search field reads as a faint warm inset on the white panel. */
+  --br-panel-bg: var(--rl-surface-subtle);
+  --br-panel-warm: color-mix(in srgb, var(--rl-ink) 6%, transparent);
+  --br-border-warm: var(--rl-border);
 }
-.rl-search-input::placeholder { color: var(--rl-ink-faint); }
-.rl-search-input:focus-visible {
-  border-color: var(--rl-teal);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rl-teal) 18%, transparent);
-}
-.rl-search-input::-webkit-search-cancel-button { display: none; }
-.rl-search-clear {
-  position: absolute;
-  right: 8px;
-  width: 22px;
-  height: 22px;
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  line-height: 1;
-  color: var(--rl-ink-muted);
+/* Collapsed icon rail: no card chrome — it's just structure sitting on the
+   canvas, like the app's flush rail. */
+.rl-root .br-fsidebar.is-rail {
   background: transparent;
-  border: 0;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background 140ms var(--rl-ease), color 140ms var(--rl-ease);
+  border-color: transparent;
+  box-shadow: none;
 }
-.rl-search-clear:hover { background: var(--rl-surface-subtle); color: var(--rl-ink); }
-.rl-cats {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.rl-cat {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  width: 100%;
-  padding: 10px 12px;
-  font: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  text-align: left;
-  color: var(--rl-ink-soft);
-  background: transparent;
-  border: 0;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 150ms var(--rl-ease), color 150ms var(--rl-ease);
-}
-.rl-cat-glyph { font-size: 13px; color: var(--rl-ink-faint); transition: color 150ms var(--rl-ease); }
-.rl-cat:hover { background: var(--rl-surface); color: var(--rl-ink); }
-.rl-cat.is-active {
-  background: var(--rl-teal-soft);
-  color: var(--rl-teal-strong);
-  font-weight: 700;
-}
-.rl-cat.is-active .rl-cat-glyph { color: var(--rl-teal); }
-.rl-cat:focus-visible { outline: 2px solid var(--rl-teal); outline-offset: 2px; }
-.rl-sidebar-note {
-  margin: 6px 0 0;
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: var(--rl-ink-faint);
-}
+.rl-root .br-fsidebar-inner { height: auto; }
 
 /* ── Main column ───────────────────────────────────────── */
 .rl-main {
@@ -630,14 +567,13 @@ const CSS = `
 
 /* ── Responsive ────────────────────────────────────────── */
 @media (max-width: 900px) {
-  .rl-shell { grid-template-columns: 1fr; }
-  .rl-sidebar {
+  .rl-shell, .rl-shell.is-railed { grid-template-columns: 1fr; }
+  .rl-root .br-fsidebar {
     position: static;
-    top: auto;
-    flex-direction: column;
+    max-height: none;
   }
-  .rl-cats { flex-direction: row; flex-wrap: wrap; }
-  .rl-cat { width: auto; }
+  .rl-root .br-fsidebar.is-open,
+  .rl-root .br-fsidebar.is-open .br-fsidebar-inner { width: 100%; }
   .rl-featured { grid-template-columns: 1fr; }
   .rl-featured-cover { min-height: 220px; }
 }
