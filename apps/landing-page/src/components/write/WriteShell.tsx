@@ -89,9 +89,9 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 
   // Guests browse a real author's studio (demo data); members use their own.
   const dataHandle = guest ? DEMO_WRITER_HANDLE : session?.handle;
-  // Both guest and member Studio live at /studio (public via SessionGate), so
+  // Both guest and member Studio live at /write (public via SessionGate), so
   // tab/editor navigation stays on that route for everyone.
-  const studioBase = '/studio';
+  const studioBase = '/write';
 
   const works: WorkSummary[] = useMemo(() => {
     if (!dataHandle) return [];
@@ -179,7 +179,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     if (requestedView === 'editor' || requestedWork) {
       setTopTab('write');
     } else if (guest) {
-      // Fresh /studio entry for a guest opens straight into the blank editor.
+      // Fresh /write entry for a guest opens straight into the blank editor.
       setTopTab('write');
       setEditorSubTab('write');
     } else {
@@ -191,7 +191,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
     setTopTab(id);
     setWorkMenuOpen(false);
     if (id === 'library') {
-      // Explicit ?tab=library so a bare /studio URL is reserved for fresh entry
+      // Explicit ?tab=library so a bare /write URL is reserved for fresh entry
       // (which defaults guests into the editor).
       router.push(`${studioBase}?tab=library`);
     } else if (id === 'write') {
@@ -284,7 +284,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
       <div className="br-write-shell br-write-shell-editor br-write-page">
         {/* Row 2: same tabsbar as library mode so the global section nav
             (Search + Your Library / Write / Audio / ...) stays at the
-            same y-position across /studio surfaces. "Write" is active
+            same y-position across /write surfaces. "Write" is active
             here because topTab === 'write'. */}
         <div className="br-write-tabsbar">
           <div className="br-write-tabsbar-inner">
@@ -417,7 +417,7 @@ function WriteShellInner({ guest }: { guest: boolean }) {
 }
 
 /**
- * The writer Studio at /studio, shared between members (guest=false) and
+ * The writer Studio at /write, shared between members (guest=false) and
  * logged-out visitors (guest=true). In guest mode it shows a demo
  * author's populated studio wrapped in the sign-up nudge layer; high-intent
  * actions (add work, open a non-sample title) nudge instead of committing.

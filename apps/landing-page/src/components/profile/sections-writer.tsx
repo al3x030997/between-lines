@@ -32,7 +32,7 @@ export function MyWritingBlock({ data }: { data: WriterProfile['myWriting'] }) {
           <div key={i} className="br-pf-wip">
             <div className="br-pf-wip-title">
               {w.link.kind === 'book' && w.link.slug ? (
-                <Link href={`/studio?work=${w.link.slug}`} style={{ color: 'var(--v11-ink)' }}>
+                <Link href={`/write?work=${w.link.slug}`} style={{ color: 'var(--v11-ink)' }}>
                   {w.link.title}
                 </Link>
               ) : (

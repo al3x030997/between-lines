@@ -12,18 +12,18 @@ type NavLink = { href: string; label: string; requiresWriter?: boolean; hideForK
 
 const links: NavLink[] = [
   { href: '/library', label: 'Read' },
-  { href: '/studio', label: 'Write', hideForKids: true },
+  { href: '/write', label: 'Write', hideForKids: true },
   { href: '/library?tab=betareading', label: 'Beta Reading', hideForKids: true },
   { href: '/library?tab=community', label: 'Community', hideForKids: true },
   { href: '/betweenlines#journal-submission', label: 'Submit to Journal', hideForKids: true },
 ];
 
 // Logged-out playground nav: point at the public /read (reader library page)
-// and /studio (Studio playground, public via SessionGate) routes — the member
+// and /write (Studio playground, public via SessionGate) routes — the member
 // target /library is gated and would bounce a guest home.
 const guestLinks: NavLink[] = [
   { href: '/read', label: 'Read' },
-  { href: '/studio', label: 'Write' },
+  { href: '/write', label: 'Write' },
 ];
 
 export function ReaderNav() {

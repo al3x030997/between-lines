@@ -12,7 +12,7 @@ export type ResolvedTheme = 'light' | 'dark';
  */
 export const READER_PATH_PREFIXES = [
   '/gallery',
-  '/studio',
+  '/write',
   '/account',
   '/profile',
   '/reader',
@@ -20,11 +20,11 @@ export const READER_PATH_PREFIXES = [
   '/store',
   '/library',
 ];
-// Note: /studio (the writer Studio) is already covered above and is the public,
-// sign-up-nudged guest route (see SessionGate PUBLIC_EXACT). The logged-out
-// /read and /write pages are standalone top-level marketing pages, locked to
-// light like the rest of the marketing site, so they're intentionally not
-// listed here.
+// Note: /write (the writer Studio) is covered above and is the public,
+// sign-up-nudged guest route (see SessionGate PUBLIC_EXACT) — guests get the
+// bright guest-play skin over it. The logged-out /read page is a standalone
+// top-level marketing page, locked to light like the rest of the marketing
+// site, so it's intentionally not listed here.
 
 export function isReaderPath(path: string): boolean {
   if (path.startsWith('/read/')) return true;
@@ -105,7 +105,7 @@ export function applyGalleryGuestSkin(on: boolean): void {
 }
 
 /**
- * Light, landing-matching skin for the logged-out /studio playground.
+ * Light, landing-matching skin for the logged-out /write playground.
  * It reuses the real Studio screen, but a guest should meet it
  * in the bright paper/ink/yellow landing aesthetic (not the dark reader theme)
  * and with sign-up affordances visible. Toggled via `html[data-guest-play='on']`

@@ -12,12 +12,11 @@ function Splash() {
   );
 }
 
-// The writer Studio. Public via SessionGate PUBLIC_EXACT: a visitor with no
-// session gets the real Studio in guest mode (demo author's works) with the
-// sign-up nudge layer and bright landing skin; a logged-in writer gets their own
-// Studio. (The decoupled /write page is now the public writer-profile showcase,
-// not the editor.)
-export default function StudioPage() {
+// The writer Studio at /write. Public via SessionGate PUBLIC_EXACT: a visitor
+// with no session lands straight in the editor in guest mode (a blank "Untitled"
+// work, demo author's library behind the Your Library tab) with the sign-up
+// nudge layer and bright landing skin; a logged-in writer gets their own Studio.
+export default function WritePage() {
   return (
     <Suspense fallback={<Splash />}>
       <GuestPlaygroundController />

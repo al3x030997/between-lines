@@ -6,7 +6,7 @@ import { useMockSession } from '@/lib/useMockSession';
 
 /**
  * Applies the bright landing skin (html[data-guest-play='on']) on the logged-out
- * /studio playground whenever there is no active session, so guests
+ * /write playground whenever there is no active session, so guests
  * meet the real Studio screen in the paper/ink/yellow landing
  * aesthetic rather than the dark reader theme. Logged-in readers who land here
  * keep their chosen theme. Mirrors GalleryGuestController: gating on `ready`

@@ -91,7 +91,7 @@ export function AvatarMenu() {
           </Link>
         ) : null}
         {isWriter ? (
-          <Link href="/studio" className="br-am-item" role="menuitem" onClick={close}>
+          <Link href="/write" className="br-am-item" role="menuitem" onClick={close}>
             <span className="br-am-item-label">Open Writing Room</span>
             <span className="br-am-item-meta">Drafts and submissions</span>
           </Link>
