@@ -257,10 +257,12 @@ const CSS = `
      panel is open, 60px when collapsed to the icon rail — so the main column
      reflows automatically as the reader toggles it. */
   grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(20px, 3vw, 44px);
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: clamp(20px, 3vw, 40px) clamp(18px, 3vw, 44px) 96px;
+  gap: clamp(20px, 3vw, 48px);
+  /* Full-bleed gallery — span the whole viewport with fluid side gutters
+     instead of a centred max-width column, so the covers spread broad. */
+  width: 100%;
+  margin: 0;
+  padding: clamp(20px, 3vw, 40px) clamp(20px, 4vw, 72px) 110px;
   align-items: start;
 }
 .rl-shell.is-railed { gap: clamp(16px, 2.4vw, 32px); }
@@ -462,8 +464,8 @@ const CSS = `
 /* Poster grid */
 .rl-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(216px, 1fr));
-  gap: clamp(18px, 2vw, 28px);
+  grid-template-columns: repeat(auto-fill, minmax(232px, 1fr));
+  gap: clamp(20px, 2vw, 32px);
 }
 .rl-poster {
   display: flex;
