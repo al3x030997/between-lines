@@ -202,32 +202,31 @@ const V12_CSS = `
   gap: clamp(14px, 2vw, 20px);
 }
 
-/* Secondary CTA — warm red, reuses the banner's accent red for consistency. */
+/* Secondary CTA — text-only link treatment against the yellow hero. */
 .v12-start-writing {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   font-family: 'Outfit', system-ui, sans-serif;
   font-size: clamp(18px, 1.9vw, 20px);
   font-weight: 800;
   letter-spacing: 0.2px;
-  color: var(--theme-hero-text);
-  background: #fff;
+  color: #000000;
+  background: transparent;
   border: none;
-  border-radius: 999px;
-  padding: clamp(13px, 1.7vh, 17px) clamp(32px, 4vw, 44px);
+  border-radius: 0;
+  padding: 6px 2px;
   cursor: pointer;
-  box-shadow: 0 14px 34px -14px rgba(26, 23, 20, 0.45);
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
   transition: transform 220ms var(--v6-ease),
-              box-shadow 220ms var(--v6-ease),
-              background 220ms var(--v6-ease);
+              text-underline-offset 220ms var(--v6-ease);
 }
 .v12-start-writing:hover,
 .v12-start-writing:focus-visible {
-  background: #f6f1e6;
+  background: transparent;
   transform: translateY(-2px);
-  box-shadow: 0 20px 42px -14px rgba(26, 23, 20, 0.55);
-  outline: none;
+  text-underline-offset: 0.32em;
 }
 .v12-start-writing:active { transform: translateY(0); }
 
