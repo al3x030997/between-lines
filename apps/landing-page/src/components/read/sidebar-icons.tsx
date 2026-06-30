@@ -159,3 +159,14 @@ export function IconNewspaper(p: IconProps) {
     </Svg>
   );
 }
+
+// Framed picture with a sun + hill — the "illustrations / art" section glyph.
+export function IconImage(p: IconProps) {
+  return (
+    <Svg {...p}>
+      <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+      <circle cx="8.5" cy="9.5" r="1.5" />
+      <path d="M4 16.5 9 12l3.5 3 3-2.5L20 17" />
+    </Svg>
+  );
+}

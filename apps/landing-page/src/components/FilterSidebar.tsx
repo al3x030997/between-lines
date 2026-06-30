@@ -13,6 +13,7 @@ import {
   IconClock,
   IconBook,
   IconNewspaper,
+  IconImage,
   IconSearch,
   IconChevronLeft,
 } from './read/sidebar-icons';
@@ -52,11 +53,21 @@ const MVP_BROWSE: { id: SidebarMvpSection; label: string; icon: ShelfIcon }[] = 
 ];
 
 // Icon per top-level section shown in the sidebar nav. Falls back to IconGrid.
+// The `foryou/betweenlines/audio/magazine` keys serve the in-app library; the
+// `all/novels/shorts/illustrations/audiobooks/classics` keys serve the public
+// /read content-type sidebar (PublicLibrary). Additive — neither set affects
+// the other.
 const SECTION_ICONS: Record<string, ShelfIcon> = {
   foryou: IconSparkle,
   betweenlines: IconBook,
   audio: IconPlayCircle,
   magazine: IconNewspaper,
+  all: IconGrid,
+  novels: IconSparkle,
+  shorts: IconClock,
+  illustrations: IconImage,
+  audiobooks: IconPlayCircle,
+  classics: IconBook,
 };
 
 const SHELF_FILTERS: { id: SidebarShelfId; label: string; icon: ShelfIcon }[] = [

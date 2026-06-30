@@ -6,29 +6,59 @@ import { SiteNav } from '@/components/SiteNav';
 import {
   FilterSidebar,
   type FilterState,
-  type SidebarMvpSection,
+  type SidebarSection,
   type SidebarShelfId,
 } from '@/components/FilterSidebar';
-import { getBooksBySection, getLaunchOriginals, type Book } from '@/lib/mock-books';
+import { getAllBooks, getBooksBySection, type Book } from '@/lib/mock-books';
+import { audiobooks, illustrations, type StoreProduct } from '@/lib/mock-products';
 
-// The logged-out /read library. A standalone, ungated, light-themed gallery that
-// mirrors the in-app MVP catalogue (featured BetweenLines pick + our first books +
-// free classics) in the marketing hero brand. Every book CTA nudges a guest into
-// the free sign-up — the real book pages live behind the session gate.
+// The logged-out /read library. A standalone, ungated, light-themed gallery in
+// the marketing hero brand. It's organised by CONTENT TYPE — novels, short
+// stories & poetry, illustrated works, audiobooks, and free classics — to show
+// the breadth of what BetweenReads offers (mirrors the FAQ's format taxonomy).
+// Every cover nudges a guest into the free sign-up; the real pages live behind
+// the session gate.
 //
-// The left sidebar is the *actual* in-app `FilterSidebar` in MVP mode — the same
-// collapsible rail/panel readers see in the gated library — so the two surfaces
-// stay in lockstep. Only positioning + accent theming are re-skinned, scoped under
-// `.rl-root .br-fsidebar` (see CSS) so nothing leaks back into the reader app.
-// Everything else here stays namespaced `.rl-*`.
+// The left sidebar is the *actual* in-app `FilterSidebar`, fed our content-type
+// sections via its custom-sections path. Only positioning + accent theming are
+// re-skinned, scoped under `.rl-root .br-fsidebar` (see CSS) so nothing leaks
+// back into the reader app. Everything else here stays namespaced `.rl-*`.
 
 const JOIN_HREF = '/start?mode=reader';
 
-// Required-but-unused props for FilterSidebar's full (non-MVP) mode. In MVP mode
-// the component never reads these, so empty/no-op values are safe.
+// Content-type sections, mirrored in the sidebar Browse list. `all` shows every
+// section; any other id shows only that one.
+type ReadSectionId =
+  | 'all'
+  | 'novels'
+  | 'shorts'
+  | 'illustrations'
+  | 'audiobooks'
+  | 'classics';
+
+const READ_SECTIONS: SidebarSection[] = [
+  { id: 'all', label: 'All' },
+  { id: 'novels', label: 'Novels' },
+  { id: 'shorts', label: 'Short Stories' },
+  { id: 'illustrations', label: 'Illustrations' },
+  { id: 'audiobooks', label: 'Audiobooks' },
+  { id: 'classics', label: 'Classics' },
+];
+
+// Required-but-unused props for FilterSidebar's filter UI. With `showFilters`
+// false the component never reads these, so no-op values are safe.
 const NO_FILTERS: FilterState = {};
-const NO_SECTIONS: { id: string; label: string }[] = [];
 const noop = () => {};
+
+// `Book` has no structural content-type field, only free-text format/category/
+// tags — so classify from those. Poetry first (a poetry collection can also
+// read as "stories"), then the short forms, else a novel.
+function contentType(b: Book): 'novel' | 'short' | 'poetry' {
+  const hay = `${b.format} ${b.category} ${b.tags.join(' ')}`.toLowerCase();
+  if (/poetry|poem/.test(hay)) return 'poetry';
+  if (/short stor|stories|novella|novelette|flash|microfiction/.test(hay)) return 'short';
+  return 'novel';
+}
 
 function matches(book: Book, q: string): boolean {
   if (!q) return true;
@@ -36,6 +66,11 @@ function matches(book: Book, q: string): boolean {
     .join(' ')
     .toLowerCase()
     .includes(q);
+}
+
+function productMatches(p: StoreProduct, q: string): boolean {
+  if (!q) return true;
+  return [p.title, p.byline, p.blurb].join(' ').toLowerCase().includes(q);
 }
 
 function Poster({ book }: { book: Book }) {
@@ -65,6 +100,45 @@ function Poster({ book }: { book: Book }) {
             {book.access.label}
           </span>
         </span>
+      </span>
+    </Link>
+  );
+}
+
+// Audiobook card: a 2:3 ebook cover with a play affordance + the narrator badge
+// and duration (parsed off the product byline, e.g. "… · 4h 20m").
+function AudioCard({ product }: { product: StoreProduct }) {
+  const duration = product.byline.split('·').pop()?.trim();
+  return (
+    <Link className="rl-poster" href={JOIN_HREF}>
+      <span className="rl-poster-cover rl-audio-cover" style={{ background: product.cover }}>
+        <span className="rl-audio-play" aria-hidden="true">▶</span>
+        {duration && <span className="rl-audio-dur">{duration}</span>}
+      </span>
+      <span className="rl-poster-body">
+        <span className="rl-poster-title">{product.title}</span>
+        <span className="rl-poster-author">{product.byline.split('·')[0]?.trim()}</span>
+        <span className="rl-poster-blurb">{product.blurb}</span>
+        <span className="rl-poster-meta">
+          {product.badge && <span className="rl-pill is-audio">{product.badge.label}</span>}
+        </span>
+      </span>
+    </Link>
+  );
+}
+
+// Illustration card: landscape art (not a 2:3 book cover) with the medium emoji,
+// so the row reads as gallery prints rather than novels.
+function IllustrationCard({ product }: { product: StoreProduct }) {
+  return (
+    <Link className="rl-poster rl-illus" href={JOIN_HREF}>
+      <span className="rl-illus-cover" style={{ background: product.cover }}>
+        {product.emoji && <span className="rl-illus-emoji" aria-hidden="true">{product.emoji}</span>}
+      </span>
+      <span className="rl-poster-body">
+        <span className="rl-poster-title">{product.title}</span>
+        <span className="rl-poster-author">{product.byline}</span>
+        <span className="rl-poster-blurb">{product.blurb}</span>
       </span>
     </Link>
   );
@@ -100,21 +174,39 @@ function InviteBanner() {
 
 export function PublicLibrary() {
   const [query, setQuery] = useState('');
-  const [category, setCategory] = useState<SidebarMvpSection>('all');
+  const [activeSection, setActiveSection] = useState<ReadSectionId>('all');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  const originals = useMemo(() => getLaunchOriginals(), []);
+  // Split the catalogue by content type. Classics are their own curated lane;
+  // everything else is bucketed novel vs. short/poetry.
+  const { novels, shorts } = useMemo(() => {
+    const nonClassic = getAllBooks().filter((b) => b.section !== 'classics');
+    return {
+      novels: nonClassic.filter((b) => contentType(b) === 'novel'),
+      shorts: nonClassic.filter((b) => contentType(b) !== 'novel'),
+    };
+  }, []);
   const classics = useMemo(() => getBooksBySection('classics'), []);
 
   const q = query.trim().toLowerCase();
-  const firstFiltered = originals.filter((b) => matches(b, q));
+  const novelsFiltered = novels.filter((b) => matches(b, q));
+  const shortsFiltered = shorts.filter((b) => matches(b, q));
   const classicsFiltered = classics.filter((b) => matches(b, q));
-  const featured = firstFiltered[0];
-  const rowBooks = firstFiltered.slice(1);
+  const illusFiltered = illustrations.filter((p) => productMatches(p, q));
+  const audioFiltered = audiobooks.filter((p) => productMatches(p, q));
 
-  const showFirst = (category === 'all' || category === 'first') && firstFiltered.length > 0;
-  const showClassics = (category === 'all' || category === 'classics') && classicsFiltered.length > 0;
-  const empty = !showFirst && !showClassics;
+  // The featured BetweenLines Pick leads the novels section.
+  const featured =
+    novelsFiltered.find((b) => b.slug === 'the-quiet-hours') ?? novelsFiltered[0];
+  const novelsRow = featured ? novelsFiltered.filter((b) => b !== featured) : novelsFiltered;
+
+  const visible = (id: ReadSectionId) => activeSection === 'all' || activeSection === id;
+  const showNovels = visible('novels') && novelsFiltered.length > 0;
+  const showShorts = visible('shorts') && shortsFiltered.length > 0;
+  const showIllus = visible('illustrations') && illusFiltered.length > 0;
+  const showAudio = visible('audiobooks') && audioFiltered.length > 0;
+  const showClassics = visible('classics') && classicsFiltered.length > 0;
+  const empty = !showNovels && !showShorts && !showIllus && !showAudio && !showClassics;
 
   return (
     <>
@@ -123,30 +215,27 @@ export function PublicLibrary() {
       <div className="rl-root">
         <div className={`rl-shell ${sidebarOpen ? '' : 'is-railed'}`}>
           <FilterSidebar
-            mvp
             open={sidebarOpen}
             onOpen={() => setSidebarOpen(true)}
             onClose={() => setSidebarOpen(false)}
-            mvpSection={category}
-            onMvpSectionChange={setCategory}
+            sections={READ_SECTIONS}
+            activeSection={activeSection}
+            onSectionChange={(id) => setActiveSection(id as ReadSectionId)}
             query={query}
             onSearchChange={setQuery}
-            /* Unused in MVP mode — the component never reads these here. */
+            showFilters={false}
+            /* Filter UI is hidden (showFilters=false); these are unused. */
             filters={NO_FILTERS}
             onToggle={noop}
             selectedShelf={'all' as SidebarShelfId}
             onShelfChange={noop}
-            sections={NO_SECTIONS}
-            activeSection="all"
-            onSectionChange={noop}
-            showFilters={false}
           />
 
           <main className="rl-main">
             <InviteBanner />
 
-            {showFirst && (
-              <section className="rl-section" aria-labelledby="rl-first">
+            {showNovels && (
+              <section className="rl-section" aria-labelledby="rl-novels">
                 {featured && (
                   <article className="rl-featured">
                     <Link className="rl-featured-cover" href={JOIN_HREF} style={{ background: featured.cover }} aria-hidden="true" tabIndex={-1} />
@@ -165,19 +254,61 @@ export function PublicLibrary() {
                   </article>
                 )}
 
-                {rowBooks.length > 0 && (
+                {novelsRow.length > 0 && (
                   <>
                     <header className="rl-section-head">
                       <p className="rl-kicker">Be among the first</p>
-                      <h3 id="rl-first" className="rl-heading">Read our first books</h3>
+                      <h3 id="rl-novels" className="rl-heading">Read our first chapters</h3>
                     </header>
                     <div className="rl-grid">
-                      {rowBooks.map((book) => (
+                      {novelsRow.map((book) => (
                         <Poster key={book.slug} book={book} />
                       ))}
                     </div>
                   </>
                 )}
+              </section>
+            )}
+
+            {showShorts && (
+              <section className="rl-section" aria-labelledby="rl-shorts">
+                <header className="rl-section-head">
+                  <p className="rl-kicker">Short &amp; complete</p>
+                  <h3 id="rl-shorts" className="rl-heading">Short stories &amp; poetry</h3>
+                </header>
+                <div className="rl-grid is-4">
+                  {shortsFiltered.map((book) => (
+                    <Poster key={book.slug} book={book} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {showIllus && (
+              <section className="rl-section" aria-labelledby="rl-illus">
+                <header className="rl-section-head">
+                  <p className="rl-kicker">Illustrated</p>
+                  <h3 id="rl-illus" className="rl-heading">Art &amp; illustrated works</h3>
+                </header>
+                <div className="rl-grid is-2">
+                  {illusFiltered.map((p) => (
+                    <IllustrationCard key={p.id} product={p} />
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {showAudio && (
+              <section className="rl-section" aria-labelledby="rl-audio">
+                <header className="rl-section-head">
+                  <p className="rl-kicker">Introducing · Volume</p>
+                  <h3 id="rl-audio" className="rl-heading">Audiobooks, voiced by writers</h3>
+                </header>
+                <div className="rl-grid is-3">
+                  {audioFiltered.map((p) => (
+                    <AudioCard key={p.id} product={p} />
+                  ))}
+                </div>
               </section>
             )}
 
@@ -471,6 +602,12 @@ const CSS = `
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: clamp(20px, 2vw, 32px);
 }
+/* Per-section column counts, tuned to the medium: short stories 4-up,
+   audiobooks 3-up, illustrations 2-up (landscape). Step down responsively
+   in the media blocks below. */
+.rl-grid.is-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.rl-grid.is-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.rl-grid.is-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 2.4vw, 40px); }
 .rl-poster {
   display: flex;
   flex-direction: column;
@@ -559,6 +696,68 @@ const CSS = `
   background: var(--rl-yellow-soft);
   border-color: color-mix(in srgb, var(--rl-yellow) 50%, transparent);
 }
+.rl-pill.is-audio {
+  color: var(--rl-teal-strong);
+  background: var(--rl-teal-soft);
+  border-color: color-mix(in srgb, var(--rl-teal) 32%, transparent);
+}
+
+/* Audiobook cover — same 2:3 frame, with a play affordance + duration. */
+.rl-audio-cover {
+  display: grid;
+  place-items: center;
+}
+.rl-audio-play {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding-left: 4px;
+  font-size: 18px;
+  color: #fff;
+  background: color-mix(in srgb, var(--rl-teal-strong) 78%, transparent);
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  transition: transform 220ms var(--rl-ease), background 220ms var(--rl-ease);
+}
+.rl-poster:hover .rl-audio-play { transform: scale(1.08); background: var(--rl-teal-strong); }
+.rl-audio-dur {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 9px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(12, 10, 8, 0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 999px;
+}
+
+/* Illustration card — landscape art, not a book spine. */
+.rl-illus-cover {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  border-radius: 14px;
+  border: 1px solid var(--rl-border);
+  background-size: cover !important;
+  background-position: center !important;
+  box-shadow: 0 8px 22px -14px rgba(20, 18, 12, 0.5);
+  transition: transform 220ms var(--rl-ease), box-shadow 220ms var(--rl-ease);
+}
+.rl-illus:hover .rl-illus-cover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px -16px rgba(20, 18, 12, 0.55);
+}
+.rl-illus-emoji {
+  font-size: 40px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+}
 
 /* Empty state */
 .rl-empty {
@@ -572,9 +771,16 @@ const CSS = `
 .rl-empty-body { margin: 0; font-size: 15px; color: var(--rl-ink-muted); }
 
 /* ── Responsive ────────────────────────────────────────── */
-/* Step the 5-up cover grid down as width shrinks. */
-@media (max-width: 1400px) { .rl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-@media (max-width: 1040px) { .rl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+/* Step each grid down as width shrinks. Novels/classics 5→4→3→2;
+   short stories 4→3→2; audiobooks 3→2; illustrations stay 2 until phones. */
+@media (max-width: 1400px) {
+  .rl-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1040px) {
+  .rl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rl-grid.is-4 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .rl-grid.is-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 @media (max-width: 900px) {
   .rl-shell, .rl-shell.is-railed { grid-template-columns: 1fr; }
   .rl-root .br-fsidebar {
@@ -589,6 +795,10 @@ const CSS = `
 @media (max-width: 560px) {
   .rl-banner { flex-direction: column; align-items: stretch; }
   .rl-banner-cta { width: 100%; }
-  .rl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rl-grid,
+  .rl-grid.is-4,
+  .rl-grid.is-3,
+  .rl-grid.is-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rl-illus-emoji { font-size: 30px; }
 }
 `;
