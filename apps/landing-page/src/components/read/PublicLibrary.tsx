@@ -45,6 +45,11 @@ const READ_SECTIONS: SidebarSection[] = [
   { id: 'classics', label: 'Classics' },
 ];
 
+// One row per section — the catalogue is small, so a single curated row per
+// category (≈20 offers total) reads better than padding thin content into
+// multiple sparse rows. Counts match each grid's desktop column count.
+const ROW = { novels: 5, shorts: 4, illustrations: 2, audiobooks: 3, classics: 5 } as const;
+
 // Required-but-unused props for FilterSidebar's filter UI. With `showFilters`
 // false the component never reads these, so no-op values are safe.
 const NO_FILTERS: FilterState = {};
@@ -261,7 +266,7 @@ export function PublicLibrary() {
                       <h3 id="rl-novels" className="rl-heading">Read our first chapters</h3>
                     </header>
                     <div className="rl-grid">
-                      {novelsRow.map((book) => (
+                      {novelsRow.slice(0, ROW.novels).map((book) => (
                         <Poster key={book.slug} book={book} />
                       ))}
                     </div>
@@ -277,7 +282,7 @@ export function PublicLibrary() {
                   <h3 id="rl-shorts" className="rl-heading">Short stories &amp; poetry</h3>
                 </header>
                 <div className="rl-grid is-4">
-                  {shortsFiltered.map((book) => (
+                  {shortsFiltered.slice(0, ROW.shorts).map((book) => (
                     <Poster key={book.slug} book={book} />
                   ))}
                 </div>
@@ -291,7 +296,7 @@ export function PublicLibrary() {
                   <h3 id="rl-illus" className="rl-heading">Art &amp; illustrated works</h3>
                 </header>
                 <div className="rl-grid is-2">
-                  {illusFiltered.map((p) => (
+                  {illusFiltered.slice(0, ROW.illustrations).map((p) => (
                     <IllustrationCard key={p.id} product={p} />
                   ))}
                 </div>
@@ -305,7 +310,7 @@ export function PublicLibrary() {
                   <h3 id="rl-audio" className="rl-heading">Audiobooks, voiced by writers</h3>
                 </header>
                 <div className="rl-grid is-3">
-                  {audioFiltered.map((p) => (
+                  {audioFiltered.slice(0, ROW.audiobooks).map((p) => (
                     <AudioCard key={p.id} product={p} />
                   ))}
                 </div>
@@ -319,7 +324,7 @@ export function PublicLibrary() {
                   <h3 id="rl-classics" className="rl-heading">Timeless classics</h3>
                 </header>
                 <div className="rl-grid">
-                  {classicsFiltered.map((book) => (
+                  {classicsFiltered.slice(0, ROW.classics).map((book) => (
                     <Poster key={book.slug} book={book} />
                   ))}
                 </div>
