@@ -8929,6 +8929,18 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
 
 /* Top action bar: Upload file / Save as draft / Preview / Publish. */
 .br-write-landing .br-write-btn-sm { font-size: 0.875rem; padding: 0.5rem 1rem; }  /* ~14px (was 11px) */
+/* Publish — the one primary CTA, in the brand strong-CTA look (near-black pill,
+   yellow text). Overrides the teal that .br-write-page rebinds onto
+   --theme-strong-cta-*; yellow is reserved for this single action. */
+.br-write-landing .br-write-btn-sm.is-primary {
+  background: #0e0e0c;
+  color: #FFE600;
+  border-color: #0e0e0c;
+}
+.br-write-landing .br-write-btn-sm.is-primary:hover {
+  background: #000000;
+  color: #FFE600;
+}
 
 /* Formatting toolbar + word count / autosave. */
 .br-write-landing .br-write-fmtbtn { font-size: 1rem; width: 2.25rem; height: 2.25rem; }  /* ~16px / 36px */
@@ -8939,15 +8951,16 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
    Chapter sidebar — cohesive, professional redesign for the public editor.
    The studio default mixes a teal accent with a purple writer accent over a
    flat white panel, which reads muddy. Here the sidebar commits to ONE accent
-   (brand teal) on a warm-paper surface that's distinct from the white writing
-   canvas, with a refined active row (soft fill + left bar + filled number).
+   (brand violet — the writer-identity color, matching the guest bar) on a
+   warm-paper surface distinct from the white writing canvas, with a refined
+   active row (soft fill + left bar + filled number).
    Explicit colors (not inherited tokens) so the result is fully controlled.
    ------------------------------------------------------------------------ */
 .br-write-landing {
-  --wl-accent: #0f766e;            /* brand teal */
-  --wl-accent-strong: #0b5a54;
-  --wl-accent-soft: rgba(15, 118, 110, 0.10);
-  --wl-accent-line: rgba(15, 118, 110, 0.28);
+  --wl-accent: #7c52c8;            /* brand violet — the writer-identity color */
+  --wl-accent-strong: #3c3489;
+  --wl-accent-soft: rgba(124, 82, 200, 0.12);
+  --wl-accent-line: rgba(124, 82, 200, 0.30);
   --wl-paper: #faf9f5;             /* warm paper — distinct from white canvas */
   --wl-ink: #1b1a17;
   --wl-ink-soft: rgba(27, 26, 23, 0.60);
@@ -8997,7 +9010,7 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
   color: var(--wl-ink-soft);
 }
 
-/* New chapter — confident primary action: white card, teal hover-fill. */
+/* New chapter — confident primary action: white card, violet hover-fill. */
 .br-write-landing .br-write-new-ch {
   margin: 1.1rem 0.9rem 0.4rem;
   padding: 0.8rem 1rem;
@@ -9007,14 +9020,14 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
   color: var(--wl-accent-strong);
   font-size: 1rem;                 /* ~16px */
   font-weight: 700;
-  box-shadow: 0 1px 2px rgba(15, 118, 110, 0.06);
+  box-shadow: 0 1px 2px rgba(124, 82, 200, 0.10);
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 .br-write-landing .br-write-new-ch:hover {
   background: var(--wl-accent);
   border-color: var(--wl-accent);
   color: #ffffff;
-  box-shadow: 0 6px 16px -8px rgba(15, 118, 110, 0.55);
+  box-shadow: 0 6px 16px -8px rgba(124, 82, 200, 0.45);
   transform: translateY(-1px);
 }
 
@@ -9059,7 +9072,7 @@ html[data-gallery-guest='on'] .br-gallery-secondary:hover {
 }
 .br-write-landing .br-write-chitem.is-new .br-write-chname { color: var(--wl-ink-soft); }
 
-/* Number badge: neutral by default, filled teal when active. */
+/* Number badge: neutral by default, filled violet when active. */
 .br-write-landing .br-write-chnum {
   width: 1.7rem;
   height: 1.7rem;
